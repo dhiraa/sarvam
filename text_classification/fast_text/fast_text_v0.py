@@ -1,7 +1,11 @@
 from tensorflow.contrib import lookup
 from tensorflow.contrib.learn import ModeKeys
 from sarvam_utils.rnn import *
+import tensorflow as tf
 import argparse
+
+
+tf.logging.set_verbosity(tf.logging.DEBUG)
 
 class FastTextConfig():
     def __init__(self,
@@ -47,7 +51,7 @@ class FastTextV0(tf.estimator.Estimator):
         self.VOCAB_FILE = config.FLAGS.WORDS_VOCAB_FILE
         self.VOCAB_SIZE = config.FLAGS.VOCAB_SIZE
         self.UNKNOWN_WORD = config.FLAGS.UNKNOWN_WORD
-        self.EMBEDDING_SIZE = 96
+        self.EMBEDDING_SIZE = 86
 
         self.WINDOW_SIZE = self.EMBEDDING_SIZE
         self.STRIDE = int(self.WINDOW_SIZE / 2)
@@ -173,7 +177,7 @@ class FastTextV0(tf.estimator.Estimator):
 
             train_op = tf.contrib.layers.optimize_loss(
                 loss=loss,
-                global_step=tf.contrib.framework.get_global_step(),
+                global_step=tf.train.get_global_step(),
                 optimizer=tf.train.AdamOptimizer,
                 learning_rate=self.LEARNING_RATE )
 

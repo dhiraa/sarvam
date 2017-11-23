@@ -65,7 +65,7 @@ def setup_input_graph(features, labels, batch_size, is_eval = False, shuffle=Tru
             labels_placeholder = tf.placeholder(labels.dtype, labels.shape)
 
             # Build dataset iterator
-            dataset = tf.contrib.data.Dataset.from_tensor_slices(({"text": features_placeholder},
+            dataset = tf.data.Dataset.from_tensor_slices(({"text": features_placeholder},
                                                                   labels_placeholder))
 
             if is_eval:
@@ -101,7 +101,7 @@ def test_inputs(features, batch_size=1, scope='test-data'):
     def inputs():
         with tf.name_scope(scope):
             docs = tf.constant(features, dtype=tf.string)
-            dataset = tf.contrib.data.Dataset.from_tensor_slices((docs,))
+            dataset = tf.data.Dataset.from_tensor_slices(({"text": docs},))
             # Return as iteration in batches of 1
             return dataset.batch(batch_size).make_one_shot_iterator().get_next()
 
@@ -147,7 +147,7 @@ def setup_input_graph2(text_features, numeric_features, labels, batch_size,
             labels_placeholder = tf.placeholder(labels.dtype, labels.shape)
 
             # Build dataset iterator
-            dataset = tf.contrib.data.Dataset.from_tensor_slices(({"text" : text_features_placeholder},
+            dataset = tf.data.Dataset.from_tensor_slices(({"text" : text_features_placeholder},
                                                                   # "numeric" :  numeric_featuress_placeholder},
                                                                   labels_placeholder))
             if is_eval:
