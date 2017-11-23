@@ -1,0 +1,78 @@
+# Welcome to Jekyll!
+#
+# This config file is meant for settings that affect your whole blog, values
+# which you are expected to set up once and rarely edit after that. If you find
+# yourself editing this file very often, consider using Jekyll's data files
+# feature for the data you need to update frequently.
+#
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'bundle exec jekyll serve'. If you change this file, please restart the server process.
+
+# Site settings
+# These are used to personalize your new site. If you look in the HTML files,
+# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
+# You can create any custom variable you would like, and they will be accessible
+# in the templates via {{ site.myvariable }}.
+title: dhīraa
+email: "mageswaran1989@gmail.com"
+description: "an energetic learner"
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "https://dhira.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+github_username:  mageswaran1989
+google_analytics: "UA-109512309-1"
+
+
+# Build settings
+permalink: none
+markdown: kramdown
+theme: minima
+gems:
+  - jekyll-feed
+  - jekyll-seo-tag
+exclude:
+  - Gemfile
+  - Gemfile.lock
+
+curriculum:
+
+  - image: img/imaginea_logo.png
+    title: Principal Engineer
+    info: 2017 - Present
+    description: Working as a Scala/Python programmer in Data Science
+    url: https://www.imaginea.com/
+
+  - image: img/udacity_logo.png
+    title: Online Certification in Deep Learning Nanodegree Foundation
+    info: 2017
+    description: Completed Industry first Deep Learning Online Course 
+    url: https://www.udacity.com/
+
+  - image: img/edx_logo.png
+    title: Online Certification in Apache Spark Introduction to Big Data 
+    info: 2016
+    description: Completed Apache Spark certification taught by its parent Company
+    url: https://www.edx.org/
+
+  - image: img/coursera_logo.png
+    title: Online Certification in Scala Specilization
+    info: 2016
+    description: Completed Scala programming certification taught by its Creators
+    url: https://www.coursera.org/
+
+  - image: img/harman_logo.png
+    title: Software Engineer
+    info: 2014 - 2016
+    description: Worked as a C++/Java-JNI developer in Android Middleware for Android Infotainment interfaceing CAN protocol to Android Stack
+    url: http://www.harman.in/
+
+  - image: img/techm_logo.png
+    title: Software Engineer
+    info: 2011 - 2014
+    description: Worked as a C/C++ developer in Embedded Domain inlcuding but not limited to Linux, Android, FreeScala IMX board, OpenCV, OpenCL
+    url: https://www.techmahindra.com/
+
+  - image: img/karunya_logo.png
+    title: Bachelors
+    info: 2007 - 2011
+    description: Bachelor's in Electronics and Instrumentaion
+    url: http://www.karunya.edu/
