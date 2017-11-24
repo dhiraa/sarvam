@@ -3,19 +3,11 @@ from tensorflow.python.platform import gfile
 from tqdm import tqdm_notebook as tqdm
 import tensorflow.contrib.learn as tflearn
 
+from sarvam_utils.tf_hooks.data_initializers import IteratorInitializerHook
 # Define data loaders
 #https://developers.googleblog.com/2017/09/introducing-tensorflow-datasets.html
 
-class IteratorInitializerHook(tf.train.SessionRunHook):
-    """Hook to initialise data iterator after Session is created."""
 
-    def __init__(self):
-        super(IteratorInitializerHook, self).__init__()
-        self.iterator_initializer_func = None
-
-    def after_create_session(self, session, coord):
-        """Initialise the iterator after the session has been created."""
-        self.iterator_initializer_func(session)
 
 def save_vocab(lines, outfilename, MAX_DOCUMENT_LENGTH, PADWORD='PADXYZ'):
     # the text to be classified

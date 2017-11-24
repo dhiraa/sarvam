@@ -1,6 +1,6 @@
 import os
 import pandas as pd
-from tqdm import tqdm_notebook as tqdm
+from tqdm import tqdm
 from tensorflow.python.platform import gfile
 import tensorflow as tf
 import ntpath
@@ -323,22 +323,6 @@ def get_char_vocab(words_vocab):
         for char in word:
             chars.add(char)
     return sorted(chars)
-
-def vocab_to_tsv(vocab_list, outfilename):
-    '''
-
-    :param vocab_list:
-    :return:
-    '''
-    with gfile.Open(outfilename, 'wb') as file:
-        for word in tqdm(vocab_list):
-            if len(word) > 0:
-                file.write("{}\n".format(word))
-
-    nwords = len(vocab_list)
-    print('{} words into {}'.format(nwords, outfilename))
-
-    return nwords
 
 def get_char_vocab_from_df(df: pd.DataFrame, text_col):
     '''
