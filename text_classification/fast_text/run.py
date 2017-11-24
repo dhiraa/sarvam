@@ -1,12 +1,12 @@
 import os
 import sys
-#add sarvam_utils path
+#add utils path
 sys.path.append("../../")
 sys.path.append(".")
 
-from sarvam_utils.data.kaggle.spooky_dataset import *
+from utils.data.kaggle.spooky_dataset import *
 from text_classification.fast_text import fast_text_v0
-from sarvam_utils.early_stopping import EarlyStoppingLossHook
+from utils.early_stopping import EarlyStoppingLossHook
 
 BATCH_SIZE = 16
 
@@ -34,17 +34,17 @@ val_one_hot_encoded_label = dataset.get_val_one_hot_label()
 train_input_fn, train_input_hook = setup_input_graph(train_data,
                                                      train_one_hot_encoded_label,
                                                      batch_size=BATCH_SIZE,
-                                                     scope='train-data')
+                                                     scope='train-utils')
 
 eval_input_fn, eval_input_hook = setup_input_graph(dataset.get_val_data(),
                                                    val_one_hot_encoded_label,
                                                    batch_size=1,
                                                    is_eval=True,
-                                                   scope='eval-data')
+                                                   scope='eval-utils')
 
 test_input_fn = test_inputs(dataset.get_test_data(),
                             batch_size=1,
-                            scope='test-data')
+                            scope='test-utils')
 
 
 config = fast_text_v0.FastTextConfig(vocab_size=dataset.vocab_count,

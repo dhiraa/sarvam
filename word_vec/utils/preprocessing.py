@@ -127,7 +127,7 @@ class GloveDataset():
     def read_from_file(self, file_names):
         """
         Read a dataset (basically a list of features) from
-        a data file.
+        a utils file.
         :param file_names: str or List of str
                  The string filename from which to read the features, or a List of
             strings repesenting the files to pull features from. If a string
@@ -156,7 +156,7 @@ class GloveDataset():
     def read_from_lines(self, lines):
         """
         Read a dataset (basically a list of features) from
-        a data file.
+        a utils file.
         :param lines: List of str
             A list containing string representations of each
             line in the file.

@@ -1,10 +1,10 @@
-from sarvam_utils.pandas import *
-from sarvam_utils.tf_data_iterators import *
-from sarvam_utils.spacy import *
+from utils.pandas import *
+from utils.tf_data_iterators import *
+from utils.spacy import *
 
 
-TRAIN_FILE_PATH = "../../data/spooky-author-identification/input/train.csv"
-TEST_FILE_PATH = "../../data/spooky-author-identification/input/test.csv"
+TRAIN_FILE_PATH = "../../utils/spooky-author-identification/input/train.csv"
+TEST_FILE_PATH = "../../utils/spooky-author-identification/input/test.csv"
 
 TEXT_COL = "text"
 CATEGORY_COL = "author"
@@ -42,16 +42,16 @@ val_one_hot_encoded_label= dataset.get_val_one_hot_label()
 train_input_fn, train_input_hook = setup_input_graph(train_data,
                                                      train_one_hot_encoded_label,
                                                       batch_size=BATCH_SIZE, 
-                                                      scope='train-data')
+                                                      scope='train-utils')
 
 eval_input_fn, eval_input_hook =  setup_input_graph(dataset.get_val_data(),
                                                      val_one_hot_encoded_label,
                                                     batch_size=BATCH_SIZE, 
-                                                    scope='eval-data')
+                                                    scope='eval-utils')
                                                                                                           
 test_input_fn =  test_inputs(dataset.get_test_data(), 
                                         batch_size=1, 
-                                        scope='test-data')
+                                        scope='test-utils')
                                         
 
 '''

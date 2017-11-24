@@ -1,9 +1,9 @@
 import tensorflow as tf
-from sarvam_utils.tf_hooks.data_initializers import IteratorInitializerHook
+from word_vec.utils.tf_hooks.data_initializers import IteratorInitializerHook
 
 # Define the inputs
-def setup_input_graph(center_words, target_words, batch_size, is_eval = False, shuffle=True, scope='train-data'):
-    """Return the input function to get the training/evaluation data.
+def setup_input_graph(center_words, target_words, batch_size, is_eval = False, shuffle=True, scope='train-utils'):
+    """Return the input function to get the training/evaluation utils.
     """
     iterator_initializer_hook = IteratorInitializerHook()
 

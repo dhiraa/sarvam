@@ -1,13 +1,15 @@
 import tensorflow as tf
 import argparse
 import math
+import numpy as np
 
 from tensorflow.contrib import lookup
 from tensorflow.contrib.learn import ModeKeys
+from tensorflow.contrib.tensorboard.plugins import projector
 
 tf.logging.set_verbosity("INFO")
 
-
+from word_vec.utils.tf_hooks.post_run import PostRunTaskHook
 '''
 Notes:
 Two methods:
@@ -44,7 +46,6 @@ class Word2VecConfig():
                  vocab_size,
                  words_vocab_file,
                  embedding_size,
-                 word_emd_size,
                  num_word_sample,
                  learning_rate,
                  model_dir):
@@ -63,7 +64,6 @@ class Word2VecConfig():
 
         flags.DEFINE_float("LEARNING_RATE", learning_rate, "")
         # flags.DEFINE_float("KEEP_PROP", out_keep_propability, "")
-        flags.DEFINE_integer("WORD_EMBEDDING_SIZE", word_emd_size, "")
 
         flags.DEFINE_string("MODEL_DIR", model_dir, "")
 
@@ -81,6 +81,8 @@ class Word2Vec(tf.estimator.Estimator):
             config=None)
 
         self.w2v_config = config
+
+        self.embed_mat_hook = None #Hook to store the embedding matrix as numpy utils
 
     def _model_fn(self, features, labels, mode, params):
 
@@ -172,6 +174,22 @@ class Word2Vec(tf.estimator.Estimator):
             train_op=train_op,
             eval_metric_ops=None
         )
+
+    def set_store_hook(self, tensor_name="embed/embed_matrix:0"):
+        def save_embed_mat(sess):
+            graph = sess.graph
+            embed_mat = graph.get_tensor_by_name(tensor_name)
+
+            embed_mat = sess.run(embed_mat)
+            np.save("tmp/embed_mat.npy", embed_mat) #TODO may be user set path
+
+        self.embed_mat_hook = PostRunTaskHook()
+        self.embed_mat_hook.user_func = save_embed_mat
+
+
+    def get_store_hook(self):
+        self.set_store_hook()
+        return self.embed_mat_hook
 
 
 

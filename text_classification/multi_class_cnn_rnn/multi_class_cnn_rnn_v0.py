@@ -1,6 +1,6 @@
 from tensorflow.contrib import lookup
 from tensorflow.contrib.learn import ModeKeys
-from sarvam_utils.rnn import *
+from utils.rnn import *
 import argparse
 
 class MultiClassCNNRNNConfig():
@@ -449,7 +449,7 @@ class MultiClassCNNRNNV0(tf.estimator.Estimator):
             }
 
             # validation_monitor = tf.contrib.learn.monitors.ValidationMonitor(
-            #     test_set.data,
+            #     test_set.utils,
             #     test_set.target,
             #     every_n_steps=50,
             #     metrics=validation_metrics,

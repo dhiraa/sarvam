@@ -1,7 +1,7 @@
 import tensorflow as tf
 
 class IteratorInitializerHook(tf.train.SessionRunHook):
-    """Hook to initialise data iterator after Session is created."""
+    """Hook to initialise utils iterator after Session is created."""
 
     def __init__(self):
         super(IteratorInitializerHook, self).__init__()

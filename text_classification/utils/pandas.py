@@ -11,7 +11,7 @@ import numpy as np
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import LabelBinarizer
 
-from sarvam_utils.spacy import tokenize
+from utils.spacy import tokenize
 
 def size_mb(docs):
     # Each char is a byte and divide it by 100000
@@ -49,7 +49,7 @@ class TextDataFrame():
         model_name = model_name+"/"
         self.words_vocab_file = model_name + "words_vocab.tsv"
 
-        # preparing data
+        # preparing utils
         if not os.path.exists(model_name+"train_processed.csv") or \
                 not os.path.exists(model_name+"test_processed.csv") or \
                 not os.path.exists(model_name+"val_processed.csv"):
@@ -69,7 +69,7 @@ class TextDataFrame():
             self.val_df = pd.read_csv(model_name + "val_processed.csv")
             self.test_df = pd.read_csv(model_name + "test_processed.csv")
 
-            print('Fitting LabelEncoder and LabelBinarizer on processed data...')
+            print('Fitting LabelEncoder and LabelBinarizer on processed utils...')
             self.le.fit(list(self.train_df[self.category_col]))
             self.label_binarizer.fit(list(self.train_df[self.category_col]))
             print('Done!')
@@ -83,7 +83,7 @@ class TextDataFrame():
 
     # TODO find an easy way???
     def _get_train_val_test_split(self, df):
-        print('Splitting the data set(stratified sampling)...')
+        print('Splitting the utils set(stratified sampling)...')
 
         def train_validate_test_split(df, train_percent=.7, validate_percent=.2, seed=42):
             np.random.seed(seed)
@@ -112,7 +112,7 @@ class TextDataFrame():
         val_df = pd.concat(val_dfs)
         test_df = pd.concat(test_dfs)
 
-        # Shuffle the data
+        # Shuffle the utils
         train_df = train_df.sample(frac=1).reset_index(drop=True)
         val_df = val_df.sample(frac=1).reset_index(drop=True)
         test_df = test_df.sample(frac=1).reset_index(drop=True)
@@ -122,7 +122,7 @@ class TextDataFrame():
         return train_df, val_df, test_df
 
     def _get_train_val_split(self, df):
-        print('Splitting the data set(stratified sampling)...')
+        print('Splitting the utils set(stratified sampling)...')
 
         def train_validate_test_split(df, train_percent=.8, seed=42):
             np.random.seed(seed)
@@ -146,7 +146,7 @@ class TextDataFrame():
         train_df = pd.concat(train_dfs)
         val_df = pd.concat(val_dfs)
 
-        # Shuffle the data
+        # Shuffle the utils
         train_df = train_df.sample(frac=1).reset_index(drop=True)
         val_df = val_df.sample(frac=1).reset_index(drop=True)
 
@@ -157,7 +157,7 @@ class TextDataFrame():
 
     def _prepare_data(self):
 
-        # If there is no test data, split the availble DF
+        # If there is no test utils, split the availble DF
         if not os.path.exists(self.test_df_path):
             self.train_df = self.get_train_df()
 
@@ -222,19 +222,19 @@ class TextDataFrame():
     def get_train_data(self):
         # return self.train_df[self.text_col].map(lambda x: self.replace(x)).as_matrix()
         docs = self._get_data_matrix('train_df')
-        print("Size of train data: %0.3fMB" % (size_mb(docs)))
+        print("Size of train utils: %0.3fMB" % (size_mb(docs)))
         return docs
 
     def get_val_data(self):
         # return self.val_df[self.text_col].map(lambda x: self.replace(x)).as_matrix()
         docs = self._get_data_matrix('val_df')
-        print("Size of validation data: %0.3fMB" % (size_mb(docs)))
+        print("Size of validation utils: %0.3fMB" % (size_mb(docs)))
         return docs
 
     def get_test_data(self):
         # return self.test_df[self.text_col].map(lambda x: self.replace(x)).as_matrix()
         docs = self._get_data_matrix('test_df')
-        print("Size of test data: %0.3fMB" % (size_mb(docs)))
+        print("Size of test utils: %0.3fMB" % (size_mb(docs)))
         return docs
 
     def get_train_label(self):
