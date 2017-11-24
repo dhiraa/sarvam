@@ -5,10 +5,10 @@ sys.path.append("../../")
 sys.path.append(".")
 
 from sarvam_utils.data.kaggle.spooky_dataset import *
-from text_classification.fast_text import fast_text_v0
+from text_classification.multi_class_cnn_rnn import multi_class_cnn_rnn_v0
 from sarvam_utils.early_stopping import EarlyStoppingLossHook
 
-BATCH_SIZE = 16
+BATCH_SIZE = 32
 
 dataset: TextDataFrame = TextDataFrame(train_df_path=TRAIN_FILE_PATH,
                         test_df_path=TEST_FILE_PATH,
@@ -16,7 +16,7 @@ dataset: TextDataFrame = TextDataFrame(train_df_path=TRAIN_FILE_PATH,
                         category_col="author",
                         model_name="fast-text-v0")
 
-
+# To get the features:
 train_data = dataset.get_train_data()
 val_data = dataset.get_val_data()
 test_data = dataset.get_test_data()
@@ -47,37 +47,20 @@ test_input_fn = test_inputs(dataset.get_test_data(),
                             scope='test-data')
 
 
-config = fast_text_v0.FastTextConfig(vocab_size=dataset.vocab_count,
+config = multi_class_cnn_rnn_v0.FastTextConfig(vocab_size=dataset.vocab_count,
                                      model_dir="fast-text-v0/model/",
                                      words_vocab_file=dataset.words_vocab_file)
 
-model = fast_text_v0.FastTextV0(config)
+model = multi_class_cnn_rnn_v0.MultiClassCNNRNNV0(config)
 
 NUM_EPOCHS = 6
 NUM_STEPS = dataset.num_train_samples // BATCH_SIZE
-print(NUM_EPOCHS)
+NUM_STEPS
 
 
-early_stopping_hook = EarlyStoppingLossHook("reduced_mean:0", 0.030)
+early_stopping_hook = EarlyStoppingLossHook("reduced_mean:0", 0.30)
 
 
 model.train(input_fn=train_input_fn, hooks=[train_input_hook, early_stopping_hook], steps=NUM_EPOCHS*NUM_STEPS)
 
 model.evaluate(input_fn=eval_input_fn, hooks=[eval_input_hook])
-
-predictions_fn = model.predict(input_fn=test_input_fn)
-
-predictions = []
-classes = []
-
-for r in predictions_fn:
-    predictions.append(r['probabilities'])
-    classes.append(r['classes'])
-for i, p in enumerate(predictions_fn):
-    print("Prediction %s: %s" % (i + 1, p["ages"]))
-
-ids = dataset.test_df['id']
-results = pd.DataFrame(predictions, columns=['EAP', 'HPL','MWS'])
-results.insert(0, "id", ids)
-
-results.to_csv("fast_text_tokenized.csv", index=False)
