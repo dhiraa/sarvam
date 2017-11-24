@@ -7,6 +7,9 @@ rm -rf tmp/model/* #
 
 python word_vec_run.py --num_epochs=5 --batch_size=128 --vocab_size=50000 --embed_size=64
 
+python viz_word_vec.py
+
+python command_line_tester.py
 ```
 
 # Papers:
@@ -33,5 +36,10 @@ python word_vec_run.py --num_epochs=5 --batch_size=128 --vocab_size=50000 --embe
 ```
 
     [NbConvertApp] Converting notebook README.ipynb to markdown
-    [NbConvertApp] Writing 1086 bytes to ./README.md
+    [NbConvertApp] Writing 1204 bytes to ./README.md
 
+
+
+```python
+
+```
