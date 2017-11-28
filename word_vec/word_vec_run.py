@@ -2,43 +2,50 @@ import sys
 import numpy as np
 import  argparse
 sys.path.append("../")
-
+import pickle
 from word_vec.utils.downloader import *
 from word_vec.utils.common import vocab_to_tsv
-from word_vec.word2vec import Word2Vec, Word2VecConfig
+from word_vec.word2vec_v1 import Word2VecV1, Word2VecConfigV1
 from word_vec.utils.glove_data_iterator import setup_input_graph
-
+from word_vec.utils.preprocessing import *
 def get_model(opt):
-    config = Word2VecConfig(vocab_size=opt.vocab_size,
+    config = Word2VecConfigV1(vocab_size=int(opt.vocab_size),
                             words_vocab_file="tmp/vocab.tsv",
                             embedding_size=opt.embed_size,
-                            num_word_sample=64,
+                            num_word_sample=64, #Negative sampling
                             learning_rate=opt.learning_rate,
                             model_dir="tmp/model/")
-    model = Word2Vec(config)
+    model = Word2VecV1(config)
     return model
 
 def word_vec(opt):
-    text_path = download(FILE_NAME, EXPECTED_BYTES, "tmp/")
-    words = read_data(file_path=text_path)
-    word_2_id, id_2_word = build_vocab(words=words, vocab_size=50000)
-    top_n_words = word_2_id.keys()
-    vocab_to_tsv(vocab_list=top_n_words, outfilename="tmp/vocab.tsv")
 
-    features, labels = generate_sample(list(top_n_words),
-                                       context_window_size=3)
+    TEXT_DIR = "tmp/text/"
+    TRAIN_FILE = "tmp/train_data.pickle"
 
-    features = np.asarray(features)
-    labels = np.asarray(labels)
+    if not os.path.exists(TEXT_DIR):
+        print("!!! RUN setup.sh !!!")
+        exit(0)
+
+    if not os.path.exists(TRAIN_FILE):
+        dataset = GloveDataset(vocabulary_size=int(opt.vocab_size),
+                               min_occurrences=5,
+                               window_size=int(opt.window_size),
+                               name='GloveDataset',
+                               text_dir=TEXT_DIR)
+
+        dataset.prepare()
+    else:
+        TRAIN_DATA = pickle.load(open(TRAIN_FILE, "rb"))
 
     model = get_model(opt)
 
-    input_fn, intput_hook = setup_input_graph(features, labels, 128)
-
+    NUM_EXAMPLES = TRAIN_DATA["words"].shape[0]
     NUM_EPOCHS = int(opt.num_epochs)
     BATCH_SIZE = int(opt.batch_size)
-    MAX_STEPS = (features.shape[0] // BATCH_SIZE) * NUM_EPOCHS
+    MAX_STEPS = (NUM_EXAMPLES // BATCH_SIZE) * NUM_EPOCHS
 
+    input_fn, intput_hook = setup_input_graph(TRAIN_DATA, BATCH_SIZE)
     store_hook = model.get_store_hook()
 
     model.train(input_fn=input_fn, hooks=[intput_hook, store_hook], steps=MAX_STEPS)
@@ -61,6 +68,12 @@ if __name__ == "__main__":
                           default=50000,
                           help='Number of top vocab to be considered')
 
+    optparse.add_argument('-ws', '--window_size', action='store',
+                          dest='window_size', required=False,
+                          default=1,
+                          help='Window size for skip gram')
+
+
     optparse.add_argument('-es', '--embed_size', action='store',
                           dest='embed_size', required=False,
                           default=64,
@@ -68,7 +81,7 @@ if __name__ == "__main__":
 
     optparse.add_argument('-lr', '--learning_rate', action='store',
                           dest='learning_rate', required=False,
-                          default=0.001,
+                          default=1.0,
                           help='Learning Rate (0.001)')
 
     word_vec(opt = optparse.parse_args())

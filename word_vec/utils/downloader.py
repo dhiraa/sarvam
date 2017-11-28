@@ -71,6 +71,7 @@ def generate_sample(words, context_window_size):
     target_words = []
 
     for index, center in enumerate(words):
+        # """ Form training pairs according to the skip-gram model. """
         context = random.randint(1, context_window_size)
         # get a random target before the center word
         for target in words[max(0, index - context): index]:

@@ -3,13 +3,17 @@
 
 ```bash
 #Clean the model directory when you are changing the the embedding size! 
-rm -rf tmp/model/* #
+rm -rf tmp/model/* 
 
-python word_vec_run.py --num_epochs=5 --batch_size=128 --vocab_size=50000 --embed_size=64
+python word_vec_run.py --num_epochs=120 --batch_size=128 --vocab_size=80000 --embed_size=128 --window_size=4
 
 python viz_word_vec.py
 
 python command_line_tester.py
+
+#tensorboard
+tensorboard --logdir=tmp/model/
+#click projector tab and load the vocab file from 
 ```
 
 # Papers:

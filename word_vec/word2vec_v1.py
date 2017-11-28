@@ -41,7 +41,7 @@ Model: Word Embedding Matrix [Vocab Size, Embedding Size]
 
 '''
 
-class Word2VecConfig():
+class Word2VecConfigV1():
     def __init__(self,
                  vocab_size,
                  words_vocab_file,
@@ -69,16 +69,21 @@ class Word2VecConfig():
 
 
 
-class Word2Vec(tf.estimator.Estimator):
+class Word2VecV1(tf.estimator.Estimator):
     '''
     Skip Gram implementation
     '''
     def __init__(self,
-                 config:Word2VecConfig):
-        super(Word2Vec, self).__init__(
+                 config:Word2VecConfigV1):
+        super(Word2VecV1, self).__init__(
             model_fn=self._model_fn,
             model_dir=config.FLAGS.MODEL_DIR,
-            config=None)
+            config=tf.contrib.learn.RunConfig(log_step_count_steps=100,
+                                              save_summary_steps=100,
+                                              gpu_memory_fraction=0.5,
+                                              save_checkpoints_steps=1000,
+                                              tf_random_seed=42,
+                                              log_device_placement=True))
 
         self.w2v_config = config
 
@@ -86,8 +91,9 @@ class Word2Vec(tf.estimator.Estimator):
 
     def _model_fn(self, features, labels, mode, params):
 
-        center_words = features
-        target_words = labels
+        center_words = features["words"]
+        target_words = features["targets"]
+
 
         # Define model's architecture
         with tf.variable_scope("center-words-2-ids"):
@@ -113,7 +119,7 @@ class Word2Vec(tf.estimator.Estimator):
                                                  name="table")
             tf.logging.info('table info: {}'.format(table))
 
-            words = tf.string_split(center_words)
+            words = tf.string_split(target_words)
             densewords = tf.sparse_tensor_to_dense(words, default_value=self.w2v_config.FLAGS.UNKNOWN_WORD)
             target_word_ids = table.lookup(densewords)
 
@@ -136,8 +142,9 @@ class Word2Vec(tf.estimator.Estimator):
 
 
             # construct variables for NCE loss
-            nce_weight = tf.Variable(tf.truncated_normal([self.w2v_config.FLAGS.VOCAB_SIZE, self.w2v_config.FLAGS.EMBED_SIZE],
-                                                         stddev= 1/math.sqrt( self.w2v_config.FLAGS.EMBED_SIZE)),
+            nce_weight = tf.Variable(tf.truncated_normal([self.w2v_config.FLAGS.VOCAB_SIZE,
+                                                          self.w2v_config.FLAGS.EMBED_SIZE],
+                                                         stddev= 1/math.sqrt( self.w2v_config.FLAGS.EMBED_SIZE ** 0.5)),
                                      name="nce_weight")
 
             tf.logging.info("nce_weight -----> {}".format(nce_weight))
@@ -153,13 +160,13 @@ class Word2Vec(tf.estimator.Estimator):
 
         if mode != ModeKeys.INFER:
             # define loss function to be NCE loss function
-            # define loss function to be NCE loss function
             loss = tf.reduce_mean(tf.nn.nce_loss(weights=nce_weight,
                                                  biases=nce_bias,
                                                  labels=target_word_ids,
                                                  inputs=embed,
                                                  num_sampled=self.w2v_config.FLAGS.NUM_WORD_SAMPLE,
-                                                 num_classes=self.w2v_config.FLAGS.VOCAB_SIZE), name='loss')
+                                                 num_classes=self.w2v_config.FLAGS.VOCAB_SIZE),
+                                  name='loss')
 
             train_op = tf.contrib.layers.optimize_loss(
                 loss=loss,
@@ -181,7 +188,8 @@ class Word2Vec(tf.estimator.Estimator):
             embed_mat = graph.get_tensor_by_name(tensor_name)
 
             embed_mat = sess.run(embed_mat)
-            np.save("tmp/embed_mat.npy", embed_mat) #TODO may be user set path
+            np.save("tmp/word2vec_v1.npy", embed_mat)
+
 
         self.embed_mat_hook = PostRunTaskHook()
         self.embed_mat_hook.user_func = save_embed_mat
