@@ -1,6 +1,6 @@
 from tensorflow.contrib import lookup
 from tensorflow.contrib.learn import ModeKeys
-from text_classification.utils.rnn import *
+from utils.rnn import *
 import tensorflow as tf
 import argparse
 
@@ -34,7 +34,7 @@ class FastTextConfig():
         flags.DEFINE_float("LEARNING_RATE", learning_rate, "")
         flags.DEFINE_float("KEEP_PROP", out_keep_propability, "")
         flags.DEFINE_integer("WORD_EMBEDDING_SIZE", word_emd_size, "")
-        flags.DEFINE_integer("WORD_LEVEL_LSTM_HIDDEN_SIZE", word_level_lstm_hidden_size, "")
+        # flags.DEFINE_integer("WORD_LEVEL_LSTM_HIDDEN_SIZE", word_level_lstm_hidden_size, "")
 
     def get_tf_flag(self):
         # usage config.FLAGS.MODEL_DIR
@@ -52,9 +52,6 @@ class FastTextV0(tf.estimator.Estimator):
         self.VOCAB_SIZE = config.FLAGS.VOCAB_SIZE
         self.UNKNOWN_WORD = config.FLAGS.UNKNOWN_WORD
         self.EMBEDDING_SIZE = 86
-
-        self.WINDOW_SIZE = self.EMBEDDING_SIZE
-        self.STRIDE = int(self.WINDOW_SIZE / 2)
 
         self.NUM_CLASSES = 3
 
@@ -167,6 +164,9 @@ class FastTextV0(tf.estimator.Estimator):
         eval_metric_ops = {}
 
         if mode != ModeKeys.INFER:
+            tf.logging.info('labels: ------> {}'.format(labels))
+            tf.logging.info('predictions["classes"]: ------> {}'.format(predictions["classes"]))
+
             loss = tf.losses.softmax_cross_entropy(
                 onehot_labels=labels,
                 logits=logits,
@@ -198,6 +198,7 @@ class FastTextV0(tf.estimator.Estimator):
                     name='Recall')
             }
 
+            tf.summary.scalar(loss.name, loss)
 
         return tf.estimator.EstimatorSpec(
             mode=mode,

@@ -1,21 +1,21 @@
 import os
 import sys
-#add utils path
+
+# add utils path
 sys.path.append("../../")
 sys.path.append(".")
 
 from utils.data.kaggle.spooky_dataset import *
-from text_classification.fast_text import fast_text_v0
-from utils.early_stopping import EarlyStoppingLossHook
+from fast_text import fast_text_v0
+from utils.tf_hooks.early_stopping import EarlyStoppingLossHook
 
 BATCH_SIZE = 16
 
 dataset: TextDataFrame = TextDataFrame(train_df_path=TRAIN_FILE_PATH,
-                        test_df_path=TEST_FILE_PATH,
-                        text_col="text",
-                        category_col="author",
-                        model_name="fast-text-v0")
-
+                                       test_df_path=TEST_FILE_PATH,
+                                       text_col="text",
+                                       category_col="author",
+                                       model_name="fast-text-v0")
 
 train_data = dataset.get_train_data()
 val_data = dataset.get_val_data()
@@ -46,7 +46,6 @@ test_input_fn = test_inputs(dataset.get_test_data(),
                             batch_size=1,
                             scope='test-utils')
 
-
 config = fast_text_v0.FastTextConfig(vocab_size=dataset.vocab_count,
                                      model_dir="fast-text-v0/model/",
                                      words_vocab_file=dataset.words_vocab_file)
@@ -57,11 +56,11 @@ NUM_EPOCHS = 6
 NUM_STEPS = dataset.num_train_samples // BATCH_SIZE
 print(NUM_EPOCHS)
 
-
 early_stopping_hook = EarlyStoppingLossHook("reduced_mean:0", 0.030)
 
-
-model.train(input_fn=train_input_fn, hooks=[train_input_hook, early_stopping_hook], steps=NUM_EPOCHS*NUM_STEPS)
+model.train(input_fn=train_input_fn,
+            hooks=[train_input_hook, early_stopping_hook],
+            steps=NUM_EPOCHS * NUM_STEPS)
 
 model.evaluate(input_fn=eval_input_fn, hooks=[eval_input_hook])
 
@@ -73,11 +72,12 @@ classes = []
 for r in predictions_fn:
     predictions.append(r['probabilities'])
     classes.append(r['classes'])
+
 for i, p in enumerate(predictions_fn):
-    print("Prediction %s: %s" % (i + 1, p["ages"]))
+    tf.logging.info("Prediction %s: %s" % (i + 1, p["ages"]))
 
 ids = dataset.test_df['id']
-results = pd.DataFrame(predictions, columns=['EAP', 'HPL','MWS'])
+results = pd.DataFrame(predictions, columns=['EAP', 'HPL', 'MWS'])
 results.insert(0, "id", ids)
 
 results.to_csv("fast_text_tokenized.csv", index=False)

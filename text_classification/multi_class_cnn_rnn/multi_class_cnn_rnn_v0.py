@@ -3,30 +3,32 @@ from tensorflow.contrib.learn import ModeKeys
 from utils.rnn import *
 import argparse
 
+tf.logging.set_verbosity(tf.logging.DEBUG)
+
 class MultiClassCNNRNNConfig():
     def __init__(self,
                  vocab_size,
                  model_dir,
                  words_vocab_file,
-                 learning_rate=0.001,
-                 word_level_lstm_hidden_size= 300,
-                 word_emd_size = 300,
-                 out_keep_propability=0.5):
+                 learning_rate=0.01,
+                 word_level_lstm_hidden_size=128,
+                 word_emd_size=128,
+                 out_keep_propability=0.9):
         tf.app.flags.FLAGS = tf.app.flags._FlagValues()
         tf.app.flags._global_parser = argparse.ArgumentParser()
         flags = tf.app.flags
         self.FLAGS = flags.FLAGS
 
-        #Constant params
+        # Constant params
         flags.DEFINE_string("MODEL_DIR", model_dir, "")
 
-        #Preprocessing Paramaters
+        # Preprocessing Paramaters
         flags.DEFINE_string("WORDS_VOCAB_FILE", words_vocab_file, "")
         flags.DEFINE_string("UNKNOWN_WORD", "<UNK>", "")
 
         flags.DEFINE_integer("VOCAB_SIZE", vocab_size, "")
 
-        #Model hyper paramaters
+        # Model hyper paramaters
         flags.DEFINE_float("LEARNING_RATE", learning_rate, "")
         flags.DEFINE_float("KEEP_PROP", out_keep_propability, "")
         flags.DEFINE_integer("WORD_EMBEDDING_SIZE", word_emd_size, "")
@@ -36,10 +38,11 @@ class MultiClassCNNRNNConfig():
         # usage config.FLAGS.MODEL_DIR
         return self.FLAGS
 
+
 class MultiClassCNNRNNV0(tf.estimator.Estimator):
     def __init__(self,
-                 config:FastTextConfig):
-        super(FastTextV0, self).__init__(
+                 config: MultiClassCNNRNNConfig):
+        super(MultiClassCNNRNNV0, self).__init__(
             model_fn=self._model_fn,
             model_dir=config.FLAGS.MODEL_DIR,
             config=None)
@@ -47,7 +50,7 @@ class MultiClassCNNRNNV0(tf.estimator.Estimator):
         self.VOCAB_FILE = config.FLAGS.WORDS_VOCAB_FILE
         self.VOCAB_SIZE = config.FLAGS.VOCAB_SIZE
         self.UNKNOWN_WORD = config.FLAGS.UNKNOWN_WORD
-        self.EMBEDDING_SIZE = 96
+        self.EMBEDDING_SIZE = 40
 
         self.WINDOW_SIZE = self.EMBEDDING_SIZE
         self.STRIDE = int(self.WINDOW_SIZE / 2)
@@ -56,23 +59,25 @@ class MultiClassCNNRNNV0(tf.estimator.Estimator):
 
         self.LEARNING_RATE = config.FLAGS.LEARNING_RATE
 
-        self.num_lstm_layers = 2
-        self.output_keep_prob = 0.5
+        self.num_lstm_layers = 4
+        self.output_keep_prob = 0.9
 
-        self.VOCAB_FILE = vocab_file
-        self.VOCAB_SIZE = vocab_size
+        # self.VOCAB_FILE = config.FLAGS.WORDS_VOCAB_FILE
+        # self.VOCAB_SIZE = config.FLAGS.VOCAB_SIZE
+        # self.UNKNOWN_WORD = config.FLAGS.UNKNOWN_WORD
+
         self.PADWORD = 'PADXYZ'
-        self.MAX_DOCUMENT_LENGTH = max_doc_length
-        self.EMBEDDING_SIZE = 32
+        # self.MAX_DOCUMENT_LENGTH = max_doc_length
+        # self.EMBEDDING_SIZE = 32
 
         self.RNN_HIDDEL_SIZE = self.EMBEDDING_SIZE
-        self.WINDOW_SIZE = self.EMBEDDING_SIZE
-        self.STRIDE = int(self.WINDOW_SIZE / 2)
-
-        self.NUM_CLASSES = 3
-
-        self.num_lstm_layers = 2
-        self.output_keep_prob = 0.5
+        # self.WINDOW_SIZE = self.EMBEDDING_SIZE
+        # self.STRIDE = int(self.WINDOW_SIZE / 2)
+        #
+        # self.NUM_CLASSES = 3
+        #
+        # self.num_lstm_layers = 2
+        # self.output_keep_prob = 0.5
 
     #
     # def _model_fn(self, features, labels, mode, params):
@@ -236,13 +241,13 @@ class MultiClassCNNRNNV0(tf.estimator.Estimator):
         is_training = mode == ModeKeys.TRAIN
 
         text_features = features["text"]
-        numeric_features = features["numeric"]
+        # numeric_features = features["numeric"]
 
         tf.logging.debug('text_features -----> {}'.format(text_features))
-        tf.logging.debug('numeric_features -----> {}'.format(numeric_features))
+        # tf.logging.debug('numeric_features -----> {}'.format(numeric_features))
         tf.logging.debug('labels -----> {}'.format(labels))
 
-    # Define model's architecture
+        # Define model's architecture
         with tf.variable_scope("sentence-2-words"):
             table = lookup.index_table_from_file(vocabulary_file=self.VOCAB_FILE,
                                                  num_oov_buckets=1,
@@ -301,9 +306,8 @@ class MultiClassCNNRNNV0(tf.estimator.Estimator):
 
             # tf.nn.bidirectional_dynamic_rnn()
 
-            #GRUCell
+            # GRUCell
             encoding = encoding[0]
-
 
             # Split into list of embedding per word, while removing doc length dim.
             # word_list results to be a list of tensors [batch_size, EMBEDDING_SIZE].
@@ -315,14 +319,12 @@ class MultiClassCNNRNNV0(tf.estimator.Estimator):
             # [?, EMBEDDING_SIZE]
             tf.logging.info('encoding: ------> {}'.format(encoding))
 
-
-
         with  tf.name_scope("hidden-mlp-layer"):
-            #Wide layer connecting the input ids to the hidden layer
-            hidden_layer =  tf.layers.dense(inputs=encoding, units=32*32, activation=tf.nn.relu,
-                                            kernel_initializer=tf.contrib.layers.xavier_initializer(seed=42))
+            # Wide layer connecting the input ids to the hidden layer
+            hidden_layer = tf.layers.dense(inputs=encoding, units=32 * 32, activation=tf.nn.relu,
+                                           kernel_initializer=tf.contrib.layers.xavier_initializer(seed=42))
 
-            hidden_layer = tf.layers.dropout(hidden_layer, rate=0.5, seed=42,
+            hidden_layer = tf.layers.dropout(hidden_layer, rate=0.9, seed=42,
                                              training=mode == tf.estimator.ModeKeys.TRAIN)
 
             tf.logging.info('wide_layer: ------> {}'.format(hidden_layer))
@@ -344,7 +346,6 @@ class MultiClassCNNRNNV0(tf.estimator.Estimator):
             # hidden_layer = tf.layers.dropout(hidden_layer, rate=0.5, seed=42,
             #                             training=mode == tf.estimator.ModeKeys.TRAIN)
 
-
         with  tf.name_scope('conv_layer'):
 
             encoding_2_image = tf.reshape(hidden_layer, [-1, 32, 32, 1])
@@ -357,10 +358,10 @@ class MultiClassCNNRNNV0(tf.estimator.Estimator):
                 padding="same",
                 activation=tf.nn.relu)
 
-            tf.logging.info('conv1: ------> {}'.format(conv1)) #[?, 32, 32, 32]
+            tf.logging.info('conv1: ------> {}'.format(conv1))  # [?, 32, 32, 32]
 
             # Pooling Layer #1
-            pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=[2, 2], strides=2)  #[?,16, 16, 32]
+            pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=[2, 2], strides=2)  # [?,16, 16, 32]
             tf.logging.info('pool1: ------> {}'.format(pool1))
 
             # Convolutional Layer #2 and Pooling Layer #2
@@ -370,26 +371,28 @@ class MultiClassCNNRNNV0(tf.estimator.Estimator):
                 kernel_size=[3, 3],
                 padding="same",
                 activation=tf.nn.relu)
-            tf.logging.info('conv2: ------> {}'.format(conv2))  #[?, 16, 16, 64]
+            tf.logging.info('conv2: ------> {}'.format(conv2))  # [?, 16, 16, 64]
 
             pool2 = tf.layers.max_pooling2d(inputs=conv2, pool_size=[2, 2], strides=2)
-            tf.logging.info('pool2: ------> {}'.format(pool2)) #[?, 8, 8, 64]
+            tf.logging.info('pool2: ------> {}'.format(pool2))  # [?, 8, 8, 64]
 
             # Dense Layer
             pool2_flat = tf.reshape(pool2, [-1, 8 * 8 * 64])
-            tf.logging.info('pool2_flat: ------> {}'.format(pool2_flat)) #[?, 8, 8, 64]
+            tf.logging.info('pool2_flat: ------> {}'.format(pool2_flat))  # [?, 8, 8, 64]
 
             dense = tf.layers.dense(inputs=pool2_flat, units=1024, activation=tf.nn.relu)
 
             hidden_layer = tf.layers.dropout(
-                inputs=dense, rate=0.4, training=mode == tf.estimator.ModeKeys.TRAIN)
-
+                inputs=dense, rate=0.9, training=mode == tf.estimator.ModeKeys.TRAIN)
 
         with  tf.name_scope("logits-layer"):
             # [?, self.NUM_CLASSES]
 
-            logits = tf.layers.dense(inputs=tf.concat([hidden_layer, numeric_features], axis=1), units=self.NUM_CLASSES,
+            logits = tf.layers.dense(inputs=hidden_layer, units=self.NUM_CLASSES,
                                      kernel_initializer=tf.contrib.layers.xavier_initializer(seed=42))
+
+            # logits = tf.layers.dense(inputs=tf.concat([hidden_layer, numeric_features], axis=1), units=self.NUM_CLASSES,
+            #                          kernel_initializer=tf.contrib.layers.xavier_initializer(seed=42))
 
             tf.logging.info('logits: ------> {}'.format(logits))
 
@@ -406,7 +409,7 @@ class MultiClassCNNRNNV0(tf.estimator.Estimator):
             "probabilities": predicted_probabilities
         }
 
-        #logging
+        # logging
         # self.log_tensors("output_probabilities", "output-layer/softmax_output")
         tf.summary.histogram(encoding.name, encoding)
         tf.summary.histogram(predicted_probabilities.name, predicted_probabilities)
@@ -417,6 +420,9 @@ class MultiClassCNNRNNV0(tf.estimator.Estimator):
         eval_metric_ops = {}
 
         if mode != ModeKeys.INFER:
+            tf.logging.info('labels: ------> {}'.format(labels))
+            tf.logging.info('predictions["classes"]: ------> {}'.format(predictions["classes"]))
+
             loss = tf.losses.softmax_cross_entropy(
                 onehot_labels=labels,
                 logits=logits,
@@ -427,9 +433,9 @@ class MultiClassCNNRNNV0(tf.estimator.Estimator):
 
             train_op = tf.contrib.layers.optimize_loss(
                 loss=loss,
-                global_step=tf.contrib.framework.get_global_step(),
+                global_step=tf.train.get_global_step(),
                 optimizer=tf.train.AdamOptimizer,
-                learning_rate=params.learning_rate)
+                learning_rate=self.LEARNING_RATE)
 
             label_argmax = tf.argmax(labels, 1, name='label_argmax')
 
@@ -438,16 +444,16 @@ class MultiClassCNNRNNV0(tf.estimator.Estimator):
                     labels=label_argmax,
                     predictions=predictions["classes"],
                     name='accuracy'),
-                'Precision' : tf.metrics.precision(
+                'Precision': tf.metrics.precision(
                     labels=label_argmax,
                     predictions=predictions["classes"],
                     name='Precision'),
-                'Recall' : tf.metrics.recall(
+                'Recall': tf.metrics.recall(
                     labels=label_argmax,
                     predictions=predictions["classes"],
                     name='Recall')
             }
-
+            tf.summary.scalar(loss.name, loss)
             # validation_monitor = tf.contrib.learn.monitors.ValidationMonitor(
             #     test_set.utils,
             #     test_set.target,
@@ -456,7 +462,6 @@ class MultiClassCNNRNNV0(tf.estimator.Estimator):
             #     early_stopping_metric="loss",
             #     early_stopping_metric_minimize=True,
             #     early_stopping_rounds=200)
-
 
         return tf.estimator.EstimatorSpec(
             mode=mode,

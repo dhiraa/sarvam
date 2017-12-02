@@ -7,9 +7,11 @@ import nltk
 import pandas as pd
 from tqdm import tqdm_notebook as tqdm
 # Find how often each Category used each word
+import en_core_web_sm
+# nlp = spacy.load('en_core_web_sm')
 
+def tokenize(df: pd.DataFrame, text_col,nlp=en_core_web_sm.load()):
 
-def tokenize(df: pd.DataFrame, text_col, nlp=spacy.load('en_core_web_md')):
     def cleaning(sentence):
         sentence = nlp(sentence)
         tokens = [token.text for token in sentence]
@@ -20,7 +22,7 @@ def tokenize(df: pd.DataFrame, text_col, nlp=spacy.load('en_core_web_md')):
 
     return df
 
-def extract_lemmas(df: pd.DataFrame, text_col, nlp=spacy.load('en')):
+def extract_lemmas(df: pd.DataFrame, text_col, nlp=en_core_web_sm.load()):
     stopwords = nltk.corpus.stopwords.words('english')
 
     def cleaning(sentence):

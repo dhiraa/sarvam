@@ -3,8 +3,8 @@ from utils.tf_data_iterators import *
 from utils.spacy import *
 
 
-TRAIN_FILE_PATH = "../../utils/spooky-author-identification/input/train.csv"
-TEST_FILE_PATH = "../../utils/spooky-author-identification/input/test.csv"
+TRAIN_FILE_PATH = "../../data/spooky-author-identification/input/train.csv"
+TEST_FILE_PATH = "../../data/spooky-author-identification/input/test.csv"
 
 TEXT_COL = "text"
 CATEGORY_COL = "author"
