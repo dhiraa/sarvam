@@ -27,7 +27,8 @@ def save_vocab(lines, outfilename, MAX_DOCUMENT_LENGTH, PADWORD='PADXYZ'):
     return nwords
 
 # Define the inputs
-def setup_input_graph(features, labels, batch_size, is_eval = False, shuffle=True, scope='train-utils'):
+def setup_input_graph(features, labels, batch_size,
+                      is_eval=False, shuffle=True, scope='train-utils'):
     """Return the input function to get the training utils.
 
     Args:
@@ -100,11 +101,13 @@ def test_inputs(features, batch_size=1, scope='test-utils'):
     return inputs
 
 
-def setup_input_graph2(text_features, numeric_features, labels, batch_size,
-                       # num_epocs,
+def setup_input_graph2(word_ids,
+                       char_ids,
+                       labels,
+                       batch_size,
                        is_eval = False,
                        shuffle=True,
-                       scope='train-utils'):
+                       scope='train-data'):
     """Return the input function to get the training utils.
 
     Args:
@@ -119,8 +122,8 @@ def setup_input_graph2(text_features, numeric_features, labels, batch_size,
     """
     iterator_initializer_hook = IteratorInitializerHook()
 
-    tf.logging.info("text_features.shape: {}".format(text_features.shape))
-    tf.logging.info("numeric_features.shape: {}".format(numeric_features.shape))
+    tf.logging.info("text_features.shape: {}".format(word_ids.shape))
+    tf.logging.info("numeric_features.shape: {}".format(char_ids.shape))
     tf.logging.info("labels.shape: {}".format(labels.shape))
 
 
@@ -134,13 +137,13 @@ def setup_input_graph2(text_features, numeric_features, labels, batch_size,
         with tf.name_scope(scope):
 
             # Define placeholders
-            text_features_placeholder = tf.placeholder(tf.string, text_features.shape)
-            # numeric_featuress_placeholder = tf.placeholder(tf.float32, numeric_features.shape)
+            word_features_placeholder = tf.placeholder(tf.int32, word_ids.shape)
+            char_features_placeholder = tf.placeholder(tf.int32, char_ids.shape)
             labels_placeholder = tf.placeholder(labels.dtype, labels.shape)
 
             # Build dataset iterator
-            dataset = tf.data.Dataset.from_tensor_slices(({"text" : text_features_placeholder},
-                                                                  # "numeric" :  numeric_featuress_placeholder},
+            dataset = tf.data.Dataset.from_tensor_slices(({"word_ids" : word_features_placeholder,
+                                                           "char_ids" : char_features_placeholder},
                                                                   labels_placeholder))
             if is_eval:
                 dataset = dataset.repeat(1)
@@ -156,8 +159,8 @@ def setup_input_graph2(text_features, numeric_features, labels, batch_size,
             iterator_initializer_hook.iterator_initializer_func = \
                 lambda sess: sess.run(
                     iterator.initializer,
-                    feed_dict={text_features_placeholder: text_features,
-                               # numeric_featuress_placeholder: numeric_features,
+                    feed_dict={word_features_placeholder: word_ids,
+                               char_features_placeholder: char_ids,
                                labels_placeholder: labels})
 
             next_features, next_label = iterator.get_next()
@@ -167,3 +170,18 @@ def setup_input_graph2(text_features, numeric_features, labels, batch_size,
 
     # Return function and hook
     return inputs, iterator_initializer_hook
+
+def test_inputs2(word_ids, char_ids, batch_size=1, scope='test-data'):
+    """Returns test set as Operations.
+    Returns:
+        (features, ) Operations that iterate over the test set.
+    """
+    def inputs():
+        with tf.name_scope(scope):
+            word_ids_constant = tf.constant(word_ids, dtype=tf.int32)
+            char_ids_constant = tf.constant(char_ids, dtype=tf.int32)
+            dataset = tf.data.Dataset.from_tensor_slices(({"word_ids": word_ids_constant, "char_ids": char_ids_constant},))
+            # Return as iteration in batches of 1
+            return dataset.batch(batch_size).make_one_shot_iterator().get_next()
+
+    return inputs

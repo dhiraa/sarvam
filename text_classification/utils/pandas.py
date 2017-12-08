@@ -13,6 +13,8 @@ from sklearn.preprocessing import LabelBinarizer
 
 from utils.spacy import tokenize
 
+from utils.colorful_logger import *
+
 def size_mb(docs):
     # Each char is a byte and divide it by 100000
     return sum(len(s.encode('utf-8')) for s in docs) / 1e6
@@ -24,9 +26,26 @@ class TextDataFrame():
                  text_col: str,
                  category_col: str,
                  test_df_path: str='',
+                 max_doc_legth=100,
+                 max_word_length=15,
                  model_name="model_name" ):
         '''
         A simple class to maintain train/validation/test datasets, backed by Pandas Dataframe
+        
+        1. Load the train/val/test files into Pandas Dataframe
+        2. Prepare the dataset
+            - Prepare LabelTokenizer and LabelTokenizer
+            - If test data is not given, train data set is split into train/validation/test set
+            - If test data is given, train data set is split into train/validation set
+        3. Tokenize the sentence
+        4. Save the processed files
+        5. Prepare features for trianing/validation/testing
+            - Raw text data [NUM_OF_EXAMPLES,]
+            - Text word IDs [NUM_OF_EXAMPLES, MAX_DOC_LENGTH]
+            - Text word char IDs [NUM_OF_EXAMPLES, MAX_DOC_LENGTH, MAX_CHAR_LENGTH]
+            - Indexed category labels [NUM_OF_EXAMPLES,]
+            - One hot encoded labels [NUM_OF_EXAMPLES, NUM_CLASSES]
+        
         :param train_df_path: Path of the train file that can be opened by Pandas as Dataframe
         :param test_df_path: Path of the train file that can be opened by Pandas as Dataframe
         :param text_col: Text column Name
@@ -37,6 +56,9 @@ class TextDataFrame():
         self.test_df_path: str = test_df_path
         self.text_col = text_col
         self.category_col = category_col
+
+        self.MAX_DOC_LEGTH = max_doc_legth
+        self.MAX_WORD_LENGTH = max_word_length
 
         self.train_df, self.val_df, self.test_df = None, None, None
 
@@ -49,10 +71,11 @@ class TextDataFrame():
         model_name = model_name+"/"
         self.words_vocab_file = model_name + "words_vocab.tsv"
 
-        # preparing utils
+        # Tokenize the sentences and store them
         if not os.path.exists(model_name+"train_processed.csv") or \
                 not os.path.exists(model_name+"test_processed.csv") or \
                 not os.path.exists(model_name+"val_processed.csv"):
+
             self._prepare_data()
 
             self.train_df = tokenize(self.train_df, text_col)
@@ -75,8 +98,19 @@ class TextDataFrame():
             print('Done!')
 
         print("Preparing vocab file...")
-        self.vocab_count = tf_vocab_processor(self.train_df[text_col].tolist(),
+        self.vocab_count, self.vocab = naive_vocab_creater(self.train_df[text_col].tolist(),
                                               self.words_vocab_file)
+
+        self.word2id = {word: id for id, word in enumerate(self.vocab)}
+        self.id2word = {id:word for id, word in enumerate(self.vocab)}
+
+        self.char_vocab = get_char_vocab(self.vocab)
+
+        self.char2id = {word: id for id, word in enumerate(self.char_vocab)}
+        self.id2char = {id: word for id, word in enumerate(self.char_vocab)}
+
+        self.WORD_VOCAB_SIZE = len(self.word2id)
+        self.CHAR_VOCAB_SIZE = len(self.char2id)
 
         self.num_train_samples = self.train_df.shape[0]
 
@@ -157,7 +191,7 @@ class TextDataFrame():
 
     def _prepare_data(self):
 
-        # If there is no test utils, split the availble DF
+        # If there is no test data, split the train data into train and validation
         if not os.path.exists(self.test_df_path):
             self.train_df = self.get_train_df()
 
@@ -184,12 +218,15 @@ class TextDataFrame():
             else:
                 self.test_df = pd.read_pickle(self.test_df_path)
 
-    def _get_data_matrix(self, dataset_type='train_df'):
-        if dataset_type == 'train_df':
+    # Internal data set
+    #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+    def _get_text_data(self, what='train_df'):
+        if what == 'train_df':
             df = self.train_df[self.text_col]
-        if dataset_type == 'test_df':
+        if what == 'test_df':
             df = self.test_df[self.text_col]
-        if dataset_type == 'val_df':
+        if what == 'val_df':
             df = self.val_df[self.text_col]
 
         # return df.map(custom_replace).as_matrix()
@@ -207,6 +244,45 @@ class TextDataFrame():
 
         return self.label_binarizer.transform(df[self.category_col].as_matrix())
 
+    def _get_text_word_ids(self, df):
+        PAD_WORD_ID = 0
+        UNKNOWN_WORD_ID = 1
+        lines = df[self.text_col].as_matrix()
+        tokenized_lines_ids = [[self.word2id.get(word, UNKNOWN_WORD_ID) for word in line.split(" ")] for line in lines]
+        tokenized_lines_ids_padded, tokenized_lines_ids_length = pad_sequences(tokenized_lines_ids,
+                                                                               nlevels=1,
+                                                                               pad_tok=PAD_WORD_ID,
+                                                                               max_doc_legth=self.MAX_DOC_LEGTH,
+                                                                               max_word_length=self.MAX_WORD_LENGTH)
+        return np.array(tokenized_lines_ids_padded)
+
+    def _get_text_word_char_ids(self, df):
+        PAD_CHAR_ID = 0
+        UNKNOWN_CHAR_ID = 1
+        lines = df[self.text_col].as_matrix()
+        tokenized_words_id = []
+        lines_char_ids = []
+        char_ids = []
+
+        for line in lines:
+            for word in line.split(" "):
+                for char in word:
+                    char_ids.append(self.char2id.get(char, UNKNOWN_CHAR_ID))
+                lines_char_ids.append(char_ids)
+                char_ids = []
+            tokenized_words_id.append(lines_char_ids)
+            lines_char_ids = []
+
+        tokenized_words_id_padded, tokenized_words_id_length = pad_sequences(tokenized_words_id,
+                                                                             pad_tok=PAD_CHAR_ID,
+                                                                            nlevels=2,
+                                                                             max_word_length=self.MAX_WORD_LENGTH,
+                                                                             max_doc_legth=self.MAX_DOC_LEGTH)
+
+        return np.array(tokenized_words_id_padded)
+
+    # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
     def get_train_df(self):
         if self.train_df_path.endswith("csv"):
             full_df = pd.read_csv(self.train_df_path)
@@ -219,23 +295,50 @@ class TextDataFrame():
     def get_test_df(self):
         return self.test_df
 
-    def get_train_data(self):
+    def get_train_text_data(self):
         # return self.train_df[self.text_col].map(lambda x: self.replace(x)).as_matrix()
-        docs = self._get_data_matrix('train_df')
+        docs = self._get_text_data('train_df')
         print("Size of train utils: %0.3fMB" % (size_mb(docs)))
         return docs
 
-    def get_val_data(self):
+    def get_val_text_data(self):
         # return self.val_df[self.text_col].map(lambda x: self.replace(x)).as_matrix()
-        docs = self._get_data_matrix('val_df')
+        docs = self._get_text_data('val_df')
         print("Size of validation utils: %0.3fMB" % (size_mb(docs)))
         return docs
 
-    def get_test_data(self):
+    def get_test_text_data(self):
         # return self.test_df[self.text_col].map(lambda x: self.replace(x)).as_matrix()
-        docs = self._get_data_matrix('test_df')
+        docs = self._get_text_data('test_df')
         print("Size of test utils: %0.3fMB" % (size_mb(docs)))
         return docs
+
+    def get_train_text_word_ids(self):
+        docs = self._get_text_word_ids(self.train_df)
+        # print("Size of train utils: %0.3fMB" % (size_mb(docs)))
+        return docs
+
+    def get_val_text_word_ids(self):
+        docs = self._get_text_word_ids(self.val_df)
+        # print("Size of train utils: %0.3fMB" % (size_mb(docs)))
+        return docs
+
+    def get_test_text_word_ids(self):
+        docs = self._get_text_word_ids(self.test_df)
+        # print("Size of train utils: %0.3fMB" % (size_mb(docs)))
+        return docs
+
+    def get_train_text_word_char_ids(self):
+        ret = self._get_text_word_char_ids(self.train_df)
+        return ret
+
+    def get_val_text_word_char_ids(self):
+        ret = self._get_text_word_char_ids(self.val_df)
+        return ret
+
+    def get_test_text_word_char_ids(self):
+        ret = self._get_text_word_char_ids(self.test_df)
+        return ret
 
     def get_train_label(self):
         return self._get_target_label(self.train_df)
@@ -256,6 +359,84 @@ class TextDataFrame():
         return self._get_one_hot_target_label(self.test_df)
 
 #==============================================================================
+
+def naive_vocab_creater(lines, out_file_name):
+    final_vocab = ["<PAD>", "<UNK>"]
+    vocab = [word for line in lines for word in line.split(" ")]
+    vocab = set(vocab)
+
+    try:
+        vocab.remove("<UNK>")
+    except:
+        print("No <UNK> token found")
+
+    vocab = list(vocab)
+    final_vocab.extend(vocab)
+
+    print_warn(out_file_name)
+
+    # Create a file and store the words
+    with gfile.Open(out_file_name, 'wb') as f:
+        for word in final_vocab:
+            f.write("{}\n".format(word))
+
+    return len(final_vocab), final_vocab
+
+def _pad_sequences(sequences, pad_tok, max_length):
+    """
+    Args:
+        sequences: a generator of list or tuple
+        pad_tok: the char to pad with
+
+    Returns:
+        a list of list where each sublist has same length
+    """
+    sequence_padded, sequence_length = [], []
+
+    for seq in sequences:
+        seq = list(seq)
+        seq_ = seq[:max_length] + [pad_tok]*max(max_length - len(seq), 0)
+        sequence_padded +=  [seq_]
+        sequence_length += [min(len(seq), max_length)]
+
+    return sequence_padded, sequence_length
+
+
+def pad_sequences(sequences, pad_tok, nlevels, max_doc_legth, max_word_length):
+    """
+    Args:
+        sequences: a generator of list or tuple
+        pad_tok: the char to pad with
+        nlevels: "depth" of padding, for the case where we have characters ids
+
+    Returns:
+        a list of list where each sublist has same length
+
+    """
+    if nlevels == 1:
+        max_length  = max_doc_legth
+        sequence_padded, sequence_length = _pad_sequences(sequences,
+                                                          pad_tok, max_length)
+        #breaking the code to pad the string instead on its ids
+
+        # print_info(sequence_length)
+    elif nlevels == 2:
+        # max_length_word = max([max(map(lambda x: len(x), seq))
+        #                        for seq in sequences])
+        sequence_padded, sequence_length = [], []
+        for seq in tqdm(sequences):
+            # all words are same length now
+            sp, sl = _pad_sequences(seq, pad_tok, max_word_length)
+            sequence_padded += [sp]
+            sequence_length += [sl]
+
+        sequence_padded, _ = _pad_sequences(sequence_padded,
+                                            [pad_tok]*max_word_length,
+                                            max_doc_legth)
+        sequence_length, _ = _pad_sequences(sequence_length, 0,
+                                            max_doc_legth)
+
+    return sequence_padded, sequence_length
 
 def tf_vocab_processor(lines, out_file_name, max_doc_length=1000, min_frequency=0):
     # Create vocabulary

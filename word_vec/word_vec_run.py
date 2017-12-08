@@ -5,53 +5,66 @@ sys.path.append("../")
 import pickle
 from word_vec.utils.downloader import *
 from word_vec.utils.common import vocab_to_tsv
-from word_vec.word2vec_v1 import Word2VecV1, Word2VecConfigV1
-from word_vec.utils.glove_data_iterator import setup_input_graph
-from word_vec.utils.preprocessing import *
+from word_vec.glove import *
+from word_vec.skip_gram import *
+from word_vec.utils.dataset import *
+from word_vec.utils.data_iterator import skip_gram_iterator
+
+TEXT_DIR = "tmp/text/"
+SKIP_GRAM_TRAIN_FILE = "tmp/skip_gram_dataset.pickle"
+
 def get_model(opt):
-    config = Word2VecConfigV1(vocab_size=int(opt.vocab_size),
-                            words_vocab_file="tmp/vocab.tsv",
-                            embedding_size=opt.embed_size,
-                            num_word_sample=64, #Negative sampling
-                            learning_rate=opt.learning_rate,
-                            model_dir="tmp/model/")
-    model = Word2VecV1(config)
+    if opt.model == "skip_gram":
+        config = SkipGramConfig(vocab_size=int(opt.vocab_size),
+                                words_vocab_file="tmp/vocab.tsv",
+                                embedding_size=opt.embed_size,
+                                num_word_sample=64,  #Negative sampling
+                                learning_rate=int(opt.learning_rate),
+                                model_dir="tmp/model/")
+        model = SkipGram(config)
+    else:
+        model= ""
     return model
 
 def word_vec(opt):
-
-    TEXT_DIR = "tmp/text/"
-    TRAIN_FILE = "tmp/train_data.pickle"
-
     if not os.path.exists(TEXT_DIR):
         print("!!! RUN setup.sh !!!")
         exit(0)
 
-    if not os.path.exists(TRAIN_FILE):
-        dataset = GloveDataset(vocabulary_size=int(opt.vocab_size),
+    if not os.path.exists(SKIP_GRAM_TRAIN_FILE):
+        dataset = TextDataset(vocabulary_size=int(opt.vocab_size),
                                min_occurrences=5,
                                window_size=int(opt.window_size),
                                name='GloveDataset',
                                text_dir=TEXT_DIR)
 
         dataset.prepare()
-    else:
-        TRAIN_DATA = pickle.load(open(TRAIN_FILE, "rb"))
+        del dataset
+
+    input("Press ENTER to continue to run the model...")
+    print("Loading train data...")
+    TRAIN_DATA = pickle.load(open(SKIP_GRAM_TRAIN_FILE, "rb"))
 
     model = get_model(opt)
 
-    NUM_EXAMPLES = TRAIN_DATA["words"].shape[0]
+    NUM_EXAMPLES = len(TRAIN_DATA["center_words"])
     NUM_EPOCHS = int(opt.num_epochs)
     BATCH_SIZE = int(opt.batch_size)
     MAX_STEPS = (NUM_EXAMPLES // BATCH_SIZE) * NUM_EPOCHS
 
-    input_fn, intput_hook = setup_input_graph(TRAIN_DATA, BATCH_SIZE)
+    input_fn, intput_hook = skip_gram_iterator(TRAIN_DATA, BATCH_SIZE)
+
     store_hook = model.get_store_hook()
 
     model.train(input_fn=input_fn, hooks=[intput_hook, store_hook], steps=MAX_STEPS)
 
 if __name__ == "__main__":
-    optparse = argparse.ArgumentParser("Prepare data for Tensorflow training...")
+    optparse = argparse.ArgumentParser("Word2Vec")
+
+    optparse.add_argument('-m', '--model', action='store',
+                          dest='model', required=False,
+                          default="skip_gram",
+                          help='skip_gram or glove')
 
     optparse.add_argument('-ne', '--num_epochs', action='store',
                           dest='num_epochs', required=False,
@@ -82,6 +95,6 @@ if __name__ == "__main__":
     optparse.add_argument('-lr', '--learning_rate', action='store',
                           dest='learning_rate', required=False,
                           default=1.0,
-                          help='Learning Rate (0.001)')
+                          help='Learning Rate (1.0)')
 
     word_vec(opt = optparse.parse_args())

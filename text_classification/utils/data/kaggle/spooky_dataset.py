@@ -3,8 +3,8 @@ from utils.tf_data_iterators import *
 from utils.spacy import *
 
 
-TRAIN_FILE_PATH = "../../data/spooky-author-identification/input/train.csv"
-TEST_FILE_PATH = "../../data/spooky-author-identification/input/test.csv"
+TRAIN_FILE_PATH = "../../data/spooky_author_identification/input/train.csv"
+TEST_FILE_PATH = "../../data/spooky_author_identification/input/test.csv"
 
 TEXT_COL = "text"
 CATEGORY_COL = "author"
@@ -24,9 +24,9 @@ dataset = TextDataFrame(train_df_path=TRAIN_FILE_PATH,
                         model_name="fast-text-v0-")
                         
 # To get the features:
-train_data = dataset.get_train_data()
-val_data = dataset.get_val_data()
-test_data = dataset.get_test_data()
+train_data = dataset.get_train_text_data()
+val_data = dataset.get_val_text_data()
+test_data = dataset.get_test_text_data()
 
 # To get indexed category labels:
 train_label = dataset.get_train_label()
@@ -44,12 +44,12 @@ train_input_fn, train_input_hook = setup_input_graph(train_data,
                                                       batch_size=BATCH_SIZE, 
                                                       scope='train-utils')
 
-eval_input_fn, eval_input_hook =  setup_input_graph(dataset.get_val_data(),
+eval_input_fn, eval_input_hook =  setup_input_graph(dataset.get_val_text_data(),
                                                      val_one_hot_encoded_label,
                                                     batch_size=BATCH_SIZE, 
                                                     scope='eval-utils')
                                                                                                           
-test_input_fn =  test_inputs(dataset.get_test_data(), 
+test_input_fn =  test_inputs(dataset.get_test_text_data(), 
                                         batch_size=1, 
                                         scope='test-utils')
                                         
