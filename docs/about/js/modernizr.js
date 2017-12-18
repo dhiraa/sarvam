@@ -1030,7 +1030,7 @@ window.Modernizr = (function( window, document, undefined ) {
         /** The id for the the documents expando */
         var expanID = 0;
 
-        /** Cached utils for each document */
+        /** Cached data for each document */
         var expandoData = {};
 
         /** Detect whether the browser supports unknown elements */
@@ -1089,10 +1089,10 @@ window.Modernizr = (function( window, document, undefined ) {
         }
 
         /**
-         * Returns the utils associated to the given document
+         * Returns the data associated to the given document
          * @private
          * @param {Document} ownerDocument The document.
-         * @returns {Object} An object of utils.
+         * @returns {Object} An object of data.
          */
         function getExpandoData(ownerDocument) {
           var data = expandoData[ownerDocument[expando]];
@@ -1250,7 +1250,7 @@ window.Modernizr = (function( window, document, undefined ) {
            * @memberOf html5
            * @type Array|String
            */
-          'elements': options.elements || 'abbr article aside audio bdi canvas utils datalist details dialog figcaption figure footer header hgroup main mark meter nav output progress section summary template time video',
+          'elements': options.elements || 'abbr article aside audio bdi canvas data datalist details dialog figcaption figure footer header hgroup main mark meter nav output progress section summary template time video',
 
           /**
            * current version of html5shiv
