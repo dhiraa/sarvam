@@ -379,7 +379,9 @@ v_{j} & = \frac{\| s_{j} \|^2}{ 1 + \| s_{j} \|^2} \frac{s_{j}}{ \| s_{j} \|}  \
 \end{split} %]]>
 $$
 
-Intuitively, prediction vector $u^{j|i}$ is the prediction (vote) from the capsule $i$ on the output of the capsule $j$ above. If the activity vector has close similarity with the prediction vector, we conclude that capsule $i$ is highly related with the capsule $j$. (For example, the eye capsule is highly related to the face capsule.) Such similarity is measured using the scalar product of the prediction and activity vector. Therefore, the similarity takes into account on both likeliness and the feature properties. (instead of just likeliness in neurons) We compute a relevancy score $b_ij$ according to the similarity:
+- Intuitively, prediction vector $u^{j|i}$ is the prediction (vote) from the capsule $i$ on the output of the capsule $j$ above. 
+- If the activity vector has close similarity with the prediction vector, we conclude that capsule $i$ is highly related with the capsule $j$. (For example, the eye capsule is highly related to the face capsule.) 
+- Such similarity is measured using the scalar product of the prediction and activity vector. Therefore, the similarity takes into account on both likeliness and the feature properties. (instead of just likeliness in neurons) We compute a relevancy score $b_ij$ according to the similarity:
 
 $$
 \begin{split}
@@ -406,7 +408,7 @@ $$
 
 Here is the final pseudo code for the dynamic routing:
 ![](../../docs/assets/capsules/alg.jpg)
-![]({{"../../docs/assets/capsules/alg.jpg" | absolute_url }})
+![]({{"/sarvam/assets/capsules/alg.jpg" | absolute_url }})
 
 ```
 Routing a capsule to the capsule in the layer above based on relevancy is called Routing-by-agreement.
@@ -418,7 +420,7 @@ Routing a capsule to the capsule in the layer above based on relevancy is called
 The max pooling in a CNN handles translational variance. Even a feature is slightly moved, if it is still within the pooling window, it can still be detected. Nevertheless, this approach keeps only the max feature (the most dominating) and throws away the others. Capsules maintain a weighted sum of features from the previous layer. Hence, it is more suitable in detecting overlapping features. For example detecting multiple overlapping digits in the handwriting:
 
 ![](../../docs/assets/capsules/over.jpg)
-![]({{"../../docs/assets/capsules/over.jpg" | absolute_url }})
+![]({{"/sarvam/assets/capsules/over.jpg" | absolute_url }})
 
 ### Significant of routing-by-agreement with capsules
 
@@ -427,13 +429,13 @@ In deep learning, we use backpropagation to train the model’s parameters based
 Iterative dynamic routing provides an alternative of how signal is routed based on feature parameters rather than one size fit all cost function. By utilizing the feature parameters, we can theoretically group capsules better to form a high level structure. For example, the capsule layers may eventually behaves as a parse tree that explore the part-whole relationship. (for example, a face is composed of eyes, a nose and a mouth) The iterative dynamic routing controls how much a signal is propagate upward to the capsules above utilizing the transformation matrix, the likeliness and the feature’s properties.
 
 ![](../../docs/assets/capsules/face7.jpg)
-![]({{"../../docs/assets/capsules/face7.jpg" | absolute_url }})
+![]({{"/sarvam/assets/capsules/face7.jpg" | absolute_url }})
 
 The iterative dynamic routing with capsules is just one showcase in demonstrating the routing-by-agreement. We expect more capsule models with advance routing methods will be introduced in coming years. In a second paper on capsules Matrix capsules with EM routing, a [likeliness, 4x4 pose matrix] matrix capsule is proposed (rather than a k-D vector capsule) with a new Expectation-maximization routing (EM routing). The pose matrices are designed to capture the viewpoint of the object. For example, the second row of the picture below represent the same object above with a different pose matrix (viewpoint).
 
 
 ![](../../docs/assets/capsules/data.png)
-![]({{"../../docs/assets/capsules/data.png" | absolute_url }})
+![]({{"/sarvam/assets/capsules/data.png" | absolute_url }})
 
 (Source from the paper Matrix capsules with EM routing)
 
@@ -441,7 +443,7 @@ The iterative dynamic routing with capsules is just one showcase in demonstratin
 The objective of the EM routing is to group capsules to form a part-whole relationship with a clustering technique (EM). In machine learning, we use EM to cluster datapoints into different Gaussian distributions. For example, we cluster the datapoints below into two clusters modeled by two gaussian distributions.
 
 ![](../../docs/assets/capsules/GM2.png)
-![]({{"../../docs/assets/capsules/GM2.png" | absolute_url }})
+![]({{"/sarvam/assets/capsules/GM2.png" | absolute_url }})
 
 For the mouth, eyes and nose capsules in the lower layer, each of them makes predictions (votes) on the pose matrices of its possible parent capsule(s) through a transformation matrix. The role of the EM routing is to cluster lower level capsules that produce similar votes. Conceptually the votes from the mouth, eyes and nose capsules may cluster into the pink region above that can be represented by their parent capsule (face).
 
@@ -453,7 +455,7 @@ The transformation matrix to compute the vote is **viewpoint invariant**. We **d
 
 
 ![](../../docs/assets/capsules/cluster2.png)
-![]({{"../../docs/assets/capsules/cluster2.png" | absolute_url }})
+![]({{"/sarvam/assets/capsules/cluster2.png" | absolute_url }})
 
 Hence, the EM routing groups related capsules regardless of the viewpoint. Unlike CNN which each neuron may detect a different viewpoint, the transformation matrix is viewpoint independent which may require less data to train.
 
@@ -465,12 +467,8 @@ New capsules and routing algorithm will hopefully build higher level structures 
 
 Finally, we apply capsules to build the CapsNet to classify the MNist digits. The following is the architecture using CapsNet.
 
-<div class="imgcap">
-<img src="/assets/capsule/arch1.jpg" style="border:none;width:70%;">
-</div>
-
 ![](../../docs/assets/capsules/arch1.jpg)
-![]({{"../../docs/assets/capsules/arch1.jpg" | absolute_url }})
+![]({{"/sarvam/assets/capsules/arch1.jpg" | absolute_url }})
 
 Image is feed into the ReLU Conv1 which is a standard convolution layer. It applies 256 9x9 kernels to generate an output with 256 channels (feature maps). With stride 1 and no padding, the spatial dimension is reduced to 20x20. ( 28-9+1=20) 
 
@@ -511,7 +509,7 @@ Here is the summary of each layers:
 
 
 ![](../../docs/assets/capsules/capsnet.png)
-![]({{"../../docs/assets/capsules/capsnet.png" | absolute_url }})
+![]({{"/sarvam/assets/capsules/capsnet.png" | absolute_url }})
 
 ### Representations in MNIST
 The CapsNet above is trained on MNIST, and then the capsules are probed by feeding perturbed versions of the activity vector into the decoder network to see how the perturbation affects the reconstruction.
@@ -523,13 +521,8 @@ Since we are passing the encoding of only one digit and zeroing out other digits
 
 Here are some examples of the learned dimensions:
 
-<div class="imgcap">
-<img src="/assets/capsules/capsnet-fig-4.jpeg" style="border:none;width:40%;">
-</div>
-
-
 ![](../../docs/assets/capsules/capsnet-fig-4.jpeg)
-![]({{"../../docs/assets/capsules/capsnet-fig-4.jpeg" | absolute_url }})
+![]({{"/sarvam/assets/capsules/capsnet-fig-4.jpeg" | absolute_url }})
 
 With a 3-layer network, CapsNet overall achieves a 0.25% test error – an accuracy previously only achieved by deeper networks.
 
@@ -546,7 +539,7 @@ Dynamic routing can be viewed as a parallel attention mechanism that allows each
 And indeed it does! A generated MultiMNIST training and test dataset is created by overlaying one digit on top of another with a shift of up to 4 pixels on each axis. CapsNet is correctly able to segment the image into the two original digits. The segmentation happens at a higher level than individual pixels, and so it can deal correctly with cases where a pixel is in both digits, while still accounting for all pixels.
 
 ![](../../docs/assets/capsules/capsnet-fig-5.jpeg)
-![]({{"../../docs/assets/capsules/capsnet-fig-5.jpeg" | absolute_url }})
+![]({{"/sarvam/assets/capsules/capsnet-fig-5.jpeg" | absolute_url }})
 
 
 ```python
@@ -555,7 +548,7 @@ And indeed it does! A generated MultiMNIST training and test dataset is created 
 ```
 
     [NbConvertApp] Converting notebook 2017-12-18-CapsulesCookBook.ipynb to markdown
-    [NbConvertApp] Writing 35252 bytes to ../../docs/_posts/2017-12-18-CapsulesCookBook.md
+    [NbConvertApp] Writing 35237 bytes to ../../docs/_posts/2017-12-18-CapsulesCookBook.md
 
 
 
