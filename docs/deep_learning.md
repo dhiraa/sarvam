@@ -1,7 +1,9 @@
 ---
 layout: about
 title: About
-permalink: /Deep Learning/
+permalink: /deep_learning/
 ---
+
+# Deep Learning
 
 

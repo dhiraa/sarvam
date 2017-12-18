@@ -1,7 +1,7 @@
 ---
-layout: about
-title: About
-permalink: /Data Science/
+layout: page
+title: Data Science Basics
+permalink: /data_science_basics/
 ---
 
 

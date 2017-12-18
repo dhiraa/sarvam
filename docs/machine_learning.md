@@ -1,7 +1,9 @@
 ---
-layout: about
-title: About
-permalink: /Machine Learning/
+layout: page
+title: Machine Learning
+permalink: /machine_learning/
 ---
+
+# Machine Learning
 
 

@@ -1,7 +1,7 @@
 ---
-layout: about
-title: About
-permalink: /NLP/
+layout: page
+title: NLP
+permalink: /nlp/
 ---
 
 
