@@ -186,20 +186,23 @@ A 2-D capsule is formed by combining 2 neurons. This capsule outputs a 2-D vecto
 For the first image in the second row, it outputs a vector $v=(0,0.9)$ The magnitude of the vector $\sqrt{0^2 + 0.9^2}=0.9$ corresponds to the probability of detecting “7”. The second image of each row looks more like a “1” than a “7”. Therefore its corresponding likelihood as “7” is smaller (smaller scaler value or smaller vector’s magnitude but with the same orientation) .
 
 ![](../../docs/assets/capsules/cap1.jpg)
-![]({{"../../docs/assets/capsules/cap1.jpg" | absolute_url }})
+![]({{"/sarvam/assets/capsules/cap1.jpg" | absolute_url }})
 
 n the third row, we rotate the image by 20°. The capsule will generate vectors with the same magnitude but different orientations. Here, the angle of the vector represents the angle of rotation for the number “7”. As we can image, we can add 2 more neurons to a capsule to capture the size and stroke width.
 
 ![](../../docs/assets/capsules/style.jpg)
-![]({{"../../docs/assets/capsules/style.jpg" | absolute_url }})
+![]({{"/sarvam/assets/capsules/style.jpg" | absolute_url }})
 
 
-```We call the output vector of a capsule as the activity vector with magnitude represents the probability of detecting a feature and its orientation represents its parameters (properties).
+```
+We call the output vector of a capsule as the activity vector with magnitude represents the probability of detecting a feature and its orientation represents its parameters (properties).
+
 ```
 
 ### Exponential inefficiencies
 
 For thirty years, the state-of-the-art in speech recognition used hidden Markov models with Gaussian mixtures, together with a one-of-n representation encoding.
+
 
 ```
 Page/Section: 8/8:
@@ -258,7 +261,7 @@ $$\hat{u}_{j|i} = W_{ij}u_i$$
 Recall a fully connected neural network:
 
 ![](../../docs/assets/capsules/fc1.jpg)
-![]({{"../../docs/assets/capsules/fc1.jpg" | absolute_url }})
+![]({{"/sarvam/assets/capsules/fc1.jpg" | absolute_url }})
 
 The output of each neuron is computed from the output of the neurons from the previous layer:
 
@@ -275,7 +278,7 @@ where $W_{ij}, z_j$ and $y_i$ are all scalaras
 For a capsule, the input $u_i$ and the output $v_j$ of a capsule are vectors.
 
 ![](../../docs/assets/capsules/fc2.jpg)
-![]({{"../../docs/assets/capsules/fc2.jpg" | absolute_url }})
+![]({{"/sarvam/assets/capsules/fc2.jpg" | absolute_url }})
 
 We apply a transformation matrix $W_{ij}$ to the capsule output $u_i$ of the pervious layer. For example, with a $m×k$ matrix, we transform a k-D $u_i$ to a m-D $u^{j|i}$. $((m×k) × (k×1)⟹m×1)$ Then we compute a weighted sum $s_j$ with weights $c_{ij}$.
 
@@ -313,7 +316,7 @@ $$
 A Capsule Network, or CapsNet combines multiple capsule layers. For example, here’s a sample network for the MNIST handwritten digit recognition task:
 
 ![](../../docs/assets/capsules/capsnet.png)
-![]({{"../../docs/assets/capsules/capsnet.png" | absolute_url }})
+![]({{"/sarvam/assets/capsules/capsnet.png" | absolute_url }})
 
 In general, the idea is to form a ‘parse tree’ of the scene. Layers are divided into capsules and capsules recognise parts of the scene. Active capsules in a layer from part of the parse tree, and each active capsule chooses a capsule in the layer above to be its parent in the tree.
 
@@ -353,7 +356,7 @@ $$
 In deep learning, we use backpropagation to train model parameters. The transformation matrix $W_{ij}$ in capsules are still trained with backpropagation. Nevertheless, the coupling coefficients $c_{ij}$ are calculated with a new iterative dynamic routing method.
 
 ![](../../docs/assets/capsules/face6.jpg)
-![]({{"../../docs/assets/capsules/face6.jpg" | absolute_url }})
+![]({{"/sarvam/assets/capsules/face6.jpg" | absolute_url }})
 
 The prediction vector u^j|iu^j|i is computed as (with the transformation matrix):
 
@@ -552,7 +555,7 @@ And indeed it does! A generated MultiMNIST training and test dataset is created 
 ```
 
     [NbConvertApp] Converting notebook 2017-12-18-CapsulesCookBook.ipynb to markdown
-    [NbConvertApp] Writing 35185 bytes to ../../docs/_posts/2017-12-18-CapsulesCookBook.md
+    [NbConvertApp] Writing 35252 bytes to ../../docs/_posts/2017-12-18-CapsulesCookBook.md
 
 
 
