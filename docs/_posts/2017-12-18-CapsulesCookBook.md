@@ -371,6 +371,7 @@ which uiui is the activity vector for the capsule $i$ in the layer below.
 
 The activity vector $v_j$ for the capsule $j$ in the layer above is computed as:
 
+
 $$
 % <![CDATA[
 \begin{split}
@@ -378,6 +379,7 @@ s_j & = \sum_i c_{ij}  \hat{u}_{j|i} \\
 v_{j} & = \frac{\| s_{j} \|^2}{ 1 + \| s_{j} \|^2} \frac{s_{j}}{ \| s_{j} \|}  \\
 \end{split} %]]>
 $$
+
 
 - Intuitively, prediction vector $u^{j|i}$ is the prediction (vote) from the capsule $i$ on the output of the capsule $j$ above. 
 - If the activity vector has close similarity with the prediction vector, we conclude that capsule $i$ is highly related with the capsule $j$. (For example, the eye capsule is highly related to the face capsule.) 
@@ -548,7 +550,7 @@ And indeed it does! A generated MultiMNIST training and test dataset is created 
 ```
 
     [NbConvertApp] Converting notebook 2017-12-18-CapsulesCookBook.ipynb to markdown
-    [NbConvertApp] Writing 35237 bytes to ../../docs/_posts/2017-12-18-CapsulesCookBook.md
+    [NbConvertApp] Writing 35008 bytes to ../../docs/_posts/2017-12-18-CapsulesCookBook.md
 
 
 
