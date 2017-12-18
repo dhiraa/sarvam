@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Miniflow"
+title:  "CapsulesCookBook"
 description: "Capsule Neural Network Cookbook"
 excerpt: "Capsule Neural Network Cookbook"
 date:   2017-12-18
@@ -13,7 +13,7 @@ comments: true
 “A capsule is a group of neurons whose activity vector represents the instantiation parameters of a specific type of entity such as an object or object part. We use the length of the activity vector to represent the probability that the entity exists and its orientation to represent the instantiation parameters. Active capsules at one level make predictions, via transformation matrices, for the instantiation parameters of higher-level capsules. When multiple predictions agree, a higher level capsule becomes active. We show that a discriminatively trained, multi-layer capsule system achieves state-of-the-art performance on MNIST and is considerably better than a convolutional net at recognizing highly overlapping digits. To achieve these results we use an iterative routing-by-agreement mechanism: A lower-level capsule prefers to send its output to higher level capsules whose activity vectors have a big scalar product with the prediction coming from the lower-level capsule.”
 
 ![](../../docs/assets/capsules/capsnet.png)
-![]({{"../../docs/assets/capsules/capsnet.png" | absolute_url }})
+![]({{"assets/capsules/capsnet.png" | absolute_url }})
 
 ## Papers:
 - [Dynamic Routing Between Capsules](https://arxiv.org/abs/1710.09829)
@@ -22,11 +22,11 @@ comments: true
 ## References
 
 ### Reading Materials
-- https://blog.acolyer.org/2017/11/13/dynamic-routing-between-capsules/
-- https://hackernoon.com/what-is-a-capsnet-or-capsule-network-2bfbe48769cc
-- **https://jhui.github.io/2017/11/03/Dynamic-Routing-Between-Capsules/**
+- [https://blog.acolyer.org/2017/11/13/dynamic-routing-between-capsules/](https://blog.acolyer.org/2017/11/13/dynamic-routing-between-capsules/)
+- [https://hackernoon.com/what-is-a-capsnet-or-capsule-network-2bfbe48769cc](https://hackernoon.com/what-is-a-capsnet-or-capsule-network-2bfbe48769cc)
+- **[https://jhui.github.io/2017/11/03/Dynamic-Routing-Between-Capsules/](https://jhui.github.io/2017/11/03/Dynamic-Routing-Between-Capsules/)**
 - https://jhui.github.io/2017/11/14/Matrix-Capsules-with-EM-routing-Capsule-Network/
-- **https://dasayan05.github.io/blog/jekyll/update/2017/11/20/an-intuitive-understanding-of-capsules.html**
+- **[https://dasayan05.github.io/blog/jekyll/update/2017/11/20/an-intuitive-understanding-of-capsules.html](https://dasayan05.github.io/blog/jekyll/update/2017/11/20/an-intuitive-understanding-of-capsules.html)**
 - https://becominghuman.ai/understand-and-apply-capsnet-on-traffic-sign-classification-a592e2d4a4ea
 
 ### References
@@ -39,8 +39,8 @@ comments: true
 - https://www.youtube.com/watch?v=VKoLGnq15RM
 
 ### Code Bases
-- https://github.com/naturomics/CapsNet-Tensorflow
-- https://github.com/naturomics/CapsLayer
+- [https://github.com/naturomics/CapsNet-Tensorflow](https://github.com/naturomics/CapsNet-Tensorflow)
+- [https://github.com/naturomics/CapsLayer](https://github.com/naturomics/CapsLayer)
 - https://www.kaggle.com/kmader/capsulenet-on-mnist
 - https://github.com/debarko/CapsNet-Tensorflow
 - https://github.com/gram-ai/capsule-networks
@@ -55,7 +55,7 @@ comments: true
 CNN are essentially a system where we stack a lot of neurons together. These networks have been proven to be exceptionally great at handling image classification problems. It would be hard to have a neural network map out all the pixels of an image since it‘s computationally really expensive. So convolutional is a method which helps you simplify the computation to a great extent without losing the essence of the data. **Convolution is basically a lot of matrix multiplication and summation of those results.**
 
 ![](../../docs/assets/capsules/cnn1.jpeg)
-![]({{"../../docs/assets/capsules/cnn1.jpeg" | absolute_url }})
+![]({{"/assets/capsules/cnn1.jpeg" | absolute_url }})
 
 After an image is fed to the network, a set of kernels or filters scan it and perform the convolution operation. This leads to creation of feature maps inside the network. These features next pass via activation layer and pooling layers in succession and then based on the number of layers in the network this continues. 
 
@@ -84,7 +84,7 @@ Lets understand this with an example. If you are trying to classify **ships** an
 This was never the intention of pooling layer. What the pooling was supposed to do is to **introduce positional, orientational, proportional invariances.** But the method we use to get this uses is very crude. In reality it adds all sorts of positional invariance. Thus leading to the dilemma of detecting right ship in above picture as a correct ship. **What we needed was not invariance but equivariance.** Invariance makes a CNN tolerant to small changes in the viewpoint. Equivariance makes a CNN understand the rotation or proportion change and adapt itself accordingly so that the spatial positioning inside an image is not lost. A ship will still be a smaller ship but the CNN will reduce its size to detect that. This leads us to the recent advancement of Capsule Networks.
 
 ![](../../docs/assets/capsules/cnn3.png)
-![]({{"../../docs/assets/capsules/cnn3.png" | absolute_url }})
+![]({{"/assets/capsules/cnn3.png" | absolute_url }})
 
 ##### Another Example
 
@@ -92,18 +92,18 @@ CNN is good at detecting features but less effective at exploring the spatial re
 
 
 ![](../../docs/assets/capsules/face2.jpg)
-![]({{"../../docs/assets/capsules/face2.jpg" | absolute_url }})
+![]({{"/assets/capsules/face2.jpg" | absolute_url }})
 
 A simple CNN model can extract the features for nose, eyes and mouth correctly but will wrongly activate the neuron for the face detection. Without realize the mis-match in spatial orientation and size, the activation for the face detection will be too high.
 
 ![](../../docs/assets/capsules/face4.jpg)
-![]({{"../../docs/assets/capsules/face4.jpg" | absolute_url }})
+![]({{"/assets/capsules/face4.jpg" | absolute_url }})
 
 
 Now, we imagine that each neuron contains the likelihood as well as properties of the features. For example, it outputs a vector containing** [likelihood, orientation, size]**. With this **spatial information**, we can detect the in-consistence in the orientation and size among the nose, eyes and ear features and therefore output a much lower activation for the face detection.
 
 ![](../../docs/assets/capsules/face5.jpg)
-![]({{"../../docs/assets/capsules/face5.jpg" | absolute_url }})
+![]({{"/assets/capsules/face5.jpg" | absolute_url }})
 
 Instead of using the term **neurons**, the technical paper uses the term **capsules** to indicate that capsules **output a vector** instead of a **single scaler value**.
 
@@ -112,13 +112,13 @@ Instead of using the term **neurons**, the technical paper uses the term **capsu
 Let’s examine how a CNN can handle viewpoint variants. For example, how to train a face detection neuron for different orientations.
 
 ![](../../docs/assets/capsules/sface3.jpg)
-![]({{"../../docs/assets/capsules/sface3.jpg" | absolute_url }})
+![]({{"/assets/capsules/sface3.jpg" | absolute_url }})
  
 Conceptually, we can say the CNN trains neurons to handle different orientations with a final top level face detection neuron.
 
 
 ![](../../docs/assets/capsules/cnn_face.jpg)
-![]({{"../../docs/assets/capsules/cnn_face.jpg" | absolute_url }})
+![]({{"/assets/capsules/cnn_face.jpg" | absolute_url }})
 
 As noted above, for a CNN to handle viewpoint or style variants, we add more convolution layers and features maps. Nevertheless this approach tends to memorize the dataset rather than generalize a solution. It requires a large volume of training data to cover different variants and to avoid overfitting. MNist dataset contains 55,000 training data. i.e. 5,500 samples per digits. However, it is unlikely that children need to read this large amount of samples to learn digits. Our existing deep learning models including CNN seem inefficient in utilizing datapoints. Here is an ironic quote from Geoffrey Hinton:
 
@@ -131,12 +131,12 @@ It (convolutional network) works depressingly well.
 Instead of capture a feature with a specific variant, a capsule is trained to capture the likeliness of a feature and its variant. So the purpose of the capsule is not only to detect a feature but also to train the model to learn the variant.
 
 ![](../../docs/assets/capsules/c21.jpg)
-![]({{"../../docs/assets/capsules/c21.jpg" | absolute_url }})
+![]({{"/assets/capsules/c21.jpg" | absolute_url }})
 
 Such that the same capsule can detect the same object class with different orientations (for example, rotate clockwise):
 
 ![](../../docs/assets/capsules/c22.jpg)
-![]({{"../../docs/assets/capsules/c23.jpg" | absolute_url }})
+![]({{"/assets/capsules/c23.jpg" | absolute_url }})
 
 **Invariance** is the detection of features regardless of the variants. For example, a nose-detection neuron detects a nose regardless of the orientation. However, the loss of **spatial orientation in a neuron will eventually hurt the effectiveness** of such invariance model.
 
@@ -550,6 +550,10 @@ And indeed it does! A generated MultiMNIST training and test dataset is created 
 # Convert this notebook for Docs
 ! jupyter nbconvert --to markdown --output-dir ../../docs/_posts 2017-12-18-CapsulesCookBook.ipynb
 ```
+
+    [NbConvertApp] Converting notebook 2017-12-18-CapsulesCookBook.ipynb to markdown
+    [NbConvertApp] Writing 34679 bytes to ../../docs/_posts/2017-12-18-CapsulesCookBook.md
+
 
 
 ```python
