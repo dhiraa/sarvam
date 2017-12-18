@@ -6,6 +6,6 @@ permalink: /deep_learning/
 
 # Deep Learning
 
-- [RNNs]({{ site.baseurl }}{% link sarvam/_collections/RNNs.md %})
+[RNNs]({{ site.baseurl }}{% link _collection/RNNs.md %})
 
 
