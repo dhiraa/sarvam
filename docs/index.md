@@ -7,6 +7,3 @@ layout: default
 
 # Home
 
-- Data Science Basics
-- Machine Learning
-- Deep Learning

@@ -1,6 +1,6 @@
 ---
-layout: about
-title: About
+layout: page
+title: Deep Learning
 permalink: /deep_learning/
 ---
 
