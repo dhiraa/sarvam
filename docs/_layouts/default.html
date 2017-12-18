@@ -1,21 +1,24 @@
-<!DOCTYPE html>
-<html lang="{{ page.lang | default: site.lang | default: "en" }}">
+---
+layout: default
+---
 
-  {% include head.html %}
-  {% seo %}
+<div class="home">
 
-  <body>
+  <!-- <h1 class="page-heading">Posts</h1> -->
+  {% assign sub_domain = "sarvam" %}
 
-    {% include header.html %}
+  {{ content }}
 
-    <main class="page-content" aria-label="Content" onclick="hideClass()">
-      <div class="wrapper">
-        {{ content }}
-      </div>
-    </main>
+  <ul class="post-list">
+    {% for post in site.posts %}
+      <li>
+        <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
+        <a class="post-link" href="{{ sub_domain | append: post.url | relative_url }}">{{ post.title | escape }}</a>
+        {{ post.excerpt }}
+      </li>
+    {% endfor %}
+  </ul>
 
-    {% include footer.html %}
+  <!-- <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | relative_url }}">via RSS</a></p> -->
 
-  </body>
-
-</html>
+</div>

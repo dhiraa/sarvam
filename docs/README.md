@@ -1,3 +1,3 @@
-# [dhīra](dhiraa.github.com) - energetic learner
+# [sarvam](dhiraa.github.com/sarvam) - energetic learner
 
-Yet another website out there to blog my Deep Learning exploration!
+Yet another website out there to blog my exploration!
