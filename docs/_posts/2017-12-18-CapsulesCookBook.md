@@ -470,7 +470,7 @@ New capsules and routing algorithm will hopefully build higher level structures 
 Finally, we apply capsules to build the CapsNet to classify the MNist digits. The following is the architecture using CapsNet.
 
 ![](../../docs/assets/capsules/arch1.jpg)
-![]({{"/sarvam/assets/capsules/arch1.jpg" | absolute_url }})
+![]({{"/assets/capsules/arch1.jpg" | absolute_url }})
 
 Image is feed into the ReLU Conv1 which is a standard convolution layer. It applies 256 9x9 kernels to generate an output with 256 channels (feature maps). With stride 1 and no padding, the spatial dimension is reduced to 20x20. ( 28-9+1=20) 
 
@@ -511,7 +511,7 @@ Here is the summary of each layers:
 
 
 ![](../../docs/assets/capsules/capsnet.png)
-![]({{"/sarvam/assets/capsules/capsnet.png" | absolute_url }})
+![]({{"/assets/capsules/capsnet.png" | absolute_url }})
 
 ### Representations in MNIST
 The CapsNet above is trained on MNIST, and then the capsules are probed by feeding perturbed versions of the activity vector into the decoder network to see how the perturbation affects the reconstruction.
@@ -550,7 +550,7 @@ And indeed it does! A generated MultiMNIST training and test dataset is created 
 ```
 
     [NbConvertApp] Converting notebook 2017-12-18-CapsulesCookBook.ipynb to markdown
-    [NbConvertApp] Writing 35010 bytes to ../../docs/_posts/2017-12-18-CapsulesCookBook.md
+    [NbConvertApp] Writing 34862 bytes to ../../docs/_posts/2017-12-18-CapsulesCookBook.md
 
 
 
