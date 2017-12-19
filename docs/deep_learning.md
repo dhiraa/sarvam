@@ -6,6 +6,6 @@ permalink: /deep_learning/
 
 # Deep Learning
 
-[RNNs](rnns)
+[RNNs]![]({{"/deep_learning/rnns" | absolute_url }})
 
 

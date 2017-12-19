@@ -13,7 +13,7 @@ comments: true
 “A capsule is a group of neurons whose activity vector represents the instantiation parameters of a specific type of entity such as an object or object part. We use the length of the activity vector to represent the probability that the entity exists and its orientation to represent the instantiation parameters. Active capsules at one level make predictions, via transformation matrices, for the instantiation parameters of higher-level capsules. When multiple predictions agree, a higher level capsule becomes active. We show that a discriminatively trained, multi-layer capsule system achieves state-of-the-art performance on MNIST and is considerably better than a convolutional net at recognizing highly overlapping digits. To achieve these results we use an iterative routing-by-agreement mechanism: A lower-level capsule prefers to send its output to higher level capsules whose activity vectors have a big scalar product with the prediction coming from the lower-level capsule.”
 
 ![](../../docs/assets/capsules/capsnet.png)
-![]({{"/sarvam/assets/capsules/capsnet.png" | absolute_url }})
+![]({{"/assets/capsules/capsnet.png" | absolute_url }})
 
 ## Papers:
 - [Dynamic Routing Between Capsules](https://arxiv.org/abs/1710.09829)
@@ -55,7 +55,7 @@ comments: true
 CNN are essentially a system where we stack a lot of neurons together. These networks have been proven to be exceptionally great at handling image classification problems. It would be hard to have a neural network map out all the pixels of an image since it‘s computationally really expensive. So convolutional is a method which helps you simplify the computation to a great extent without losing the essence of the data. **Convolution is basically a lot of matrix multiplication and summation of those results.**
 
 ![](../../docs/assets/capsules/cnn1.jpeg)
-![]({{"/sarvam/assets/capsules/cnn1.jpeg" | absolute_url }})
+![]({{"/assets/capsules/cnn1.jpeg" | absolute_url }})
 
 After an image is fed to the network, a set of kernels or filters scan it and perform the convolution operation. This leads to creation of feature maps inside the network. These features next pass via activation layer and pooling layers in succession and then based on the number of layers in the network this continues. 
 
@@ -84,7 +84,7 @@ Lets understand this with an example. If you are trying to classify **ships** an
 This was never the intention of pooling layer. What the pooling was supposed to do is to **introduce positional, orientational, proportional invariances.** But the method we use to get this uses is very crude. In reality it adds all sorts of positional invariance. Thus leading to the dilemma of detecting right ship in above picture as a correct ship. **What we needed was not invariance but equivariance.** Invariance makes a CNN tolerant to small changes in the viewpoint. Equivariance makes a CNN understand the rotation or proportion change and adapt itself accordingly so that the spatial positioning inside an image is not lost. A ship will still be a smaller ship but the CNN will reduce its size to detect that. This leads us to the recent advancement of Capsule Networks.
 
 ![](../../docs/assets/capsules/cnn3.png)
-![]({{"/sarvam/assets/capsules/cnn3.png" | absolute_url }})
+![]({{"/assets/capsules/cnn3.png" | absolute_url }})
 
 ##### Another Example
 
@@ -92,18 +92,18 @@ CNN is good at detecting features but less effective at exploring the spatial re
 
 
 ![](../../docs/assets/capsules/face2.jpg)
-![]({{"/sarvam/assets/capsules/face2.jpg" | absolute_url }})
+![]({{"/assets/capsules/face2.jpg" | absolute_url }})
 
 A simple CNN model can extract the features for nose, eyes and mouth correctly but will wrongly activate the neuron for the face detection. Without realize the mis-match in spatial orientation and size, the activation for the face detection will be too high.
 
 ![](../../docs/assets/capsules/face4.jpg)
-![]({{"/sarvam/assets/capsules/face4.jpg" | absolute_url }})
+![]({{"/assets/capsules/face4.jpg" | absolute_url }})
 
 
 Now, we imagine that each neuron contains the likelihood as well as properties of the features. For example, it outputs a vector containing** [likelihood, orientation, size]**. With this **spatial information**, we can detect the in-consistence in the orientation and size among the nose, eyes and ear features and therefore output a much lower activation for the face detection.
 
 ![](../../docs/assets/capsules/face5.jpg)
-![]({{"/sarvam/assets/capsules/face5.jpg" | absolute_url }})
+![]({{"/assets/capsules/face5.jpg" | absolute_url }})
 
 Instead of using the term **neurons**, the technical paper uses the term **capsules** to indicate that capsules **output a vector** instead of a **single scaler value**.
 
@@ -112,13 +112,13 @@ Instead of using the term **neurons**, the technical paper uses the term **capsu
 Let’s examine how a CNN can handle viewpoint variants. For example, how to train a face detection neuron for different orientations.
 
 ![](../../docs/assets/capsules/sface3.jpg)
-![]({{"/sarvam/assets/capsules/sface3.jpg" | absolute_url }})
+![]({{"/assets/capsules/sface3.jpg" | absolute_url }})
  
 Conceptually, we can say the CNN trains neurons to handle different orientations with a final top level face detection neuron.
 
 
 ![](../../docs/assets/capsules/cnn_face.jpg)
-![]({{"/sarvam/assets/capsules/cnn_face.jpg" | absolute_url }})
+![]({{"/assets/capsules/cnn_face.jpg" | absolute_url }})
 
 As noted above, for a CNN to handle viewpoint or style variants, we add more convolution layers and features maps. Nevertheless this approach tends to memorize the dataset rather than generalize a solution. It requires a large volume of training data to cover different variants and to avoid overfitting. MNist dataset contains 55,000 training data. i.e. 5,500 samples per digits. However, it is unlikely that children need to read this large amount of samples to learn digits. Our existing deep learning models including CNN seem inefficient in utilizing datapoints. Here is an ironic quote from Geoffrey Hinton:
 
@@ -131,12 +131,12 @@ It (convolutional network) works depressingly well.
 Instead of capture a feature with a specific variant, a capsule is trained to capture the likeliness of a feature and its variant. So the purpose of the capsule is not only to detect a feature but also to train the model to learn the variant.
 
 ![](../../docs/assets/capsules/c21.jpg)
-![]({{"/sarvam/assets/capsules/c21.jpg" | absolute_url }})
+![]({{"/assets/capsules/c21.jpg" | absolute_url }})
 
 Such that the same capsule can detect the same object class with different orientations (for example, rotate clockwise):
 
 ![](../../docs/assets/capsules/c22.jpg)
-![]({{"/sarvam/assets/capsules/c23.jpg" | absolute_url }})
+![]({{"/assets/capsules/c23.jpg" | absolute_url }})
 
 **Invariance** is the detection of features regardless of the variants. For example, a nose-detection neuron detects a nose regardless of the orientation. However, the loss of **spatial orientation in a neuron will eventually hurt the effectiveness** of such invariance model.
 
@@ -186,12 +186,12 @@ A 2-D capsule is formed by combining 2 neurons. This capsule outputs a 2-D vecto
 For the first image in the second row, it outputs a vector $v=(0,0.9)$ The magnitude of the vector $\sqrt{0^2 + 0.9^2}=0.9$ corresponds to the probability of detecting “7”. The second image of each row looks more like a “1” than a “7”. Therefore its corresponding likelihood as “7” is smaller (smaller scaler value or smaller vector’s magnitude but with the same orientation) .
 
 ![](../../docs/assets/capsules/cap1.jpg)
-![]({{"/sarvam/assets/capsules/cap1.jpg" | absolute_url }})
+![]({{"/assets/capsules/cap1.jpg" | absolute_url }})
 
 n the third row, we rotate the image by 20°. The capsule will generate vectors with the same magnitude but different orientations. Here, the angle of the vector represents the angle of rotation for the number “7”. As we can image, we can add 2 more neurons to a capsule to capture the size and stroke width.
 
 ![](../../docs/assets/capsules/style.jpg)
-![]({{"/sarvam/assets/capsules/style.jpg" | absolute_url }})
+![]({{"/assets/capsules/style.jpg" | absolute_url }})
 
 
 ```
@@ -261,7 +261,7 @@ $$\hat{u}_{j|i} = W_{ij}u_i$$
 Recall a fully connected neural network:
 
 ![](../../docs/assets/capsules/fc1.jpg)
-![]({{"/sarvam/assets/capsules/fc1.jpg" | absolute_url }})
+![]({{"/assets/capsules/fc1.jpg" | absolute_url }})
 
 The output of each neuron is computed from the output of the neurons from the previous layer:
 
@@ -278,7 +278,7 @@ where $W_{ij}, z_j$ and $y_i$ are all scalaras
 For a capsule, the input $u_i$ and the output $v_j$ of a capsule are vectors.
 
 ![](../../docs/assets/capsules/fc2.jpg)
-![]({{"/sarvam/assets/capsules/fc2.jpg" | absolute_url }})
+![]({{"/assets/capsules/fc2.jpg" | absolute_url }})
 
 We apply a transformation matrix $W_{ij}$ to the capsule output $u_i$ of the pervious layer. For example, with a $m×k$ matrix, we transform a k-D $u_i$ to a m-D $u^{j|i}$. $((m×k) × (k×1)⟹m×1)$ Then we compute a weighted sum $s_j$ with weights $c_{ij}$.
 
@@ -316,7 +316,7 @@ $$
 A Capsule Network, or CapsNet combines multiple capsule layers. For example, here’s a sample network for the MNIST handwritten digit recognition task:
 
 ![](../../docs/assets/capsules/capsnet.png)
-![]({{"/sarvam/assets/capsules/capsnet.png" | absolute_url }})
+![]({{"/assets/capsules/capsnet.png" | absolute_url }})
 
 In general, the idea is to form a ‘parse tree’ of the scene. Layers are divided into capsules and capsules recognise parts of the scene. Active capsules in a layer from part of the parse tree, and each active capsule chooses a capsule in the layer above to be its parent in the tree.
 
@@ -356,7 +356,7 @@ $$
 In deep learning, we use backpropagation to train model parameters. The transformation matrix $W_{ij}$ in capsules are still trained with backpropagation. Nevertheless, the coupling coefficients $c_{ij}$ are calculated with a new iterative dynamic routing method.
 
 ![](../../docs/assets/capsules/face6.jpg)
-![]({{"/sarvam/assets/capsules/face6.jpg" | absolute_url }})
+![]({{"/assets/capsules/face6.jpg" | absolute_url }})
 
 The prediction vector u^j|iu^j|i is computed as (with the transformation matrix):
 
@@ -381,7 +381,7 @@ v_{j} & = \frac{\| s_{j} \|^2}{ 1 + \| s_{j} \|^2} \frac{s_{j}}{ \| s_{j} \|}  \
 $$
 
 
-- Intuitively, prediction vector $u^{j|i}$ is the prediction (vote) from the capsule $i$ on the output of the capsule $j$ above. 
+- Intuitively, prediction vector $u^{ji}$ is the prediction (vote) from the capsule $i$ on the output of the capsule $j$ above. 
 - If the activity vector has close similarity with the prediction vector, we conclude that capsule $i$ is highly related with the capsule $j$. (For example, the eye capsule is highly related to the face capsule.) 
 - Such similarity is measured using the scalar product of the prediction and activity vector. Therefore, the similarity takes into account on both likeliness and the feature properties. (instead of just likeliness in neurons) We compute a relevancy score $b_ij$ according to the similarity:
 
@@ -410,7 +410,7 @@ $$
 
 Here is the final pseudo code for the dynamic routing:
 ![](../../docs/assets/capsules/alg.jpg)
-![]({{"/sarvam/assets/capsules/alg.jpg" | absolute_url }})
+![]({{"/assets/capsules/alg.jpg" | absolute_url }})
 
 ```
 Routing a capsule to the capsule in the layer above based on relevancy is called Routing-by-agreement.
@@ -431,13 +431,13 @@ In deep learning, we use backpropagation to train the model’s parameters based
 Iterative dynamic routing provides an alternative of how signal is routed based on feature parameters rather than one size fit all cost function. By utilizing the feature parameters, we can theoretically group capsules better to form a high level structure. For example, the capsule layers may eventually behaves as a parse tree that explore the part-whole relationship. (for example, a face is composed of eyes, a nose and a mouth) The iterative dynamic routing controls how much a signal is propagate upward to the capsules above utilizing the transformation matrix, the likeliness and the feature’s properties.
 
 ![](../../docs/assets/capsules/face7.jpg)
-![]({{"/sarvam/assets/capsules/face7.jpg" | absolute_url }})
+![]({{"/assets/capsules/face7.jpg" | absolute_url }})
 
 The iterative dynamic routing with capsules is just one showcase in demonstrating the routing-by-agreement. We expect more capsule models with advance routing methods will be introduced in coming years. In a second paper on capsules Matrix capsules with EM routing, a [likeliness, 4x4 pose matrix] matrix capsule is proposed (rather than a k-D vector capsule) with a new Expectation-maximization routing (EM routing). The pose matrices are designed to capture the viewpoint of the object. For example, the second row of the picture below represent the same object above with a different pose matrix (viewpoint).
 
 
 ![](../../docs/assets/capsules/data.png)
-![]({{"/sarvam/assets/capsules/data.png" | absolute_url }})
+![]({{"/assets/capsules/data.png" | absolute_url }})
 
 (Source from the paper Matrix capsules with EM routing)
 
@@ -445,7 +445,7 @@ The iterative dynamic routing with capsules is just one showcase in demonstratin
 The objective of the EM routing is to group capsules to form a part-whole relationship with a clustering technique (EM). In machine learning, we use EM to cluster datapoints into different Gaussian distributions. For example, we cluster the datapoints below into two clusters modeled by two gaussian distributions.
 
 ![](../../docs/assets/capsules/GM2.png)
-![]({{"/sarvam/assets/capsules/GM2.png" | absolute_url }})
+![]({{"/assets/capsules/GM2.png" | absolute_url }})
 
 For the mouth, eyes and nose capsules in the lower layer, each of them makes predictions (votes) on the pose matrices of its possible parent capsule(s) through a transformation matrix. The role of the EM routing is to cluster lower level capsules that produce similar votes. Conceptually the votes from the mouth, eyes and nose capsules may cluster into the pink region above that can be represented by their parent capsule (face).
 
@@ -457,7 +457,7 @@ The transformation matrix to compute the vote is **viewpoint invariant**. We **d
 
 
 ![](../../docs/assets/capsules/cluster2.png)
-![]({{"/sarvam/assets/capsules/cluster2.png" | absolute_url }})
+![]({{"/assets/capsules/cluster2.png" | absolute_url }})
 
 Hence, the EM routing groups related capsules regardless of the viewpoint. Unlike CNN which each neuron may detect a different viewpoint, the transformation matrix is viewpoint independent which may require less data to train.
 
@@ -550,7 +550,7 @@ And indeed it does! A generated MultiMNIST training and test dataset is created 
 ```
 
     [NbConvertApp] Converting notebook 2017-12-18-CapsulesCookBook.ipynb to markdown
-    [NbConvertApp] Writing 35008 bytes to ../../docs/_posts/2017-12-18-CapsulesCookBook.md
+    [NbConvertApp] Writing 35010 bytes to ../../docs/_posts/2017-12-18-CapsulesCookBook.md
 
 
 
