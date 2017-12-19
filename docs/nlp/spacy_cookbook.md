@@ -6,7 +6,7 @@ excerpt: "spaCy NLP toolkit Cookbook"
 date:   2017-12-18
 mathjax: true
 comments: true
-permalink: /nlp/spacy_cookbook/
+permalink: /nlp/spacy/
 ---
 
 # References
@@ -631,27 +631,16 @@ text = animals.split()
 
 
 ```python
-%matplotlib inline
-import sys
-sys.path.append('../../examples/')
-from dhira_plotly import *
+# %matplotlib inline
+# import sys
+# sys.path.append('../../examples/')
+# from dhira_plotly import *
 ```
-
-    2.0.12
-
-
-
-<script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>
-
 
 
 ```python
-iplot([Scatter(x=animal_vecs_transformed[:,0], y=animal_vecs_transformed[:,1], textposition='bottom', mode='markers+text', text=text)])
+# iplot([Scatter(x=animal_vecs_transformed[:,0], y=animal_vecs_transformed[:,1], textposition='bottom', mode='markers+text', text=text)])
 ```
-
-
-<div id="97f1f211-8b9b-4bb9-90c3-1170bf9cecfc" style="height: 525px; width: 100%;" class="plotly-graph-div"></div><script type="text/javascript">require(["plotly"], function(Plotly) { window.PLOTLYENV=window.PLOTLYENV || {};window.PLOTLYENV.BASE_URL="https://plot.ly";Plotly.newPlot("97f1f211-8b9b-4bb9-90c3-1170bf9cecfc", [{"type": "scatter", "x": [-2.5702973005087766, -2.247249392485344, -2.3505587339870844, 2.2030492013658813, 1.8239401749676434, 2.159262583348045, 2.849375178091706, 0.10010378882396298, 1.9465987640567426, 4.209845579343015, -1.5456673669069048, -2.7125688816928104, -2.436949131636931, 1.3810152258859725, -1.1517439618248442, -2.754355842449194, -1.2830734850308902, 1.5021852733141081, 0.8770883273257035], "y": [-2.3515771973830337, -1.2050567634866058, 1.323629366678258, 0.2780498797509414, 0.4151045854362121, 0.4538388115682919, 0.5343855445609191, 1.9161735957932247, 0.6867759492114917, 0.17859435938382717, 1.0320000927056723, 3.7679339383712063, 3.1304496959269277, -1.2877233733799538, -2.3977564272254064, -2.977657342974969, -0.974776907919425, -0.9156374039085561, -1.6067504031090232], "textposition": "bottom", "mode": "markers+text", "text": ["dog", "cat", "hamster", "lion", "tiger", "elephant", "cheetah", "monkey", "gorilla", "antelope", "rabbit", "mouse", "rat", "zoo", "home", "pet", "fluffy", "wild", "domesticated"]}], {}, {"showLink": true, "linkText": "Export to plot.ly"})});</script>
-
 
 
 ```python
@@ -1199,7 +1188,7 @@ token_to_index(test_sent_tok, 10)
 ```
 
     [NbConvertApp] Converting notebook spacy_cookbook.ipynb to markdown
-    [NbConvertApp] Writing 51359 bytes to ../../docs/nlp/spacy_cookbook.md
+    [NbConvertApp] Writing 51548 bytes to ../../docs/nlp/spacy_cookbook.md
 
 
 
