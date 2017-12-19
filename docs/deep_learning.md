@@ -6,6 +6,10 @@ permalink: /deep_learning/
 
 # Deep Learning
 
-[RNNs]({{"/deep_learning/rnns.html" | absolute_url }})
 
+## Sequence Modeling
+[RNNs]({{"/deep_learning/rnns/" | absolute_url }})
+
+## Image Processing
+[Misc]({{"/deep_learning/image_processing/misc/" | absolute_url }})
 
