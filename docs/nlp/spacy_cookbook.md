@@ -1,11 +1,6 @@
 ---
 layout: page
 title:  "Spacy CookBook"
-description: "spaCy NLP toolkit Cookbook"
-excerpt: "spaCy NLP toolkit Cookbook"
-date:   2017-12-18
-mathjax: true
-comments: true
 permalink: /nlp/spacy_cookbook/
 ---
 
