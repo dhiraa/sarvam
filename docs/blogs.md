@@ -1,7 +1,7 @@
 ---
 layout: home
 title: Blogs
-permalink: /posts/
+permalink: /blogs/
 ---
 
 
