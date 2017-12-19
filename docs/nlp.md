@@ -5,7 +5,7 @@ permalink: /nlp/
 ---
 
 
-[Spacy Cookbook]({{"/nlp/spacy/" | absolute_url }})
+[Spacy Cookbook]({{"/nlp/spacy_cookbook/" | absolute_url }})
 
 
 
