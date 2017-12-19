@@ -1,7 +1,6 @@
 ---
 layout: page
 title: RNN
-permalink: /deep_learning/rnns/
 ---
 
 # RNNs
