@@ -1,7 +1,7 @@
 ---
 layout: page
 title:  "Spacy CookBook"
-permalink: /nlp/spacy/
+permalink: /nlp/spacy_cookbook/
 ---
 
 # References
