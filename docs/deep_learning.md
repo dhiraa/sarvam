@@ -6,6 +6,6 @@ permalink: /deep_learning/
 
 # Deep Learning
 
-[RNNs](_collection/rnns.md)
+[RNNs](rnns.md)
 
 
