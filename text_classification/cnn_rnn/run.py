@@ -11,8 +11,8 @@ from utils.tf_hooks.early_stopping import EarlyStoppingLossHook
 
 BATCH_SIZE = 16
 
-dataset: TextDataFrame = TextDataFrame(train_df_path=TRAIN_FILE_PATH,
-                                       test_df_path=TEST_FILE_PATH,
+dataset: TextDataFrame = TextDataFrame(train_file_path=TRAIN_FILE_PATH,
+                                       test_file_path=TEST_FILE_PATH,
                                        text_col="text",
                                        category_col="author",
                                        model_name="multi-class-cnn-rnn-v0")

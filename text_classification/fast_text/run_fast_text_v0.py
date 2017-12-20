@@ -17,8 +17,8 @@ TEXT_COL = "text"
 CATEOGORY_COL = "author"
 
 #Prepare the dataset
-dataset: TextDataFrame = TextDataFrame(train_df_path=TRAIN_FILE_PATH,
-                                       test_df_path=TEST_FILE_PATH,
+dataset: TextDataFrame = TextDataFrame(train_file_path=TRAIN_FILE_PATH,
+                                       test_file_path=TEST_FILE_PATH,
                                        text_col=TEXT_COL,
                                        category_col=CATEOGORY_COL,
                                        model_name=DATA_STORE_PATH)

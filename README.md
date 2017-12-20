@@ -67,6 +67,12 @@ pip install kaggle-cli
 - [CNN+RNN](text_classification/cnn_rnn)
 
 
+### Tools:
+- https://www.typora.io/
+
+### References:
+- https://devhints.io/jekyll
+
 -------------------------------------------------------------------------------------------------------
 **Sub modules notes:**
 

@@ -6,16 +6,16 @@ excerpt: "spaCy NLP toolkit Cookbook"
 date:   2017-12-18
 mathjax: true
 comments: true
-permalink: /nlp/spacy/
+permalink: /nlp/spacy_cookbook/
 ---
 
 # References
 
-http://www.winwaed.com/blog/2011/11/08/part-of-speech-tags/  
-http://www.clips.ua.ac.be/pages/mbsp-tags  
-https://www.analyticsvidhya.com/blog/2017/04/natural-language-processing-made-easy-using-spacy-%E2%80%8Bin-python/
-https://dataflume.wordpress.com/2017/07/11/word-vectors-for-non-nlp-data-and-research-people/  
-https://www.analyticsvidhya.com/blog/2017/10/essential-nlp-guide-data-scientists-top-10-nlp-tasks/
+- [http://www.winwaed.com/blog/2011/11/08/part-of-speech-tags/ ](http://www.winwaed.com/blog/2011/11/08/part-of-speech-tags/) 
+- [http://www.clips.ua.ac.be/pages/mbsp-tags](http://www.clips.ua.ac.be/pages/mbsp-tags  )  
+- [https://www.analyticsvidhya.com/blog/2017/04/natural-language-processing-made-easy-using-spacy-%E2%80%8Bin-python/](https://www.analyticsvidhya.com/blog/2017/04/natural-language-processing-made-easy-using-spacy-%E2%80%8Bin-python/)  
+- [https://dataflume.wordpress.com/2017/07/11/word-vectors-for-non-nlp-data-and-research-people/](https://dataflume.wordpress.com/2017/07/11/word-vectors-for-non-nlp-data-and-research-people/)    
+- [https://www.analyticsvidhya.com/blog/2017/10/essential-nlp-guide-data-scientists-top-10-nlp-tasks/](https://www.analyticsvidhya.com/blog/2017/10/essential-nlp-guide-data-scientists-top-10-nlp-tasks/)
 
 # A short introduction to NLP in Python with 
 
@@ -1188,7 +1188,7 @@ token_to_index(test_sent_tok, 10)
 ```
 
     [NbConvertApp] Converting notebook spacy_cookbook.ipynb to markdown
-    [NbConvertApp] Writing 51548 bytes to ../../docs/nlp/spacy_cookbook.md
+    [NbConvertApp] Writing 49924 bytes to ../../docs/nlp/spacy_cookbook.md
 
 
 

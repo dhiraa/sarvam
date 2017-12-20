@@ -5,12 +5,15 @@ import sys
 sys.path.append("../")
 
 from utils.data.kaggle.spooky_dataset import *
-from bilstm import bilstm_v0
+from capsules import capsules_text_classifier
 from utils.tf_hooks.early_stopping import EarlyStoppingLossHook
 
 #Model Parameters
 BATCH_SIZE = 16
 NUM_EPOCHS = 10
+MAX_DOC_LENGTH = 100
+MAX_WORD_LENGTH = 15
+NUM_CLASSES = 3 #TODO get it from dataset
 DATA_STORE_PATH="tmp/"
 MODEL_STORE_PATH = "tmp/bilstm_v0/"
 TEXT_COL = "text"
@@ -18,11 +21,13 @@ CATEOGORY_COL = "author"
 
 
 #Prepare the dataset
-dataset: TextDataFrame = TextDataFrame(train_df_path=TRAIN_FILE_PATH,
-                                       test_df_path=TEST_FILE_PATH,
+dataset: TextDataFrame = TextDataFrame(train_file_path=TRAIN_FILE_PATH,
+                                       test_file_path=TEST_FILE_PATH,
                                        text_col=TEXT_COL,
                                        category_col=CATEOGORY_COL,
-                                       model_name=DATA_STORE_PATH)
+                                       model_name=DATA_STORE_PATH,
+                                       max_doc_legth=MAX_DOC_LENGTH,
+                                       max_word_length=MAX_WORD_LENGTH)
 
 #To get text word ids
 train_text_word_ids = dataset.get_train_text_word_ids()
@@ -61,24 +66,14 @@ test_input_fn = test_inputs2(word_ids=test_text_word_ids,
                              batch_size=1,
                              scope='test-data')
 
-# Configure the model
-config = bilstm_v0.BiLSTMConfig(model_dir=MODEL_STORE_PATH,
-                                vocab_size=dataset.WORD_VOCAB_SIZE,
-                                char_vocab_size=dataset.CHAR_VOCAB_SIZE,
-                                num_classes=3,
-                                #hyper parameters
-                                use_char_embedding=False,
-                                learning_rate=0.001,
-                                word_level_lstm_hidden_size=8,
-                                word_emd_size=8,
-                                num_lstm_layers=2,
-                                char_level_lstm_hidden_size=8,
-                                char_emd_size=8,
-                                out_keep_propability=0.5)
-
 # early_stopping_hook = EarlyStoppingLossHook("reduced_mean:0", 0.030)
 
-model = bilstm_v0.BiLSTMV0(config)
+model = capsules_text_classifier.CapsulesTextClassifierV0(word_vocab_size=dataset.WORD_VOCAB_SIZE,
+                                                          char_vocab_size=dataset.CHAR_VOCAB_SIZE,
+                                                          max_doc_length=MAX_DOC_LENGTH,
+                                                          max_word_length=MAX_WORD_LENGTH,
+                                                          num_classes=NUM_CLASSES
+                                                          )
 
 
 NUM_STEPS = dataset.num_train_samples // BATCH_SIZE
