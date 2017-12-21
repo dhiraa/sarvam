@@ -1,6 +1,6 @@
-from audio_utils.dataset import *
-from audio_utils.tf_data_iterators import *
-from sarvam.nlp.spacy import *
+from overrides import overrides
+from tc_utils.dataset import TextClassificationDataset
+from tc_utils.text_data import TextDataFrame
 
 
 TRAIN_FILE_PATH = "../../data/spooky_author_identification/input/train.csv"
@@ -55,6 +55,32 @@ test_input_fn =  test_inputs(dataset.get_test_text_data(),
                                         
 
 '''
+
+class SpookyDataset(TextClassificationDataset):
+    def __init__(self,
+                 train_file_path,
+                 test_file_path):
+        TextClassificationDataset.__init__(self,
+                                           train_file_path,
+                                           test_file_path,
+                                           "spooky_dataset")
+
+        def prepare(self):
+            self.dataframe = TextDataFrame(train_file_path=self.train_file_path,
+                                           test_file_path=self.test_file_path,
+                                           text_col="text",
+                                           category_col="author",
+                                           category_cols=None,
+                                           max_doc_legth=100,
+                                           max_word_length=10,
+                                           is_multi_label=False,
+                                           is_tokenize=True,
+                                           dataset_name=self.dataset_name)
+
+
+
+
+
 
 
 

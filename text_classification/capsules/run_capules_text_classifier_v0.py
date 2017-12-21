@@ -3,8 +3,7 @@ import sys
 # add audio_utils path
 sys.path.append("../")
 
-from tc_utils.dataset import TextDataFrame
-from tc_utils.kaggle.spooky_dataset import *
+from kaggle.dataset.spooky import *
 from capsules import capsules_text_classifier
 
 #Model Parameters

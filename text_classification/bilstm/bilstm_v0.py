@@ -32,16 +32,16 @@ def get_sequence_length(sequence_ids, pad_word_id=0):
     length = tf.cast(length, tf.int32)
     return length
 
-class BiLSTMConfig():
+class BiLSTMConfigV0():
     def __init__(self,
                  model_dir,
                  vocab_size,
                  char_vocab_size,
                  num_classes,
-                 max_document_length=100,
+                 max_document_length,
                  #hyper parameters
-                 use_char_embedding=False,
-                 learning_rate=0.002,
+                 use_char_embedding,
+                 learning_rate,
                  word_level_lstm_hidden_size=300,
                  char_level_lstm_hidden_size=300,
                  word_emd_size=300,
@@ -49,10 +49,10 @@ class BiLSTMConfig():
                  num_lstm_layers=2,
                  out_keep_propability=0.75):
 
-        tf.app.flags.FLAGS = tf.app.flags._FlagValues()
-        tf.app.flags._global_parser = argparse.ArgumentParser()
-        flags = tf.app.flags
-        self.FLAGS = flags.FLAGS
+        # tf.app.flags.FLAGS = tf.app.flags._FlagValues()
+        # tf.app.flags._global_parser = argparse.ArgumentParser()
+        # flags = tf.app.flags
+        # self.FLAGS = flags.FLAGS
 
         # Constant params
         flags.DEFINE_string("MODEL_DIR", model_dir, "")
@@ -76,9 +76,6 @@ class BiLSTMConfig():
         flags.DEFINE_integer("CHAR_LEVEL_LSTM_HIDDEN_SIZE", char_level_lstm_hidden_size, "")
         flags.DEFINE_integer("NUM_LSTM_LAYERS", num_lstm_layers, "")
 
-    def get_tf_flag(self):
-        # usage config.FLAGS.MODEL_DIR
-        return self.FLAGS
 
 # =======================================================================================================================
 
@@ -91,7 +88,7 @@ run_config=tf.contrib.learn.RunConfig(session_config=run_config)
 
 class BiLSTMV0(tf.estimator.Estimator):
     def __init__(self,
-                 bilstm_config: BiLSTMConfig):
+                 bilstm_config: BiLSTMConfigV0):
         super(BiLSTMV0, self).__init__(
             model_fn=self._model_fn,
             model_dir=bilstm_config.FLAGS.MODEL_DIR,

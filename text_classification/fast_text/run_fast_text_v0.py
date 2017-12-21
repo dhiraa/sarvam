@@ -3,8 +3,7 @@ sys.path.append("../")
 
 # add tc_utils path
 from tc_utils.tf_data_iterators import *
-from tc_utils.dataset import TextDataFrame
-from tc_utils.kaggle.spooky_dataset import *
+from kaggle.dataset.spooky import *
 from fast_text import fast_text_v0
 from tc_utils.tf_hooks.early_stopping import EarlyStoppingLossHook
 

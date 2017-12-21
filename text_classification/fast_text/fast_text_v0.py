@@ -7,7 +7,7 @@ import argparse
 
 tf.logging.set_verbosity(tf.logging.DEBUG)
 
-class FastTextConfig():
+class FastTextV0Config():
     def __init__(self,
                  vocab_size,
                  model_dir,

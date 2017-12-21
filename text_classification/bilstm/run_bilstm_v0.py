@@ -7,7 +7,6 @@ from tc_utils.tf_data_iterators import setup_input_graph2
 
 
 # from utils.kaggle.spooky_dataset import *
-from tc_utils.kaggle.jigsaw_dataset import *
 from bilstm import bilstm_v0
 
 #Model Parameters
@@ -64,19 +63,19 @@ eval_input_fn, eval_input_hook = setup_input_graph2(word_ids=val_text_word_ids,
 #                              scope='test-data')
 
 # Configure the model
-config = bilstm_v0.BiLSTMConfig(model_dir=MODEL_STORE_PATH,
-                                vocab_size=dataset.WORD_VOCAB_SIZE,
-                                char_vocab_size=dataset.CHAR_VOCAB_SIZE,
-                                num_classes=6,
-                                #hyper parameters
-                                use_char_embedding=False,
-                                learning_rate=0.001,
-                                word_level_lstm_hidden_size=128,
-                                word_emd_size=128,
-                                num_lstm_layers=2,
-                                char_level_lstm_hidden_size=64,
-                                char_emd_size=128,
-                                out_keep_propability=0.5)
+config = bilstm_v0.BiLSTMConfigV0(model_dir=MODEL_STORE_PATH,
+                                  vocab_size=dataset.WORD_VOCAB_SIZE,
+                                  char_vocab_size=dataset.CHAR_VOCAB_SIZE,
+                                  num_classes=6,
+                                  #hyper parameters
+                                  use_char_embedding=False,
+                                  learning_rate=0.001,
+                                  word_level_lstm_hidden_size=128,
+                                  word_emd_size=128,
+                                  num_lstm_layers=2,
+                                  char_level_lstm_hidden_size=64,
+                                  char_emd_size=128,
+                                  out_keep_propability=0.5)
 
 # early_stopping_hook = EarlyStoppingLossHook("reduced_mean:0", 0.030)
 
