@@ -91,7 +91,7 @@ class Word2Vec(tf.estimator.Estimator):
 
         self.w2v_config = config
 
-        self.embed_mat_hook = None #Hook to store the embedding matrix as numpy utils
+        self.embed_mat_hook = None #Hook to store the embedding matrix as numpy audio_utils
 
     def _model_fn(self, features, labels, mode, params):
 

@@ -1,6 +1,6 @@
 from tensorflow.contrib import lookup
 from tensorflow.contrib.learn import ModeKeys
-from utils.rnn import *
+from tc_utils.rnn import *
 import tensorflow as tf
 import argparse
 

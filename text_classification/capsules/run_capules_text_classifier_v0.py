@@ -1,12 +1,11 @@
-import os
 import sys
 
-# add utils path
+# add audio_utils path
 sys.path.append("../")
 
-from utils.data.kaggle.spooky_dataset import *
+from tc_utils.dataset import TextDataFrame
+from tc_utils.kaggle.spooky_dataset import *
 from capsules import capsules_text_classifier
-from utils.tf_hooks.early_stopping import EarlyStoppingLossHook
 
 #Model Parameters
 BATCH_SIZE = 16
@@ -21,11 +20,11 @@ CATEOGORY_COL = "author"
 
 
 #Prepare the dataset
-dataset: TextDataFrame = TextDataFrame(train_file_path=TRAIN_FILE_PATH,
+dataset = TextDataFrame(train_file_path=TRAIN_FILE_PATH,
                                        test_file_path=TEST_FILE_PATH,
                                        text_col=TEXT_COL,
                                        category_col=CATEOGORY_COL,
-                                       model_name=DATA_STORE_PATH,
+                                       dataset_name=DATA_STORE_PATH,
                                        max_doc_legth=MAX_DOC_LENGTH,
                                        max_word_length=MAX_WORD_LENGTH)
 

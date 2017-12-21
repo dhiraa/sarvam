@@ -1,6 +1,6 @@
 from tensorflow.contrib import lookup
 from tensorflow.contrib.learn import ModeKeys
-from utils.rnn import *
+from tc_utils.rnn import *
 import argparse
 
 tf.logging.set_verbosity(tf.logging.DEBUG)
@@ -455,7 +455,7 @@ class MultiClassCNNRNNV0(tf.estimator.Estimator):
             }
             tf.summary.scalar(loss.name, loss)
             # validation_monitor = tf.contrib.learn.monitors.ValidationMonitor(
-            #     test_set.utils,
+            #     test_set.audio_utils,
             #     test_set.target,
             #     every_n_steps=50,
             #     metrics=validation_metrics,

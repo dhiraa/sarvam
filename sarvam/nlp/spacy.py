@@ -6,11 +6,23 @@ import spacy
 import nltk
 import pandas as pd
 from tqdm import tqdm_notebook as tqdm
+from sarvam.colorful_logger import *
 # Find how often each Category used each word
-import en_core_web_sm
+# import en_core_web_lg
 # nlp = spacy.load('en_core_web_sm')
+global nlp
 
-def tokenize(df: pd.DataFrame, text_col,nlp=en_core_web_sm.load()):
+def tokenize(df: pd.DataFrame, text_col):
+    '''
+    In place tokenization on text column
+    :param df: Pandas Dataframe
+    :param text_col: Text Column
+    :return: 
+    '''
+
+    if nlp == None:
+        print_error("Do a global initilization nlp = spacy.load('en_core_web_sm')")
+        raise Warning("Initialize nlp = spacy.load('en_core_web_sm')")
 
     def cleaning(sentence):
         sentence = nlp(sentence)
@@ -18,11 +30,12 @@ def tokenize(df: pd.DataFrame, text_col,nlp=en_core_web_sm.load()):
         tokens = ' '.join(tokens)
         return tokens
 
-    df = df.assign(spacy_processed = lambda rows : rows[text_col].map(lambda row: cleaning(row)))
-
+    # df = df.assign(spacy_processed = lambda rows : rows[text_col].map(lambda row: cleaning(row)))
+    data = [cleaning(line) for line in tqdm(df[text_col].tolist())]
+    df[text_col] = data
     return df
 
-def extract_lemmas(df: pd.DataFrame, text_col, nlp=en_core_web_sm.load()):
+def extract_lemmas(df: pd.DataFrame, text_col):
     stopwords = nltk.corpus.stopwords.words('english')
 
     def cleaning(sentence):

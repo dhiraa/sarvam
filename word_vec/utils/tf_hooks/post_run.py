@@ -1,7 +1,7 @@
 import tensorflow as tf
 
 class PostRunTaskHook(tf.train.SessionRunHook):
-    """Hook to initialise utils iterator after Session is created."""
+    """Hook to initialise audio_utils iterator after Session is created."""
 
     def __init__(self):
         super(PostRunTaskHook, self).__init__()

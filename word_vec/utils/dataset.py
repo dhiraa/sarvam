@@ -270,7 +270,7 @@ class TextDataset():
         #     self.download("tmp/")
 
     # def download(self, download_path):
-    #     # Parameters for downloading utils
+    #     # Parameters for downloading audio_utils
     #     expected_bytes = 31344016
     #     file_name = 'text8.zip'
     #     DOWNLOAD_URL = 'http://mattmahoney.net/dc/'
@@ -293,7 +293,7 @@ class TextDataset():
     #     return file_path
     #
     # def get_words(self, file_path="tmp/text8.zip"):
-    #     """ Read utils into a list of tokens
+    #     """ Read audio_utils into a list of tokens
     #     There should be 17,005,207 tokens
     #     """
     #     with zipfile.ZipFile(file_path) as f:
@@ -302,7 +302,7 @@ class TextDataset():
     #     return words
     #
     # def get_lines(self, file_path="tmp/text8.zip"):
-    #     """ Read utils into a list of tokens
+    #     """ Read audio_utils into a list of tokens
     #     There should be 17,005,207 tokens
     #     """
     #     with zipfile.ZipFile(file_path) as f:

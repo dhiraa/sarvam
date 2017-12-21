@@ -1,13 +1,12 @@
-import os
 import sys
 
-# add utils path
+# add audio_utils path
 sys.path.append("../../")
 sys.path.append(".")
 
-from utils.data.kaggle.spooky_dataset import *
+from audio_utils.kaggle.spooky_dataset import *
 from cnn_rnn import cnn_rnn_v0
-from utils.tf_hooks.early_stopping import EarlyStoppingLossHook
+from audio_utils.tf_hooks.early_stopping import EarlyStoppingLossHook
 
 BATCH_SIZE = 16
 
@@ -15,7 +14,7 @@ dataset: TextDataFrame = TextDataFrame(train_file_path=TRAIN_FILE_PATH,
                                        test_file_path=TEST_FILE_PATH,
                                        text_col="text",
                                        category_col="author",
-                                       model_name="multi-class-cnn-rnn-v0")
+                                       dataset_name="multi-class-cnn-rnn-v0")
 
 # To get the features:
 train_data = dataset.get_train_text_data()
@@ -35,17 +34,17 @@ val_one_hot_encoded_label = dataset.get_val_one_hot_label()
 train_input_fn, train_input_hook = setup_input_graph(train_data,
                                                      train_one_hot_encoded_label,
                                                      batch_size=BATCH_SIZE,
-                                                     scope='train-utils')
+                                                     scope='train-audio_utils')
 
 eval_input_fn, eval_input_hook = setup_input_graph(dataset.get_val_text_data(),
                                                    val_one_hot_encoded_label,
                                                    batch_size=1,
                                                    is_eval=True,
-                                                   scope='eval-utils')
+                                                   scope='eval-audio_utils')
 
 test_input_fn = test_inputs(dataset.get_test_text_data(),
                             batch_size=1,
-                            scope='test-utils')
+                            scope='test-audio_utils')
 
 config = cnn_rnn_v0.MultiClassCNNRNNConfig(vocab_size=dataset.vocab_count,
                                            model_dir="multi-class-cnn-rnn-v0/model/",

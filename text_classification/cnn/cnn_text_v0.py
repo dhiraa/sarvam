@@ -1,12 +1,12 @@
 import os
 import sys
 
-# add utils path
+# add audio_utils path
 sys.path.append("../")
 
 from tensorflow.contrib import lookup
 from tensorflow.contrib.learn import ModeKeys
-from utils.rnn import *
+from tc_utils.rnn import *
 import argparse
 
 tf.logging.set_verbosity(tf.logging.DEBUG)

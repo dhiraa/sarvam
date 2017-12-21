@@ -3,8 +3,8 @@ from tensorflow.python.platform import gfile
 from tqdm import tqdm_notebook as tqdm
 import tensorflow.contrib.learn as tflearn
 
-from utils.tf_hooks.data_initializers import IteratorInitializerHook
-# Define utils loaders
+from audio_utils.tf_hooks.data_initializers import IteratorInitializerHook
+# Define audio_utils loaders
 #https://developers.googleblog.com/2017/09/introducing-tensorflow-datasets.html
 
 
@@ -28,13 +28,13 @@ def save_vocab(lines, outfilename, MAX_DOCUMENT_LENGTH, PADWORD='PADXYZ'):
 
 # Define the inputs
 def setup_input_graph(features, labels, batch_size,
-                      is_eval=False, shuffle=True, scope='train-utils'):
-    """Return the input function to get the training utils.
+                      is_eval=False, shuffle=True, scope='train-audio_utils'):
+    """Return the input function to get the training audio_utils.
 
     Args:
         batch_size (int): Batch size of training iterator that is returned
                           by the input function.
-        mnist_data (Object): Object holding the loaded mnist utils.
+        mnist_data (Object): Object holding the loaded mnist audio_utils.
 
     Returns:
         (Input function, IteratorInitializerHook):
@@ -86,7 +86,7 @@ def setup_input_graph(features, labels, batch_size,
     # Return function and hook
     return inputs, iterator_initializer_hook
 
-def test_inputs(features, batch_size=1, scope='test-utils'):
+def test_inputs(features, batch_size=1, scope='test-audio_utils'):
     """Returns test set as Operations.
     Returns:
         (features, ) Operations that iterate over the test set.
@@ -108,12 +108,12 @@ def setup_input_graph2(word_ids,
                        is_eval = False,
                        shuffle=True,
                        scope='train-data'):
-    """Return the input function to get the training utils.
+    """Return the input function to get the training audio_utils.
 
     Args:
         batch_size (int): Batch size of training iterator that is returned
                           by the input function.
-        mnist_data (Object): Object holding the loaded mnist utils.
+        mnist_data (Object): Object holding the loaded mnist audio_utils.
 
     Returns:
         (Input function, IteratorInitializerHook):

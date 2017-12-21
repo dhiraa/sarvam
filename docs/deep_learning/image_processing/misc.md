@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Misc
-permalink: /deep_learning/misc/
+permalink: /deep_learning/image_processing/misc/
 
 ---
 

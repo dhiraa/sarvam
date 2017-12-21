@@ -33,6 +33,7 @@ conda create -n sarvam python=3.5 anaconda
 source activate sarvam
 pip install tensorflow_gpu
 pip install spacy
+python -m spacy download en_core_web_lg
 pip install tqdm
 
 ```

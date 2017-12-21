@@ -1,6 +1,6 @@
-from utils.dataset import *
-from utils.tf_data_iterators import *
-from utils.spacy import *
+from audio_utils.dataset import *
+from audio_utils.tf_data_iterators import *
+from sarvam.nlp.spacy import *
 
 
 TRAIN_FILE_PATH = "../../data/spooky_author_identification/input/train.csv"
@@ -42,16 +42,16 @@ val_one_hot_encoded_label= dataset.get_val_one_hot_label()
 train_input_fn, train_input_hook = setup_input_graph(train_data,
                                                      train_one_hot_encoded_label,
                                                       batch_size=BATCH_SIZE, 
-                                                      scope='train-utils')
+                                                      scope='train-audio_utils')
 
 eval_input_fn, eval_input_hook =  setup_input_graph(dataset.get_val_text_data(),
                                                      val_one_hot_encoded_label,
                                                     batch_size=BATCH_SIZE, 
-                                                    scope='eval-utils')
+                                                    scope='eval-audio_utils')
                                                                                                           
 test_input_fn =  test_inputs(dataset.get_test_text_data(), 
                                         batch_size=1, 
-                                        scope='test-utils')
+                                        scope='test-audio_utils')
                                         
 
 '''

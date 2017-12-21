@@ -13,7 +13,7 @@ import numpy as np
 from six.moves import urllib
 import tensorflow as tf
 
-# Parameters for downloading utils
+# Parameters for downloading audio_utils
 DOWNLOAD_URL = 'http://mattmahoney.net/dc/'
 EXPECTED_BYTES = 31344016
 FILE_NAME = 'text8.zip'
@@ -44,7 +44,7 @@ def download(file_name, expected_bytes, download_path):
     return file_path
 
 def read_data(file_path):
-    """ Read utils into a list of tokens 
+    """ Read audio_utils into a list of tokens 
     There should be 17,005,207 tokens
     """
     with zipfile.ZipFile(file_path) as f:

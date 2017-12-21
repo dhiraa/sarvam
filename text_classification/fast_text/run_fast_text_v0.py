@@ -1,12 +1,12 @@
-import os
 import sys
-
-# add utils path
 sys.path.append("../")
 
-from utils.data.kaggle.spooky_dataset import *
+# add tc_utils path
+from tc_utils.tf_data_iterators import *
+from tc_utils.dataset import TextDataFrame
+from tc_utils.kaggle.spooky_dataset import *
 from fast_text import fast_text_v0
-from utils.tf_hooks.early_stopping import EarlyStoppingLossHook
+from tc_utils.tf_hooks.early_stopping import EarlyStoppingLossHook
 
 #Model Parameters
 BATCH_SIZE = 16
@@ -17,11 +17,11 @@ TEXT_COL = "text"
 CATEOGORY_COL = "author"
 
 #Prepare the dataset
-dataset: TextDataFrame = TextDataFrame(train_file_path=TRAIN_FILE_PATH,
+dataset = TextDataFrame(train_file_path=TRAIN_FILE_PATH,
                                        test_file_path=TEST_FILE_PATH,
                                        text_col=TEXT_COL,
                                        category_col=CATEOGORY_COL,
-                                       model_name=DATA_STORE_PATH)
+                                       dataset_name=DATA_STORE_PATH)
 
 train_data = dataset.get_train_text_data()
 val_data = dataset.get_val_text_data()
@@ -41,17 +41,17 @@ val_one_hot_encoded_label = dataset.get_val_one_hot_label()
 train_input_fn, train_input_hook = setup_input_graph(train_data,
                                                      train_one_hot_encoded_label,
                                                      batch_size=BATCH_SIZE,
-                                                     scope='train-utils')
+                                                     scope='train-audio_utils')
 
 eval_input_fn, eval_input_hook = setup_input_graph(val_data,
                                                    val_one_hot_encoded_label,
                                                    batch_size=1,
                                                    is_eval=True,
-                                                   scope='eval-utils')
+                                                   scope='eval-audio_utils')
 
 test_input_fn = test_inputs(test_data,
                             batch_size=1,
-                            scope='test-utils')
+                            scope='test-audio_utils')
 
 # Configure the model
 config = fast_text_v0.FastTextConfig(vocab_size=dataset.vocab_count,

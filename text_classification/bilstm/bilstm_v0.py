@@ -10,11 +10,10 @@
 # Reference: https://github.com/tensorflow/tensorflow/blob/r1.4/tensorflow/examples/tutorials/estimators/abalone.py
 # https://github.com/tensorflow/tensorflow/issues/14018
 
-import tensorflow as tf
 import argparse
+
+import tensorflow as tf
 from tensorflow.contrib.learn import ModeKeys
-from tensorflow.contrib import lookup
-from utils.colorful_logger import *
 
 tf.logging.set_verbosity("INFO")
 

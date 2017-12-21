@@ -1,23 +1,22 @@
 import os
+import sys
+sys.path.append("../../")
 import pandas as pd
 from tqdm import tqdm
 from tensorflow.python.platform import gfile
 import tensorflow as tf
-import ntpath
-
 # import pickle
 import numpy as np
 
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import LabelBinarizer
 
-from utils.spacy import tokenize
-
-from utils.colorful_logger import *
+from sarvam.colorful_logger import *
+from sarvam.nlp.spacy import tokenize
 
 def size_mb(docs):
     # Each char is a byte and divide it by 100000
-    return sum(len(s.encode('utf-8')) for s in docs) / 1e6
+    return sum(len(str(s).encode('utf-8')) for s in docs) / 1e6
 
 
 def naive_vocab_creater(lines, out_file_name):
@@ -84,7 +83,7 @@ def pad_sequences(sequences, pad_tok, nlevels, max_doc_legth, max_word_length):
         # max_length_word = max([max(map(lambda x: len(x), seq))
         #                        for seq in sequences])
         sequence_padded, sequence_length = [], []
-        for seq in tqdm(sequences):
+        for seq in tqdm(sequences, desc="pad_sequences"):
             # all words are same length now
             sp, sl = _pad_sequences(seq, pad_tok, max_word_length)
             sequence_padded += [sp]
@@ -142,7 +141,7 @@ def get_vocab_from_csvs(csv_files_path: str, text_col: str,
     :return:
     '''
     vocab = set()
-    for file in tqdm(os.listdir(csv_files_path)):
+    for file in tqdm(os.listdir(csv_files_path), desc="get_vocab_from_csvs"):
         file = os.path.join(csv_files_path, file)
         if file.endswith('.csv') and (os.path.getsize(file) > 0):
             df = pd.read_csv(file).fillna(unkown_token)
@@ -194,7 +193,9 @@ class TextDataFrame():
                  category_cols,
                  max_doc_legth,
                  max_word_length,
-                 model_name="model_name"):
+                 is_multi_label,
+                 is_tokenize,
+                 dataset_name="dataset"):
         '''
         A simple class to maintain train/validation/test datasets, backed by Pandas Dataframe
         
@@ -203,9 +204,17 @@ class TextDataFrame():
             - Prepare LabelTokenizer and LabelTokenizer
             - If test data is not given, train data set is split into train/validation/test set
             - If test data is given, train data set is split into train/validation set
-        3. Tokenize the sentence
+        3. Tokenize the sentence with spaCy model "en_core_web_lg"
         4. Save the processed files
         5. Prepare features for trianing/validation/testing
+            - Account for category column
+                - User LabelEncoder and LabelBinarizer to get index and on hot encoded labels
+            - Account for category columns and does not contain multi labels 
+                - Convert category columns ---> inffered category columns and use above method down the line
+            - Account for category columns and does contain multi labels
+                - No stratified sampling possible based on labels
+                - Go with random sampling
+                - Use actual category colums for one-hot coded labels
             - Raw text data [NUM_OF_EXAMPLES,]
             - Text word IDs [NUM_OF_EXAMPLES, MAX_DOC_LENGTH]
             - Text word char IDs [NUM_OF_EXAMPLES, MAX_DOC_LENGTH, MAX_CHAR_LENGTH]
@@ -224,8 +233,16 @@ class TextDataFrame():
         self.train_df_path: str = train_file_path
         self.test_df_path: str = test_file_path
         self.text_col = text_col
-        self.category_col = category_col
+
+        if category_col == None:
+            self.category_col = "category_inffered"
+        else:
+            self.category_col = category_col
+
         self.category_cols = category_cols
+
+        self.is_multi_label = is_multi_label
+        self.is_tokenize = is_tokenize
 
         self.MAX_DOC_LEGTH = max_doc_legth
         self.MAX_WORD_LENGTH = max_word_length
@@ -235,37 +252,42 @@ class TextDataFrame():
         self.le = LabelEncoder()
         self.label_binarizer = LabelBinarizer()
 
-        if not os.path.exists(model_name):
-            os.makedirs(model_name)
+        if not os.path.exists(dataset_name):
+            os.makedirs(dataset_name)
 
-        model_name = model_name+"/"
-        self.words_vocab_file = model_name + "words_vocab.tsv"
+        dataset_name = dataset_name + "/"
+        self.words_vocab_file = dataset_name + "words_vocab.tsv"
 
         # Tokenize the sentences and store them
-        if not os.path.exists(model_name+"train_processed.csv") or \
-                not os.path.exists(model_name+"test_processed.csv") or \
-                not os.path.exists(model_name+"val_processed.csv"):
+        if not os.path.exists(dataset_name+ "train_processed.csv") or \
+                not os.path.exists(dataset_name+ "test_processed.csv") or \
+                not os.path.exists(dataset_name+ "val_processed.csv"):
 
             self._prepare_data()
 
-            self.train_df = tokenize(self.train_df, text_col)
-            self.val_df = tokenize(self.val_df, text_col)
-            self.test_df = tokenize(self.test_df, text_col)
+            if self.is_tokenize:
+                print("Tokenizing...")
+                self.train_df = tokenize(self.train_df, text_col)
+                self.train_df.to_csv(dataset_name + "train_processed.csv")
+                self.val_df = tokenize(self.val_df, text_col)
+                self.val_df.to_csv(dataset_name + "val_processed.csv")
+                self.test_df = tokenize(self.test_df, text_col)
 
-            self.train_df.to_csv(model_name+"train_processed.csv")
-            self.val_df.to_csv(model_name + "val_processed.csv")
-            self.test_df.to_csv(model_name + "test_processed.csv")
+            self.train_df.to_csv(dataset_name + "train_processed.csv")
+            self.val_df.to_csv(dataset_name + "val_processed.csv")
+            self.test_df.to_csv(dataset_name + "test_processed.csv")
 
         else:
             print("Loading processed files...")
-            self.train_df = pd.read_csv(model_name+"train_processed.csv")
-            self.val_df = pd.read_csv(model_name + "val_processed.csv")
-            self.test_df = pd.read_csv(model_name + "test_processed.csv")
+            self.train_df = pd.read_csv(dataset_name + "train_processed.csv")
+            self.val_df = pd.read_csv(dataset_name + "val_processed.csv")
+            self.test_df = pd.read_csv(dataset_name + "test_processed.csv")
 
-            print('Fitting LabelEncoder and LabelBinarizer on processed utils...')
-            self.le.fit(list(self.train_df[self.category_col]))
-            self.label_binarizer.fit(list(self.train_df[self.category_col]))
-            print('Done!')
+            if not self.is_multi_label:
+                print('Fitting LabelEncoder and LabelBinarizer on processed audio_utils...')
+                self.le.fit(list(self.train_df[self.category_col]))
+                self.label_binarizer.fit(list(self.train_df[self.category_col]))
+                print('Done!')
 
         print("Preparing vocab file...")
         self.vocab_count, self.vocab = naive_vocab_creater(self.train_df[text_col].tolist(),
@@ -285,9 +307,8 @@ class TextDataFrame():
         self.num_train_samples = self.train_df.shape[0]
 
 
-    # TODO find an easy way???
     def _get_train_val_test_split(self, df):
-        print('Splitting the utils set(stratified sampling)...')
+        print('Splitting the audio_utils set(stratified sampling)...')
 
         def train_validate_test_split(df, train_percent=.7, validate_percent=.2, seed=42):
             np.random.seed(seed)
@@ -316,7 +337,7 @@ class TextDataFrame():
         val_df = pd.concat(val_dfs)
         test_df = pd.concat(test_dfs)
 
-        # Shuffle the utils
+        # Shuffle the audio_utils
         train_df = train_df.sample(frac=1).reset_index(drop=True)
         val_df = val_df.sample(frac=1).reset_index(drop=True)
         test_df = test_df.sample(frac=1).reset_index(drop=True)
@@ -326,9 +347,9 @@ class TextDataFrame():
         return train_df, val_df, test_df
 
     def _get_train_val_split(self, df):
-        print('Splitting the utils set(stratified sampling)...')
+        print('Splitting the train set into trai and vaidation (stratified sampling)...')
 
-        def train_validate_test_split(df, train_percent=.8, seed=42):
+        def train_validate_test_split(df, train_percent=.95, seed=42):
             np.random.seed(seed)
             perm = np.random.permutation(df.index)
             m = len(df)
@@ -338,23 +359,24 @@ class TextDataFrame():
             return train, validate
 
         # Make list of sampled dataframe for each category
-        dfs = [train_validate_test_split(df[df[self.category_col] == label]) for label in self.le.classes_]
+        dfs = [train_validate_test_split(df[df[self.category_col] == label])
+               for label in tqdm(self.le.classes_, desc="_get_train_val_split")]
 
         # Now the values are grouped to form a Dataframe
         train_dfs = []
         val_dfs = []
-        for train_df, val_df in dfs:
+        for train_df, val_df in tqdm(dfs):
             train_dfs.append(train_df)
             val_dfs.append(val_df)
 
         train_df = pd.concat(train_dfs)
         val_df = pd.concat(val_dfs)
 
-        # Shuffle the utils
+        # Shuffle the audio_utils
         train_df = train_df.sample(frac=1).reset_index(drop=True)
         val_df = val_df.sample(frac=1).reset_index(drop=True)
 
-        print('Done!')
+        print('Done splitting!')
 
         return train_df, val_df
 
@@ -365,9 +387,8 @@ class TextDataFrame():
         :param df: 
         :return: 
         '''
-        if self.category_cols:
+        if self.category_cols and not self.is_multi_label:
             category_map = dict(enumerate(self.category_cols))
-            self.category_col = "category_inffered"
             labels = df[self.category_cols].as_matrix().argmax(axis=1)
             labels = list(map(lambda label: category_map[label], labels))
             df[self.category_col] = labels
@@ -378,37 +399,52 @@ class TextDataFrame():
 
     def _prepare_data(self):
 
-        # If there is no test data, split the train data into train and validation
-        if not os.path.exists(self.test_df_path):
-            self.train_df = self.get_train_data()
-
-            self.train_df = self.one_hot_2_categories(self.train_df)
-
-            print('Fitting LabelEncoder and LabelBinarizer...')
-            self.le.fit(list(self.train_df[self.category_col]))
-            self.label_binarizer.fit(list(self.train_df[self.category_col]))
-            print('Done!')
-
-
-            self.train_df, self.val_df, self.test_df = self._get_train_val_test_split(self.train_df)
-        else:
-            self.train_df = self.get_train_data()
-
-            self.train_df = self.one_hot_2_categories(self.train_df)
-
-            print('Fitting LabelEncoder and LabelBinarizer...')
-            self.le.fit(list(self.train_df[self.category_col]))
-            self.label_binarizer.fit(list(self.train_df[self.category_col]))
-            print('Done!')
-
-            self.train_df, self.val_df = self._get_train_val_split(self.train_df)
-
-            if self.test_df_path.endswith('.csv'):
-                self.test_df = pd.read_csv(self.test_df_path)
-            elif self.test_df_path.endswith('.json'):
-                self.test_df = pd.read_json(self.test_df_path)
+        if self.is_multi_label:
+            if not os.path.exists(self.test_df_path):
+                print_info(self.test_df_path)
+                raise NotImplementedError("Spend some time to implement this!")
             else:
-                self.test_df = pd.read_pickle(self.test_df_path)
+                self.train_data = self.get_train_data()
+                if self.test_df_path.endswith('.csv'):
+                    self.test_df = pd.read_csv(self.test_df_path)
+                elif self.test_df_path.endswith('.json'):
+                    self.test_df = pd.read_json(self.test_df_path)
+                else:
+                    self.test_df = pd.read_pickle(self.test_df_path)
+
+                mask = np.random.rand(len(self.train_data)) < 0.95
+                #TODO train_test_split(df, test_size=0.05)
+                self.train_df, self.val_df = self.train_data[mask], self.train_data[~mask]
+        else:
+            # If there is no test data, split the train data into train and validation
+            if not os.path.exists(self.test_df_path):
+                self.train_df = self.get_train_data()
+
+                print('Fitting LabelEncoder and LabelBinarizer...')
+                self.le.fit(list(self.train_df[self.category_col]))
+                self.label_binarizer.fit(list(self.train_df[self.category_col]))
+                print('Done label encoding !')
+
+
+                self.train_df, self.val_df, self.test_df = self._get_train_val_test_split(self.train_df)
+            else:
+                self.train_df = self.get_train_data()
+
+                self.train_df = self.one_hot_2_categories(self.train_df)
+
+                print('Fitting LabelEncoder and LabelBinarizer...')
+                self.le.fit(list(self.train_df[self.category_col]))
+                self.label_binarizer.fit(list(self.train_df[self.category_col]))
+                print('Done label encoding !')
+
+                self.train_df, self.val_df = self._get_train_val_split(self.train_df)
+
+                if self.test_df_path.endswith('.csv'):
+                    self.test_df = pd.read_csv(self.test_df_path)
+                elif self.test_df_path.endswith('.json'):
+                    self.test_df = pd.read_json(self.test_df_path)
+                else:
+                    self.test_df = pd.read_pickle(self.test_df_path)
 
 
     #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -425,26 +461,33 @@ class TextDataFrame():
         return df.as_matrix()
 
     def _get_target_label(self, df):
-        print('Labels and their document counts based on', end=' ')
-        print(df.groupby(self.category_col)[self.category_col].count())
-        # if self.category_cols:
-        #     return df[self.category_cols].as_matrix().argmax(axis=1)
-        # else:
-        return self.le.transform(df[self.category_col])
+
+        if not self.is_multi_label:
+            print('Labels and their document counts based on', end=' ')
+            print(df.groupby(self.category_col)[self.category_col].count())
+        if self.category_cols:
+            if self.is_multi_label:
+                print_error("Not possible with multi label setup!")
+                return None
+            else:
+                return df[self.category_cols].as_matrix().argmax(axis=1)
+        else:
+            return self.le.transform(df[self.category_col])
 
     def _get_one_hot_target_label(self, df):
-        print('Labels and their document counts based on', end=' ')
-        print(df.groupby(self.category_col)[self.category_col].count())
-        # if self.category_cols:
-        #     return df[self.category_cols].as_matrix()
-        # else:
-        return self.label_binarizer.transform(df[self.category_col].as_matrix())
+        if not self.is_multi_label:
+            print('Labels and their document counts based on', end=' ')
+            print(df.groupby(self.category_col)[self.category_col].count())
+        if self.category_cols:
+            return df[self.category_cols].as_matrix()
+        else:
+            return self.label_binarizer.transform(df[self.category_col].as_matrix())
 
     def _get_text_word_ids(self, df):
         PAD_WORD_ID = 0
         UNKNOWN_WORD_ID = 1
         lines = df[self.text_col].as_matrix()
-        tokenized_lines_ids = [[self.word2id.get(word, UNKNOWN_WORD_ID) for word in line.split(" ")] for line in lines]
+        tokenized_lines_ids = [[self.word2id.get(word, UNKNOWN_WORD_ID) for word in str(line).split(" ")] for line in tqdm(lines)]
         tokenized_lines_ids_padded, tokenized_lines_ids_length = pad_sequences(tokenized_lines_ids,
                                                                                nlevels=1,
                                                                                pad_tok=PAD_WORD_ID,
@@ -460,8 +503,8 @@ class TextDataFrame():
         lines_char_ids = []
         char_ids = []
 
-        for line in lines:
-            for word in line.split(" "):
+        for line in tqdm(lines, desc="_get_text_word_char_ids:"):
+            for word in str(line).split(" "):
                 for char in word:
                     char_ids.append(self.char2id.get(char, UNKNOWN_CHAR_ID))
                 lines_char_ids.append(char_ids)
@@ -491,6 +534,8 @@ class TextDataFrame():
             full_df = pd.read_json(self.train_df_path)
         else:
             full_df = pd.read_pickle(self.train_df_path)
+
+        full_df = self.one_hot_2_categories(full_df)
         return full_df
 
     def get_test_df(self):
@@ -503,34 +548,34 @@ class TextDataFrame():
     def get_train_text_data(self):
         # return self.train_df[self.text_col].map(lambda x: self.replace(x)).as_matrix()
         docs = self._get_text_data('train_df')
-        print("Size of train utils: %0.3fMB" % (size_mb(docs)))
+        print("Size of train data: %0.3fMB" % (size_mb(docs)))
         return docs
 
     def get_val_text_data(self):
         # return self.val_df[self.text_col].map(lambda x: self.replace(x)).as_matrix()
         docs = self._get_text_data('val_df')
-        print("Size of validation utils: %0.3fMB" % (size_mb(docs)))
+        print("Size of validation data: %0.3fMB" % (size_mb(docs)))
         return docs
 
     def get_test_text_data(self):
         # return self.test_df[self.text_col].map(lambda x: self.replace(x)).as_matrix()
         docs = self._get_text_data('test_df')
-        print("Size of test utils: %0.3fMB" % (size_mb(docs)))
+        print("Size of test data: %0.3fMB" % (size_mb(docs)))
         return docs
 
     def get_train_text_word_ids(self):
         docs = self._get_text_word_ids(self.train_df)
-        # print("Size of train utils: %0.3fMB" % (size_mb(docs)))
+        # print("Size of train audio_utils: %0.3fMB" % (size_mb(docs)))
         return docs
 
     def get_val_text_word_ids(self):
         docs = self._get_text_word_ids(self.val_df)
-        # print("Size of train utils: %0.3fMB" % (size_mb(docs)))
+        # print("Size of train audio_utils: %0.3fMB" % (size_mb(docs)))
         return docs
 
     def get_test_text_word_ids(self):
         docs = self._get_text_word_ids(self.test_df)
-        # print("Size of train utils: %0.3fMB" % (size_mb(docs)))
+        # print("Size of train audio_utils: %0.3fMB" % (size_mb(docs)))
         return docs
 
     def get_train_text_word_char_ids(self):

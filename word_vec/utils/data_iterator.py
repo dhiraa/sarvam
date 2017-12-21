@@ -57,7 +57,7 @@ def glove_iterator(train_data, batch_size, shuffle=True, scope='train-data', is_
 
 # Define the inputs
 def skip_gram_iterator(train_data, batch_size, shuffle=False, scope='train-data', is_eval=False):
-    """Return the input function to get the training/evaluation utils.
+    """Return the input function to get the training/evaluation audio_utils.
     """
     iterator_initializer_hook = IteratorInitializerHook()
 
