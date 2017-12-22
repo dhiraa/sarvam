@@ -1,5 +1,6 @@
 import argparse
 import sys
+sys.path.append(".")
 sys.path.append("../")
 import spacy
 nlp = spacy.load('en_core_web_sm')
