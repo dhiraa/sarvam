@@ -1,5 +1,8 @@
 import sys
 sys.path.append("../")
+
+import pandas as pd
+
 from overrides import overrides
 import tensorflow as tf
 from tc_utils.data_iterator import DataIterator
@@ -7,9 +10,10 @@ from tc_utils.feature_types import TextAndCharIdsFeature
 from tc_utils.tf_hooks.data_initializers import IteratorInitializerHook
 
 class TextAndCharIds(DataIterator):
-    def __init__(self, batch_size):
+    def __init__(self, batch_size, dataframe):
         DataIterator.__init__(self)
         self.batch_size = batch_size
+        self.dataframe = dataframe
 
     def _setup_input_graph2(self,
                             word_ids,
@@ -99,23 +103,22 @@ class TextAndCharIds(DataIterator):
         return inputs
 
     @overrides
-    def prepare(self,
-                text_dataframe):
+    def prepare(self):
 
         self.feature_type = TextAndCharIdsFeature
 
         #To get text word ids
-        train_text_word_ids = text_dataframe.get_train_text_word_ids()
-        val_text_word_ids = text_dataframe.get_val_text_word_ids()
-        test_text_word_ids = text_dataframe.get_test_text_word_ids()
+        train_text_word_ids = self.dataframe.get_train_text_word_ids()
+        val_text_word_ids = self.dataframe.get_val_text_word_ids()
+        test_text_word_ids = self.dataframe.get_test_text_word_ids()
 
         #To get text word char IDS
-        train_text_word_char_ids = text_dataframe.get_train_text_word_char_ids()
-        val_text_word_char_ids = text_dataframe.get_val_text_word_char_ids()
-        test_text_word_char_ids = text_dataframe.get_test_text_word_char_ids()
+        train_text_word_char_ids = self.dataframe.get_train_text_word_char_ids()
+        val_text_word_char_ids = self.dataframe.get_val_text_word_char_ids()
+        test_text_word_char_ids = self.dataframe.get_test_text_word_char_ids()
 
-        train_one_hot_encoded_label = text_dataframe.get_train_one_hot_label()
-        val_one_hot_encoded_label= text_dataframe.get_val_one_hot_label()
+        train_one_hot_encoded_label = self.dataframe.get_train_one_hot_label()
+        val_one_hot_encoded_label= self.dataframe.get_val_one_hot_label()
 
 
         self.train_input_fn, self.train_input_hook = self._setup_input_graph2(train_text_word_ids,
@@ -138,3 +141,4 @@ class TextAndCharIds(DataIterator):
                                            test_text_word_char_ids,
                                            batch_size=1,
                                            scope='test_data')
+

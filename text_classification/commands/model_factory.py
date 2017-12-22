@@ -41,7 +41,7 @@ class ModelsFactory():
         '''
         '''
         try:
-            cfg = getattr(import_module("models." + name), ModelsFactory.model_configurations[name])
+            cfg = getattr(import_module(ModelsFactory.model_path[name]), ModelsFactory.model_configurations[name])
         except KeyError:
             raise NotImplemented("Given config file name not found: {}".format(name))
         # Return the model class

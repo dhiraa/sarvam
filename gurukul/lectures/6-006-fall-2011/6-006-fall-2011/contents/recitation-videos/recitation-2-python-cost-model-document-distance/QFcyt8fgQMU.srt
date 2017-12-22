@@ -1,0 +1,4936 @@
+1
+00:00:00,080 --> 00:00:01,770
+The following
+content is provided
+
+2
+00:00:01,770 --> 00:00:04,010
+under a Creative
+Commons license.
+
+3
+00:00:04,010 --> 00:00:06,860
+Your support will help MIT
+OpenCourseWare continue
+
+4
+00:00:06,860 --> 00:00:10,720
+to offer high quality
+educational resources for free.
+
+5
+00:00:10,720 --> 00:00:13,340
+To make a donation or
+view additional materials
+
+6
+00:00:13,340 --> 00:00:17,207
+from hundreds of MIT courses,
+visit MIT OpenCourseWare
+
+7
+00:00:17,207 --> 00:00:17,832
+at ocw.mit.edu.
+
+8
+00:00:20,749 --> 00:00:23,040
+VICTOR COSTAN: So I'm excited
+about today's recitation,
+
+9
+00:00:23,040 --> 00:00:25,560
+because if I do this
+right and you guys get it,
+
+10
+00:00:25,560 --> 00:00:28,750
+then I can mess up every
+other recitation after it.
+
+11
+00:00:28,750 --> 00:00:31,720
+And you'll still get
+the gist of 6.006.
+
+12
+00:00:31,720 --> 00:00:34,700
+So all I have to do
+is get this working.
+
+13
+00:00:34,700 --> 00:00:36,760
+So most of the time
+in the real world
+
+14
+00:00:36,760 --> 00:00:39,580
+you're probably not going to be
+coming up with new algorithms
+
+15
+00:00:39,580 --> 00:00:42,080
+to do something, but rather
+you'll have some code
+
+16
+00:00:42,080 --> 00:00:43,960
+and you want to make it faster.
+
+17
+00:00:43,960 --> 00:00:45,760
+And the first step
+in making it faster
+
+18
+00:00:45,760 --> 00:00:48,510
+is you realize, how
+does it do right now?
+
+19
+00:00:48,510 --> 00:00:51,210
+How does it run, which lines
+are slow, which lines are fast,
+
+20
+00:00:51,210 --> 00:00:53,030
+and where you can
+make improvements.
+
+21
+00:00:53,030 --> 00:00:56,190
+So in lecture we talked
+about the Python Cost Model
+
+22
+00:00:56,190 --> 00:00:59,100
+which is what you use
+to look at the code
+
+23
+00:00:59,100 --> 00:01:01,590
+and figure out how much
+time it takes to run.
+
+24
+00:01:01,590 --> 00:01:04,069
+And we talked about
+document distance,
+
+25
+00:01:04,069 --> 00:01:05,530
+which is a problem
+that we'll use
+
+26
+00:01:05,530 --> 00:01:08,180
+to practice our analysis skills.
+
+27
+00:01:08,180 --> 00:01:09,860
+And this entire
+recitation is all
+
+28
+00:01:09,860 --> 00:01:12,610
+about looking at versions
+of document distance
+
+29
+00:01:12,610 --> 00:01:14,810
+and analyzing them.
+
+30
+00:01:14,810 --> 00:01:16,860
+So that's what we'll
+do, look at Python code,
+
+31
+00:01:16,860 --> 00:01:19,010
+look at Python code,
+look at Python code.
+
+32
+00:01:19,010 --> 00:01:21,320
+So you better have handouts,
+because I can't project.
+
+33
+00:01:21,320 --> 00:01:25,637
+OK, how many people remember
+the document distance problem?
+
+34
+00:01:25,637 --> 00:01:27,345
+You guys said you went
+to lecture, right?
+
+35
+00:01:30,540 --> 00:01:33,470
+OK, so very, very fast,
+document distance.
+
+36
+00:01:33,470 --> 00:01:34,650
+I have two documents.
+
+37
+00:01:37,720 --> 00:01:41,780
+The fox is in the hat.
+
+38
+00:01:45,990 --> 00:01:49,930
+And the fox is outside.
+
+39
+00:01:54,250 --> 00:01:56,820
+Document 1, document 2.
+
+40
+00:01:56,820 --> 00:01:58,580
+What's the first
+thing I want to do?
+
+41
+00:01:58,580 --> 00:02:01,940
+So there are three operations
+that Eric mentioned in lecture.
+
+42
+00:02:01,940 --> 00:02:07,410
+Operation one,
+take each document,
+
+43
+00:02:07,410 --> 00:02:08,820
+break it up into words.
+
+44
+00:02:08,820 --> 00:02:10,220
+Right?
+
+45
+00:02:10,220 --> 00:02:12,610
+This is a string.
+
+46
+00:02:12,610 --> 00:02:15,640
+When I read it, then it becomes
+word one, word two, word three,
+
+47
+00:02:15,640 --> 00:02:18,060
+word four, so on and so forth.
+
+48
+00:02:18,060 --> 00:02:20,930
+Operation two, build
+document vectors
+
+49
+00:02:20,930 --> 00:02:22,840
+out of the two documents.
+
+50
+00:02:22,840 --> 00:02:25,790
+So the documents are D1 and D2.
+
+51
+00:02:29,080 --> 00:02:30,950
+A document vector
+is basically a list
+
+52
+00:02:30,950 --> 00:02:35,670
+of the words in the documents
+with a count of how many times
+
+53
+00:02:35,670 --> 00:02:37,870
+each word appears
+in the document.
+
+54
+00:02:37,870 --> 00:02:43,112
+So let's build a document
+vector for document one.
+
+55
+00:02:43,112 --> 00:02:44,570
+I'm not going to
+write it formally,
+
+56
+00:02:44,570 --> 00:02:47,120
+so can anyone tell me
+what it should look like,
+
+57
+00:02:47,120 --> 00:02:49,110
+and I'll sort of write
+it down as a list.
+
+58
+00:02:52,780 --> 00:02:55,440
+So for all the words here,
+I want to list the words
+
+59
+00:02:55,440 --> 00:02:57,640
+and how many times they show up.
+
+60
+00:02:57,640 --> 00:03:01,376
+Somebody, please.
+
+61
+00:03:01,376 --> 00:03:03,840
+AUDIENCE: The is in there twice?
+
+62
+00:03:03,840 --> 00:03:04,970
+VICTOR COSTAN: OK.
+
+63
+00:03:04,970 --> 00:03:07,735
+The, twice.
+
+64
+00:03:07,735 --> 00:03:10,410
+AUDIENCE: Fox, once.
+
+65
+00:03:10,410 --> 00:03:11,710
+VICTOR COSTAN: One.
+
+66
+00:03:11,710 --> 00:03:13,340
+AUDIENCE: Is, once.
+
+67
+00:03:13,340 --> 00:03:15,090
+VICTOR COSTAN: Is, one.
+
+68
+00:03:15,090 --> 00:03:16,970
+AUDIENCE: [INAUDIBLE] in once.
+
+69
+00:03:16,970 --> 00:03:18,200
+VICTOR COSTAN: In, one.
+
+70
+00:03:18,200 --> 00:03:18,991
+AUDIENCE: Hat once.
+
+71
+00:03:21,242 --> 00:03:22,200
+VICTOR COSTAN: Awesome.
+
+72
+00:03:22,200 --> 00:03:24,760
+Thank you very much.
+
+73
+00:03:24,760 --> 00:03:25,910
+Second one.
+
+74
+00:03:25,910 --> 00:03:27,500
+Another volunteer.
+
+75
+00:03:27,500 --> 00:03:28,270
+Yes, go for it.
+
+76
+00:03:28,270 --> 00:03:30,231
+AUDIENCE: The, once.
+
+77
+00:03:30,231 --> 00:03:31,230
+VICTOR COSTAN: The, one.
+
+78
+00:03:31,230 --> 00:03:32,740
+AUDIENCE: Fox, once.
+
+79
+00:03:32,740 --> 00:03:33,857
+VICTOR COSTAN: Fox, one
+
+80
+00:03:33,857 --> 00:03:35,020
+AUDIENCE: Is, one.
+
+81
+00:03:35,020 --> 00:03:36,708
+VICTOR COSTAN: Is, one.
+
+82
+00:03:36,708 --> 00:03:38,604
+AUDIENCE: Outside, one.
+
+83
+00:03:38,604 --> 00:03:41,890
+VICTOR COSTAN: Outside, one.
+
+84
+00:03:41,890 --> 00:03:44,850
+OK, so this is a
+document vector.
+
+85
+00:03:44,850 --> 00:03:47,190
+Notice two small details.
+
+86
+00:03:47,190 --> 00:03:49,880
+Here, they is capitalized,
+here it's not,
+
+87
+00:03:49,880 --> 00:03:52,570
+and yet I bundle them together.
+
+88
+00:03:52,570 --> 00:03:54,160
+I know my grammar,
+so I put periods
+
+89
+00:03:54,160 --> 00:03:56,024
+at the end of the
+sentences, and yet they
+
+90
+00:03:56,024 --> 00:03:57,190
+don't show up anywhere here.
+
+91
+00:03:57,190 --> 00:03:58,800
+So we got rid of
+the punctuation,
+
+92
+00:03:58,800 --> 00:04:00,185
+and we made all words lowercase.
+
+93
+00:04:02,476 --> 00:04:04,100
+These are details,
+but they are details
+
+94
+00:04:04,100 --> 00:04:05,808
+that you'll see in
+the code, so if you're
+
+95
+00:04:05,808 --> 00:04:07,850
+wondering why, this is why.
+
+96
+00:04:07,850 --> 00:04:11,180
+So step one, read the document,
+make it a list of words.
+
+97
+00:04:11,180 --> 00:04:13,250
+Step two, compute
+the document vector.
+
+98
+00:04:13,250 --> 00:04:15,940
+Step three, take the
+two document vectors,
+
+99
+00:04:15,940 --> 00:04:17,610
+and compute the angle.
+
+100
+00:04:17,610 --> 00:04:20,560
+What is the angle of
+two document vectors?
+
+101
+00:04:20,560 --> 00:04:21,980
+Big ugly math formula.
+
+102
+00:04:21,980 --> 00:04:25,570
+The only thing that's relevant
+is that it takes these vectors
+
+103
+00:04:25,570 --> 00:04:27,860
+and computes an inner product.
+
+104
+00:04:27,860 --> 00:04:33,580
+So if we look at the code for
+angle vector, or vector angle,
+
+105
+00:04:33,580 --> 00:04:37,400
+you'll see that because
+numerator denominator lines two
+
+106
+00:04:37,400 --> 00:04:40,450
+and three, it calls
+inner product three times
+
+107
+00:04:40,450 --> 00:04:42,562
+and then it does
+some math with it.
+
+108
+00:04:42,562 --> 00:04:43,770
+We don't care about the math.
+
+109
+00:04:43,770 --> 00:04:45,170
+We assume the math is order one.
+
+110
+00:04:45,170 --> 00:04:48,514
+We only care about
+inner product.
+
+111
+00:04:48,514 --> 00:04:49,680
+How does inner product work?
+
+112
+00:04:49,680 --> 00:04:52,210
+Can anyone help me compute the
+inner product for these guys?
+
+113
+00:04:56,960 --> 00:04:57,920
+Yes?
+
+114
+00:04:57,920 --> 00:04:58,920
+AUDIENCE: It's like
+the dot product?
+
+115
+00:04:58,920 --> 00:04:59,672
+VICTOR COSTAN: OK.
+
+116
+00:04:59,672 --> 00:05:03,445
+AUDIENCE: So, if we take the
+vectors and you multiply them,
+
+117
+00:05:03,445 --> 00:05:05,870
+like, you're adding to
+the components, right?
+
+118
+00:05:05,870 --> 00:05:08,300
+Because they're so thick--
+
+119
+00:05:08,300 --> 00:05:10,482
+VICTOR COSTAN: OK, this
+is too complicated, then.
+
+120
+00:05:10,482 --> 00:05:11,940
+I'm seriously
+depressed, so give me
+
+121
+00:05:11,940 --> 00:05:15,600
+some clear instructions
+step by step.
+
+122
+00:05:15,600 --> 00:05:17,120
+AUDIENCE: Like,
+I know you divide
+
+123
+00:05:17,120 --> 00:05:18,860
+by the length of
+each of the vectors--
+
+124
+00:05:18,860 --> 00:05:20,280
+VICTOR COSTAN: Let's
+not worry about that.
+
+125
+00:05:20,280 --> 00:05:22,420
+I have these vectors, and
+I want an inner product.
+
+126
+00:05:22,420 --> 00:05:25,454
+I don't care about the angle,
+just the inner product.
+
+127
+00:05:25,454 --> 00:05:27,750
+AUDIENCE: OK, well do 2
+times 1 for the right.
+
+128
+00:05:27,750 --> 00:05:28,500
+VICTOR COSTAN: OK.
+
+129
+00:05:28,500 --> 00:05:30,620
+So I take the here,
+shows up twice.
+
+130
+00:05:30,620 --> 00:05:32,690
+I take the here, shows up once.
+
+131
+00:05:32,690 --> 00:05:33,970
+2 times 1, right?
+
+132
+00:05:33,970 --> 00:05:34,640
+AUDIENCE: Mhm.
+
+133
+00:05:34,640 --> 00:05:35,850
+VICTOR COSTAN: OK.
+
+134
+00:05:35,850 --> 00:05:36,758
+And then?
+
+135
+00:05:36,758 --> 00:05:38,927
+AUDIENCE: I would
+do the same for fox.
+
+136
+00:05:38,927 --> 00:05:41,510
+VICTOR COSTAN: OK, fox shows up
+here once, shows up here once,
+
+137
+00:05:41,510 --> 00:05:43,739
+so what I do?
+
+138
+00:05:43,739 --> 00:05:45,070
+AUDIENCE: 1 times 1.
+
+139
+00:05:45,070 --> 00:05:47,380
+VICTOR COSTAN: OK.
+
+140
+00:05:47,380 --> 00:05:49,240
+AUDIENCE: And do
+the same for is.
+
+141
+00:05:49,240 --> 00:05:50,816
+VICTOR COSTAN: OK.
+
+142
+00:05:50,816 --> 00:05:53,400
+AUDIENCE: And in should be 0.
+
+143
+00:05:53,400 --> 00:05:54,150
+VICTOR COSTAN: OK.
+
+144
+00:05:54,150 --> 00:05:55,730
+AUDIENCE: [INAUDIBLE] in.
+
+145
+00:05:55,730 --> 00:05:56,480
+VICTOR COSTAN: OK.
+
+146
+00:05:56,480 --> 00:05:58,820
+AUDIENCE: And then
+outside would also be 0,
+
+147
+00:05:58,820 --> 00:06:00,750
+and hat would also be 0.
+
+148
+00:06:00,750 --> 00:06:01,580
+VICTOR COSTAN: OK.
+
+149
+00:06:01,580 --> 00:06:04,020
+So it turns out you don't
+have to go through both lists.
+
+150
+00:06:04,020 --> 00:06:06,330
+It's sufficient to go
+through one of the vectors
+
+151
+00:06:06,330 --> 00:06:08,336
+and look up the words
+in the other vector.
+
+152
+00:06:08,336 --> 00:06:10,710
+Because if the words don't
+show up in any of the vectors,
+
+153
+00:06:10,710 --> 00:06:12,670
+their contribution
+is going to be 0.
+
+154
+00:06:12,670 --> 00:06:16,670
+So my algorithm is go
+through each of the elements
+
+155
+00:06:16,670 --> 00:06:20,010
+here, look up each of the words
+there, look up at the word
+
+156
+00:06:20,010 --> 00:06:20,780
+here.
+
+157
+00:06:20,780 --> 00:06:23,500
+And if there's a
+word here and here,
+
+158
+00:06:23,500 --> 00:06:26,130
+take out the number of times
+it shows up in each document,
+
+159
+00:06:26,130 --> 00:06:31,470
+multiply them, and
+then add everything up.
+
+160
+00:06:31,470 --> 00:06:33,440
+So this is inner product.
+
+161
+00:06:33,440 --> 00:06:35,890
+Everything else is good if
+you're writing a search engine
+
+162
+00:06:35,890 --> 00:06:38,020
+or if you're using the
+scenario application,
+
+163
+00:06:38,020 --> 00:06:40,880
+but we're not really
+concerned with it.
+
+164
+00:06:40,880 --> 00:06:42,730
+OK, so now we have
+the three steps,
+
+165
+00:06:42,730 --> 00:06:45,630
+read the document,
+break it up into words,
+
+166
+00:06:45,630 --> 00:06:47,990
+compute document vectors,
+compute our inner product.
+
+167
+00:06:47,990 --> 00:06:49,870
+So this is what we want to do.
+
+168
+00:06:49,870 --> 00:06:53,650
+And document distance 1 does
+it in a painfully slow way,
+
+169
+00:06:53,650 --> 00:06:57,010
+and we're probably not going to
+cover everything in recitation.
+
+170
+00:06:57,010 --> 00:06:59,460
+But if you go all the way
+up to document distance 1,
+
+171
+00:06:59,460 --> 00:07:00,610
+that's really, really fast.
+
+172
+00:07:00,610 --> 00:07:03,960
+It's 1,000 times faster.
+
+173
+00:07:03,960 --> 00:07:06,892
+So this is our job for the day.
+
+174
+00:07:06,892 --> 00:07:07,850
+Let's look at the code.
+
+175
+00:07:07,850 --> 00:07:11,440
+Did anyone look at
+the code beforehand?
+
+176
+00:07:11,440 --> 00:07:12,400
+Nope.
+
+177
+00:07:12,400 --> 00:07:15,130
+OK, so when I look at
+a big piece of code,
+
+178
+00:07:15,130 --> 00:07:19,820
+I like to look at
+it from top down.
+
+179
+00:07:19,820 --> 00:07:22,080
+So that means I start
+to the main function,
+
+180
+00:07:22,080 --> 00:07:24,370
+I see who is it calling,
+I see what everything
+
+181
+00:07:24,370 --> 00:07:27,720
+is trying to do, and then
+I go into the sub functions
+
+182
+00:07:27,720 --> 00:07:30,300
+and recurves and basically
+do the same thing.
+
+183
+00:07:30,300 --> 00:07:32,580
+So I build a tree of
+who's calling what,
+
+184
+00:07:32,580 --> 00:07:34,720
+and that helps me figure
+out what's going on.
+
+185
+00:07:37,224 --> 00:07:38,265
+So let's start with main.
+
+186
+00:07:44,230 --> 00:07:46,140
+And let's look at main.
+
+187
+00:07:46,140 --> 00:07:49,150
+Lines 1 through 6
+look at the arguments.
+
+188
+00:07:49,150 --> 00:07:51,040
+We don't really care.
+
+189
+00:07:51,040 --> 00:07:54,365
+Line 7 and 8 call word
+frequencies for file.
+
+190
+00:08:01,520 --> 00:08:04,770
+I am abbreviating liberally.
+
+191
+00:08:04,770 --> 00:08:11,950
+And then line 9
+calls vector angle.
+
+192
+00:08:11,950 --> 00:08:17,210
+So line 7 and 8 read
+the two documents,
+
+193
+00:08:17,210 --> 00:08:20,490
+do steps one and two, and
+then 9 does step three.
+
+194
+00:08:31,010 --> 00:08:31,700
+OK.
+
+195
+00:08:31,700 --> 00:08:33,220
+Word frequencies for files.
+
+196
+00:08:33,220 --> 00:08:35,679
+So the point of this
+is to read a file
+
+197
+00:08:35,679 --> 00:08:41,100
+and to produce a word
+document vector out of it.
+
+198
+00:08:41,100 --> 00:08:45,370
+And it does it in three steps.
+
+199
+00:08:45,370 --> 00:08:48,840
+Reads the file, line two.
+
+200
+00:08:48,840 --> 00:08:52,300
+Breaks up the file into
+words, so operation one,
+
+201
+00:08:52,300 --> 00:08:56,170
+this is line 3, and then line
+4, it takes up the list of words
+
+202
+00:08:56,170 --> 00:08:58,790
+and computes a document
+vector out of it.
+
+203
+00:08:58,790 --> 00:09:01,110
+I don't care about
+reading files because I'll
+
+204
+00:09:01,110 --> 00:09:03,420
+assume this is
+somehow done for me.
+
+205
+00:09:03,420 --> 00:09:05,290
+We care about the algorithms.
+
+206
+00:09:05,290 --> 00:09:07,050
+So as far as I'm
+concerned, this function
+
+207
+00:09:07,050 --> 00:09:08,700
+is calling get words
+from line list.
+
+208
+00:09:11,810 --> 00:09:16,695
+Get words from line list,
+and count frequency.
+
+209
+00:09:26,100 --> 00:09:29,130
+And if we skip all the
+way to vector angle--
+
+210
+00:09:29,130 --> 00:09:32,440
+we already talked a little
+bit about how all it does
+
+211
+00:09:32,440 --> 00:09:34,580
+is it calls inner
+product three times
+
+212
+00:09:34,580 --> 00:09:37,010
+and then in does some
+fancy math of it.
+
+213
+00:09:44,510 --> 00:09:46,590
+So this is how the code
+looks like big picture.
+
+214
+00:09:56,370 --> 00:09:58,530
+OK, so to figure out the
+running time for main,
+
+215
+00:09:58,530 --> 00:10:00,780
+we need to figure out the
+running time for these two
+
+216
+00:10:00,780 --> 00:10:03,314
+functions and add
+them up, right?
+
+217
+00:10:03,314 --> 00:10:04,980
+To figure out the
+running time for this,
+
+218
+00:10:04,980 --> 00:10:06,354
+we need to figure
+out the running
+
+219
+00:10:06,354 --> 00:10:09,710
+time for these functions and
+add them up, so on and so forth.
+
+220
+00:10:09,710 --> 00:10:12,960
+So as you go through each of
+the document distance versions,
+
+221
+00:10:12,960 --> 00:10:17,214
+you want keep a scorecard of the
+implementation that shows you
+
+222
+00:10:17,214 --> 00:10:18,630
+what the running
+time is, and this
+
+223
+00:10:18,630 --> 00:10:20,772
+helps you follow
+what was improved
+
+224
+00:10:20,772 --> 00:10:21,730
+in each implementation.
+
+225
+00:10:25,830 --> 00:10:29,430
+So let's look at to get
+words from line lists.
+
+226
+00:10:29,430 --> 00:10:31,940
+What does it seem
+like its doing?
+
+227
+00:10:31,940 --> 00:10:34,920
+Without reading the
+get words from string,
+
+228
+00:10:34,920 --> 00:10:38,540
+can anyone tell me what
+it seems like it's doing?
+
+229
+00:10:38,540 --> 00:10:40,515
+If you just read
+lines 1 through 6.
+
+230
+00:10:43,896 --> 00:10:46,950
+AUDIENCE: [INAUDIBLE]
+through the list.
+
+231
+00:10:46,950 --> 00:10:47,700
+VICTOR COSTAN: OK.
+
+232
+00:10:47,700 --> 00:10:49,940
+So it's getting an input list.
+
+233
+00:10:49,940 --> 00:10:52,400
+And if you look at word
+frequencies for files
+
+234
+00:10:52,400 --> 00:10:56,430
+at line 2, it names
+a variable line list.
+
+235
+00:10:56,430 --> 00:11:00,360
+So it seems like
+what's happening is,
+
+236
+00:11:00,360 --> 00:11:02,590
+reads a file into
+a list of lines.
+
+237
+00:11:02,590 --> 00:11:07,140
+And then that list of lines goes
+to get words from line lists.
+
+238
+00:11:07,140 --> 00:11:12,590
+So this is L in get
+words from line lists.
+
+239
+00:11:12,590 --> 00:11:15,820
+So it takes a list of lines
+which is the entire document,
+
+240
+00:11:15,820 --> 00:11:16,320
+and then?
+
+241
+00:11:20,900 --> 00:11:23,514
+AUDIENCE: Basically it
+removes the new lines.
+
+242
+00:11:23,514 --> 00:11:30,178
+It sticks it into one giant list
+rather than a list of lines,
+
+243
+00:11:30,178 --> 00:11:31,591
+is that right?
+
+244
+00:11:31,591 --> 00:11:34,090
+VICTOR COSTAN: Almost, so you
+seem to get words from string.
+
+245
+00:11:34,090 --> 00:11:35,798
+Maybe we need to go
+through the function,
+
+246
+00:11:35,798 --> 00:11:40,180
+but do see the get words
+from string function name?
+
+247
+00:11:40,180 --> 00:11:42,330
+So I will assume that
+it does something
+
+248
+00:11:42,330 --> 00:11:44,510
+with each of the words.
+
+249
+00:11:44,510 --> 00:11:49,090
+And if the overall goal
+is to get a list of words,
+
+250
+00:11:49,090 --> 00:11:52,200
+then I would assume that what
+that does is it takes a line
+
+251
+00:11:52,200 --> 00:11:54,200
+and it breaks it up into words.
+
+252
+00:11:54,200 --> 00:11:55,950
+Because this way, if
+you take up each line
+
+253
+00:11:55,950 --> 00:11:57,980
+and break it up into
+words, then when
+
+254
+00:11:57,980 --> 00:11:59,970
+we put all the words
+together we get the words
+
+255
+00:11:59,970 --> 00:12:01,053
+that make up the document.
+
+256
+00:12:03,430 --> 00:12:04,210
+Do people follow?
+
+257
+00:12:04,210 --> 00:12:04,870
+Any questions?
+
+258
+00:12:04,870 --> 00:12:07,369
+I like that people are nodding,
+by the way, keep doing that.
+
+259
+00:12:07,369 --> 00:12:09,454
+That helps me go
+at the right speed.
+
+260
+00:12:09,454 --> 00:12:11,870
+If you're not nodding, I'll
+keep explaining the same thing
+
+261
+00:12:11,870 --> 00:12:12,710
+over and over again.
+
+262
+00:12:18,870 --> 00:12:20,280
+OK, so get words from string.
+
+263
+00:12:20,280 --> 00:12:24,590
+Get words from string takes up
+a single line, that's a string,
+
+264
+00:12:24,590 --> 00:12:27,060
+and produces a list of words.
+
+265
+00:12:27,060 --> 00:12:29,920
+And we saw in the
+example there that it
+
+266
+00:12:29,920 --> 00:12:33,230
+has to take care of a few
+details such as making
+
+267
+00:12:33,230 --> 00:12:35,520
+all the letters
+lowercase and ignoring
+
+268
+00:12:35,520 --> 00:12:38,870
+punctuation and skipping spaces.
+
+269
+00:12:38,870 --> 00:12:42,210
+So let's look at this code and
+figure out its running time.
+
+270
+00:12:42,210 --> 00:12:44,030
+And the way we're going
+to do that is we're
+
+271
+00:12:44,030 --> 00:12:46,840
+going to look at
+each line, and we're
+
+272
+00:12:46,840 --> 00:12:49,960
+going to see what's
+the cost for that line
+
+273
+00:12:49,960 --> 00:12:51,732
+and how many times does it run.
+
+274
+00:12:51,732 --> 00:12:53,190
+And once we have
+those two numbers,
+
+275
+00:12:53,190 --> 00:12:56,700
+we multiply them together
+and we see how much time
+
+276
+00:12:56,700 --> 00:13:01,270
+does the program spend
+on that line in total.
+
+277
+00:13:01,270 --> 00:13:04,030
+So I'm going to write
+down line numbers here.
+
+278
+00:13:04,030 --> 00:13:09,110
+9, 10, 11, 12, 13, 14, 15.
+
+279
+00:13:09,110 --> 00:13:10,118
+All the way to 23.
+
+280
+00:13:18,180 --> 00:13:18,680
+Too low.
+
+281
+00:13:26,930 --> 00:13:29,960
+20, 21, 22, 23.
+
+282
+00:13:33,910 --> 00:13:35,670
+OK, so let's start
+with something easy,
+
+283
+00:13:35,670 --> 00:13:40,650
+lines 9 and 10 How many
+times are they run?
+
+284
+00:13:40,650 --> 00:13:41,730
+AUDIENCE: Once.
+
+285
+00:13:41,730 --> 00:13:42,966
+VICTOR COSTAN: OK.
+
+286
+00:13:42,966 --> 00:13:47,739
+AUDIENCE: [INAUDIBLE]
+Once in this method?
+
+287
+00:13:47,739 --> 00:13:48,530
+VICTOR COSTAN: Yep.
+
+288
+00:13:48,530 --> 00:13:51,330
+So I'm only looking
+at this method.
+
+289
+00:13:51,330 --> 00:13:57,500
+So assuming that the method
+gets one line, and the line has,
+
+290
+00:13:57,500 --> 00:14:07,380
+I don't know, say, one
+line in characters,
+
+291
+00:14:07,380 --> 00:14:08,830
+and we need another
+variable which
+
+292
+00:14:08,830 --> 00:14:11,140
+we're going to figure out later.
+
+293
+00:14:11,140 --> 00:14:14,040
+But for now, one
+line in characters.
+
+294
+00:14:14,040 --> 00:14:17,181
+So how many times
+does line 9 run?
+
+295
+00:14:17,181 --> 00:14:19,950
+AUDIENCE: [INAUDIBLE]
+
+296
+00:14:19,950 --> 00:14:21,450
+VICTOR COSTAN: OK.
+
+297
+00:14:21,450 --> 00:14:23,660
+Runs once.
+
+298
+00:14:23,660 --> 00:14:25,528
+How about line 10?
+
+299
+00:14:25,528 --> 00:14:26,355
+AUDIENCE: Once.
+
+300
+00:14:26,355 --> 00:14:26,980
+AUDIENCE: Once.
+
+301
+00:14:26,980 --> 00:14:27,950
+VICTOR COSTAN: OK.
+
+302
+00:14:27,950 --> 00:14:29,240
+What do they do?
+
+303
+00:14:29,240 --> 00:14:32,360
+Create new lists and
+assign them to variables.
+
+304
+00:14:32,360 --> 00:14:35,121
+What's the cause for that?
+
+305
+00:14:35,121 --> 00:14:36,462
+AUDIENCE: Constant [INAUDIBLE]
+
+306
+00:14:36,462 --> 00:14:38,420
+VICTOR COSTAN:
+Constant, excellent.
+
+307
+00:14:38,420 --> 00:14:40,140
+So I'll be skipping
+the order of so
+
+308
+00:14:40,140 --> 00:14:43,030
+that I don't have to
+write it 23 times.
+
+309
+00:14:43,030 --> 00:14:45,290
+So 1, 1.
+
+310
+00:14:45,290 --> 00:14:48,730
+OK, line 11.
+
+311
+00:14:48,730 --> 00:14:51,600
+It's iterates over all
+the characters in a line.
+
+312
+00:14:51,600 --> 00:14:54,750
+So how many times
+is it going to run?
+
+313
+00:14:54,750 --> 00:14:56,250
+AUDIENCE: Like, the line?
+
+314
+00:14:56,250 --> 00:14:57,526
+VICTOR COSTAN: OK, which is?
+
+315
+00:14:57,526 --> 00:14:59,270
+AUDIENCE: Line end characters.
+
+316
+00:14:59,270 --> 00:15:01,510
+VICTOR COSTAN: Awesome.
+
+317
+00:15:01,510 --> 00:15:07,290
+And just the fact of
+iterating takes constant time.
+
+318
+00:15:07,290 --> 00:15:09,220
+I'm not sure we covered that.
+
+319
+00:15:09,220 --> 00:15:14,520
+So for each character, test if
+it's an alphanumeric character.
+
+320
+00:15:14,520 --> 00:15:17,430
+Does anyone know what
+alphanumeric means?
+
+321
+00:15:17,430 --> 00:15:19,050
+AUDIENCE: It's a
+letter and a number.
+
+322
+00:15:19,050 --> 00:15:21,300
+VICTOR COSTAN: OK, so fancy
+word for letter or number,
+
+323
+00:15:21,300 --> 00:15:23,970
+A through Z, 0 through 9.
+
+324
+00:15:23,970 --> 00:15:25,920
+So how much time
+does it take to test
+
+325
+00:15:25,920 --> 00:15:29,200
+if a character is alphanumeric?
+
+326
+00:15:29,200 --> 00:15:30,602
+Guesses?
+
+327
+00:15:30,602 --> 00:15:31,940
+AUDIENCE: Constant.
+
+328
+00:15:31,940 --> 00:15:34,300
+VICTOR COSTAN: OK,
+so constant time.
+
+329
+00:15:34,300 --> 00:15:37,160
+You compare it to the
+range A, Z and 0, 9.
+
+330
+00:15:37,160 --> 00:15:39,109
+How many times am I doing it?
+
+331
+00:15:39,109 --> 00:15:39,984
+AUDIENCE: [INAUDIBLE]
+
+332
+00:15:39,984 --> 00:15:42,022
+AUDIENCE: [INAUDIBLE]
+
+333
+00:15:42,022 --> 00:15:43,480
+VICTOR COSTAN:
+Thank you guys, this
+
+334
+00:15:43,480 --> 00:15:45,650
+is going much faster
+than the last recitation.
+
+335
+00:15:45,650 --> 00:15:48,800
+You guys are active, I like it.
+
+336
+00:15:48,800 --> 00:15:50,030
+So, now for line 13.
+
+337
+00:15:50,030 --> 00:15:52,550
+That only gets executed
+when the character
+
+338
+00:15:52,550 --> 00:15:54,362
+is an alphanumeric character.
+
+339
+00:15:54,362 --> 00:15:56,320
+So we're going to have
+to make some assumptions
+
+340
+00:15:56,320 --> 00:15:57,530
+about the document.
+
+341
+00:15:57,530 --> 00:16:00,400
+And to make my
+life easier, we're
+
+342
+00:16:00,400 --> 00:16:02,380
+going to make the
+following assumption.
+
+343
+00:16:02,380 --> 00:16:05,576
+If this is a natural
+language like, say, English,
+
+344
+00:16:05,576 --> 00:16:07,450
+words are going to be
+a constant size, right?
+
+345
+00:16:07,450 --> 00:16:10,680
+How many 500-character
+words do you see in English?
+
+346
+00:16:10,680 --> 00:16:14,910
+So let's say 5 to 10
+characters per word.
+
+347
+00:16:14,910 --> 00:16:17,170
+And since the
+difference is so small,
+
+348
+00:16:17,170 --> 00:16:19,960
+I'm going to say all the
+words have the same size
+
+349
+00:16:19,960 --> 00:16:22,040
+W. And if you want
+to be more formal,
+
+350
+00:16:22,040 --> 00:16:24,800
+you can replace word
+length with average length,
+
+351
+00:16:24,800 --> 00:16:26,810
+and the math works out.
+
+352
+00:16:26,810 --> 00:16:31,330
+So each line has
+a number of words,
+
+353
+00:16:31,330 --> 00:16:34,290
+and the words are separated
+by exactly one space,
+
+354
+00:16:34,290 --> 00:16:37,130
+and the word has W characters.
+
+355
+00:16:37,130 --> 00:16:40,942
+So how many words do
+I have, by the way?
+
+356
+00:16:40,942 --> 00:16:44,330
+AUDIENCE: N divided by W.
+
+357
+00:16:44,330 --> 00:16:45,640
+VICTOR COSTAN: OK, good.
+
+358
+00:16:45,640 --> 00:16:47,740
+Someone's paying
+close attention.
+
+359
+00:16:47,740 --> 00:16:50,960
+N divided by W plus 1.
+
+360
+00:16:50,960 --> 00:16:53,820
+And the reason
+that is, is a line
+
+361
+00:16:53,820 --> 00:16:56,340
+would look like this, word,
+space, word, space, word,
+
+362
+00:16:56,340 --> 00:16:56,840
+space.
+
+363
+00:16:56,840 --> 00:16:59,850
+So W, characters, one space,
+W, characters, one space, W,
+
+364
+00:16:59,850 --> 00:17:01,110
+characters, one space.
+
+365
+00:17:01,110 --> 00:17:04,294
+That's why you have
+W plus 1 there.
+
+366
+00:17:04,294 --> 00:17:05,960
+When we look at
+asymptotics it turns out
+
+367
+00:17:05,960 --> 00:17:08,910
+that it doesn't really matter
+because W's a constant,
+
+368
+00:17:08,910 --> 00:17:13,800
+W plus 1 is a constant,
+so order and words.
+
+369
+00:17:13,800 --> 00:17:17,930
+But for now, let's keep track of
+W's to seem a bit more formal.
+
+370
+00:17:17,930 --> 00:17:19,680
+So line 13.
+
+371
+00:17:19,680 --> 00:17:21,180
+How many times is
+it going to run?
+
+372
+00:17:29,374 --> 00:17:31,629
+AUDIENCE: W times
+10 over W plus one.
+
+373
+00:17:31,629 --> 00:17:32,670
+VICTOR COSTAN: Excellent.
+
+374
+00:17:38,345 --> 00:17:39,220
+Let me pull them out.
+
+375
+00:17:43,880 --> 00:17:46,160
+How much time does it
+take to run [INAUDIBLE].
+
+376
+00:17:49,872 --> 00:17:50,800
+AUDIENCE: Constant?
+
+377
+00:17:50,800 --> 00:17:52,341
+VICTOR COSTAN:
+Constant time, append,
+
+378
+00:17:52,341 --> 00:17:54,240
+covered in lecture,
+constant time.
+
+379
+00:17:54,240 --> 00:17:57,680
+So this is a bit tricky
+because if you have an array
+
+380
+00:17:57,680 --> 00:18:00,680
+implementation that's naive,
+it's not constant time.
+
+381
+00:18:00,680 --> 00:18:03,320
+But Python does some magic
+called table doubling, which
+
+382
+00:18:03,320 --> 00:18:05,190
+we'll cover later in the course.
+
+383
+00:18:05,190 --> 00:18:11,470
+And this is why you can say
+that append takes constant time.
+
+384
+00:18:11,470 --> 00:18:12,230
+OK.
+
+385
+00:18:12,230 --> 00:18:16,560
+Else, so if the character
+is not alphanumeric,
+
+386
+00:18:16,560 --> 00:18:20,050
+than what's going on here?
+
+387
+00:18:20,050 --> 00:18:23,428
+Can anyone see what's
+happening there?
+
+388
+00:18:23,428 --> 00:18:26,410
+AUDIENCE: If its
+like, [INAUDIBLE].
+
+389
+00:18:26,410 --> 00:18:29,278
+VICTOR COSTAN: OK, so
+let's say if it's a space.
+
+390
+00:18:29,278 --> 00:18:30,153
+AUDIENCE: [INAUDIBLE]
+
+391
+00:18:33,450 --> 00:18:35,620
+VICTOR COSTAN: Yeah,
+this the harder part.
+
+392
+00:18:35,620 --> 00:18:37,490
+I think you need to
+run this on an example
+
+393
+00:18:37,490 --> 00:18:39,950
+to figure out what's going on.
+
+394
+00:18:39,950 --> 00:18:42,310
+I have to run it on
+an example in my head.
+
+395
+00:18:42,310 --> 00:18:46,610
+So let's take this small example
+here, the fox is outside.
+
+396
+00:18:46,610 --> 00:18:48,610
+And this is a
+single line, right?
+
+397
+00:18:48,610 --> 00:18:49,390
+Nice and handy.
+
+398
+00:18:49,390 --> 00:18:52,180
+So this can be the input
+for get words from string.
+
+399
+00:18:52,180 --> 00:18:54,090
+And let's see what happens.
+
+400
+00:18:54,090 --> 00:19:01,600
+So first I start with word list
+which is empty list, character,
+
+401
+00:19:01,600 --> 00:19:08,710
+lists, empty list.
+
+402
+00:19:08,710 --> 00:19:11,330
+Take the first character,
+it's alphanumeric,
+
+403
+00:19:11,330 --> 00:19:14,770
+gets appended here, the second
+character, alphanumeric,
+
+404
+00:19:14,770 --> 00:19:17,140
+appended here, third
+character, alphanumeric,
+
+405
+00:19:17,140 --> 00:19:19,010
+gets appended here.
+
+406
+00:19:19,010 --> 00:19:20,980
+Fourth character,
+not alphanumeric,
+
+407
+00:19:20,980 --> 00:19:25,910
+so I get to run
+lines 15 through 18.
+
+408
+00:19:25,910 --> 00:19:26,920
+OK, I did the easy part.
+
+409
+00:19:26,920 --> 00:19:28,700
+Someone walk me
+through the hard part.
+
+410
+00:19:28,700 --> 00:19:33,600
+What happens in
+lines 15 through 18?
+
+411
+00:19:33,600 --> 00:19:34,858
+Yes.
+
+412
+00:19:34,858 --> 00:19:38,316
+AUDIENCE: First, it takes
+that list and joins it
+
+413
+00:19:38,316 --> 00:19:40,790
+into a string. [INAUDIBLE]
+
+414
+00:19:40,790 --> 00:19:43,550
+VICTOR COSTAN: OK, so this
+is a list of characters.
+
+415
+00:19:43,550 --> 00:19:47,840
+And join takes the list and
+makes a string out of it.
+
+416
+00:19:47,840 --> 00:19:50,840
+So I'll have the string the.
+
+417
+00:19:50,840 --> 00:19:53,390
+OK, excellent.
+
+418
+00:19:53,390 --> 00:19:55,570
+AUDIENCE: And it converts
+it all to lower case.
+
+419
+00:19:55,570 --> 00:19:56,320
+VICTOR COSTAN: OK.
+
+420
+00:20:00,208 --> 00:20:03,620
+AUDIENCE: End up [INAUDIBLE]
+that to the word list.
+
+421
+00:20:03,620 --> 00:20:05,620
+VICTOR COSTAN: The world
+list is up here, right?
+
+422
+00:20:05,620 --> 00:20:10,413
+So this is going to have the.
+
+423
+00:20:10,413 --> 00:20:13,836
+AUDIENCE: And then it clears
+the character list, [INAUDIBLE].
+
+424
+00:20:18,855 --> 00:20:19,605
+VICTOR COSTAN: OK.
+
+425
+00:20:23,670 --> 00:20:31,680
+So now as I go through the
+next word, I have F-O-X.
+
+426
+00:20:31,680 --> 00:20:34,000
+Then this becomes the word,
+and it gets added here.
+
+427
+00:20:40,680 --> 00:20:42,470
+So on and so forth
+for everything.
+
+428
+00:20:42,470 --> 00:20:46,840
+Do people see how
+this method works now?
+
+429
+00:20:46,840 --> 00:20:50,360
+I'm not getting that
+many nods, so questions.
+
+430
+00:20:50,360 --> 00:20:52,440
+If I don't get nods,
+I'll stop and you guys
+
+431
+00:20:52,440 --> 00:20:54,530
+have to ask what
+you're confused about.
+
+432
+00:20:54,530 --> 00:20:57,230
+AUDIENCE: I think it's a
+little tricky because instead
+
+433
+00:20:57,230 --> 00:21:00,052
+of saying if it's not an
+alphanumeric character,
+
+434
+00:21:00,052 --> 00:21:02,738
+it's just like well, if
+the length of the list
+
+435
+00:21:02,738 --> 00:21:04,792
+is greater than 0, which
+threw me off initially,
+
+436
+00:21:04,792 --> 00:21:07,610
+but then I realized it
+was just, like, omission.
+
+437
+00:21:07,610 --> 00:21:09,360
+VICTOR COSTAN: OK, so
+why does it do this?
+
+438
+00:21:09,360 --> 00:21:12,316
+What is the point of the
+length of the character list?
+
+439
+00:21:12,316 --> 00:21:15,600
+AUDIENCE: So that
+there are two spaces.
+
+440
+00:21:15,600 --> 00:21:18,080
+VICTOR COSTAN: Excellent.
+
+441
+00:21:18,080 --> 00:21:23,270
+So here I was nice and I had
+one space, one space, one space.
+
+442
+00:21:23,270 --> 00:21:26,410
+But if I'm sloppy when I'm
+typing and I have two spaces
+
+443
+00:21:26,410 --> 00:21:31,950
+here, then suppose this is
+space, space-- kind a small,
+
+444
+00:21:31,950 --> 00:21:33,060
+but pretend.
+
+445
+00:21:33,060 --> 00:21:34,550
+Go with me here.
+
+446
+00:21:34,550 --> 00:21:37,020
+So we got here.
+
+447
+00:21:37,020 --> 00:21:38,470
+We got the fox is.
+
+448
+00:21:41,720 --> 00:21:45,620
+And then this list is
+empty because line 18 just
+
+449
+00:21:45,620 --> 00:21:48,180
+made it empty.
+
+450
+00:21:48,180 --> 00:21:50,520
+If I run the code the
+lines 15 through 18,
+
+451
+00:21:50,520 --> 00:21:53,930
+it's going to add an
+empty word up here.
+
+452
+00:21:53,930 --> 00:21:57,280
+And empty words
+aren't very useful.
+
+453
+00:21:57,280 --> 00:21:59,360
+You'll see how many
+times the documents have
+
+454
+00:21:59,360 --> 00:22:01,661
+too many spaces in them, so
+that doesn't really help.
+
+455
+00:22:01,661 --> 00:22:03,411
+AUDIENCE: I mean, isn't
+that not an issue,
+
+456
+00:22:03,411 --> 00:22:07,470
+because you call if C is
+L1 before you actually
+
+457
+00:22:07,470 --> 00:22:09,350
+get to that.
+
+458
+00:22:09,350 --> 00:22:12,400
+So you'd run through it
+again, but you would still
+
+459
+00:22:12,400 --> 00:22:14,950
+just skip over that.
+
+460
+00:22:14,950 --> 00:22:18,030
+That would fail, I
+mean it would not
+
+461
+00:22:18,030 --> 00:22:19,280
+do anything for that equation.
+
+462
+00:22:19,280 --> 00:22:21,350
+VICTOR COSTAN: So first space.
+
+463
+00:22:21,350 --> 00:22:22,750
+C as L now fails.
+
+464
+00:22:22,750 --> 00:22:24,717
+I run lines 15 through 18.
+
+465
+00:22:24,717 --> 00:22:25,300
+AUDIENCE: Yep.
+
+466
+00:22:25,300 --> 00:22:26,175
+VICTOR COSTAN: Right?
+
+467
+00:22:26,175 --> 00:22:27,170
+I have is here.
+
+468
+00:22:27,170 --> 00:22:29,095
+This becomes empty.
+
+469
+00:22:29,095 --> 00:22:29,970
+AUDIENCE: Yep.
+
+470
+00:22:29,970 --> 00:22:33,557
+AUDIENCE: Second space,
+C as L now fails again.
+
+471
+00:22:33,557 --> 00:22:34,140
+AUDIENCE: Yep.
+
+472
+00:22:34,140 --> 00:22:36,470
+VICTOR COSTAN: And if I
+wouldn't have the length check,
+
+473
+00:22:36,470 --> 00:22:40,080
+it would run lines
+15 through 18 again.
+
+474
+00:22:40,080 --> 00:22:40,961
+AUDIENCE: Oh, OK.
+
+475
+00:22:40,961 --> 00:22:43,910
+[INAUDIBLE]
+
+476
+00:22:43,910 --> 00:22:46,950
+VICTOR COSTAN: OK, so this is
+what it's trying to prevent.
+
+477
+00:22:46,950 --> 00:22:49,284
+So you can see that this code
+looks complicated, right?
+
+478
+00:22:49,284 --> 00:22:51,450
+It's trying to do a lot of
+things, it's complicated,
+
+479
+00:22:51,450 --> 00:22:53,810
+it's hard to analyze.
+
+480
+00:22:53,810 --> 00:22:55,100
+Oh, well, let's go with it.
+
+481
+00:22:55,100 --> 00:22:59,590
+Let's try to finish
+it up quickly.
+
+482
+00:22:59,590 --> 00:23:02,570
+So now that we know
+what it does, let's
+
+483
+00:23:02,570 --> 00:23:04,960
+try to figure out how
+many times each line runs
+
+484
+00:23:04,960 --> 00:23:06,650
+and what's the cost?
+
+485
+00:23:06,650 --> 00:23:07,980
+Yes.
+
+486
+00:23:07,980 --> 00:23:12,830
+AUDIENCE: So I think the
+total cost is N times 1
+
+487
+00:23:12,830 --> 00:23:17,035
+minus W over W plus 1.
+
+488
+00:23:17,035 --> 00:23:18,243
+VICTOR COSTAN: Wait, so here?
+
+489
+00:23:18,243 --> 00:23:19,170
+AUDIENCE: Yeah.
+
+490
+00:23:19,170 --> 00:23:25,031
+VICTOR COSTAN: OK, so you're
+saying N times 1 minus.
+
+491
+00:23:25,031 --> 00:23:25,531
+OK.
+
+492
+00:23:28,810 --> 00:23:31,790
+Why do you say that?
+
+493
+00:23:31,790 --> 00:23:33,183
+I like it, but why?
+
+494
+00:23:33,183 --> 00:23:36,017
+OK, it's because it's everything
+that is in the character,
+
+495
+00:23:36,017 --> 00:23:38,471
+and the line above
+it was characters--
+
+496
+00:23:38,471 --> 00:23:39,220
+VICTOR COSTAN: OK.
+
+497
+00:23:39,220 --> 00:23:40,220
+AUDIENCE: --all
+alphanumeric, [INAUDIBLE]
+
+498
+00:23:40,220 --> 00:23:41,970
+VICTOR COSTAN: So
+basically spaces, right?
+
+499
+00:23:41,970 --> 00:23:44,160
+If we have word, space,
+word, space, word, space,
+
+500
+00:23:44,160 --> 00:23:46,400
+this happens for all the spaces.
+
+501
+00:23:46,400 --> 00:23:47,500
+Cool.
+
+502
+00:23:47,500 --> 00:23:48,967
+So this is good.
+
+503
+00:23:48,967 --> 00:23:50,425
+I'm going to make
+it a bit simpler.
+
+504
+00:23:54,120 --> 00:23:56,975
+Same thing, it's just that it's
+slightly less intimidating.
+
+505
+00:23:56,975 --> 00:23:59,040
+AUDIENCE: Oh, yeah.
+
+506
+00:23:59,040 --> 00:24:00,650
+VICTOR COSTAN: Cool, thank you.
+
+507
+00:24:00,650 --> 00:24:03,000
+Very brave, come up first.
+
+508
+00:24:03,000 --> 00:24:05,050
+What's the running
+time for line 14?
+
+509
+00:24:05,050 --> 00:24:06,995
+So, cost for running it once.
+
+510
+00:24:10,320 --> 00:24:12,110
+AUDIENCE: Constant.
+
+511
+00:24:12,110 --> 00:24:12,610
+Excellent.
+
+512
+00:24:12,610 --> 00:24:14,850
+VICTOR COSTAN: I like you guys.
+
+513
+00:24:14,850 --> 00:24:15,780
+Nice.
+
+514
+00:24:15,780 --> 00:24:19,020
+Line 15, how much
+time does it to take
+
+515
+00:24:19,020 --> 00:24:21,880
+to take characters and
+put them into a list?
+
+516
+00:24:21,880 --> 00:24:24,110
+AUDIENCE: N?
+
+517
+00:24:24,110 --> 00:24:24,860
+VICTOR COSTAN: N--
+
+518
+00:24:24,860 --> 00:24:25,120
+AUDIENCE: [INAUDIBLE]
+
+519
+00:24:25,120 --> 00:24:27,340
+VICTOR COSTAN: --where N is
+the size of the list, right?
+
+520
+00:24:27,340 --> 00:24:27,800
+AUDIENCE: Yeah.
+
+521
+00:24:27,800 --> 00:24:28,550
+VICTOR COSTAN: OK.
+
+522
+00:24:28,550 --> 00:24:30,814
+So what's the size
+of the list now?
+
+523
+00:24:30,814 --> 00:24:33,154
+AUDIENCE: [INAUDIBLE]
+
+524
+00:24:33,154 --> 00:24:34,090
+AUDIENCE: [INAUDIBLE]
+
+525
+00:24:34,090 --> 00:24:36,430
+VICTOR COSTAN: Yep.
+
+526
+00:24:36,430 --> 00:24:39,342
+OK, so when you're using
+more than one letter,
+
+527
+00:24:39,342 --> 00:24:41,550
+the problem is you have to
+pay attention to which one
+
+528
+00:24:41,550 --> 00:24:42,091
+you're using.
+
+529
+00:24:42,091 --> 00:24:44,080
+Because when we
+teach algorithms,
+
+530
+00:24:44,080 --> 00:24:46,910
+we say oh, this is N, this is
+N squared, so on and so forth.
+
+531
+00:24:46,910 --> 00:24:49,010
+You have to replace it
+to the right letter.
+
+532
+00:24:49,010 --> 00:24:51,415
+And I get confused about
+this all the time, so--
+
+533
+00:24:51,415 --> 00:24:51,810
+AUDIENCE: [INAUDIBLE]
+
+534
+00:24:51,810 --> 00:24:52,630
+VICTOR COSTAN: --a
+serious problem.
+
+535
+00:24:52,630 --> 00:24:53,614
+AUDIENCE: --columns?
+
+536
+00:24:53,614 --> 00:24:56,080
+What are the two columns?
+
+537
+00:24:56,080 --> 00:24:59,270
+VICTOR COSTAN: So this is the
+cost of running a line once,
+
+538
+00:24:59,270 --> 00:25:01,296
+and this is how
+many times it's run.
+
+539
+00:25:01,296 --> 00:25:02,130
+AUDIENCE: Oh, OK.
+
+540
+00:25:02,130 --> 00:25:02,930
+VICTOR COSTAN: Thanks
+for the question.
+
+541
+00:25:02,930 --> 00:25:04,260
+I should have said
+that in the beginning.
+
+542
+00:25:04,260 --> 00:25:04,760
+Thank you.
+
+543
+00:25:07,480 --> 00:25:09,230
+OK, let's make this
+a little bit faster
+
+544
+00:25:09,230 --> 00:25:12,490
+and notice that
+lines 15 through 18
+
+545
+00:25:12,490 --> 00:25:14,789
+all run the same
+number of times, right?
+
+546
+00:25:14,789 --> 00:25:16,580
+They're in the if, and
+there's nothing else
+
+547
+00:25:16,580 --> 00:25:19,670
+that's changes the
+control flow there.
+
+548
+00:25:19,670 --> 00:25:28,320
+So lines 15 through 18 are
+O and divided by W plus 1.
+
+549
+00:25:28,320 --> 00:25:29,740
+All right, line 16.
+
+550
+00:25:29,740 --> 00:25:30,930
+Take a word.
+
+551
+00:25:30,930 --> 00:25:33,600
+So take a string and
+make another string
+
+552
+00:25:33,600 --> 00:25:37,070
+where each character is
+the lowercase version.
+
+553
+00:25:37,070 --> 00:25:38,360
+AUDIENCE: [INAUDIBLE]
+
+554
+00:25:38,360 --> 00:25:39,610
+VICTOR COSTAN: OK, cool.
+
+555
+00:25:39,610 --> 00:25:41,643
+Why W, intuitively?
+
+556
+00:25:41,643 --> 00:25:44,884
+AUDIENCE: Because [INAUDIBLE]
+has to check to make sure
+
+557
+00:25:44,884 --> 00:25:46,929
+[INAUDIBLE]
+
+558
+00:25:46,929 --> 00:25:47,720
+VICTOR COSTAN: Yep.
+
+559
+00:25:47,720 --> 00:25:48,750
+AUDIENCE: [INAUDIBLE]
+
+560
+00:25:48,750 --> 00:25:50,999
+VICTOR COSTAN: Yeah, so if
+you have a 10,000 character
+
+561
+00:25:50,999 --> 00:25:53,190
+string you, have to go
+through 10,000 characters.
+
+562
+00:25:53,190 --> 00:25:55,210
+Very good.
+
+563
+00:25:55,210 --> 00:25:58,032
+Append 917.
+
+564
+00:25:58,032 --> 00:26:00,512
+AUDIENCE: [INAUDIBLE]
+
+565
+00:26:00,512 --> 00:26:02,000
+VICTOR COSTAN: Sweet.
+
+566
+00:26:02,000 --> 00:26:06,565
+And line 18, we said the
+character list of length list.
+
+567
+00:26:06,565 --> 00:26:07,531
+AUDIENCE: [INAUDIBLE]
+
+568
+00:26:07,531 --> 00:26:13,170
+VICTOR COSTAN: [INAUDIBLE]
+OK, how many times
+
+569
+00:26:13,170 --> 00:26:18,505
+do lines 19 through 23 run?
+
+570
+00:26:18,505 --> 00:26:19,400
+AUDIENCE: Once.
+
+571
+00:26:19,400 --> 00:26:20,608
+VICTOR COSTAN: At most, once.
+
+572
+00:26:24,540 --> 00:26:26,727
+AUDIENCE: [INAUDIBLE]
+
+573
+00:26:26,727 --> 00:26:29,310
+VICTOR COSTAN: Can anyone figure
+out what's the point of them?
+
+574
+00:26:33,099 --> 00:26:36,649
+AUDIENCE: Catch any
+trailing [INAUDIBLE]
+
+575
+00:26:36,649 --> 00:26:37,482
+VICTOR COSTAN: Good.
+
+576
+00:26:37,482 --> 00:26:40,404
+If you ended on the
+last letter of a word,
+
+577
+00:26:40,404 --> 00:26:42,360
+you want to make sure
+you catch that word.
+
+578
+00:26:42,360 --> 00:26:42,870
+VICTOR COSTAN: All right.
+
+579
+00:26:42,870 --> 00:26:43,820
+AUDIENCE: [INAUDIBLE]
+
+580
+00:26:43,820 --> 00:26:44,861
+VICTOR COSTAN: Very good.
+
+581
+00:26:44,861 --> 00:26:46,030
+So I find it here.
+
+582
+00:26:46,030 --> 00:26:48,980
+Then after I'm done
+with the loop at line 19
+
+583
+00:26:48,980 --> 00:26:52,895
+what the word list
+would have, the fox is.
+
+584
+00:26:52,895 --> 00:26:54,270
+And then the
+character list would
+
+585
+00:26:54,270 --> 00:26:56,150
+have the characters for outside.
+
+586
+00:26:56,150 --> 00:26:58,970
+If I return the word list,
+woops, I just missed a word.
+
+587
+00:26:58,970 --> 00:27:07,430
+So lines 20 through 22 are a
+copy of lines 15 through 17,
+
+588
+00:27:07,430 --> 00:27:11,110
+and they take care
+of the last word.
+
+589
+00:27:11,110 --> 00:27:14,720
+So line 19 is an if, and it
+takes the length of a list
+
+590
+00:27:14,720 --> 00:27:16,250
+and compares it to the number.
+
+591
+00:27:16,250 --> 00:27:19,344
+What's the cost of that?
+
+592
+00:27:19,344 --> 00:27:20,200
+AUDIENCE: Constant.
+
+593
+00:27:20,200 --> 00:27:21,730
+VICTOR COSTAN: OK, very good.
+
+594
+00:27:21,730 --> 00:27:24,980
+Checking list length in
+Python is constant time.
+
+595
+00:27:24,980 --> 00:27:27,340
+We did that in lecture.
+
+596
+00:27:27,340 --> 00:27:29,490
+How about lines 20 through 22?
+
+597
+00:27:32,262 --> 00:27:33,720
+I just gave it
+away, guys, come on.
+
+598
+00:27:33,720 --> 00:27:34,530
+Someone--
+
+599
+00:27:34,530 --> 00:27:36,380
+AUDIENCE: The same
+as 15 through 17.
+
+600
+00:27:36,380 --> 00:27:38,890
+VICTOR COSTAN: OK,
+same as 15 through 17.
+
+601
+00:27:38,890 --> 00:27:41,460
+W, W, 1.
+
+602
+00:27:41,460 --> 00:27:46,480
+Line 23, return constant time.
+
+603
+00:27:46,480 --> 00:27:50,480
+OK, so now we know how much
+it takes to run a line once,
+
+604
+00:27:50,480 --> 00:27:52,640
+how many times each line runs.
+
+605
+00:27:52,640 --> 00:27:55,360
+So we're going to do a
+dot product of these guys.
+
+606
+00:27:55,360 --> 00:27:57,920
+See, dot products are useful.
+
+607
+00:27:57,920 --> 00:28:00,520
+And if we do a dot
+product of these guys,
+
+608
+00:28:00,520 --> 00:28:03,180
+we're going to get the total
+running time for the function.
+
+609
+00:28:03,180 --> 00:28:05,105
+So let's compute
+the partial terms.
+
+610
+00:28:05,105 --> 00:28:06,350
+AUDIENCE: [INAUDIBLE]
+
+611
+00:28:06,350 --> 00:28:07,310
+VICTOR COSTAN: I'm not
+going to write them down.
+
+612
+00:28:07,310 --> 00:28:09,730
+Let's just go through them
+and figure out what they are.
+
+613
+00:28:09,730 --> 00:28:13,494
+So you guys say them.
+
+614
+00:28:13,494 --> 00:28:17,964
+AUDIENCE: 1, 1, N,
+N, weird equation--
+
+615
+00:28:17,964 --> 00:28:19,380
+VICTOR COSTAN: OK,
+weird equation,
+
+616
+00:28:19,380 --> 00:28:21,177
+what was the important part?
+
+617
+00:28:21,177 --> 00:28:22,010
+[INTERPOSING VOICES]
+
+618
+00:28:22,010 --> 00:28:23,550
+VICTOR COSTAN: Yeah,
+the important part.
+
+619
+00:28:23,550 --> 00:28:24,841
+The important part is N, right?
+
+620
+00:28:24,841 --> 00:28:27,784
+This is some constant
+times N, so N.
+
+621
+00:28:27,784 --> 00:28:35,670
+AUDIENCE: N, N,
+N, N, N, N, 1, 1.
+
+622
+00:28:35,670 --> 00:28:37,406
+VICTOR COSTAN: Pay attention.
+
+623
+00:28:37,406 --> 00:28:39,280
+AUDIENCE: 1, N.
+
+624
+00:28:39,280 --> 00:28:41,100
+VICTOR COSTAN: Pay attention.
+
+625
+00:28:41,100 --> 00:28:42,495
+It's not N, it's not 1.
+
+626
+00:28:42,495 --> 00:28:43,370
+AUDIENCE: [INAUDIBLE]
+
+627
+00:28:43,370 --> 00:28:45,130
+VICTOR COSTAN: OK,
+actually is 1 I guess,
+
+628
+00:28:45,130 --> 00:28:46,740
+if you think that
+W is a constant.
+
+629
+00:28:46,740 --> 00:28:47,364
+Sorry.
+
+630
+00:28:47,364 --> 00:28:48,530
+AUDIENCE: You're testing us.
+
+631
+00:28:48,530 --> 00:28:49,800
+VICTOR COSTAN: OK.
+
+632
+00:28:49,800 --> 00:28:52,331
+1, 1.
+
+633
+00:28:52,331 --> 00:28:54,580
+VICTOR COSTAN: So I heard
+two numbers, N and 1, right?
+
+634
+00:28:54,580 --> 00:28:59,770
+So this is 0 of N plus
+1, which is order N,
+
+635
+00:28:59,770 --> 00:29:04,370
+because as N goes to infinity,
+1 becomes really tiny.
+
+636
+00:29:04,370 --> 00:29:07,660
+OK, so this is how you
+analyze a function.
+
+637
+00:29:07,660 --> 00:29:10,700
+Big functions are horribly
+painful to analyze because you
+
+638
+00:29:10,700 --> 00:29:14,760
+have to look at each line and
+do this kind of reasoning.
+
+639
+00:29:14,760 --> 00:29:16,640
+And it's not even a top
+level function here,
+
+640
+00:29:16,640 --> 00:29:19,340
+so I don't even get to
+write anything here yet.
+
+641
+00:29:19,340 --> 00:29:22,490
+So get words from string
+takes order and time
+
+642
+00:29:22,490 --> 00:29:24,980
+where N is the length of a line.
+
+643
+00:29:24,980 --> 00:29:28,100
+Let's look at get
+words from line list.
+
+644
+00:29:28,100 --> 00:29:29,289
+AUDIENCE: I have a question.
+
+645
+00:29:29,289 --> 00:29:30,080
+VICTOR COSTAN: Yes.
+
+646
+00:29:30,080 --> 00:29:33,545
+AUDIENCE: So [INAUDIBLE]
+is W characters long?
+
+647
+00:29:33,545 --> 00:29:37,699
+Like, does it matter
+if the [INAUDIBLE]
+
+648
+00:29:37,699 --> 00:29:38,990
+VICTOR COSTAN: Does it matter--
+
+649
+00:29:38,990 --> 00:29:41,470
+AUDIENCE: [INAUDIBLE] make
+that assumption of that?
+
+650
+00:29:41,470 --> 00:29:45,760
+VICTOR COSTAN: So that I can
+reason for lines 15 and 16.
+
+651
+00:29:45,760 --> 00:29:49,640
+I can reason through them easily
+if I have a content length.
+
+652
+00:29:49,640 --> 00:29:52,410
+It turns out that if you
+have an average length,
+
+653
+00:29:52,410 --> 00:29:54,580
+the results are
+going to be the same.
+
+654
+00:29:54,580 --> 00:30:03,110
+Like overall, if you look at the
+running time as a sum of what's
+
+655
+00:30:03,110 --> 00:30:05,730
+the running time for converting
+all the words to lowercase
+
+656
+00:30:05,730 --> 00:30:07,490
+and then appending
+them to the list.
+
+657
+00:30:07,490 --> 00:30:10,140
+The sum of those is
+still going to be n N,
+
+658
+00:30:10,140 --> 00:30:12,230
+but that takes a bit more
+time to reason through
+
+659
+00:30:12,230 --> 00:30:13,200
+so I took a shortcut.
+
+660
+00:30:17,202 --> 00:30:19,790
+Are you a math
+major, by the way?
+
+661
+00:30:19,790 --> 00:30:21,790
+You're very rigorous.
+
+662
+00:30:21,790 --> 00:30:22,450
+OK.
+
+663
+00:30:22,450 --> 00:30:24,550
+So this is good, it's
+always good to try
+
+664
+00:30:24,550 --> 00:30:26,150
+to keep this in the
+back of your head
+
+665
+00:30:26,150 --> 00:30:31,260
+to make sure you
+don't fall for a trap.
+
+666
+00:30:31,260 --> 00:30:33,790
+So get words from
+string order N,
+
+667
+00:30:33,790 --> 00:30:36,150
+and we're trying to figure
+out get words from line list.
+
+668
+00:30:36,150 --> 00:30:39,090
+Any more questions
+before I do that?
+
+669
+00:30:39,090 --> 00:30:42,530
+Or does anyone want
+to tell me I'm wrong?
+
+670
+00:30:42,530 --> 00:30:44,610
+OK, good.
+
+671
+00:30:44,610 --> 00:30:47,320
+So get words from line list.
+
+672
+00:30:47,320 --> 00:30:50,890
+Lines 2 through 6.
+
+673
+00:30:50,890 --> 00:30:53,100
+2 3, 4, 5, 6.
+
+674
+00:30:55,690 --> 00:30:58,034
+Line 2.
+
+675
+00:30:58,034 --> 00:30:59,860
+AUDIENCE: 1.
+
+676
+00:30:59,860 --> 00:31:02,851
+VICTOR COSTAN: OK, cost 1,
+how many times does it run?
+
+677
+00:31:02,851 --> 00:31:03,476
+AUDIENCE: Once.
+
+678
+00:31:03,476 --> 00:31:05,290
+VICTOR COSTAN: Cool.
+
+679
+00:31:05,290 --> 00:31:07,990
+Line 3.
+
+680
+00:31:07,990 --> 00:31:09,170
+We need a new number, right?
+
+681
+00:31:09,170 --> 00:31:12,000
+We need the number of
+lines in a document.
+
+682
+00:31:12,000 --> 00:31:13,825
+Let's say we have Z lines.
+
+683
+00:31:19,010 --> 00:31:25,710
+So line 3 runs Z times,
+and 4 and 5 are in a loop
+
+684
+00:31:25,710 --> 00:31:30,692
+so they also run Z times
+What's the cost for line 4?
+
+685
+00:31:33,524 --> 00:31:34,204
+AUDIENCE: 1.
+
+686
+00:31:34,204 --> 00:31:35,245
+VICTOR COSTAN: Excellent.
+
+687
+00:31:38,870 --> 00:31:41,934
+What's the cost for line 3?
+
+688
+00:31:41,934 --> 00:31:42,790
+AUDIENCE: 1.
+
+689
+00:31:42,790 --> 00:31:44,950
+VICTOR COSTAN: 1.
+
+690
+00:31:44,950 --> 00:31:46,590
+And what is the cost for line 5?
+
+691
+00:31:54,398 --> 00:31:55,880
+AUDIENCE: Looks constant.
+
+692
+00:31:55,880 --> 00:31:58,125
+VICTOR COSTAN:
+Looks constant, OK.
+
+693
+00:31:58,125 --> 00:31:59,000
+AUDIENCE: [INAUDIBLE]
+
+694
+00:31:59,000 --> 00:32:03,030
+VICTOR COSTAN: Does anyone
+else think it looks constant?
+
+695
+00:32:03,030 --> 00:32:04,618
+Yeah.
+
+696
+00:32:04,618 --> 00:32:06,100
+AUDIENCE: It's a trap.
+
+697
+00:32:06,100 --> 00:32:07,450
+VICTOR COSTAN: It's a trap.
+
+698
+00:32:07,450 --> 00:32:08,948
+It's a trap.
+
+699
+00:32:08,948 --> 00:32:10,310
+[INTERPOSING VOICES]
+
+700
+00:32:10,310 --> 00:32:11,810
+AUDIENCE: --length
+of the two lists.
+
+701
+00:32:11,810 --> 00:32:12,650
+VICTOR COSTAN: OK.
+
+702
+00:32:12,650 --> 00:32:14,880
+Good.
+
+703
+00:32:14,880 --> 00:32:17,080
+You paid attention
+in lecture, right?
+
+704
+00:32:17,080 --> 00:32:17,990
+AUDIENCE: I try.
+
+705
+00:32:17,990 --> 00:32:19,810
+VICTOR COSTAN: Nice.
+
+706
+00:32:19,810 --> 00:32:25,830
+OK, so we have plus
+as an operator,
+
+707
+00:32:25,830 --> 00:32:29,280
+and suppose we work
+with two lists.
+
+708
+00:32:29,280 --> 00:32:34,410
+The first list is 1, 2, 3,
+all the way through 1,000.
+
+709
+00:32:34,410 --> 00:32:39,380
+And the second list is 1, 2, 3.
+
+710
+00:32:39,380 --> 00:32:42,010
+So when you code
+plus to combine them,
+
+711
+00:32:42,010 --> 00:32:46,170
+if you say something
+like C equals A plus B,
+
+712
+00:32:46,170 --> 00:32:49,160
+you would expect that--
+if this is A, by the way
+
+713
+00:32:49,160 --> 00:32:53,380
+and this is B-- you would expect
+that after you call this A is
+
+714
+00:32:53,380 --> 00:32:56,120
+still this, B is
+still this, and C
+
+715
+00:32:56,120 --> 00:32:58,740
+is a list that
+contains everything.
+
+716
+00:32:58,740 --> 00:33:04,070
+So because of that, what plus
+has to do is make a new list,
+
+717
+00:33:04,070 --> 00:33:07,350
+append all the elements here,
+append all the elements here.
+
+718
+00:33:07,350 --> 00:33:10,630
+So the cost of this if this
+list is 1,000 and this list is 3
+
+719
+00:33:10,630 --> 00:33:11,940
+is 1,003.
+
+720
+00:33:11,940 --> 00:33:17,340
+Or if you have two lists
+of length, L1 and L2
+
+721
+00:33:17,340 --> 00:33:22,580
+the cost is order of L1 plus L2.
+
+722
+00:33:22,580 --> 00:33:24,920
+Now there's another Python
+method called extend,
+
+723
+00:33:24,920 --> 00:33:28,432
+which does what I think
+you would expect plus
+
+724
+00:33:28,432 --> 00:33:29,640
+to do in terms of efficiency.
+
+725
+00:33:33,020 --> 00:33:36,670
+So what extend does is you
+call it a 1 or A on one list,
+
+726
+00:33:36,670 --> 00:33:38,610
+give it the other
+list, and it's going
+
+727
+00:33:38,610 --> 00:33:40,260
+to take each element
+in the second list
+
+728
+00:33:40,260 --> 00:33:43,020
+and append it to the first list.
+
+729
+00:33:43,020 --> 00:33:47,050
+So for each element here, it
+calls append on this list.
+
+730
+00:33:47,050 --> 00:33:48,746
+So what's the running
+time for extend?
+
+731
+00:33:48,746 --> 00:33:49,621
+AUDIENCE: [INAUDIBLE]
+
+732
+00:33:52,920 --> 00:33:55,226
+VICTOR COSTAN: OK, there are
+too many directions and--
+
+733
+00:33:55,226 --> 00:33:56,200
+AUDIENCE: Length
+of the second list.
+
+734
+00:33:56,200 --> 00:33:58,366
+VICTOR COSTAN: Length of
+the second list, excellent.
+
+735
+00:33:58,366 --> 00:34:03,210
+So two lists, L1,
+L2, order of L2.
+
+736
+00:34:03,210 --> 00:34:05,360
+So it doesn't matter
+this is 1,000 elements
+
+737
+00:34:05,360 --> 00:34:08,130
+are a million elements,
+appending three elements is
+
+738
+00:34:08,130 --> 00:34:11,739
+going to take time
+proportional to three.
+
+739
+00:34:11,739 --> 00:34:14,860
+OK now, let's see
+what's going on here.
+
+740
+00:34:14,860 --> 00:34:19,100
+So we have Z lines and
+characters in a line.
+
+741
+00:34:22,520 --> 00:34:24,730
+I think I want a nicer constant.
+
+742
+00:34:28,069 --> 00:34:29,360
+No, let's go with this for now.
+
+743
+00:34:32,240 --> 00:34:34,650
+AUDIENCE: [INAUDIBLE] lines.
+
+744
+00:34:34,650 --> 00:34:38,020
+VICTOR COSTAN: So this
+is the length of a word.
+
+745
+00:34:38,020 --> 00:34:40,020
+Let's see, how many words
+will I have in a line?
+
+746
+00:34:40,020 --> 00:34:47,530
+Let's say I have K words in a
+line, which is N divided by W.
+
+747
+00:34:47,530 --> 00:34:49,989
+So I know that to
+get words from string
+
+748
+00:34:49,989 --> 00:34:55,219
+returns a list of size K.
+So if that is the case, then
+
+749
+00:34:55,219 --> 00:34:59,820
+the first time line 5
+runs, word list is empty.
+
+750
+00:34:59,820 --> 00:35:01,580
+And it's going to
+get K elements.
+
+751
+00:35:01,580 --> 00:35:05,310
+The second time it runs,
+word list has K elements
+
+752
+00:35:05,310 --> 00:35:06,530
+and gets K more.
+
+753
+00:35:06,530 --> 00:35:09,590
+Third time, it has 2K
+elements, it gets K more.
+
+754
+00:35:09,590 --> 00:35:12,420
+So the running time for
+this looks like this.
+
+755
+00:35:12,420 --> 00:35:19,150
+K plus 2K plus 3K
+plus 4K all the way
+
+756
+00:35:19,150 --> 00:35:23,010
+until when I'm at the last
+line, if I have Z lines.
+
+757
+00:35:23,010 --> 00:35:27,720
+I had Z minus 1 times
+K elements in the list,
+
+758
+00:35:27,720 --> 00:35:30,000
+because I have Z minus 1
+lines and I put all the words
+
+759
+00:35:30,000 --> 00:35:35,080
+in the list, and I'm
+adding K more words.
+
+760
+00:35:35,080 --> 00:35:43,760
+So total, Z times
+K running time.
+
+761
+00:35:43,760 --> 00:35:46,010
+So this is the total
+running time for this guy.
+
+762
+00:35:46,010 --> 00:35:50,510
+And this is not constant,
+so it's complicated.
+
+763
+00:35:50,510 --> 00:35:52,910
+What is the sum come
+down to, asymptotically?
+
+764
+00:36:00,210 --> 00:36:04,990
+AUDIENCE: Z plus
+1K times Z over 2.
+
+765
+00:36:04,990 --> 00:36:05,740
+VICTOR COSTAN: Ok.
+
+766
+00:36:05,740 --> 00:36:17,000
+Z plus 1K, ZK over 2.
+
+767
+00:36:17,000 --> 00:36:19,770
+Slow because I care
+about asymptotics,
+
+768
+00:36:19,770 --> 00:36:31,180
+this is order of Z
+squared times K, right?
+
+769
+00:36:31,180 --> 00:36:33,820
+So now any one more
+natural number to work with
+
+770
+00:36:33,820 --> 00:36:36,500
+would be the number of
+words in a document.
+
+771
+00:36:36,500 --> 00:36:38,940
+And the number of
+words in a document
+
+772
+00:36:38,940 --> 00:36:50,150
+is W, which is Z times K.
+So Z is W divided by K.
+
+773
+00:36:50,150 --> 00:36:53,930
+And if I substitute
+this, I get that this
+
+774
+00:36:53,930 --> 00:37:05,170
+is equal to 0 of W squared over
+K. Now in a reasonable document
+
+775
+00:37:05,170 --> 00:37:08,840
+that I see, there tends to
+be a limited number of words
+
+776
+00:37:08,840 --> 00:37:12,860
+per line because the document
+has to fit on a page.
+
+777
+00:37:12,860 --> 00:37:15,580
+So K's pretty much a constant.
+
+778
+00:37:15,580 --> 00:37:18,820
+So this comes down to
+order of W squared.
+
+779
+00:37:21,790 --> 00:37:27,830
+So if I go down here and look
+at get word from line list,
+
+780
+00:37:27,830 --> 00:37:31,679
+this is W squared, where
+W is how many words I
+
+781
+00:37:31,679 --> 00:37:32,470
+have in a document.
+
+782
+00:37:35,130 --> 00:37:38,830
+How many of you guys
+are still with me?
+
+783
+00:37:38,830 --> 00:37:39,770
+Half.
+
+784
+00:37:39,770 --> 00:37:41,400
+OK.
+
+785
+00:37:41,400 --> 00:37:43,460
+Does anyone else want
+to ask questions,
+
+786
+00:37:43,460 --> 00:37:46,360
+so that you can
+get back on track?
+
+787
+00:37:46,360 --> 00:37:48,424
+Yes, no?
+
+788
+00:37:48,424 --> 00:37:49,873
+AUDIENCE: It makes sense so far.
+
+789
+00:37:49,873 --> 00:37:50,914
+VICTOR COSTAN: Thank you.
+
+790
+00:37:50,914 --> 00:37:52,455
+AUDIENCE: I think
+I didn't understand
+
+791
+00:37:52,455 --> 00:37:55,201
+the part of [INAUDIBLE]
+
+792
+00:37:55,201 --> 00:37:55,950
+VICTOR COSTAN: OK.
+
+793
+00:37:55,950 --> 00:37:58,060
+Thank you.
+
+794
+00:37:58,060 --> 00:38:02,280
+So let's see what's going
+on lines 2 through 5.
+
+795
+00:38:02,280 --> 00:38:09,360
+So I have a word list, which
+at the beginning is empty.
+
+796
+00:38:09,360 --> 00:38:12,640
+Then in line 4, words
+in line gets K words.
+
+797
+00:38:15,300 --> 00:38:21,840
+And those K words in line
+five are added to word list.
+
+798
+00:38:21,840 --> 00:38:25,420
+So after that, word
+list has K words.
+
+799
+00:38:25,420 --> 00:38:26,880
+Then I run through
+the loop again.
+
+800
+00:38:26,880 --> 00:38:29,880
+Get the words from string
+gives me K new words.
+
+801
+00:38:29,880 --> 00:38:33,770
+They get added to the list,
+which now has 2K words.
+
+802
+00:38:33,770 --> 00:38:35,470
+Next time I get K
+more words, they
+
+803
+00:38:35,470 --> 00:38:39,890
+get that added to the
+list, which has 3K.
+
+804
+00:38:39,890 --> 00:38:41,530
+So on and so forth
+until the end.
+
+805
+00:38:41,530 --> 00:38:44,380
+I have ugly numbers.
+
+806
+00:38:44,380 --> 00:38:50,820
+Z minus 1 times K words
+and I add the last K words.
+
+807
+00:38:53,570 --> 00:38:56,480
+I'm getting confused here.
+
+808
+00:38:56,480 --> 00:38:59,690
+And I get Z times K words.
+
+809
+00:38:59,690 --> 00:39:02,840
+So the word list is eventually
+going to have Z times K words,
+
+810
+00:39:02,840 --> 00:39:04,710
+and it gets them K at a time.
+
+811
+00:39:04,710 --> 00:39:08,450
+The thing that does this
+addition is the plus operator.
+
+812
+00:39:08,450 --> 00:39:10,370
+And the running time
+for the plus operator
+
+813
+00:39:10,370 --> 00:39:14,100
+is the size of the two lists,
+so it's this plus this.
+
+814
+00:39:14,100 --> 00:39:17,440
+So that's why the running time
+is first K, then 2K, then 3K,
+
+815
+00:39:17,440 --> 00:39:23,387
+then-- make sense now?
+
+816
+00:39:23,387 --> 00:39:23,970
+AUDIENCE: Yes.
+
+817
+00:39:23,970 --> 00:39:26,290
+VICTOR COSTAN: OK.
+
+818
+00:39:26,290 --> 00:39:30,620
+So this is a subtle bug because
+if you change plus to extend,
+
+819
+00:39:30,620 --> 00:39:33,050
+you get [? bug ?] disk two,
+which runs a lot faster.
+
+820
+00:39:37,265 --> 00:39:37,765
+OK.
+
+821
+00:39:42,270 --> 00:39:45,790
+So for everything
+else, we want to be
+
+822
+00:39:45,790 --> 00:39:47,330
+able to do this
+sort of analysis,
+
+823
+00:39:47,330 --> 00:39:49,027
+but we want to do it faster.
+
+824
+00:39:49,027 --> 00:39:51,110
+So you guys should look
+through [? bug list ?] one
+
+825
+00:39:51,110 --> 00:39:55,110
+through eight and do the same
+analysis for all the functions.
+
+826
+00:39:55,110 --> 00:39:58,760
+And we're going to post
+recitation notes where
+
+827
+00:39:58,760 --> 00:40:01,130
+we tell you this is the
+function that changed,
+
+828
+00:40:01,130 --> 00:40:02,642
+and this is the
+total running time.
+
+829
+00:40:02,642 --> 00:40:04,100
+And you should go
+through the lines
+
+830
+00:40:04,100 --> 00:40:07,610
+and convince yourself that
+this is the right running time.
+
+831
+00:40:07,610 --> 00:40:10,290
+And you should do that until
+it becomes second nature,
+
+832
+00:40:10,290 --> 00:40:12,002
+because when you're
+writing Python code,
+
+833
+00:40:12,002 --> 00:40:13,460
+you want to have
+this in your head.
+
+834
+00:40:13,460 --> 00:40:14,880
+You don't want to
+have to write it down,
+
+835
+00:40:14,880 --> 00:40:17,450
+because if you have to write it
+down, you're going to be lazy
+
+836
+00:40:17,450 --> 00:40:19,158
+and you're not going
+to do it, and you're
+
+837
+00:40:19,158 --> 00:40:20,850
+going to use plus
+instead of extend,
+
+838
+00:40:20,850 --> 00:40:23,280
+and your code is going
+to be horribly slow.
+
+839
+00:40:23,280 --> 00:40:25,114
+So practice until this
+gets in your head,
+
+840
+00:40:25,114 --> 00:40:27,530
+and then you'll be able to see
+the running time for things
+
+841
+00:40:27,530 --> 00:40:28,155
+really quickly.
+
+842
+00:40:31,070 --> 00:40:35,820
+OK, do we have time for
+once more let me see.
+
+843
+00:40:35,820 --> 00:40:37,120
+OK.
+
+844
+00:40:37,120 --> 00:40:39,310
+Let's look at the running
+time for inner products,
+
+845
+00:40:39,310 --> 00:40:40,780
+because this is nice and easy.
+
+846
+00:40:44,700 --> 00:40:53,030
+2, 3, 4, 5, 6, 7.
+
+847
+00:40:53,030 --> 00:40:57,900
+2 is 1, 1, very nice and easy.
+
+848
+00:40:57,900 --> 00:41:05,200
+3 looks at the first document
+list and iterates through it.
+
+849
+00:41:05,200 --> 00:41:09,430
+Iteration is constant time, but
+if the first document vector
+
+850
+00:41:09,430 --> 00:41:15,100
+has L1 elements, it's
+going to run L1 times.
+
+851
+00:41:15,100 --> 00:41:18,270
+How about line 4,
+words 2 count 2 in L2.
+
+852
+00:41:18,270 --> 00:41:26,330
+This is iteration again, so it's
+constant time to run it once,
+
+853
+00:41:26,330 --> 00:41:28,146
+but how many times will it run?
+
+854
+00:41:28,146 --> 00:41:30,130
+AUDIENCE: L2 times L1 times.
+
+855
+00:41:30,130 --> 00:41:33,420
+VICTOR COSTAN: L2
+times the 1, excellent.
+
+856
+00:41:33,420 --> 00:41:35,440
+So these two loops are
+nested inside each other
+
+857
+00:41:35,440 --> 00:41:39,170
+so that means that
+lines 4 through 6
+
+858
+00:41:39,170 --> 00:41:44,060
+are going to run once
+every time line 3 iterates.
+
+859
+00:41:44,060 --> 00:41:45,590
+So sorry, actually
+line 4 is going
+
+860
+00:41:45,590 --> 00:41:49,110
+to run once every
+time line 3 iterates.
+
+861
+00:41:49,110 --> 00:41:53,130
+And then everything
+inside the second 4
+
+862
+00:41:53,130 --> 00:41:56,980
+is going to run
+L1 times L2 times.
+
+863
+00:41:56,980 --> 00:42:02,705
+So lines 5 and 6 are also
+going to run L1, L2 times.
+
+864
+00:42:02,705 --> 00:42:06,430
+L1, L2, L1, L2.
+
+865
+00:42:06,430 --> 00:42:11,716
+How much time does it take
+to do that if check there?
+
+866
+00:42:11,716 --> 00:42:13,040
+AUDIENCE: [INAUDIBLE]
+
+867
+00:42:13,040 --> 00:42:15,040
+VICTOR COSTAN: Why does
+it take a constant time?
+
+868
+00:42:19,304 --> 00:42:21,345
+AUDIENCE: I was going to
+say, it wasn't constant,
+
+869
+00:42:21,345 --> 00:42:25,680
+so you don't have to pair
+each character with no word.
+
+870
+00:42:25,680 --> 00:42:26,680
+VICTOR COSTAN: OK, good.
+
+871
+00:42:26,680 --> 00:42:28,360
+So we have two words,
+and equal, equal
+
+872
+00:42:28,360 --> 00:42:31,430
+tells me are the words
+equal or not, right?
+
+873
+00:42:31,430 --> 00:42:35,450
+So the way you do that, is you
+have words like the and fox.
+
+874
+00:42:35,450 --> 00:42:37,270
+You go through each
+character, and you
+
+875
+00:42:37,270 --> 00:42:40,640
+stop whenever you see
+different characters.
+
+876
+00:42:40,640 --> 00:42:46,440
+But if you have something
+like, if you have a fake word
+
+877
+00:42:46,440 --> 00:42:50,704
+F-O-I and fox, then go
+through the first character,
+
+878
+00:42:50,704 --> 00:42:53,370
+they're equal, second character,
+they're equal, third character,
+
+879
+00:42:53,370 --> 00:42:54,620
+they're different.
+
+880
+00:42:54,620 --> 00:42:57,390
+So if you have
+length W words that
+
+881
+00:42:57,390 --> 00:42:59,220
+are different only in
+the last character,
+
+882
+00:42:59,220 --> 00:43:02,660
+this is going to
+be order W, right?
+
+883
+00:43:02,660 --> 00:43:04,210
+So the real--
+
+884
+00:43:04,210 --> 00:43:05,620
+AUDIENCE: [INAUDIBLE]
+
+885
+00:43:05,620 --> 00:43:08,750
+VICTOR COSTAN: --yep, equals,
+equals 4 strings not constant.
+
+886
+00:43:08,750 --> 00:43:13,470
+It takes W time where W
+is the length of a word.
+
+887
+00:43:13,470 --> 00:43:15,662
+Now here we said that
+the length of a word
+
+888
+00:43:15,662 --> 00:43:17,620
+is constant because we're
+dealing with English.
+
+889
+00:43:17,620 --> 00:43:19,890
+So you could tell me it is
+constant because of that.
+
+890
+00:43:19,890 --> 00:43:22,181
+But I would like to hear the
+argument before I take it.
+
+891
+00:43:24,630 --> 00:43:26,050
+How about line 6?
+
+892
+00:43:31,330 --> 00:43:32,770
+AUDIENCE: Well,
+if the plus equals
+
+893
+00:43:32,770 --> 00:43:36,140
+is going to be the same
+thing before when we were,
+
+894
+00:43:36,140 --> 00:43:39,270
+every new time your
+plus equals, so it's
+
+895
+00:43:39,270 --> 00:43:41,940
+going to be like how the word
+list before we were adding it,
+
+896
+00:43:41,940 --> 00:43:43,548
+where we have to
+create that object,
+
+897
+00:43:43,548 --> 00:43:45,524
+and then add it to the length.
+
+898
+00:43:45,524 --> 00:43:46,018
+I mean, its going
+to be length of sum.
+
+899
+00:43:46,018 --> 00:43:46,518
+Sorry.
+
+900
+00:43:46,518 --> 00:43:48,488
+And then you add in the new one.
+
+901
+00:43:48,488 --> 00:43:50,572
+So every time its going
+to be increasing, correct?
+
+902
+00:43:50,572 --> 00:43:51,488
+VICTOR COSTAN: Almost.
+
+903
+00:43:51,488 --> 00:43:52,557
+It's a trap again.
+
+904
+00:43:52,557 --> 00:43:53,390
+[INTERPOSING VOICES]
+
+905
+00:43:53,390 --> 00:43:55,020
+VICTOR COSTAN: Yep.
+
+906
+00:43:55,020 --> 00:43:56,770
+Yeah, so this time
+they're not lists.
+
+907
+00:43:56,770 --> 00:44:00,460
+So if you look at what's
+going on inside there,
+
+908
+00:44:00,460 --> 00:44:03,840
+you have count one
+and count two are
+
+909
+00:44:03,840 --> 00:44:08,780
+these numbers in the document
+vector, so they're numbers.
+
+910
+00:44:08,780 --> 00:44:11,124
+And then some starts
+out at 0, and then it
+
+911
+00:44:11,124 --> 00:44:12,040
+keeps getting numbers.
+
+912
+00:44:12,040 --> 00:44:14,050
+So sum is going to be a number.
+
+913
+00:44:14,050 --> 00:44:16,240
+And multiplying numbers
+is constant time,
+
+914
+00:44:16,240 --> 00:44:19,150
+adding numbers is constant
+time, so plus for numbers
+
+915
+00:44:19,150 --> 00:44:20,587
+is order 1 indeed.
+
+916
+00:44:20,587 --> 00:44:22,420
+AUDIENCE: You're
+reassigning sum every time?
+
+917
+00:44:22,420 --> 00:44:24,003
+VICTOR COSTAN: Which
+is also constant.
+
+918
+00:44:24,003 --> 00:44:24,545
+AUDIENCE: OK.
+
+919
+00:44:24,545 --> 00:44:26,711
+VICTOR COSTAN: Because
+you're copying a number over.
+
+920
+00:44:26,711 --> 00:44:28,660
+So as long as you're
+copying one element over,
+
+921
+00:44:28,660 --> 00:44:29,535
+that's constant time.
+
+922
+00:44:29,535 --> 00:44:32,370
+If you're adding two elements
+together-- two elements,
+
+923
+00:44:32,370 --> 00:44:36,070
+not two lists--
+that's constant time.
+
+924
+00:44:36,070 --> 00:44:39,090
+So this is constant.
+
+925
+00:44:39,090 --> 00:44:42,010
+And the last line is returned.
+
+926
+00:44:42,010 --> 00:44:43,750
+So what's the running
+time for this?
+
+927
+00:44:46,630 --> 00:44:49,040
+AUDIENCE: L2 times L1.
+
+928
+00:44:49,040 --> 00:44:50,250
+VICTOR COSTAN: Excellent.
+
+929
+00:44:50,250 --> 00:44:52,880
+So I assume this is a constant.
+
+930
+00:44:52,880 --> 00:44:55,860
+So this lets me say
+this is 1, and then
+
+931
+00:44:55,860 --> 00:45:00,260
+if we do the partial products
+we get 1L, 1L, 1, and L2.
+
+932
+00:45:00,260 --> 00:45:01,510
+L1, L2, L1, L2.
+
+933
+00:45:01,510 --> 00:45:03,780
+And if you add them
+up, you get L1 and L2.
+
+934
+00:45:06,380 --> 00:45:11,290
+So this is going to be L1, L2.
+
+935
+00:45:11,290 --> 00:45:15,410
+Vector angle calls inner
+product three times, right?
+
+936
+00:45:15,410 --> 00:45:18,895
+So what's it's running time?
+
+937
+00:45:18,895 --> 00:45:19,877
+AUDIENCE: L1, L2.
+
+938
+00:45:23,699 --> 00:45:24,740
+VICTOR COSTAN: Excellent.
+
+939
+00:45:27,390 --> 00:45:29,090
+Count frequency.
+
+940
+00:45:29,090 --> 00:45:31,130
+You're going to have
+to take my word for it
+
+941
+00:45:31,130 --> 00:45:36,870
+that this is order of W squared.
+
+942
+00:45:36,870 --> 00:45:39,270
+And if that's the case,
+what's the running
+
+943
+00:45:39,270 --> 00:45:41,490
+time for a word
+frequency for file?
+
+944
+00:45:44,983 --> 00:45:45,981
+AUDIENCE: W squared?
+
+945
+00:45:49,973 --> 00:45:50,980
+VICTOR COSTAN: Cool.
+
+946
+00:45:50,980 --> 00:45:51,030
+So.
+
+947
+00:45:51,030 --> 00:45:52,770
+What's the running
+time for main now?
+
+948
+00:45:55,835 --> 00:45:56,335
+Last trick.
+
+949
+00:45:56,335 --> 00:45:57,000
+AUDIENCE: [INAUDIBLE]
+
+950
+00:45:57,000 --> 00:45:58,833
+VICTOR COSTAN: Yep, If
+you just add them up,
+
+951
+00:45:58,833 --> 00:46:00,932
+except there is one
+last trick there.
+
+952
+00:46:00,932 --> 00:46:04,299
+AUDIENCE: If W is
+constant, [INAUDIBLE]
+
+953
+00:46:04,299 --> 00:46:05,261
+VICTOR COSTAN: No.
+
+954
+00:46:05,261 --> 00:46:08,160
+AUDIENCE: [INAUDIBLE]
+W's constant, right?
+
+955
+00:46:08,160 --> 00:46:09,390
+VICTOR COSTAN: No.
+
+956
+00:46:09,390 --> 00:46:11,793
+So W is the number of
+words in a document.
+
+957
+00:46:11,793 --> 00:46:12,660
+AUDIENCE: Oh.
+
+958
+00:46:12,660 --> 00:46:14,440
+VICTOR COSTAN: So it's huge.
+
+959
+00:46:14,440 --> 00:46:16,190
+If that's constant,
+then the whole problem
+
+960
+00:46:16,190 --> 00:46:18,065
+should run in order one
+time, and we're done.
+
+961
+00:46:18,065 --> 00:46:19,790
+We're going home.
+
+962
+00:46:19,790 --> 00:46:23,940
+AUDIENCE: W squared because
+it beats out L1 and L2.
+
+963
+00:46:23,940 --> 00:46:25,460
+VICTOR COSTAN: OK, so--
+
+964
+00:46:25,460 --> 00:46:26,110
+AUDIENCE: L1--
+
+965
+00:46:26,110 --> 00:46:28,130
+VICTOR COSTAN: --you're
+going faster than me.
+
+966
+00:46:28,130 --> 00:46:31,190
+You're going too fast,
+but you're right.
+
+967
+00:46:31,190 --> 00:46:35,490
+So word frequency for
+file is called twice.
+
+968
+00:46:35,490 --> 00:46:38,220
+The first document is
+going to have W1 words.
+
+969
+00:46:38,220 --> 00:46:41,460
+The second document is
+going to have W2 words.
+
+970
+00:46:41,460 --> 00:46:44,470
+So you can just copy W
+because this is called twice
+
+971
+00:46:44,470 --> 00:46:46,940
+for different files.
+
+972
+00:46:46,940 --> 00:46:51,410
+So this is order of
+W1 squared plus W2
+
+973
+00:46:51,410 --> 00:46:54,290
+squared, different documents.
+
+974
+00:46:59,870 --> 00:47:03,760
+And then I have plus L1, L2.
+
+975
+00:47:07,550 --> 00:47:12,960
+And you said that W1 and W2
+dominate L1 and L2, right?
+
+976
+00:47:12,960 --> 00:47:16,120
+Because W's the total number
+of words in a document,
+
+977
+00:47:16,120 --> 00:47:19,640
+whereas L the is the
+number of unique words,
+
+978
+00:47:19,640 --> 00:47:22,810
+because it the
+length of the vector.
+
+979
+00:47:22,810 --> 00:47:24,500
+So that is true,
+but I'm not sure
+
+980
+00:47:24,500 --> 00:47:28,000
+how to reduce this here
+to make use of that.
+
+981
+00:47:28,000 --> 00:47:31,962
+However, I made use of what you
+said already when I wrote this.
+
+982
+00:47:35,740 --> 00:47:37,300
+You see why?
+
+983
+00:47:37,300 --> 00:47:39,240
+Can anyone else see why?
+
+984
+00:47:42,600 --> 00:47:52,460
+So let's look at the vector
+angle again, lines 2 and 3.
+
+985
+00:47:52,460 --> 00:47:58,330
+So line 2, it calls inner
+product with L1 and L2.
+
+986
+00:47:58,330 --> 00:48:00,670
+But if you look at line
+3, it calls inner product
+
+987
+00:48:00,670 --> 00:48:05,670
+with L1, L1 and then L2, L2
+So the total running time
+
+988
+00:48:05,670 --> 00:48:10,880
+for vector angle is
+actually L1, L2 plus L1
+
+989
+00:48:10,880 --> 00:48:12,540
+squared plus L2 squared.
+
+990
+00:48:17,880 --> 00:48:20,550
+So if the first
+document has 1,000 words
+
+991
+00:48:20,550 --> 00:48:22,810
+and the second
+document as one word,
+
+992
+00:48:22,810 --> 00:48:25,680
+computing the inner
+product between L1 and L1
+
+993
+00:48:25,680 --> 00:48:27,830
+is going to take a lot
+more time than computing
+
+994
+00:48:27,830 --> 00:48:30,050
+the inner product
+between L1 and L2.
+
+995
+00:48:30,050 --> 00:48:32,910
+So I can't leave
+out these terms.
+
+996
+00:48:32,910 --> 00:48:34,440
+They have to be here.
+
+997
+00:48:34,440 --> 00:48:37,130
+However, when I
+add them up here--
+
+998
+00:48:37,130 --> 00:48:41,270
+if I would write W1 squared
+plus W2 squared plus L1 squared
+
+999
+00:48:41,270 --> 00:48:44,650
+plus L2 squared plus
+this-- in that case,
+
+1000
+00:48:44,650 --> 00:48:47,340
+I can use the fact that
+W1 is bigger than L1,
+
+1001
+00:48:47,340 --> 00:48:50,735
+and it cancels it out.
+
+1002
+00:48:50,735 --> 00:48:51,610
+Does this make sense?
+
+1003
+00:48:51,610 --> 00:48:52,420
+Did I lose people?
+
+1004
+00:48:55,490 --> 00:48:58,188
+Ask questions, please.
+
+1005
+00:49:02,751 --> 00:49:04,584
+AUDIENCE: But you can't
+get rid of L1 and L2
+
+1006
+00:49:04,584 --> 00:49:07,577
+and not an [INAUDIBLE].
+
+1007
+00:49:07,577 --> 00:49:08,660
+VICTOR COSTAN: You can't--
+
+1008
+00:49:08,660 --> 00:49:09,710
+AUDIENCE: [INAUDIBLE]
+
+1009
+00:49:09,710 --> 00:49:11,500
+VICTOR COSTAN: Oh, so I
+can't get rid of this term--
+
+1010
+00:49:11,500 --> 00:49:12,541
+AUDIENCE: --those, right?
+
+1011
+00:49:12,541 --> 00:49:17,335
+So this should be the sum
+of this and this, right?
+
+1012
+00:49:17,335 --> 00:49:18,200
+AUDIENCE: Right.
+
+1013
+00:49:18,200 --> 00:49:22,080
+VICTOR COSTAN: So it should
+be W1 squared plus W2 squared
+
+1014
+00:49:22,080 --> 00:49:26,382
+plus L1 squared plus
+L2 squared plus L1, L2.
+
+1015
+00:49:26,382 --> 00:49:28,110
+AUDIENCE: Right.
+
+1016
+00:49:28,110 --> 00:49:30,680
+L1 is strictly smaller than W1.
+
+1017
+00:49:30,680 --> 00:49:31,620
+AUDIENCE: Yeah.
+
+1018
+00:49:31,620 --> 00:49:35,402
+Goes away, L2 smaller than
+W2 goes away, and I get this.
+
+1019
+00:49:35,402 --> 00:49:36,326
+Correct.
+
+1020
+00:49:36,326 --> 00:49:40,796
+So L1L2 isn't smaller than
+W [INAUDIBLE] squared?
+
+1021
+00:49:40,796 --> 00:49:41,670
+VICTOR COSTAN: Is it?
+
+1022
+00:49:41,670 --> 00:49:43,086
+If you know more
+math than me, you
+
+1023
+00:49:43,086 --> 00:49:44,530
+might be able to
+prove that it is,
+
+1024
+00:49:44,530 --> 00:49:47,422
+but I don't, so I'm just
+leaving it in there.
+
+1025
+00:49:47,422 --> 00:49:47,963
+AUDIENCE: Ok.
+
+1026
+00:49:47,963 --> 00:49:49,367
+VICTOR COSTAN: Yeah.
+
+1027
+00:49:49,367 --> 00:49:51,200
+I think there is some
+relation, but I really
+
+1028
+00:49:51,200 --> 00:49:53,940
+don't remember what
+it this, so let's
+
+1029
+00:49:53,940 --> 00:49:55,070
+leave it like that for now.
+
+1030
+00:50:00,854 --> 00:50:02,770
+Yeah, I think it should
+be the case that these
+
+1031
+00:50:02,770 --> 00:50:06,250
+are bigger than this,
+but I'm not sure.
+
+1032
+00:50:06,250 --> 00:50:07,463
+OK, yes.
+
+1033
+00:50:07,463 --> 00:50:12,200
+AUDIENCE: How do you get
+the line for vector angle?
+
+1034
+00:50:12,200 --> 00:50:15,020
+VICTOR COSTAN: How do I get
+the running time for it?
+
+1035
+00:50:15,020 --> 00:50:19,390
+So vector angle gets
+two vectors, right?
+
+1036
+00:50:19,390 --> 00:50:22,250
+The vector for document one and
+the vector for document two.
+
+1037
+00:50:22,250 --> 00:50:24,190
+The length of the
+first vector is L1.
+
+1038
+00:50:24,190 --> 00:50:26,590
+The length of the
+second vector is L2.
+
+1039
+00:50:26,590 --> 00:50:29,260
+Now, line, where is it?
+
+1040
+00:50:32,550 --> 00:50:38,050
+Line 2, for numerator calls
+inner product with L1 and L2.
+
+1041
+00:50:38,050 --> 00:50:43,350
+So we know that the running
+time is L1, L2 up here.
+
+1042
+00:50:43,350 --> 00:50:46,080
+Now the next line,
+line 3 in vector angle,
+
+1043
+00:50:46,080 --> 00:50:49,990
+calls inner product
+with L1 and L1.
+
+1044
+00:50:49,990 --> 00:50:53,700
+So the running time is L1
+times L1 which is L1 squared.
+
+1045
+00:50:53,700 --> 00:50:54,892
+OK.
+
+1046
+00:50:54,892 --> 00:50:56,600
+AUDIENCE: Can we say
+that because there's
+
+1047
+00:50:56,600 --> 00:51:02,814
+a bounded number of words in the
+English language, L1's bounded?
+
+1048
+00:51:02,814 --> 00:51:04,287
+And as the length
+of the document
+
+1049
+00:51:04,287 --> 00:51:08,215
+gets really, really big,
+that [INAUDIBLE] constant?
+
+1050
+00:51:11,180 --> 00:51:15,300
+VICTOR COSTAN: Yeah, you
+might be able to do that.
+
+1051
+00:51:15,300 --> 00:51:19,150
+Yes, I think for the cases
+that we give you, that is true.
+
+1052
+00:51:19,150 --> 00:51:21,036
+Yeah, I never thought
+of that, that's cool.
+
+1053
+00:51:21,036 --> 00:51:24,012
+AUDIENCE: It doesn't work if
+it's not a language, right?
+
+1054
+00:51:24,012 --> 00:51:25,580
+If you just have gibberish?
+
+1055
+00:51:25,580 --> 00:51:32,760
+VICTOR COSTAN: Yes, also, to
+say that its constant is useful
+
+1056
+00:51:32,760 --> 00:51:35,050
+when the number of
+words in English
+
+1057
+00:51:35,050 --> 00:51:37,660
+is much smaller than
+your input size.
+
+1058
+00:51:37,660 --> 00:51:40,180
+So if, say, English
+has 50,000 words
+
+1059
+00:51:40,180 --> 00:51:43,850
+and your input is 3,000 words,
+then the input is much smaller.
+
+1060
+00:51:43,850 --> 00:51:45,910
+But if you're input is
+a million words, which
+
+1061
+00:51:45,910 --> 00:51:48,330
+I think is what
+we use, then yeah,
+
+1062
+00:51:48,330 --> 00:51:49,709
+it comes down to constant.
+
+1063
+00:51:49,709 --> 00:51:51,000
+So yeah, that's a good insight.
+
+1064
+00:51:51,000 --> 00:51:51,791
+That's really nice.
+
+1065
+00:51:54,572 --> 00:51:55,536
+Anything else?
+
+1066
+00:52:02,780 --> 00:52:06,410
+OK, so you get to go through
+document distance 3 to 8.
+
+1067
+00:52:06,410 --> 00:52:08,690
+We'll tell you what's
+changed, and we'll
+
+1068
+00:52:08,690 --> 00:52:11,020
+give you a chance to
+help you analyze it.
+
+1069
+00:52:11,020 --> 00:52:13,850
+But you have to analyze it,
+then update the scorecard
+
+1070
+00:52:13,850 --> 00:52:19,000
+for each algorithm to
+see how things improve.
+
+1071
+00:52:19,000 --> 00:52:20,067
+Thanks.

@@ -12,37 +12,57 @@ class FastTextV0Config():
                  vocab_size,
                  model_dir,
                  words_vocab_file,
-                 num_classes=3,
-                 learning_rate=0.001,
-                 word_emd_size = 48,
-                 out_keep_propability=0.5):
+                 num_classes,
+                 learning_rate,
+                 word_emd_size,
+                 out_keep_propability):
         tf.app.flags.FLAGS = tf.app.flags._FlagValues()
         tf.app.flags._global_parser = argparse.ArgumentParser()
         flags = tf.app.flags
         self.FLAGS = flags.FLAGS
 
         #Constant params
-        flags.DEFINE_string("MODEL_DIR", model_dir, "")
+        self.MODEL_DIR =  model_dir
 
         #Preprocessing Paramaters
-        flags.DEFINE_string("WORDS_VOCAB_FILE", words_vocab_file, "")
-        flags.DEFINE_string("UNKNOWN_WORD", "<UNK>", "")
-
-        flags.DEFINE_integer("VOCAB_SIZE", vocab_size, "")
+        self.WORDS_VOCAB_FILE =  words_vocab_file
+        self.UNKNOWN_WORD = "<UNK>"
+        self.VOCAB_SIZE = vocab_size
 
         #Model hyper paramaters
-        flags.DEFINE_float("LEARNING_RATE", learning_rate, "")
-        flags.DEFINE_float("NUM_CLASSES", num_classes, "Number of output classes/category")
-        flags.DEFINE_float("KEEP_PROP", out_keep_propability, "")
-        flags.DEFINE_integer("WORD_EMBEDDING_SIZE", word_emd_size, "")
+        self.LEARNING_RATE = learning_rate
+        self.NUM_CLASSES = num_classes
+        self.KEEP_PROP = out_keep_propability
+        self.WORD_EMBEDDING_SIZE = word_emd_size
 
-    def get_tf_flag(self):
-        # usage config.FLAGS.MODEL_DIR
-        return self.FLAGS
+
+    @staticmethod
+    def user_config(dataframe):
+        vocab_size = dataframe.WORD_VOCAB_SIZE
+
+        words_vocab_file = dataframe.words_vocab_file
+        num_classes = dataframe.NUM_CLASSES
+        learning_rate = input("learning_rate: (0.001): ") or 0.001
+        word_emd_size = input("word_emd_size (32): ") or 32
+        out_keep_propability = input("out_keep_propability (0.5): ") or 0.5
+
+        model_dir = "lr_{}_wemd_{}_keep_{}".format(
+            learning_rate,
+            word_emd_size,
+            out_keep_propability
+        )
+
+        return FastTextV0Config(vocab_size,
+                 model_dir,
+                 words_vocab_file,
+                 num_classes,
+                 learning_rate,
+                 word_emd_size,
+                 out_keep_propability)
 
 class FastTextV0(tf.estimator.Estimator):
     def __init__(self,
-                 config:FastTextConfig):
+                 config):
         super(FastTextV0, self).__init__(
             model_fn=self._model_fn,
             model_dir=config.FLAGS.MODEL_DIR,

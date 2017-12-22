@@ -1,10 +1,10 @@
 from overrides import overrides
 from tc_utils.dataset import TextClassificationDataset
-from tc_utils.text_data import TextDataFrame
+from tc_utils.dataframe import TextDataFrame
+import pandas as pd
 
-
-TRAIN_FILE_PATH = "../../data/spooky_author_identification/input/train.csv"
-TEST_FILE_PATH = "../../data/spooky_author_identification/input/test.csv"
+TRAIN_FILE_PATH = "../data/spooky_author_identification/input/train.csv"
+TEST_FILE_PATH = "../data/spooky_author_identification/input/test.csv"
 
 TEXT_COL = "text"
 CATEGORY_COL = "author"
@@ -58,27 +58,49 @@ test_input_fn =  test_inputs(dataset.get_test_text_data(),
 
 class SpookyDataset(TextClassificationDataset):
     def __init__(self,
-                 train_file_path,
-                 test_file_path):
+                 train_file_path=TRAIN_FILE_PATH,
+                 test_file_path=TEST_FILE_PATH):
         TextClassificationDataset.__init__(self,
                                            train_file_path,
                                            test_file_path,
                                            "spooky_dataset")
 
-        def prepare(self):
-            self.dataframe = TextDataFrame(train_file_path=self.train_file_path,
-                                           test_file_path=self.test_file_path,
-                                           text_col="text",
-                                           category_col="author",
-                                           category_cols=None,
-                                           max_doc_legth=100,
-                                           max_word_length=10,
-                                           is_multi_label=False,
-                                           is_tokenize=True,
-                                           dataset_name=self.dataset_name)
+    def prepare(self):
+        self.dataframe = TextDataFrame(train_file_path=self.train_file_path,
+                                       test_file_path=self.test_file_path,
+                                       text_col="text",
+                                       category_col="author",
+                                       category_cols=None,
+                                       max_doc_legth=100,
+                                       max_word_length=10,
+                                       is_multi_label=False,
+                                       is_tokenize=False,
+                                       dataset_name=self.dataset_name)
 
 
+    def predict_on_csv_files(self, data_iterator, estimator):
 
+        predictions_fn = estimator.predict(input_fn=data_iterator.test_input_fn)
+
+        predictions = []
+        classes = []
+
+        for r in predictions_fn:
+            predictions.append(r[ estimator.feature_type.OUT_PROBABILITIES])
+            classes.append(r[ estimator.feature_type.OUT_CLASSES])
+
+        # for i, p in enumerate(predictions_fn):
+        #     tf.logging.info("Prediction %s: %s" % (i + 1, p["ages"]))
+
+        # Get test ids from the dataset
+        ids = self.dataframe.test_df['id']
+        # Create a Dataframe
+        results = pd.DataFrame(predictions, columns=['EAP', 'HPL', 'MWS'])
+        results.insert(0, "id", ids)
+        # Store the results as expected form
+
+        out_file = estimator.model_dir + "/predictions/fast_text_v0_output.csv"
+        results.to_csv(out_file, index=False)
 
 
 

@@ -20,12 +20,12 @@ CATEOGORY_COL = "author"
 
 #Prepare the dataset
 dataset = TextDataFrame(train_file_path=TRAIN_FILE_PATH,
-                                       test_file_path=TEST_FILE_PATH,
-                                       text_col=TEXT_COL,
-                                       category_col=CATEOGORY_COL,
-                                       dataset_name=DATA_STORE_PATH,
-                                       max_doc_legth=MAX_DOC_LENGTH,
-                                       max_word_length=MAX_WORD_LENGTH)
+                        test_file_path=TEST_FILE_PATH,
+                        text_col=TEXT_COL,
+                        category_col=CATEOGORY_COL,
+                        dataset_dir=DATA_STORE_PATH,
+                        max_doc_legth=MAX_DOC_LENGTH,
+                        max_word_length=MAX_WORD_LENGTH)
 
 #To get text word ids
 train_text_word_ids = dataset.get_train_text_word_ids()

@@ -17,10 +17,10 @@ CATEOGORY_COL = "author"
 
 #Prepare the dataset
 dataset = TextDataFrame(train_file_path=TRAIN_FILE_PATH,
-                                       test_file_path=TEST_FILE_PATH,
-                                       text_col=TEXT_COL,
-                                       category_col=CATEOGORY_COL,
-                                       dataset_name=DATA_STORE_PATH)
+                        test_file_path=TEST_FILE_PATH,
+                        text_col=TEXT_COL,
+                        category_col=CATEOGORY_COL,
+                        dataset_dir=DATA_STORE_PATH)
 
 train_data = dataset.get_train_text_data()
 val_data = dataset.get_val_text_data()

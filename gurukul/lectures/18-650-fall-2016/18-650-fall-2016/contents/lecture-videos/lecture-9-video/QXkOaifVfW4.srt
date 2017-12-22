@@ -1,0 +1,7028 @@
+1
+00:00:00,120 --> 00:00:02,460
+The following content is
+provided under a Creative
+
+2
+00:00:02,460 --> 00:00:03,850
+Commons license.
+
+3
+00:00:03,850 --> 00:00:06,090
+Your support will help
+MIT OpenCourseWare
+
+4
+00:00:06,090 --> 00:00:10,180
+continue to offer high quality
+educational resources for free.
+
+5
+00:00:10,180 --> 00:00:12,720
+To make a donation or give
+you additional materials
+
+6
+00:00:12,720 --> 00:00:16,680
+from hundreds of MIT courses,
+visit MIT OpenCourseWare
+
+7
+00:00:16,680 --> 00:00:17,880
+at ocw.mit.edu.
+
+8
+00:00:21,030 --> 00:00:23,880
+PHILIPPE RIGOLLET: So
+again, before we start,
+
+9
+00:00:23,880 --> 00:00:27,720
+there is a survey online
+if you haven't done so.
+
+10
+00:00:27,720 --> 00:00:30,600
+I would guess at least
+one of you has not.
+
+11
+00:00:30,600 --> 00:00:33,750
+Some of you have entered their
+answers and their thoughts,
+
+12
+00:00:33,750 --> 00:00:35,055
+and I really appreciate this.
+
+13
+00:00:35,055 --> 00:00:36,180
+It's actually very helpful.
+
+14
+00:00:36,180 --> 00:00:40,230
+So it seems that the
+course is going fairly well
+
+15
+00:00:40,230 --> 00:00:42,100
+from what I've read so far.
+
+16
+00:00:42,100 --> 00:00:43,900
+So if you don't think
+this is the case,
+
+17
+00:00:43,900 --> 00:00:45,720
+please enter your
+opinion and tell us
+
+18
+00:00:45,720 --> 00:00:47,440
+how we can make it better.
+
+19
+00:00:47,440 --> 00:00:48,900
+One of the things
+that was said is
+
+20
+00:00:48,900 --> 00:00:53,370
+that I speak too fast,
+which is absolutely true.
+
+21
+00:00:53,370 --> 00:00:54,520
+I just can't help it.
+
+22
+00:00:54,520 --> 00:00:59,370
+I get so excited, but I
+will really do my best.
+
+23
+00:00:59,370 --> 00:01:02,860
+I will try to.
+
+24
+00:01:02,860 --> 00:01:04,800
+I think I always start OK.
+
+25
+00:01:04,800 --> 00:01:07,170
+I just end not so well.
+
+26
+00:01:07,170 --> 00:01:10,920
+So last time we talked about
+this chi squared distribution,
+
+27
+00:01:10,920 --> 00:01:13,170
+which is just another
+distribution that's
+
+28
+00:01:13,170 --> 00:01:16,140
+so common that it
+deserves its own name.
+
+29
+00:01:16,140 --> 00:01:17,790
+And this is
+something that arises
+
+30
+00:01:17,790 --> 00:01:22,200
+when we sum the squares of
+independent standard Gaussian
+
+31
+00:01:22,200 --> 00:01:23,330
+random variables.
+
+32
+00:01:23,330 --> 00:01:25,785
+And in particular,
+why is that relevant?
+
+33
+00:01:25,785 --> 00:01:27,960
+It's because if I look
+at the sample variance,
+
+34
+00:01:27,960 --> 00:01:29,610
+then it is a chi
+square distribution,
+
+35
+00:01:29,610 --> 00:01:32,370
+and the parameter
+that shows up is also
+
+36
+00:01:32,370 --> 00:01:35,430
+known as the degrees of
+freedom, is the number
+
+37
+00:01:35,430 --> 00:01:37,944
+of observations of minus one.
+
+38
+00:01:37,944 --> 00:01:39,360
+And so as I said,
+this chi squared
+
+39
+00:01:39,360 --> 00:01:43,110
+distribution has an explicit
+probability density function,
+
+40
+00:01:43,110 --> 00:01:44,980
+and I tried to draw it.
+
+41
+00:01:44,980 --> 00:01:47,850
+And one of the comments was
+also about my handwriting,
+
+42
+00:01:47,850 --> 00:01:52,080
+so I will actually not rely
+on it for detailed things.
+
+43
+00:01:52,080 --> 00:01:54,570
+So this is what the chi squared
+with one degree of freedom
+
+44
+00:01:54,570 --> 00:01:55,237
+would look like.
+
+45
+00:01:55,237 --> 00:01:57,861
+And really, what this is is just
+the distribution of the square
+
+46
+00:01:57,861 --> 00:01:58,890
+of a standard Gaussian.
+
+47
+00:01:58,890 --> 00:02:01,650
+I'm summing only one,
+so that's what it is.
+
+48
+00:02:01,650 --> 00:02:03,810
+Then when I go to 2,
+this is what it is--
+
+49
+00:02:03,810 --> 00:02:07,039
+3, 4, 5, 6, and 10.
+
+50
+00:02:07,039 --> 00:02:08,580
+And as I move, you
+can see this thing
+
+51
+00:02:08,580 --> 00:02:11,840
+is becoming flatter and flatter,
+and it's pushing to the right.
+
+52
+00:02:11,840 --> 00:02:14,910
+And that's because I'm
+summing more and more squares,
+
+53
+00:02:14,910 --> 00:02:18,600
+and in expectation we
+just get one every time.
+
+54
+00:02:18,600 --> 00:02:23,520
+So it really means that the
+mass is moving to infinity.
+
+55
+00:02:23,520 --> 00:02:26,140
+In particular, a chi
+squared distribution
+
+56
+00:02:26,140 --> 00:02:29,640
+with n degrees of freedom
+is going to infinity
+
+57
+00:02:29,640 --> 00:02:32,790
+as n goes to infinity.
+
+58
+00:02:32,790 --> 00:02:35,130
+Another distribution
+that I asked
+
+59
+00:02:35,130 --> 00:02:38,010
+you to think about--
+anybody looked around
+
+60
+00:02:38,010 --> 00:02:39,750
+about the student
+t-distribution, what
+
+61
+00:02:39,750 --> 00:02:42,040
+the history of this thing was?
+
+62
+00:02:42,040 --> 00:02:44,545
+So I'll tell you a little bit.
+
+63
+00:02:44,545 --> 00:02:46,300
+I understand if you
+didn't have time.
+
+64
+00:02:46,300 --> 00:02:50,470
+So the t-distribution is
+another common distribution
+
+65
+00:02:50,470 --> 00:02:53,050
+that is so common
+that it will be used
+
+66
+00:02:53,050 --> 00:02:56,980
+and will have its table
+of quintiles that are
+
+67
+00:02:56,980 --> 00:02:59,320
+drawn at the back of the book.
+
+68
+00:02:59,320 --> 00:03:02,110
+Now, remember, when I
+mentioned the Gaussian, I said,
+
+69
+00:03:02,110 --> 00:03:04,470
+well, there are several
+values for alpha
+
+70
+00:03:04,470 --> 00:03:06,250
+that we're interested in.
+
+71
+00:03:06,250 --> 00:03:11,110
+And so I wanted to draw
+a table for the Gaussian.
+
+72
+00:03:11,110 --> 00:03:13,760
+We had something that
+looked like this,
+
+73
+00:03:13,760 --> 00:03:21,030
+and I said, well, q alpha
+over 2 to get alpha over 2
+
+74
+00:03:21,030 --> 00:03:22,690
+to the right of this number.
+
+75
+00:03:22,690 --> 00:03:25,930
+And we said that there is
+a table for this things,
+
+76
+00:03:25,930 --> 00:03:28,330
+for common values of theta.
+
+77
+00:03:28,330 --> 00:03:31,180
+Well, if you try to envision
+what this table will look like,
+
+78
+00:03:31,180 --> 00:03:34,000
+it's actually a
+pretty sad table,
+
+79
+00:03:34,000 --> 00:03:35,800
+because it's basically
+one list of numbers.
+
+80
+00:03:35,800 --> 00:03:37,390
+Why would I call it a table?
+
+81
+00:03:37,390 --> 00:03:38,829
+Because all I need
+to tell you is
+
+82
+00:03:38,829 --> 00:03:40,120
+something that looks like this.
+
+83
+00:03:40,120 --> 00:03:43,960
+If I tell you this is alpha
+and this is q alpha over 2
+
+84
+00:03:43,960 --> 00:03:47,170
+and then I say, OK,
+basically the three alphas
+
+85
+00:03:47,170 --> 00:03:54,870
+that I told you I care about are
+something like 1%, 5%, and 10%,
+
+86
+00:03:54,870 --> 00:03:57,400
+then my table will just
+give me q alpha over 2.
+
+87
+00:03:57,400 --> 00:03:59,710
+So that's alpha, and
+that's q alpha over 2.
+
+88
+00:03:59,710 --> 00:04:01,330
+And that's going
+to tell me that--
+
+89
+00:04:01,330 --> 00:04:04,910
+I don't remember this
+one, but this guy is 1.96.
+
+90
+00:04:04,910 --> 00:04:08,920
+This guy is something like 2.45.
+
+91
+00:04:08,920 --> 00:04:11,860
+I think this one
+is like 1.65 maybe.
+
+92
+00:04:11,860 --> 00:04:15,275
+And maybe you can
+be a little finer,
+
+93
+00:04:15,275 --> 00:04:16,899
+but it's not going
+to be an entire page
+
+94
+00:04:16,899 --> 00:04:18,149
+at the back of the book.
+
+95
+00:04:18,149 --> 00:04:19,690
+And the reason is
+because I only need
+
+96
+00:04:19,690 --> 00:04:22,840
+to draw these things
+for d1 standard Gaussian
+
+97
+00:04:22,840 --> 00:04:24,730
+when the parameters
+are 0 for the mean
+
+98
+00:04:24,730 --> 00:04:26,250
+and 1 for the variance.
+
+99
+00:04:26,250 --> 00:04:30,740
+Now, if I'm actually doing
+this for the the chi squared,
+
+100
+00:04:30,740 --> 00:04:34,610
+I basically have to give
+you one table per values
+
+101
+00:04:34,610 --> 00:04:37,727
+of the degrees of freedom,
+because those things
+
+102
+00:04:37,727 --> 00:04:38,310
+are different.
+
+103
+00:04:38,310 --> 00:04:41,071
+There is no way I can take--
+
+104
+00:04:41,071 --> 00:04:43,070
+for Gaussian's, if you
+give me a different mean,
+
+105
+00:04:43,070 --> 00:04:46,820
+I can substract it and make it
+back to be a standard Gaussian.
+
+106
+00:04:46,820 --> 00:04:49,346
+For the chi squared,
+there is no such thing.
+
+107
+00:04:49,346 --> 00:04:50,720
+There is no thing
+that just takes
+
+108
+00:04:50,720 --> 00:04:53,345
+the chi squared with d
+degrees of freedom, nd,
+
+109
+00:04:53,345 --> 00:04:54,935
+and turns it into,
+say, a chi square
+
+110
+00:04:54,935 --> 00:04:56,060
+with one degree of freedom.
+
+111
+00:04:56,060 --> 00:04:58,070
+This just does not happen.
+
+112
+00:04:58,070 --> 00:05:01,010
+So the word is standardized.
+
+113
+00:05:01,010 --> 00:05:02,412
+Make it a standard chi squared.
+
+114
+00:05:02,412 --> 00:05:04,370
+There is no such thing
+as standard chi squared.
+
+115
+00:05:04,370 --> 00:05:05,786
+So what it means
+is that I'm going
+
+116
+00:05:05,786 --> 00:05:09,860
+to need one row like that
+for each value of the number
+
+117
+00:05:09,860 --> 00:05:11,130
+of degrees of freedom.
+
+118
+00:05:11,130 --> 00:05:14,420
+So that will certainly fill a
+page at the back of a book--
+
+119
+00:05:14,420 --> 00:05:16,400
+maybe even more.
+
+120
+00:05:16,400 --> 00:05:18,390
+I need one per sample size.
+
+121
+00:05:18,390 --> 00:05:21,000
+So if I want to go from
+simple size 1 to 1,000,
+
+122
+00:05:21,000 --> 00:05:24,470
+I need 1,000 rows.
+
+123
+00:05:24,470 --> 00:05:26,990
+So now the student
+distribution is
+
+124
+00:05:26,990 --> 00:05:30,740
+one that arises where it looks
+very much like the Gaussian
+
+125
+00:05:30,740 --> 00:05:33,920
+distribution, and there's a
+very simple reason for that, is
+
+126
+00:05:33,920 --> 00:05:37,820
+that I take a standard Gaussian
+and I divide it by something.
+
+127
+00:05:37,820 --> 00:05:39,410
+That's how I get the student.
+
+128
+00:05:39,410 --> 00:05:40,520
+What do I divide it with?
+
+129
+00:05:40,520 --> 00:05:42,900
+Well, I take an
+independent chi square--
+
+130
+00:05:42,900 --> 00:05:44,410
+I'm going to call it v--
+
+131
+00:05:44,410 --> 00:05:47,030
+and I want it to be
+independent from z.
+
+132
+00:05:47,030 --> 00:05:52,040
+And I'm going to divide
+z by root v over d.
+
+133
+00:05:52,040 --> 00:05:55,910
+So I start with a chi squared v.
+
+134
+00:05:55,910 --> 00:05:58,330
+So this guy is chi squared d.
+
+135
+00:05:58,330 --> 00:06:02,840
+I start with z, which is n 0, 1.
+
+136
+00:06:02,840 --> 00:06:06,640
+I'm going to assume that
+those guys are independent.
+
+137
+00:06:06,640 --> 00:06:08,640
+In my t-distribution,
+I'm going to write
+
+138
+00:06:08,640 --> 00:06:17,150
+a T. Capital T is z divided by
+the square root of v over d.
+
+139
+00:06:17,150 --> 00:06:18,660
+Why would I want to do this?
+
+140
+00:06:18,660 --> 00:06:20,630
+Well, because this
+is exactly what
+
+141
+00:06:20,630 --> 00:06:25,800
+happens when a divide not by
+the true variance, a Gaussian,
+
+142
+00:06:25,800 --> 00:06:28,750
+but by its empirical variance.
+
+143
+00:06:28,750 --> 00:06:30,290
+So let's see why in a second.
+
+144
+00:06:30,290 --> 00:06:34,480
+So I know that if you give
+me some random variable--
+
+145
+00:06:34,480 --> 00:06:38,900
+let's call it x, which
+is N mu sigma squared--
+
+146
+00:06:38,900 --> 00:06:40,000
+then I can do this.
+
+147
+00:06:40,000 --> 00:06:45,012
+x minus mu divided by sigma.
+
+148
+00:06:45,012 --> 00:06:47,470
+I'm going to call this thing
+z, because this thing actually
+
+149
+00:06:47,470 --> 00:06:51,220
+has some standard
+Gaussian distribution.
+
+150
+00:06:51,220 --> 00:06:54,430
+I have standardized
+x into something
+
+151
+00:06:54,430 --> 00:06:58,090
+that I can read the quintiles
+at the back of the book.
+
+152
+00:06:58,090 --> 00:07:00,430
+So that's this process
+that I want to do.
+
+153
+00:07:00,430 --> 00:07:03,430
+Now, to be able to do this,
+I need to know what mu is,
+
+154
+00:07:03,430 --> 00:07:05,270
+and I need to know
+what sigma is.
+
+155
+00:07:05,270 --> 00:07:09,680
+Otherwise I'm not going to be
+able to make this operation.
+
+156
+00:07:09,680 --> 00:07:13,730
+mu I can sort of get away
+with, because remember,
+
+157
+00:07:13,730 --> 00:07:15,760
+when we're doing
+confidence intervals
+
+158
+00:07:15,760 --> 00:07:17,840
+we're actually solving for mu.
+
+159
+00:07:17,840 --> 00:07:20,260
+So it was good
+that mu was there.
+
+160
+00:07:20,260 --> 00:07:22,070
+When we're doing
+hypothesis testing,
+
+161
+00:07:22,070 --> 00:07:26,690
+we're actually plugging in here
+the mu that shows up in h0.
+
+162
+00:07:26,690 --> 00:07:27,720
+So that was good.
+
+163
+00:07:27,720 --> 00:07:28,490
+We had this thing.
+
+164
+00:07:28,490 --> 00:07:31,250
+Think of mu as being
+p, for example.
+
+165
+00:07:31,250 --> 00:07:36,730
+But this guy here, we don't
+necessarily know what it is.
+
+166
+00:07:36,730 --> 00:07:40,090
+I just had to tell you for
+the entire first chapter,
+
+167
+00:07:40,090 --> 00:07:41,860
+assume you have Gaussian
+random variables
+
+168
+00:07:41,860 --> 00:07:44,050
+and that you know
+what the variance is.
+
+169
+00:07:44,050 --> 00:07:45,650
+And the reason why
+I said assume you
+
+170
+00:07:45,650 --> 00:07:47,566
+know it-- and I said
+sometimes you can read it
+
+171
+00:07:47,566 --> 00:07:52,390
+on the side of the box of
+measuring equipment in the lab.
+
+172
+00:07:52,390 --> 00:07:54,910
+That was just the
+way I justified it,
+
+173
+00:07:54,910 --> 00:07:57,490
+but the real reason why I did
+this is because I would not
+
+174
+00:07:57,490 --> 00:08:00,580
+be able to perform this
+operation if I actually did not
+
+175
+00:08:00,580 --> 00:08:02,380
+know what sigma was.
+
+176
+00:08:02,380 --> 00:08:07,340
+But from data, we know that
+we can form this estimator
+
+177
+00:08:07,340 --> 00:08:11,530
+Sn, which is 1 over n,
+sum from i equals 1 to n
+
+178
+00:08:11,530 --> 00:08:15,430
+of Xi, minus X bar squared.
+
+179
+00:08:15,430 --> 00:08:18,790
+And this thing is approximately
+equal to sigma squared.
+
+180
+00:08:18,790 --> 00:08:21,100
+That's the sample
+variance, and it's actually
+
+181
+00:08:21,100 --> 00:08:25,640
+a good estimator just by the
+law of large number, actually.
+
+182
+00:08:25,640 --> 00:08:29,472
+This thing, by the law of large
+number, as n goes to infinity--
+
+183
+00:08:32,370 --> 00:08:34,440
+well, let's say
+it in probability
+
+184
+00:08:34,440 --> 00:08:36,570
+goes to sigma squared by
+the law of large number.
+
+185
+00:08:36,570 --> 00:08:40,200
+So it's a consistent
+estimator of sigma squared.
+
+186
+00:08:40,200 --> 00:08:43,080
+So now, what I
+want to do is to be
+
+187
+00:08:43,080 --> 00:08:46,426
+able to use this estimator
+rather than using sigma.
+
+188
+00:08:46,426 --> 00:08:47,800
+And the way I'm
+going to do it is
+
+189
+00:08:47,800 --> 00:08:50,220
+I'm going to say, OK,
+what I want to form
+
+190
+00:08:50,220 --> 00:08:58,400
+is x minus mu divided
+by Sn this time.
+
+191
+00:08:58,400 --> 00:09:01,541
+I don't know what the
+distribution of this guy is.
+
+192
+00:09:01,541 --> 00:09:02,790
+Sorry, it's square root of Sn.
+
+193
+00:09:02,790 --> 00:09:05,430
+This is sigma squared.
+
+194
+00:09:05,430 --> 00:09:07,860
+So this is what I would take.
+
+195
+00:09:07,860 --> 00:09:10,080
+And I could think
+of Slutsky, maybe,
+
+196
+00:09:10,080 --> 00:09:14,150
+something like this that would
+tell me, well, just use that
+
+197
+00:09:14,150 --> 00:09:15,980
+and pretend it's a Gaussian.
+
+198
+00:09:15,980 --> 00:09:18,170
+And we'll see how
+actually it's sort
+
+199
+00:09:18,170 --> 00:09:20,900
+of valid to do that,
+because Slutsky tells us
+
+200
+00:09:20,900 --> 00:09:22,630
+it is valid to do that.
+
+201
+00:09:22,630 --> 00:09:24,590
+But what we can
+also do is to say,
+
+202
+00:09:24,590 --> 00:09:28,940
+well, this is actually equal to
+x minus mu, divided by sigma,
+
+203
+00:09:28,940 --> 00:09:31,550
+which I knew what the
+distribution of this guy is.
+
+204
+00:09:31,550 --> 00:09:33,770
+And then what I'm going to
+do is I'm going to just--
+
+205
+00:09:33,770 --> 00:09:38,670
+well, I'm going to cancel this
+effect, sigma over square root
+
+206
+00:09:38,670 --> 00:09:39,470
+Sn.
+
+207
+00:09:39,470 --> 00:09:41,480
+So I didn't change anything.
+
+208
+00:09:41,480 --> 00:09:43,540
+I just put the sigma here.
+
+209
+00:09:43,540 --> 00:09:47,010
+So now what I know what I
+know is that this is some z,
+
+210
+00:09:47,010 --> 00:09:51,340
+and it has some standard
+Gaussian distribution.
+
+211
+00:09:51,340 --> 00:09:54,480
+What is this guy?
+
+212
+00:09:54,480 --> 00:09:57,340
+Well, I know that Sn--
+
+213
+00:09:57,340 --> 00:09:59,871
+we wrote this here.
+
+214
+00:09:59,871 --> 00:10:01,620
+Maybe I shouldn't have
+put those pictures,
+
+215
+00:10:01,620 --> 00:10:04,230
+because now I keep on
+skipping before and after.
+
+216
+00:10:04,230 --> 00:10:14,180
+We know that Sn times n
+divided by sigma squared
+
+217
+00:10:14,180 --> 00:10:18,636
+is actually chi
+squared n minus 1.
+
+218
+00:10:22,580 --> 00:10:23,900
+So what do I have here?
+
+219
+00:10:23,900 --> 00:10:25,860
+I have that chi squared--
+
+220
+00:10:25,860 --> 00:10:29,720
+so here I have something that
+looks like 1 over square root
+
+221
+00:10:29,720 --> 00:10:32,270
+of Sn divided by sigma squared.
+
+222
+00:10:35,590 --> 00:10:38,680
+This is what this guy is if
+I just do some more writing.
+
+223
+00:10:38,680 --> 00:10:41,710
+And maybe I actually want to
+make my life a little easier.
+
+224
+00:10:41,710 --> 00:10:45,630
+I'm actually going
+to plug in my n here,
+
+225
+00:10:45,630 --> 00:10:48,693
+and so I'm going to have to
+multiply by square root of n
+
+226
+00:10:48,693 --> 00:10:49,193
+here.
+
+227
+00:10:56,438 --> 00:10:59,719
+Everybody's with me?
+
+228
+00:10:59,719 --> 00:11:01,510
+So now what I end up
+with is something that
+
+229
+00:11:01,510 --> 00:11:06,310
+looks like this, where I have--
+
+230
+00:11:06,310 --> 00:11:07,775
+here I started with x.
+
+231
+00:11:15,630 --> 00:11:19,890
+I should really start
+with Xn bar minus mu times
+
+232
+00:11:19,890 --> 00:11:21,650
+square root of n.
+
+233
+00:11:21,650 --> 00:11:24,414
+That's what the central
+limit theorem would tell me.
+
+234
+00:11:24,414 --> 00:11:26,580
+I need to work with the
+average rather than just one
+
+235
+00:11:26,580 --> 00:11:27,954
+observation.
+
+236
+00:11:27,954 --> 00:11:30,370
+So if I start with this, then
+I pick up a square root of n
+
+237
+00:11:30,370 --> 00:11:30,870
+here.
+
+238
+00:11:43,180 --> 00:11:45,700
+So if I had the sigma
+here, I would know
+
+239
+00:11:45,700 --> 00:11:47,690
+that this thing is actually--
+
+240
+00:11:47,690 --> 00:11:54,110
+Xn bar minus mu divided by
+sigma times the square root of n
+
+241
+00:11:54,110 --> 00:11:56,300
+would be a standard Gaussian.
+
+242
+00:11:56,300 --> 00:11:58,460
+So if I put Xn
+bar here, I really
+
+243
+00:11:58,460 --> 00:12:00,620
+need to put this thing that
+goes around the Xn bar.
+
+244
+00:12:04,620 --> 00:12:06,120
+That's just my
+central limit theorem
+
+245
+00:12:06,120 --> 00:12:10,720
+that says if I average, then my
+variance has shrunk by a factor
+
+246
+00:12:10,720 --> 00:12:12,780
+1 over n.
+
+247
+00:12:12,780 --> 00:12:15,400
+Now, I can still do this.
+
+248
+00:12:15,400 --> 00:12:16,740
+That was still fine.
+
+249
+00:12:16,740 --> 00:12:26,620
+And now I said that this
+thing is basically this guy.
+
+250
+00:12:26,620 --> 00:12:28,240
+So what I know is
+that this thing
+
+251
+00:12:28,240 --> 00:12:32,810
+is a chi squared with n
+minus 1 degrees of freedom,
+
+252
+00:12:32,810 --> 00:12:37,340
+so this guy here is
+chi squared with n
+
+253
+00:12:37,340 --> 00:12:40,710
+minus 1 degrees of freedom.
+
+254
+00:12:40,710 --> 00:12:44,650
+Let me call this thing v in the
+spirit of what was used there
+
+255
+00:12:44,650 --> 00:12:49,690
+and in the spirit of
+what is written here.
+
+256
+00:12:49,690 --> 00:12:53,840
+So this guy was called v,
+so I'm going to call this v.
+
+257
+00:12:53,840 --> 00:12:57,000
+So what I can write is
+that square root of n Xn
+
+258
+00:12:57,000 --> 00:13:02,570
+bar minus mu divided
+by square root of Sn
+
+259
+00:13:02,570 --> 00:13:10,870
+is equal to z times
+square root of n
+
+260
+00:13:10,870 --> 00:13:20,460
+divided by square root of
+v. Everybody's with me here?
+
+261
+00:13:23,610 --> 00:13:37,070
+Which I can rewrite as z times
+square root of v divided by n
+
+262
+00:13:37,070 --> 00:13:40,150
+And if you look at what the
+definition of this thing is,
+
+263
+00:13:40,150 --> 00:13:41,920
+I'm almost there.
+
+264
+00:13:41,920 --> 00:13:45,480
+What is the only thing
+that's wrong here?
+
+265
+00:13:45,480 --> 00:13:48,294
+This is a student
+distribution, right?
+
+266
+00:13:48,294 --> 00:13:49,210
+So there's two things.
+
+267
+00:13:49,210 --> 00:13:51,840
+The first one was that
+they should be independent,
+
+268
+00:13:51,840 --> 00:13:53,360
+and they actually
+are independent.
+
+269
+00:13:53,360 --> 00:13:55,230
+That's what Cochran's
+theorem tells me,
+
+270
+00:13:55,230 --> 00:13:57,210
+and you just have to
+count on me for this.
+
+271
+00:13:57,210 --> 00:14:01,590
+I told you already that Sn
+was independent of Xn bar.
+
+272
+00:14:01,590 --> 00:14:04,510
+So those two guys
+are independent,
+
+273
+00:14:04,510 --> 00:14:07,590
+which implies that the
+numerator and denominator here
+
+274
+00:14:07,590 --> 00:14:08,410
+are independent.
+
+275
+00:14:08,410 --> 00:14:12,260
+That's what Cochran's
+theorem tells us.
+
+276
+00:14:12,260 --> 00:14:14,660
+But is this exactly
+what I should
+
+277
+00:14:14,660 --> 00:14:17,990
+be seeing if I wanted to
+have my sample variance, if I
+
+278
+00:14:17,990 --> 00:14:19,430
+want to have to write this?
+
+279
+00:14:19,430 --> 00:14:23,480
+Is this actually the definition
+of a student distribution?
+
+280
+00:14:23,480 --> 00:14:25,106
+Yes?
+
+281
+00:14:25,106 --> 00:14:25,606
+No.
+
+282
+00:14:28,890 --> 00:14:33,774
+So we see z divided by
+square root of v over d.
+
+283
+00:14:33,774 --> 00:14:35,690
+That looks pretty much
+like it, except there's
+
+284
+00:14:35,690 --> 00:14:36,560
+a small discrepancy.
+
+285
+00:14:36,560 --> 00:14:38,016
+What is the discrepancy?
+
+286
+00:14:47,260 --> 00:14:50,680
+There's just the square
+root of n minus 1 thing.
+
+287
+00:14:50,680 --> 00:14:55,520
+So here, v has n minus
+1 degrees of freedom.
+
+288
+00:14:55,520 --> 00:14:58,890
+And in the definition, if the
+v has d degrees of freedom,
+
+289
+00:14:58,890 --> 00:15:04,380
+I divide it by d, not by d minus
+1 or not by d plus 1, actually,
+
+290
+00:15:04,380 --> 00:15:06,060
+in this case.
+
+291
+00:15:06,060 --> 00:15:07,820
+So I have this extra thing.
+
+292
+00:15:07,820 --> 00:15:09,570
+Well, there's two ways
+I can address this.
+
+293
+00:15:13,230 --> 00:15:14,910
+The first one is
+by saying, well,
+
+294
+00:15:14,910 --> 00:15:18,380
+this is actually equal
+to z over square root
+
+295
+00:15:18,380 --> 00:15:27,390
+of v divided by n minus
+1 times square root of n
+
+296
+00:15:27,390 --> 00:15:28,547
+over n minus 1.
+
+297
+00:15:32,810 --> 00:15:35,420
+I can always do that and
+say for n large enough
+
+298
+00:15:35,420 --> 00:15:37,740
+this thing is actually
+going to be pretty small,
+
+299
+00:15:37,740 --> 00:15:39,260
+or I can take account for it.
+
+300
+00:15:39,260 --> 00:15:43,670
+Or for any n you give me,
+I can compute this number.
+
+301
+00:15:43,670 --> 00:15:45,616
+And so rather than
+having a t-distribution,
+
+302
+00:15:45,616 --> 00:15:47,240
+I'm going to have a
+t-distribution time
+
+303
+00:15:47,240 --> 00:15:49,480
+this deterministic
+number, which is just
+
+304
+00:15:49,480 --> 00:15:52,370
+a function of my
+number of observations.
+
+305
+00:15:52,370 --> 00:15:55,430
+But what I actually
+want to do instead
+
+306
+00:15:55,430 --> 00:16:00,520
+is probably use a slightly
+different normalization,
+
+307
+00:16:00,520 --> 00:16:04,140
+which is just to say, well,
+why do I have to define Sn--
+
+308
+00:16:10,260 --> 00:16:11,130
+where was my Sn?
+
+309
+00:16:11,130 --> 00:16:14,910
+Yeah, why do I have to define
+Sn tend to be divided by n?
+
+310
+00:16:14,910 --> 00:16:17,730
+Actually, this is
+a biased estimator,
+
+311
+00:16:17,730 --> 00:16:20,010
+and if I wanted to be
+unbiased, I can actually just
+
+312
+00:16:20,010 --> 00:16:22,650
+put an n minus 1 here.
+
+313
+00:16:22,650 --> 00:16:23,550
+You can check that.
+
+314
+00:16:23,550 --> 00:16:25,800
+You can expend this thing
+and compute the expectation.
+
+315
+00:16:25,800 --> 00:16:27,990
+You will see that it's
+actually not sigma squared,
+
+316
+00:16:27,990 --> 00:16:31,360
+but n over n minus
+1 sigma squared.
+
+317
+00:16:31,360 --> 00:16:33,490
+So you can actually
+just make it unbiased.
+
+318
+00:16:33,490 --> 00:16:35,820
+Let's call this
+guy tilde, and then
+
+319
+00:16:35,820 --> 00:16:43,890
+when I put this tilde here what
+I actually get is s tilde here
+
+320
+00:16:43,890 --> 00:16:46,020
+and s tilde here.
+
+321
+00:16:46,020 --> 00:16:49,920
+I need actually to
+have n minus 1 here
+
+322
+00:16:49,920 --> 00:16:55,801
+to have this s tilde be a
+chi squared distribution.
+
+323
+00:16:55,801 --> 00:16:56,755
+Yes?
+
+324
+00:16:56,755 --> 00:17:02,010
+AUDIENCE: [INAUDIBLE] defined
+this way so that you--
+
+325
+00:17:02,010 --> 00:17:04,940
+PHILIPPE RIGOLLET: So basically,
+this is what the story did.
+
+326
+00:17:04,940 --> 00:17:08,359
+So the story was, well,
+rather than using always
+
+327
+00:17:08,359 --> 00:17:10,760
+the central limit theorem
+and just pretending
+
+328
+00:17:10,760 --> 00:17:13,800
+that my Sn is actually
+the true sigma squared,
+
+329
+00:17:13,800 --> 00:17:16,460
+since this is something
+I'm going to do a lot,
+
+330
+00:17:16,460 --> 00:17:19,460
+I might as well just
+compute the distribution,
+
+331
+00:17:19,460 --> 00:17:21,890
+like the quintiles for this
+particular distribution,
+
+332
+00:17:21,890 --> 00:17:24,470
+which clearly does not depend
+on any unknown parameter.
+
+333
+00:17:24,470 --> 00:17:27,109
+d is the only parameter
+that shows up here,
+
+334
+00:17:27,109 --> 00:17:28,670
+and it's completely
+characterized
+
+335
+00:17:28,670 --> 00:17:30,510
+by the number of
+observations that you have,
+
+336
+00:17:30,510 --> 00:17:32,530
+which you definitely know.
+
+337
+00:17:32,530 --> 00:17:35,450
+And so people said, let's just
+be slightly more accurate.
+
+338
+00:17:35,450 --> 00:17:38,900
+And in a second, I'll show you
+how the distribution of the T--
+
+339
+00:17:38,900 --> 00:17:41,492
+so we know that if the
+sample size is large enough,
+
+340
+00:17:41,492 --> 00:17:43,700
+this should not have any
+difference with the Gaussian
+
+341
+00:17:43,700 --> 00:17:44,480
+distribution.
+
+342
+00:17:44,480 --> 00:17:45,920
+I mean, those two
+things should be
+
+343
+00:17:45,920 --> 00:17:48,020
+the same because we've
+actually not paid
+
+344
+00:17:48,020 --> 00:17:51,410
+attention to this discrepancy by
+using empirical variance rather
+
+345
+00:17:51,410 --> 00:17:52,970
+than true so far.
+
+346
+00:17:52,970 --> 00:17:55,220
+And so we'll see what
+the difference is,
+
+347
+00:17:55,220 --> 00:17:57,830
+and this difference actually
+manifests itself only
+
+348
+00:17:57,830 --> 00:17:59,490
+in small sample sizes.
+
+349
+00:17:59,490 --> 00:18:02,000
+So those are things
+that matter mostly
+
+350
+00:18:02,000 --> 00:18:04,512
+if you have less than,
+say, 50 observations.
+
+351
+00:18:04,512 --> 00:18:06,470
+Then you might want to
+be slightly more precise
+
+352
+00:18:06,470 --> 00:18:08,960
+and use t-distribution
+rather than Gaussian.
+
+353
+00:18:08,960 --> 00:18:12,640
+So this is just a matter of
+being slightly more precise.
+
+354
+00:18:12,640 --> 00:18:14,260
+If you have more
+than 50 observations,
+
+355
+00:18:14,260 --> 00:18:15,965
+just drop everything
+and just pretend
+
+356
+00:18:15,965 --> 00:18:17,048
+that this is the true one.
+
+357
+00:18:19,610 --> 00:18:22,210
+Any other questions?
+
+358
+00:18:22,210 --> 00:18:25,450
+So now I have this
+thing, and so I'm
+
+359
+00:18:25,450 --> 00:18:27,790
+on my way to changing this guy.
+
+360
+00:18:27,790 --> 00:18:31,540
+So here now, I have not
+root n but root n minus 1.
+
+361
+00:18:47,680 --> 00:18:48,740
+So I have a z.
+
+362
+00:18:48,740 --> 00:18:55,441
+So this guy here is S. Yet
+Where did I get my root
+
+363
+00:18:55,441 --> 00:18:56,524
+n from in the first place?
+
+364
+00:19:00,340 --> 00:19:02,270
+Yeah, because I wanted this guy.
+
+365
+00:19:02,270 --> 00:19:05,250
+And so now what I am
+left with is Xn minus mu
+
+366
+00:19:05,250 --> 00:19:08,900
+divided by Sn tilde, which
+is the new one, which is now
+
+367
+00:19:08,900 --> 00:19:14,540
+indeed of the form z v
+root n minus 1, which now I
+
+368
+00:19:14,540 --> 00:19:16,540
+can write it as z v minus 1.
+
+369
+00:19:16,540 --> 00:19:22,410
+And so now I have
+exactly what I want,
+
+370
+00:19:22,410 --> 00:19:25,100
+and so this guy is n 0, 1.
+
+371
+00:19:25,100 --> 00:19:30,430
+And this guy is chi squared with
+n minus 1 degrees of freedom.
+
+372
+00:19:30,430 --> 00:19:33,310
+And so now I'm back
+to what I want.
+
+373
+00:19:33,310 --> 00:19:37,360
+So rather than using Sn to be
+the empirical variance where
+
+374
+00:19:37,360 --> 00:19:41,095
+I just divide my normatizations
+by n, if I use n minus 1,
+
+375
+00:19:41,095 --> 00:19:42,310
+I'm perfect.
+
+376
+00:19:42,310 --> 00:19:45,730
+Of course, I can still use
+n and do this multiplying
+
+377
+00:19:45,730 --> 00:19:47,710
+by root n minus 1
+over n at the end.
+
+378
+00:19:47,710 --> 00:19:49,960
+But that just doesn't
+make as much sense.
+
+379
+00:19:52,535 --> 00:19:54,910
+Everybody's fine with what
+this T n distribution is doing
+
+380
+00:19:54,910 --> 00:19:58,970
+and why this last
+line is correct?
+
+381
+00:19:58,970 --> 00:20:01,570
+So that's just
+basically because it's
+
+382
+00:20:01,570 --> 00:20:04,250
+been defined so that this
+is actually happening.
+
+383
+00:20:04,250 --> 00:20:07,150
+That was your question, and
+that's really what happened.
+
+384
+00:20:07,150 --> 00:20:11,320
+So what is this
+student t-distribution?
+
+385
+00:20:11,320 --> 00:20:13,460
+Where does the name come from?
+
+386
+00:20:13,460 --> 00:20:18,430
+Well, it does not come from
+Mr. T. And if you know who Mr.
+
+387
+00:20:18,430 --> 00:20:20,800
+T was-- you're probably
+too young for that--
+
+388
+00:20:20,800 --> 00:20:23,470
+he was our hero in the 80s.
+
+389
+00:20:23,470 --> 00:20:26,580
+And it comes from this guy.
+
+390
+00:20:26,580 --> 00:20:29,200
+His name is Sean
+William Gosset--
+
+391
+00:20:29,200 --> 00:20:29,900
+1908.
+
+392
+00:20:29,900 --> 00:20:31,624
+So that was back in the day.
+
+393
+00:20:31,624 --> 00:20:33,790
+And this guy actually worked
+at the Guinness Brewery
+
+394
+00:20:33,790 --> 00:20:35,150
+in Dublin, Ireland.
+
+395
+00:20:35,150 --> 00:20:38,500
+And Mr. Guinness back then
+was a bit of a fascist,
+
+396
+00:20:38,500 --> 00:20:41,320
+and he didn't want him to
+actually publish papers.
+
+397
+00:20:41,320 --> 00:20:45,330
+And so what he had to do is
+to use a fake name to do that.
+
+398
+00:20:45,330 --> 00:20:50,650
+And he was not very creative,
+and he used a name "student."
+
+399
+00:20:50,650 --> 00:20:52,720
+Because I guess he
+was a student of life.
+
+400
+00:20:52,720 --> 00:20:55,990
+And so here's the guy, actually.
+
+401
+00:20:55,990 --> 00:20:57,850
+So back in 1908,
+it was actually not
+
+402
+00:20:57,850 --> 00:21:01,270
+difficult to put your
+name or your pen name
+
+403
+00:21:01,270 --> 00:21:03,340
+on a distribution.
+
+404
+00:21:03,340 --> 00:21:05,620
+So what does this
+thing look like?
+
+405
+00:21:05,620 --> 00:21:09,620
+How does it compare to the
+standard normal distribution?
+
+406
+00:21:09,620 --> 00:21:12,117
+You think it's going to have
+heavier or lighter tails
+
+407
+00:21:12,117 --> 00:21:13,700
+compared to the
+standard distribution,
+
+408
+00:21:13,700 --> 00:21:17,530
+the Gaussian distribution?
+
+409
+00:21:17,530 --> 00:21:21,640
+Yeah, because they have extra
+uncertainty in the denominator,
+
+410
+00:21:21,640 --> 00:21:25,090
+so it's actually going to make
+things wiggle a little wider.
+
+411
+00:21:25,090 --> 00:21:26,680
+So let's start with
+a reference, which
+
+412
+00:21:26,680 --> 00:21:29,030
+is the standard
+normal distribution.
+
+413
+00:21:29,030 --> 00:21:31,300
+So that's my usual
+bell-shaped curve.
+
+414
+00:21:31,300 --> 00:21:33,490
+And this is actually
+the t-distribution
+
+415
+00:21:33,490 --> 00:21:35,440
+with 50 degrees of freedom.
+
+416
+00:21:35,440 --> 00:21:37,930
+So right now, that's probably
+where you should just
+
+417
+00:21:37,930 --> 00:21:39,824
+stand up and leave,
+because you're like,
+
+418
+00:21:39,824 --> 00:21:40,990
+why are we wasting our time?
+
+419
+00:21:40,990 --> 00:21:43,750
+Those are actually pretty much
+the same thing, and it is true.
+
+420
+00:21:43,750 --> 00:21:46,720
+If you have 50 observations,
+both the central limit
+
+421
+00:21:46,720 --> 00:21:49,210
+theorem-- so here one of the
+things that you need to know
+
+422
+00:21:49,210 --> 00:21:54,660
+is that if I want to talk about
+t-distribution for, say, eight
+
+423
+00:21:54,660 --> 00:21:57,270
+observations, I need those
+observations to be Gaussian
+
+424
+00:21:57,270 --> 00:21:57,780
+for real.
+
+425
+00:21:57,780 --> 00:21:59,529
+There's no central
+limit theorem happening
+
+426
+00:21:59,529 --> 00:22:00,732
+at eight observations.
+
+427
+00:22:00,732 --> 00:22:02,190
+But really, what
+this is telling me
+
+428
+00:22:02,190 --> 00:22:04,148
+is not that the central
+limit theorem kicks in.
+
+429
+00:22:04,148 --> 00:22:07,320
+It's telling me what are the
+asymptotics that kick in?
+
+430
+00:22:13,620 --> 00:22:15,530
+The law of large number, right?
+
+431
+00:22:15,530 --> 00:22:19,260
+This is exactly this guy.
+
+432
+00:22:19,260 --> 00:22:21,530
+That's here.
+
+433
+00:22:21,530 --> 00:22:24,530
+When I write this statement,
+what this picture is really
+
+434
+00:22:24,530 --> 00:22:28,190
+telling us is that for n is
+equal to 50, I'm at the limit
+
+435
+00:22:28,190 --> 00:22:29,720
+already almost.
+
+436
+00:22:29,720 --> 00:22:32,540
+There's virtually no
+difference between using
+
+437
+00:22:32,540 --> 00:22:36,860
+the left-hand side or
+using sigma squared.
+
+438
+00:22:36,860 --> 00:22:38,270
+And now I start reducing.
+
+439
+00:22:38,270 --> 00:22:39,700
+40, I'm still pretty good.
+
+440
+00:22:39,700 --> 00:22:41,690
+We can start seeing that
+this thing is actually
+
+441
+00:22:41,690 --> 00:22:43,010
+losing some mass
+on top, and that's
+
+442
+00:22:43,010 --> 00:22:44,843
+because it's actually
+pushing it to the left
+
+443
+00:22:44,843 --> 00:22:46,700
+and to the right in the tails.
+
+444
+00:22:46,700 --> 00:22:49,940
+And then we keep going,
+keep going, keep going.
+
+445
+00:22:49,940 --> 00:22:50,944
+So that's at 10.
+
+446
+00:22:50,944 --> 00:22:53,110
+When you're at 10, there's
+not much of a difference.
+
+447
+00:22:53,110 --> 00:22:54,860
+And so you can start
+seeing difference
+
+448
+00:22:54,860 --> 00:22:57,320
+when you're at
+five, for example.
+
+449
+00:22:57,320 --> 00:22:59,019
+You can see the
+tails become heavier.
+
+450
+00:22:59,019 --> 00:23:01,310
+And the effect of this is
+that when I'm going to build,
+
+451
+00:23:01,310 --> 00:23:05,930
+for example, a confidence
+interval to put the same amount
+
+452
+00:23:05,930 --> 00:23:07,700
+of mass to the right
+of some number--
+
+453
+00:23:07,700 --> 00:23:09,950
+let's say I'm going to look
+at this q alpha over 2--
+
+454
+00:23:09,950 --> 00:23:11,741
+I'm going to have to
+go much farther, which
+
+455
+00:23:11,741 --> 00:23:17,120
+is going to result in much
+wider confidence intervals
+
+456
+00:23:17,120 --> 00:23:20,890
+to 4, 3, 2, 1.
+
+457
+00:23:20,890 --> 00:23:22,530
+So that's the t1.
+
+458
+00:23:22,530 --> 00:23:24,560
+Obviously that's the worst.
+
+459
+00:23:24,560 --> 00:23:30,510
+And if you ever use
+the t1 distribution,
+
+460
+00:23:30,510 --> 00:23:33,830
+please ask yourself, why in the
+world are you doing statistics
+
+461
+00:23:33,830 --> 00:23:35,360
+based on one observation?
+
+462
+00:23:38,570 --> 00:23:41,460
+But that's basically what it is.
+
+463
+00:23:41,460 --> 00:23:44,980
+So now that we have
+this t-distribution,
+
+464
+00:23:44,980 --> 00:23:48,000
+we can define a more
+sophisticated test
+
+465
+00:23:48,000 --> 00:23:50,640
+than just take your
+favorite estimator
+
+466
+00:23:50,640 --> 00:23:53,560
+and see if it's far from the
+value you're currently testing.
+
+467
+00:23:53,560 --> 00:23:57,360
+That was our rationale
+to build a test before.
+
+468
+00:23:57,360 --> 00:24:00,180
+And the first test
+that's non-trivial
+
+469
+00:24:00,180 --> 00:24:04,320
+is a test that exploits the
+fact that the maximum likelihood
+
+470
+00:24:04,320 --> 00:24:07,140
+estimator, under some
+technical condition,
+
+471
+00:24:07,140 --> 00:24:12,720
+has a limit distribution
+which is Gaussian with mean 0
+
+472
+00:24:12,720 --> 00:24:18,360
+when properly centered and
+a covariance matrix given
+
+473
+00:24:18,360 --> 00:24:19,994
+by the Fisher
+information matrix.
+
+474
+00:24:19,994 --> 00:24:21,660
+Remember this Fisher
+information matrix?
+
+475
+00:24:26,080 --> 00:24:29,870
+And so this is the
+setup that we have.
+
+476
+00:24:29,870 --> 00:24:31,190
+So we have, again, an i.i.d.
+
+477
+00:24:31,190 --> 00:24:32,180
+sample.
+
+478
+00:24:32,180 --> 00:24:35,570
+Now I'm going to assume that I
+have a d-dimensional parameter
+
+479
+00:24:35,570 --> 00:24:36,890
+space, theta.
+
+480
+00:24:36,890 --> 00:24:39,740
+And that's why I talk about
+Fisher information matrix--
+
+481
+00:24:39,740 --> 00:24:41,350
+and not just Fisher information.
+
+482
+00:24:41,350 --> 00:24:42,800
+It's a number.
+
+483
+00:24:42,800 --> 00:24:45,420
+And I'm going to
+consider two hypotheses.
+
+484
+00:24:45,420 --> 00:24:52,730
+So you're going to have h0,
+theta is equal to theta 0.
+
+485
+00:24:52,730 --> 00:24:56,940
+h1, theta is not
+equal to theta 0.
+
+486
+00:24:56,940 --> 00:25:00,210
+And this is basically
+what we thought
+
+487
+00:25:00,210 --> 00:25:05,010
+when we said, are we testing
+if a coin is fair or unfair.
+
+488
+00:25:05,010 --> 00:25:09,390
+So fair was p equals 1/2, and
+fair was p different from 1/2.
+
+489
+00:25:09,390 --> 00:25:13,860
+And here I'm just making
+my life a bit easier.
+
+490
+00:25:13,860 --> 00:25:16,860
+So now, I have this
+maximum likelihood estimate
+
+491
+00:25:16,860 --> 00:25:17,940
+that I can construct.
+
+492
+00:25:17,940 --> 00:25:20,500
+Because let's say I
+know what p theta is,
+
+493
+00:25:20,500 --> 00:25:23,250
+and so I can build a maximum
+likelihood estimator.
+
+494
+00:25:23,250 --> 00:25:26,340
+And I'm going to assume that
+these technical conditions that
+
+495
+00:25:26,340 --> 00:25:29,010
+ensure that this maximum
+likelihood properly
+
+496
+00:25:29,010 --> 00:25:35,920
+standardized converges to some
+Gaussian are actually satisfy,
+
+497
+00:25:35,920 --> 00:25:38,250
+and so this thing
+is actually true.
+
+498
+00:25:38,250 --> 00:25:41,870
+So the theorem, the
+way I stated it--
+
+499
+00:25:41,870 --> 00:25:44,550
+if you're a little puzzled,
+this is not the way I stated it.
+
+500
+00:25:44,550 --> 00:25:47,580
+And the first time, the way we
+stated it was that theta hat
+
+501
+00:25:47,580 --> 00:25:51,420
+mle minus theta
+not-- so here I'm
+
+502
+00:25:51,420 --> 00:25:53,420
+going to place myself
+under the null hypothesis,
+
+503
+00:25:53,420 --> 00:25:58,010
+so here I'm going
+to say under h0.
+
+504
+00:25:58,010 --> 00:26:01,050
+And honestly, if you have
+any exercise on tests,
+
+505
+00:26:01,050 --> 00:26:03,060
+that's the way that
+it should start.
+
+506
+00:26:03,060 --> 00:26:05,220
+What is the
+distribution under h0?
+
+507
+00:26:05,220 --> 00:26:08,611
+Because otherwise you don't
+know what this guy should be.
+
+508
+00:26:08,611 --> 00:26:10,110
+So you have this,
+and what we showed
+
+509
+00:26:10,110 --> 00:26:12,630
+is that this thing was going
+in distribution as n goes
+
+510
+00:26:12,630 --> 00:26:15,900
+to infinity to some
+normal with mean 0
+
+511
+00:26:15,900 --> 00:26:19,530
+and covariance matrix,
+which was i of theta,
+
+512
+00:26:19,530 --> 00:26:21,120
+which was here for
+the true parameter.
+
+513
+00:26:21,120 --> 00:26:22,590
+But here I'm under
+h0, so there's
+
+514
+00:26:22,590 --> 00:26:24,930
+only one true parameter,
+which is theta 0.
+
+515
+00:26:32,590 --> 00:26:36,830
+This was our limiting
+central limit theorem for--
+
+516
+00:26:36,830 --> 00:26:38,830
+I mean, it's not really
+central limited theorem;
+
+517
+00:26:38,830 --> 00:26:43,720
+limited theorem for the
+maximum likelihood estimator.
+
+518
+00:26:43,720 --> 00:26:47,230
+Everybody remembers that part?
+
+519
+00:26:47,230 --> 00:26:50,830
+The line before said, under
+technical conditions, I guess.
+
+520
+00:26:50,830 --> 00:26:53,020
+So now, it's not really
+stated in the same way.
+
+521
+00:26:53,020 --> 00:26:54,850
+If you look at
+what's on the slide,
+
+522
+00:26:54,850 --> 00:26:57,550
+here I don't have the
+Fisher information matrix,
+
+523
+00:26:57,550 --> 00:26:59,290
+but I really have
+the identity of rd.
+
+524
+00:27:02,860 --> 00:27:05,590
+If I have a random
+variable x, which
+
+525
+00:27:05,590 --> 00:27:10,580
+has some covariance
+matrix sigma,
+
+526
+00:27:10,580 --> 00:27:12,680
+how do I turn this thing
+into something that
+
+527
+00:27:12,680 --> 00:27:15,320
+has covariance matrix identity?
+
+528
+00:27:15,320 --> 00:27:20,120
+So if this was a sigma squared,
+well, the thing I would do
+
+529
+00:27:20,120 --> 00:27:21,890
+would be divide by
+sigma, and then I
+
+530
+00:27:21,890 --> 00:27:24,620
+would have a 1,
+which is also known
+
+531
+00:27:24,620 --> 00:27:28,360
+as the identity matrix of r1.
+
+532
+00:27:28,360 --> 00:27:30,720
+Now, what is this?
+
+533
+00:27:30,720 --> 00:27:32,880
+This was root of sigma squared.
+
+534
+00:27:32,880 --> 00:27:35,400
+So what I'm looking
+for is the equivalent
+
+535
+00:27:35,400 --> 00:27:40,300
+of taking sigma and dividing
+by the square root of sigma,
+
+536
+00:27:40,300 --> 00:27:40,800
+which--
+
+537
+00:27:40,800 --> 00:27:42,050
+obviously those are matrices--
+
+538
+00:27:42,050 --> 00:27:43,989
+I'm certainly not allowed to do.
+
+539
+00:27:43,989 --> 00:27:45,780
+And so what I'm going
+to do is I'm actually
+
+540
+00:27:45,780 --> 00:27:48,360
+going to do the following.
+
+541
+00:27:48,360 --> 00:27:51,330
+Sigma 1 over root
+of sigma squared
+
+542
+00:27:51,330 --> 00:27:55,670
+can be written as sigma
+to the negative 1/2.
+
+543
+00:27:55,670 --> 00:27:58,900
+And this is actually
+the same thing here.
+
+544
+00:27:58,900 --> 00:28:02,180
+So I'm going to write it as
+sigma to the negative 1/2,
+
+545
+00:28:02,180 --> 00:28:06,730
+and now this guy is
+actually well-defined.
+
+546
+00:28:06,730 --> 00:28:08,809
+So this is a positive
+symmetric matrix,
+
+547
+00:28:08,809 --> 00:28:10,600
+and you can actually
+define the square root
+
+548
+00:28:10,600 --> 00:28:16,340
+by just taking the square
+root of its eigenvalues,
+
+549
+00:28:16,340 --> 00:28:17,480
+for example.
+
+550
+00:28:17,480 --> 00:28:23,487
+And so you get sigma 1/2
+equals and follows n0 identity.
+
+551
+00:28:26,170 --> 00:28:30,790
+And in general, I'm
+going to see something
+
+552
+00:28:30,790 --> 00:28:34,630
+that looks like sigma
+1/2 negative 1/2 sigma
+
+553
+00:28:34,630 --> 00:28:37,060
+sigma negative 1/2.
+
+554
+00:28:37,060 --> 00:28:40,930
+And I have minus 1/2
+plus 1 minus 1/2.
+
+555
+00:28:40,930 --> 00:28:45,330
+This whole thing collapses to 0,
+and it's actually the identity.
+
+556
+00:28:45,330 --> 00:28:47,450
+So that's the actual rule.
+
+557
+00:28:47,450 --> 00:28:52,410
+So if you're not familiar, this
+is basic multivariate Gaussian
+
+558
+00:28:52,410 --> 00:28:54,640
+distribution computations.
+
+559
+00:28:54,640 --> 00:28:57,240
+Take a look at it.
+
+560
+00:28:57,240 --> 00:28:59,220
+If you feel like you
+don't need to look at it
+
+561
+00:28:59,220 --> 00:29:03,250
+but you the basic maneuver,
+it's fine as well.
+
+562
+00:29:03,250 --> 00:29:05,320
+We're not going to go
+much deeper into that,
+
+563
+00:29:05,320 --> 00:29:07,020
+but those are part
+of the thing that
+
+564
+00:29:07,020 --> 00:29:09,420
+are sort of standard
+manipulations
+
+565
+00:29:09,420 --> 00:29:11,250
+about standard Gaussian vectors.
+
+566
+00:29:11,250 --> 00:29:13,710
+Because obviously,
+standard Gaussian vectors
+
+567
+00:29:13,710 --> 00:29:17,820
+arise from this theorem a lot.
+
+568
+00:29:17,820 --> 00:29:22,040
+So now I pre-multiplied my
+sigma to minus minus 1/2.
+
+569
+00:29:22,040 --> 00:29:24,630
+Now of course, I'm doing all
+of this in the asymptotics,
+
+570
+00:29:24,630 --> 00:29:26,450
+and so I have this effect.
+
+571
+00:29:26,450 --> 00:29:29,640
+So if I pre-multiply
+everything by sigma to the 1/2,
+
+572
+00:29:29,640 --> 00:29:34,680
+sigma being the Fisher
+information matrix at theta 0,
+
+573
+00:29:34,680 --> 00:29:38,530
+then this is actually equivalent
+to saying that square root
+
+574
+00:29:38,530 --> 00:29:39,030
+of n--
+
+575
+00:29:43,630 --> 00:29:51,510
+so now i of theta now
+plays the role of sigma--
+
+576
+00:29:51,510 --> 00:29:59,620
+times theta hat mle minus
+theta not goes in distribution
+
+577
+00:29:59,620 --> 00:30:06,600
+as n goes to infinity to some
+multivariate standard Gaussian
+
+578
+00:30:06,600 --> 00:30:09,486
+and 0 identity of rd.
+
+579
+00:30:09,486 --> 00:30:10,860
+And here, to make
+sure that we're
+
+580
+00:30:10,860 --> 00:30:13,080
+talking about a
+multivariate distribution,
+
+581
+00:30:13,080 --> 00:30:16,040
+I can put a d here--
+
+582
+00:30:16,040 --> 00:30:18,420
+so just so we know we're
+talking about the multivariate,
+
+583
+00:30:18,420 --> 00:30:20,170
+though it's pretty
+clear from the context,
+
+584
+00:30:20,170 --> 00:30:23,010
+since the covariance matrix
+is actually a matrix and not
+
+585
+00:30:23,010 --> 00:30:23,840
+a number.
+
+586
+00:30:23,840 --> 00:30:24,570
+Michael?
+
+587
+00:30:24,570 --> 00:30:26,040
+AUDIENCE: [INAUDIBLE].
+
+588
+00:30:29,624 --> 00:30:30,790
+PHILIPPE RIGOLLET: Oh, yeah.
+
+589
+00:30:30,790 --> 00:30:31,040
+Right.
+
+590
+00:30:31,040 --> 00:30:31,539
+Thanks.
+
+591
+00:30:34,314 --> 00:30:35,230
+So Yeah, you're right.
+
+592
+00:30:35,230 --> 00:30:39,550
+So that's a minus
+and that's a plus.
+
+593
+00:30:39,550 --> 00:30:40,420
+Thanks.
+
+594
+00:30:40,420 --> 00:30:47,050
+So yeah, anybody has
+a way to remember
+
+595
+00:30:47,050 --> 00:30:49,390
+whether it's inverse Fisher
+information or Fisher
+
+596
+00:30:49,390 --> 00:30:54,100
+information as a variance
+other than just learning it?
+
+597
+00:30:54,100 --> 00:30:58,670
+It is called information,
+so it's really telling me
+
+598
+00:30:58,670 --> 00:31:00,620
+how much information I have.
+
+599
+00:31:00,620 --> 00:31:02,450
+So when a variance
+increases, I'm
+
+600
+00:31:02,450 --> 00:31:04,430
+getting less and
+less information,
+
+601
+00:31:04,430 --> 00:31:08,175
+and so this thing should
+actually be 1 over a variance.
+
+602
+00:31:08,175 --> 00:31:10,550
+The notion of information is
+1 over a notion of variance.
+
+603
+00:31:13,320 --> 00:31:19,370
+So now I just wrote this guy
+like this, and the reason
+
+604
+00:31:19,370 --> 00:31:21,710
+why I did this is
+because now everything
+
+605
+00:31:21,710 --> 00:31:26,780
+on the right-hand side does not
+depend on any known parameter.
+
+606
+00:31:26,780 --> 00:31:30,080
+There's 0 and identity.
+
+607
+00:31:30,080 --> 00:31:33,755
+Those two things are
+just absolute numbers
+
+608
+00:31:33,755 --> 00:31:38,420
+or absolute quantities,
+which means that this thing--
+
+609
+00:31:38,420 --> 00:31:42,500
+I call this quantity here--
+
+610
+00:31:42,500 --> 00:31:44,520
+what was the name that I used?
+
+611
+00:31:44,520 --> 00:31:47,030
+Started with a "p."
+
+612
+00:31:47,030 --> 00:31:47,870
+Pivotal.
+
+613
+00:31:47,870 --> 00:31:50,990
+So this is a pivotal
+quantity, meaning
+
+614
+00:31:50,990 --> 00:31:53,900
+that its distribution, at
+least asymptotic distribution,
+
+615
+00:31:53,900 --> 00:31:56,270
+does not depend on
+any unknown parameter.
+
+616
+00:31:56,270 --> 00:32:00,610
+Moreover, it is
+indeed a statistic,
+
+617
+00:32:00,610 --> 00:32:03,010
+because I can
+actually compute it.
+
+618
+00:32:03,010 --> 00:32:05,950
+I know theta 0 and I
+know theta hat mle.
+
+619
+00:32:05,950 --> 00:32:08,380
+One thing that I did,
+and you should actually
+
+620
+00:32:08,380 --> 00:32:11,020
+complain about this,
+is on the board
+
+621
+00:32:11,020 --> 00:32:15,730
+I actually used i of theta not.
+
+622
+00:32:15,730 --> 00:32:20,380
+And on the slides, it
+says i of theta hat.
+
+623
+00:32:20,380 --> 00:32:22,900
+And it's exactly the same
+thing that we did before.
+
+624
+00:32:22,900 --> 00:32:26,110
+Do I want to use the
+variance as a way for me
+
+625
+00:32:26,110 --> 00:32:29,320
+to check whether I'm under
+the right assumption or not?
+
+626
+00:32:29,320 --> 00:32:31,270
+Or do I actually want
+to leave that part
+
+627
+00:32:31,270 --> 00:32:33,520
+and just plug in the theta
+hat mle, which should
+
+628
+00:32:33,520 --> 00:32:36,310
+go to the true one eventually?
+
+629
+00:32:36,310 --> 00:32:39,610
+Or do I actually want to
+just plug in the theta 0?
+
+630
+00:32:39,610 --> 00:32:41,740
+So this is exactly
+playing the same role
+
+631
+00:32:41,740 --> 00:32:45,460
+as whether I wanted to
+see square root of Xn bar
+
+632
+00:32:45,460 --> 00:32:48,970
+1 minus Xn bar in the
+denominator of my test
+
+633
+00:32:48,970 --> 00:32:55,060
+statistic for p, or if I wanted
+to see square root of 0.5,
+
+634
+00:32:55,060 --> 00:32:59,980
+1 minus 0.5 when I was
+testing if p was equal to 0.5.
+
+635
+00:32:59,980 --> 00:33:03,070
+So this is really a choice
+that's left up to you,
+
+636
+00:33:03,070 --> 00:33:06,150
+and that's something you
+can really choose the two.
+
+637
+00:33:06,150 --> 00:33:09,710
+And as we said, maybe this
+guy is slightly more precise,
+
+638
+00:33:09,710 --> 00:33:11,980
+but it's not going
+to extend to the case
+
+639
+00:33:11,980 --> 00:33:15,383
+where theta 0 is not reduced
+to one single number.
+
+640
+00:33:20,950 --> 00:33:22,660
+Any questions?
+
+641
+00:33:22,660 --> 00:33:26,140
+So now we have our pivotal
+distribution, so from there
+
+642
+00:33:26,140 --> 00:33:29,140
+this is going to be
+my test statistic.
+
+643
+00:33:29,140 --> 00:33:31,090
+I'm going to use this
+as a test statistic
+
+644
+00:33:31,090 --> 00:33:35,800
+and declare that if
+this thing is too large,
+
+645
+00:33:35,800 --> 00:33:36,910
+n absolute value--
+
+646
+00:33:36,910 --> 00:33:41,020
+because this is really a way to
+quantify how far theta hat is
+
+647
+00:33:41,020 --> 00:33:41,790
+from theta 0.
+
+648
+00:33:41,790 --> 00:33:44,230
+And since theta hat should be
+close to the true one, when
+
+649
+00:33:44,230 --> 00:33:45,813
+this thing is large
+in absolute value,
+
+650
+00:33:45,813 --> 00:33:50,180
+it means that the true theta
+should be far from theta 0.
+
+651
+00:33:50,180 --> 00:33:56,250
+So this is my new
+test statistic.
+
+652
+00:33:56,250 --> 00:33:59,450
+Now, I said it should be
+far, but this is a vector.
+
+653
+00:33:59,450 --> 00:34:02,540
+So if I want a vector to be
+far, two vectors to be far,
+
+654
+00:34:02,540 --> 00:34:04,340
+I measure their norm.
+
+655
+00:34:04,340 --> 00:34:07,520
+And so I'm going to form the
+Euclidean norm of this guy.
+
+656
+00:34:07,520 --> 00:34:10,600
+So if I look at the
+Euclidean norm of n--
+
+657
+00:34:14,639 --> 00:34:16,510
+and Euclidean norm
+is the one you know--
+
+658
+00:34:22,840 --> 00:34:25,139
+I'm going to take its square.
+
+659
+00:34:25,139 --> 00:34:26,949
+Let me now put a 2 here.
+
+660
+00:34:26,949 --> 00:34:28,739
+So that's just the
+Euclidean norm,
+
+661
+00:34:28,739 --> 00:34:36,679
+and so the norm of vector
+x is just x transpose x.
+
+662
+00:34:36,679 --> 00:34:40,330
+In the slides, the transpose
+is denoted by prime.
+
+663
+00:34:40,330 --> 00:34:41,429
+Wow, that's hard to say.
+
+664
+00:34:41,429 --> 00:34:42,420
+Put prime in quotes.
+
+665
+00:34:48,510 --> 00:34:50,580
+That's a statistic
+standard that people do.
+
+666
+00:34:50,580 --> 00:34:53,260
+They put prime for transpose.
+
+667
+00:34:53,260 --> 00:34:56,139
+Everybody knows what
+the transpose is?
+
+668
+00:34:56,139 --> 00:34:58,070
+So I just make it flat
+and I do it like this,
+
+669
+00:34:58,070 --> 00:34:59,528
+and then that means
+that's actually
+
+670
+00:34:59,528 --> 00:35:03,620
+equal to the sum of the
+coordinates Xi squared.
+
+671
+00:35:06,160 --> 00:35:08,350
+And that's what you know.
+
+672
+00:35:08,350 --> 00:35:10,880
+But here, I'm just writing
+it in terms of vectors.
+
+673
+00:35:10,880 --> 00:35:13,100
+And so when I run to write
+this, this is equivalent,
+
+674
+00:35:13,100 --> 00:35:14,320
+this is equal to--
+
+675
+00:35:14,320 --> 00:35:17,500
+well, the square root of n is
+going to pick up the square.
+
+676
+00:35:17,500 --> 00:35:20,546
+So I get square root of
+n times square root of n.
+
+677
+00:35:20,546 --> 00:35:23,210
+So this guy is just 1/2.
+
+678
+00:35:23,210 --> 00:35:25,570
+So 1/2 times 1/2 is
+going to give me 1,
+
+679
+00:35:25,570 --> 00:35:29,360
+and so I get theta
+hat mle minus theta.
+
+680
+00:35:29,360 --> 00:35:32,710
+And then I have e of theta not.
+
+681
+00:35:32,710 --> 00:35:37,630
+And then I get theta
+hat mle minus theta not.
+
+682
+00:35:37,630 --> 00:35:41,680
+And so by definition, I'm
+going to say that this
+
+683
+00:35:41,680 --> 00:35:45,320
+is my test statistic Tn.
+
+684
+00:35:45,320 --> 00:35:50,480
+And now I'm going to have a test
+that rejects if Tn is large,
+
+685
+00:35:50,480 --> 00:35:53,720
+because Tn is really measuring
+the distance between theta hat
+
+686
+00:35:53,720 --> 00:35:55,670
+and theta 0.
+
+687
+00:35:55,670 --> 00:36:20,530
+So my test now is going
+to be psi, which rejects.
+
+688
+00:36:20,530 --> 00:36:27,300
+So it says 1 if Tn is larger
+than some threshold T.
+
+689
+00:36:27,300 --> 00:36:30,060
+And how do I pick this T?
+
+690
+00:36:30,060 --> 00:36:32,210
+Well, by controlling
+my type I error--
+
+691
+00:36:32,210 --> 00:36:35,730
+sorry, the c by controlling
+my type I error.
+
+692
+00:36:35,730 --> 00:36:44,300
+So to choose c, what
+we have to check
+
+693
+00:36:44,300 --> 00:36:47,670
+is that p under theta not--
+
+694
+00:36:47,670 --> 00:36:49,460
+so here it's theta not--
+
+695
+00:36:49,460 --> 00:36:55,550
+that I reject so that
+psi is equal to 1.
+
+696
+00:36:55,550 --> 00:36:58,400
+I want this to be
+equal to alpha, right?
+
+697
+00:36:58,400 --> 00:37:01,010
+That's how I maximize
+my type I error
+
+698
+00:37:01,010 --> 00:37:04,550
+under the budget that's actually
+given to me, which is alpha.
+
+699
+00:37:04,550 --> 00:37:12,910
+So that's actually equivalent
+to checking whether p not of Tn
+
+700
+00:37:12,910 --> 00:37:13,870
+is larger than c.
+
+701
+00:37:19,270 --> 00:37:23,150
+And so if I want to find
+the c, all I need to know
+
+702
+00:37:23,150 --> 00:37:25,670
+is what is the
+distribution of Tn when
+
+703
+00:37:25,670 --> 00:37:28,400
+theta is equal to theta not?
+
+704
+00:37:28,400 --> 00:37:31,820
+Whatever this distribution is--
+maybe it has some weird density
+
+705
+00:37:31,820 --> 00:37:32,870
+like this--
+
+706
+00:37:32,870 --> 00:37:35,120
+whatever this
+distribution is, I'm
+
+707
+00:37:35,120 --> 00:37:37,400
+just going to be able
+to pick this number,
+
+708
+00:37:37,400 --> 00:37:41,150
+and I'm going to take this
+quintile alpha, here alpha,
+
+709
+00:37:41,150 --> 00:37:44,030
+and I'm going to reject
+if I'm larger than alpha--
+
+710
+00:37:44,030 --> 00:37:45,570
+whatever this guy is.
+
+711
+00:37:45,570 --> 00:37:47,510
+So to be able to do
+that, I need to know
+
+712
+00:37:47,510 --> 00:37:56,890
+what is the distribution of Tn
+when theta is equal to theta 0.
+
+713
+00:37:56,890 --> 00:38:00,270
+What is this distribution?
+
+714
+00:38:00,270 --> 00:38:02,842
+What is Tn?
+
+715
+00:38:02,842 --> 00:38:08,720
+It's the norm squared
+of this vector.
+
+716
+00:38:08,720 --> 00:38:09,740
+What is this vector?
+
+717
+00:38:09,740 --> 00:38:12,020
+What is the asymptotic
+distribution of this vector?
+
+718
+00:38:17,912 --> 00:38:18,894
+Yes?
+
+719
+00:38:18,894 --> 00:38:21,651
+AUDIENCE: [INAUDIBLE].
+
+720
+00:38:21,651 --> 00:38:23,400
+PHILIPPE RIGOLLET:
+Just look one board up.
+
+721
+00:38:23,400 --> 00:38:24,900
+What is this
+asymptotic distribution
+
+722
+00:38:24,900 --> 00:38:27,860
+of the vector for which we're
+taking the norm squared?
+
+723
+00:38:27,860 --> 00:38:30,560
+It's right here.
+
+724
+00:38:30,560 --> 00:38:33,910
+It's a standard
+Gaussian multivariate.
+
+725
+00:38:33,910 --> 00:38:36,460
+So when I look at
+the norm squared--
+
+726
+00:38:36,460 --> 00:38:45,400
+so if z is a standard
+Gaussian multivariate,
+
+727
+00:38:45,400 --> 00:38:51,880
+then the norm of z squared, by
+definition of the norm squared,
+
+728
+00:38:51,880 --> 00:38:54,340
+is the sum of the Zi squared.
+
+729
+00:39:01,790 --> 00:39:04,930
+That's just the
+definition of the norm.
+
+730
+00:39:04,930 --> 00:39:06,974
+But what is this distribution?
+
+731
+00:39:06,974 --> 00:39:07,890
+AUDIENCE: Chi-squared.
+
+732
+00:39:07,890 --> 00:39:09,515
+PHILIPPE RIGOLLET:
+That's a chi-square,
+
+733
+00:39:09,515 --> 00:39:12,750
+because those guys
+are all of variance 1.
+
+734
+00:39:12,750 --> 00:39:15,230
+That's what the
+diagonal tells me--
+
+735
+00:39:15,230 --> 00:39:15,805
+only ones.
+
+736
+00:39:15,805 --> 00:39:18,180
+And they're independent because
+they have all these zeros
+
+737
+00:39:18,180 --> 00:39:20,320
+outside of the diagonal.
+
+738
+00:39:20,320 --> 00:39:23,710
+So really, this follows some
+chi-squared distribution.
+
+739
+00:39:23,710 --> 00:39:25,260
+How many degrees of freedom?
+
+740
+00:39:25,260 --> 00:39:30,560
+Well, the number of
+them that I sell, d.
+
+741
+00:39:30,560 --> 00:39:33,980
+So now I have found
+the distribution of Tn
+
+742
+00:39:33,980 --> 00:39:35,590
+under this guy.
+
+743
+00:39:35,590 --> 00:39:41,120
+And that's true because
+this is true under h0.
+
+744
+00:39:41,120 --> 00:39:44,480
+If I was not under
+h0, again, I would
+
+745
+00:39:44,480 --> 00:39:46,100
+need to take another guy here.
+
+746
+00:39:49,430 --> 00:39:52,190
+How did I use the fact that
+theta is equal to theta 0
+
+747
+00:39:52,190 --> 00:39:54,640
+when I centered by theta 0?
+
+748
+00:39:54,640 --> 00:39:57,280
+And that was very important.
+
+749
+00:39:57,280 --> 00:40:01,090
+So now what I know is that
+this is really equal--
+
+750
+00:40:01,090 --> 00:40:02,920
+why did I put 0 here?
+
+751
+00:40:05,650 --> 00:40:10,390
+So this here is actually equal.
+
+752
+00:40:10,390 --> 00:40:23,844
+So in the end, I need c
+such that the probability--
+
+753
+00:40:23,844 --> 00:40:25,510
+and here I'm not going
+to put a theta 0.
+
+754
+00:40:25,510 --> 00:40:26,770
+I'm just talking
+about the possibility
+
+755
+00:40:26,770 --> 00:40:29,080
+of the random variable that
+I'm going to put in there.
+
+756
+00:40:29,080 --> 00:40:31,570
+It's a chi-square with d
+degrees of freedom [INAUDIBLE]
+
+757
+00:40:31,570 --> 00:40:32,380
+is equal to alpha.
+
+758
+00:40:35,200 --> 00:40:39,160
+I just replaced the
+fact that this guy, Tn,
+
+759
+00:40:39,160 --> 00:40:41,230
+under the distribution
+was just a chi-square.
+
+760
+00:40:41,230 --> 00:40:42,646
+And this distribution
+here is just
+
+761
+00:40:42,646 --> 00:40:44,890
+really referring to the
+distribution of a chi-square.
+
+762
+00:40:44,890 --> 00:40:46,820
+There's no parameters here.
+
+763
+00:40:46,820 --> 00:40:51,390
+And now, that means that I look
+at my chi-square distribution.
+
+764
+00:40:51,390 --> 00:40:55,170
+It sort of looks like this.
+
+765
+00:40:55,170 --> 00:40:59,940
+And I'm going to
+pick some alpha here,
+
+766
+00:40:59,940 --> 00:41:02,040
+and I need to read
+this number q alpha.
+
+767
+00:41:04,800 --> 00:41:09,010
+And so here what I need to do
+is to pick this q alpha here,
+
+768
+00:41:09,010 --> 00:41:11,780
+for c.
+
+769
+00:41:11,780 --> 00:41:28,120
+So take c to be q alpha, the
+quintile of order 1 minus
+
+770
+00:41:28,120 --> 00:41:31,240
+alpha of a chi-squared
+distribution
+
+771
+00:41:31,240 --> 00:41:32,550
+with this d degree of freedom.
+
+772
+00:41:32,550 --> 00:41:33,910
+And why do I say 1 minus alpha?
+
+773
+00:41:33,910 --> 00:41:36,190
+Because again, the
+quintiles are usually
+
+774
+00:41:36,190 --> 00:41:41,680
+referring to the area that's
+to the left of them by--
+
+775
+00:41:41,680 --> 00:41:47,750
+well, actually, it's
+by a convention.
+
+776
+00:41:47,750 --> 00:41:52,460
+However, in statistics, we
+only care about the right tail
+
+777
+00:41:52,460 --> 00:41:55,000
+usually, so it's not
+very convenient for us.
+
+778
+00:41:55,000 --> 00:41:56,510
+And that's why
+rather than calling
+
+779
+00:41:56,510 --> 00:42:01,010
+this guy s sub 1 minus alpha all
+the time, I write it q alpha.
+
+780
+00:42:01,010 --> 00:42:03,890
+So now you have
+this q alpha, which
+
+781
+00:42:03,890 --> 00:42:08,600
+is the 1 minus alpha quintile,
+or quintile of order 1 minus
+
+782
+00:42:08,600 --> 00:42:10,680
+alpha of chi squared d.
+
+783
+00:42:10,680 --> 00:42:12,770
+And so now I need
+to use a table.
+
+784
+00:42:12,770 --> 00:42:15,680
+For each d, this thing is going
+to take a different value,
+
+785
+00:42:15,680 --> 00:42:18,950
+and this is why I can not
+just spit out a number to you
+
+786
+00:42:18,950 --> 00:42:21,650
+like I spit out 1.96.
+
+787
+00:42:21,650 --> 00:42:24,069
+Because if I were
+able to do that,
+
+788
+00:42:24,069 --> 00:42:25,610
+that would mean that
+I would remember
+
+789
+00:42:25,610 --> 00:42:30,760
+an entire column of this table
+for each possible value of d,
+
+790
+00:42:30,760 --> 00:42:32,830
+and that I just don't know.
+
+791
+00:42:32,830 --> 00:42:34,680
+So you need just
+to look at tables,
+
+792
+00:42:34,680 --> 00:42:36,870
+and this is what
+it will tell you.
+
+793
+00:42:36,870 --> 00:42:38,610
+Often software
+will do that, too.
+
+794
+00:42:38,610 --> 00:42:41,600
+You don't have to
+search through tables.
+
+795
+00:42:41,600 --> 00:42:46,400
+And so just as a remark is
+that this test, Wald's test,
+
+796
+00:42:46,400 --> 00:42:50,040
+is also valid when I have
+this sort of other alternative
+
+797
+00:42:50,040 --> 00:42:51,400
+that I could see quite a lot--
+
+798
+00:42:51,400 --> 00:42:55,670
+if I actually have what's
+called a one-sided alternative.
+
+799
+00:42:55,670 --> 00:42:58,280
+By the way, this is
+called Wald's test--
+
+800
+00:42:58,280 --> 00:43:01,250
+so taking Tn to be this thing.
+
+801
+00:43:09,420 --> 00:43:12,980
+So this is Wald's test.
+
+802
+00:43:12,980 --> 00:43:15,170
+Abraham Wald was a
+famous statistician
+
+803
+00:43:15,170 --> 00:43:22,768
+in the early 20th century,
+who actually was at Columbia
+
+804
+00:43:22,768 --> 00:43:26,226
+for quite some time.
+
+805
+00:43:26,226 --> 00:43:27,750
+And that was
+actually at the time
+
+806
+00:43:27,750 --> 00:43:33,360
+where statistics were getting
+very popular in India,
+
+807
+00:43:33,360 --> 00:43:35,280
+so he was actually
+traveling all over India
+
+808
+00:43:35,280 --> 00:43:37,950
+in some dinky planes.
+
+809
+00:43:37,950 --> 00:43:41,460
+And one of them crashed,
+and that's how he died--
+
+810
+00:43:41,460 --> 00:43:42,420
+pretty young.
+
+811
+00:43:42,420 --> 00:43:45,060
+But actually, there's a
+huge school of statistics
+
+812
+00:43:45,060 --> 00:43:47,220
+now in India thanks to him.
+
+813
+00:43:47,220 --> 00:43:49,110
+There's the Indian
+Statistical Institute,
+
+814
+00:43:49,110 --> 00:43:51,290
+which is actually
+a pretty big thing
+
+815
+00:43:51,290 --> 00:43:53,610
+and trans the best
+statisticians.
+
+816
+00:43:53,610 --> 00:43:55,610
+So this is called Wald's
+test, and it's actually
+
+817
+00:43:55,610 --> 00:43:56,526
+a pretty popular test.
+
+818
+00:43:56,526 --> 00:43:59,360
+Let's just look back a second.
+
+819
+00:43:59,360 --> 00:44:01,280
+So you can do the
+other alternatives,
+
+820
+00:44:01,280 --> 00:44:03,830
+as I said, and for
+the other alternatives
+
+821
+00:44:03,830 --> 00:44:06,260
+you can actually do this
+trick where you put theta 0 as
+
+822
+00:44:06,260 --> 00:44:08,780
+well, as long as you
+take the theta 0 that's
+
+823
+00:44:08,780 --> 00:44:10,550
+the closest to the alternative.
+
+824
+00:44:10,550 --> 00:44:13,190
+You just basically take the
+one that's the least favorable
+
+825
+00:44:13,190 --> 00:44:13,690
+to you--
+
+826
+00:44:16,540 --> 00:44:18,160
+the alternative, I mean.
+
+827
+00:44:18,160 --> 00:44:21,540
+So what is this thing doing?
+
+828
+00:44:21,540 --> 00:44:25,110
+If you did not know anything
+about statistics and I told
+
+829
+00:44:25,110 --> 00:44:26,950
+you here's a vector--
+
+830
+00:44:26,950 --> 00:44:29,190
+that's the mle
+vector, theta hat mle.
+
+831
+00:44:32,250 --> 00:44:36,315
+So let's say this theta hat
+mle takes the values, say--
+
+832
+00:44:44,520 --> 00:44:57,430
+so let's say theta hat mle takes
+values, say, 1.2, 0.9, and 2.1.
+
+833
+00:44:57,430 --> 00:45:06,880
+And then testing h0, theta is
+equal to 1, 1, 2, versus theta
+
+834
+00:45:06,880 --> 00:45:08,950
+is not equal to the same number.
+
+835
+00:45:08,950 --> 00:45:11,110
+That's what I'm testing.
+
+836
+00:45:11,110 --> 00:45:13,476
+So you compute this
+thing and you find this.
+
+837
+00:45:13,476 --> 00:45:14,850
+If you don't know
+any statistics,
+
+838
+00:45:14,850 --> 00:45:15,891
+what are you going to do?
+
+839
+00:45:18,280 --> 00:45:21,400
+You're just going to check
+if this guy goes to that guy,
+
+840
+00:45:21,400 --> 00:45:24,370
+and probably what you're going
+to do is compute something that
+
+841
+00:45:24,370 --> 00:45:27,240
+looks like the norm squared
+between those guys-- so
+
+842
+00:45:27,240 --> 00:45:28,120
+the sum.
+
+843
+00:45:28,120 --> 00:45:31,690
+So you're going to do
+1.2 minus 1 squared
+
+844
+00:45:31,690 --> 00:45:38,740
+plus 0.9 minus 1 squared
+plus 2.1 minus 2 squared
+
+845
+00:45:38,740 --> 00:45:41,090
+and check if this
+number is large or not.
+
+846
+00:45:41,090 --> 00:45:44,140
+Maybe you are going to apply
+some stats to try to understand
+
+847
+00:45:44,140 --> 00:45:46,930
+how those things are,
+but this is basically
+
+848
+00:45:46,930 --> 00:45:49,760
+what you are going
+to want to do.
+
+849
+00:45:49,760 --> 00:45:52,670
+What Wald's test
+is telling you is
+
+850
+00:45:52,670 --> 00:45:56,830
+that this average is actually
+not what you should be doing.
+
+851
+00:45:56,830 --> 00:45:59,110
+It's telling you that
+you should have some sort
+
+852
+00:45:59,110 --> 00:46:00,170
+of a weighted average.
+
+853
+00:46:00,170 --> 00:46:01,836
+Actually, it would
+be a weighted average
+
+854
+00:46:01,836 --> 00:46:06,730
+if I was guaranteed that
+my Fisher information
+
+855
+00:46:06,730 --> 00:46:08,090
+matrix was diagonal.
+
+856
+00:46:08,090 --> 00:46:10,900
+If my Fisher information
+matrix is diagonal,
+
+857
+00:46:10,900 --> 00:46:13,790
+looking at this
+number minus this guy,
+
+858
+00:46:13,790 --> 00:46:16,406
+transpose i, and then
+this guy minus this,
+
+859
+00:46:16,406 --> 00:46:19,030
+that would look like I have some
+weight here, some weight here,
+
+860
+00:46:19,030 --> 00:46:19,905
+and some weight here.
+
+861
+00:46:25,430 --> 00:46:29,190
+Sorry, that's only three.
+
+862
+00:46:29,190 --> 00:46:32,880
+So if it has non-zero numbers
+on all of its nine entries,
+
+863
+00:46:32,880 --> 00:46:36,440
+then what I'm going to
+see is weird cross-terms.
+
+864
+00:46:36,440 --> 00:46:41,150
+If I look at some vector
+pre-multiplying this thing
+
+865
+00:46:41,150 --> 00:46:42,710
+and post-multiplying
+this thing--
+
+866
+00:46:42,710 --> 00:46:44,930
+so if I look at something
+that looks like this,
+
+867
+00:46:44,930 --> 00:46:51,200
+x transpose i of theta
+not, x transpose--
+
+868
+00:46:51,200 --> 00:46:56,270
+think of x as being theta
+hat mle minus theta--
+
+869
+00:46:56,270 --> 00:46:58,570
+so if I look at what
+this guy looks like,
+
+870
+00:46:58,570 --> 00:47:08,330
+it's basically a sum over i and
+j of Xi, Xj, i, theta not Ij.
+
+871
+00:47:08,330 --> 00:47:11,440
+And so if none of
+those things are 0,
+
+872
+00:47:11,440 --> 00:47:14,400
+you're not going to see a sum
+of three terms that are squares,
+
+873
+00:47:14,400 --> 00:47:18,560
+but you're going to see a
+sum of nine cross-products.
+
+874
+00:47:18,560 --> 00:47:20,030
+And it's just weird.
+
+875
+00:47:20,030 --> 00:47:21,920
+This is not something standard.
+
+876
+00:47:21,920 --> 00:47:26,450
+So what is Wald's
+test doing for you?
+
+877
+00:47:26,450 --> 00:47:29,680
+Well, it's saying,
+I'm actually going
+
+878
+00:47:29,680 --> 00:47:32,284
+to look at all the
+directions all at once.
+
+879
+00:47:32,284 --> 00:47:33,700
+Some of those
+directions are going
+
+880
+00:47:33,700 --> 00:47:41,660
+to have more or less variance,
+i.e., less or more information.
+
+881
+00:47:41,660 --> 00:47:43,500
+And so for those
+guys, I'm actually
+
+882
+00:47:43,500 --> 00:47:45,360
+going to use a different weight.
+
+883
+00:47:45,360 --> 00:47:47,640
+So what you're really
+doing is putting a weight
+
+884
+00:47:47,640 --> 00:47:51,030
+on all directions of
+the space at once.
+
+885
+00:47:51,030 --> 00:47:53,280
+So what this Wald's
+test is doing--
+
+886
+00:47:53,280 --> 00:47:56,940
+by squeezing in the
+Fisher information matrix,
+
+887
+00:47:56,940 --> 00:48:00,840
+it's placing your problem
+into the right geometry.
+
+888
+00:48:00,840 --> 00:48:05,580
+It's a geometry that's distorted
+and where balls become ellipses
+
+889
+00:48:05,580 --> 00:48:07,860
+that are distorted
+in some directions
+
+890
+00:48:07,860 --> 00:48:10,260
+and shrunk in
+others, or depending
+
+891
+00:48:10,260 --> 00:48:12,690
+on if you have more variance
+or less variance in those
+
+892
+00:48:12,690 --> 00:48:13,566
+directions.
+
+893
+00:48:13,566 --> 00:48:14,940
+Those directions
+don't have to be
+
+894
+00:48:14,940 --> 00:48:18,220
+aligned with the axes of
+your coordinate system.
+
+895
+00:48:18,220 --> 00:48:19,920
+And if they were,
+then that would
+
+896
+00:48:19,920 --> 00:48:24,570
+mean you would have a
+diagonal information matrix,
+
+897
+00:48:24,570 --> 00:48:25,800
+but they might not be.
+
+898
+00:48:25,800 --> 00:48:28,260
+And so there's this weird
+geometry that shows up.
+
+899
+00:48:28,260 --> 00:48:31,410
+There is actually
+an entire field,
+
+900
+00:48:31,410 --> 00:48:34,200
+admittedly a bit
+dormant these days,
+
+901
+00:48:34,200 --> 00:48:36,270
+that's called
+information geometry,
+
+902
+00:48:36,270 --> 00:48:39,060
+and it's really doing
+differential geometry
+
+903
+00:48:39,060 --> 00:48:44,270
+on spaces that are defined by
+Fisher information matrices.
+
+904
+00:48:44,270 --> 00:48:46,770
+And so you can do
+some pretty hardcore--
+
+905
+00:48:46,770 --> 00:48:50,220
+something that I
+certainly cannot do--
+
+906
+00:48:50,220 --> 00:48:53,414
+differential geometry , just by
+playing around with statistical
+
+907
+00:48:53,414 --> 00:48:55,830
+models and trying to understand
+with the geometry of those
+
+908
+00:48:55,830 --> 00:48:56,700
+models are.
+
+909
+00:48:56,700 --> 00:48:58,350
+What does it mean
+for two points to be
+
+910
+00:48:58,350 --> 00:49:01,570
+close in some curved space?
+
+911
+00:49:01,570 --> 00:49:02,830
+So that's basically the idea.
+
+912
+00:49:02,830 --> 00:49:06,440
+So this thing is basically
+curving your space.
+
+913
+00:49:06,440 --> 00:49:10,250
+So again, I always
+feel satisfied
+
+914
+00:49:10,250 --> 00:49:12,560
+when my estimator
+on my test does not
+
+915
+00:49:12,560 --> 00:49:14,150
+involve just
+computing an average
+
+916
+00:49:14,150 --> 00:49:16,520
+and checking if it's big or not.
+
+917
+00:49:16,520 --> 00:49:18,560
+And that's not what
+we're doing here.
+
+918
+00:49:18,560 --> 00:49:23,350
+We know that this theta hat
+mle can be complicated--
+
+919
+00:49:23,350 --> 00:49:26,530
+CF problem set, too, I believe.
+
+920
+00:49:26,530 --> 00:49:29,094
+And we know that this Fisher
+information matrix can also
+
+921
+00:49:29,094 --> 00:49:30,010
+be pretty complicated.
+
+922
+00:49:30,010 --> 00:49:33,470
+So here, your test is not
+going to be trivial at all,
+
+923
+00:49:33,470 --> 00:49:37,000
+and that requires understanding
+the mathematics behind it.
+
+924
+00:49:37,000 --> 00:49:40,840
+I mean, it all built
+upon this theorem
+
+925
+00:49:40,840 --> 00:49:43,540
+that I just erased,
+I believe, which
+
+926
+00:49:43,540 --> 00:49:45,567
+was that this guy
+here inside this norm
+
+927
+00:49:45,567 --> 00:49:47,650
+was actually converging
+to some standard Gaussian.
+
+928
+00:49:52,690 --> 00:49:55,030
+So there's another test
+that you can actually use.
+
+929
+00:49:55,030 --> 00:50:00,800
+So Wald's test is one option,
+and there's another option.
+
+930
+00:50:00,800 --> 00:50:05,460
+And just like maximum
+likelihood estimation and method
+
+931
+00:50:05,460 --> 00:50:09,450
+of moments would sometimes
+agree and sometimes disagree,
+
+932
+00:50:09,450 --> 00:50:12,210
+those guys are going to
+sometimes agree and sometimes
+
+933
+00:50:12,210 --> 00:50:13,550
+disagree.
+
+934
+00:50:13,550 --> 00:50:17,510
+And this test is called
+the likelihood ratio test.
+
+935
+00:50:17,510 --> 00:50:21,560
+So let's parse those words--
+
+936
+00:50:21,560 --> 00:50:25,322
+"likelihood," "ratio," "test."
+
+937
+00:50:25,322 --> 00:50:26,780
+So at some point,
+I'm going to have
+
+938
+00:50:26,780 --> 00:50:29,270
+to take the likelihood
+of something divided
+
+939
+00:50:29,270 --> 00:50:33,980
+by the likelihood of some other
+thing and then work with this.
+
+940
+00:50:33,980 --> 00:50:36,380
+And this test is just
+saying the following.
+
+941
+00:50:36,380 --> 00:50:39,654
+Here's the simplest
+principle you can think of.
+
+942
+00:50:44,514 --> 00:50:45,930
+You're going to
+have to understand
+
+943
+00:50:45,930 --> 00:50:51,440
+the notion of likelihood in
+the context of statistics.
+
+944
+00:50:51,440 --> 00:50:53,565
+You just have to understand
+the meaning of the word
+
+945
+00:50:53,565 --> 00:50:54,930
+"likelihood."
+
+946
+00:50:54,930 --> 00:51:03,740
+This test is just saying
+if I want to test h0,
+
+947
+00:51:03,740 --> 00:51:07,240
+theta is equal to theta 0,
+versus theta is equal to theta
+
+948
+00:51:07,240 --> 00:51:13,040
+1, all I have to look at is
+whether theta 0 is more or less
+
+949
+00:51:13,040 --> 00:51:14,990
+likely than theta 1.
+
+950
+00:51:14,990 --> 00:51:18,960
+And I have an exact
+number that spits out.
+
+951
+00:51:18,960 --> 00:51:24,760
+Given a theta 0 or a
+theta 1 and given data,
+
+952
+00:51:24,760 --> 00:51:26,830
+I can put in this function
+called the likelihood,
+
+953
+00:51:26,830 --> 00:51:31,630
+and they tell me exactly
+how likely those things are.
+
+954
+00:51:31,630 --> 00:51:33,420
+And so all I have to
+check is whether one
+
+955
+00:51:33,420 --> 00:51:35,760
+is more likely than the
+other, and so what I can do
+
+956
+00:51:35,760 --> 00:51:41,450
+is form the likelihood
+of theta, say,
+
+957
+00:51:41,450 --> 00:51:50,070
+1 divided by the
+likelihood of theta 0
+
+958
+00:51:50,070 --> 00:51:52,260
+and check if this
+thing is larger than 1.
+
+959
+00:51:52,260 --> 00:51:57,090
+That would mean that this guy
+is more likely than that guy.
+
+960
+00:51:57,090 --> 00:52:00,010
+That's a natural way to proceed.
+
+961
+00:52:00,010 --> 00:52:03,190
+Now, there's one
+caveat here, which
+
+962
+00:52:03,190 --> 00:52:05,900
+is that when I do
+hypothesis testing
+
+963
+00:52:05,900 --> 00:52:10,960
+and I have this asymmetry
+between h0 and h1,
+
+964
+00:52:10,960 --> 00:52:13,660
+I still need to be
+able to control what
+
+965
+00:52:13,660 --> 00:52:15,340
+my probably of type I error is.
+
+966
+00:52:15,340 --> 00:52:19,260
+And here I basically
+have no knob.
+
+967
+00:52:19,260 --> 00:52:21,310
+This is something if you
+give me data in theta 0
+
+968
+00:52:21,310 --> 00:52:24,470
+and theta 1 I can compute to you
+and spit out the yes/no answer.
+
+969
+00:52:24,470 --> 00:52:29,720
+But I have no way of controlling
+the type II and type I error,
+
+970
+00:52:29,720 --> 00:52:33,320
+so what we do is that we
+replace this 1 by some number c.
+
+971
+00:52:33,320 --> 00:52:35,300
+And then we calibrate
+c in such a way
+
+972
+00:52:35,300 --> 00:52:37,580
+that the type I error is
+exactly at level alpha.
+
+973
+00:52:40,630 --> 00:52:44,820
+So for example, if
+I want to make sure
+
+974
+00:52:44,820 --> 00:52:50,610
+that my type I error is
+always 0, all I have to do
+
+975
+00:52:50,610 --> 00:52:52,350
+is to say that this
+guy is actually never
+
+976
+00:52:52,350 --> 00:52:55,020
+more likely than that
+guy, meaning never reject.
+
+977
+00:52:55,020 --> 00:52:57,912
+And so if I let
+c go to infinity,
+
+978
+00:52:57,912 --> 00:52:59,370
+then this is actually
+going to make
+
+979
+00:52:59,370 --> 00:53:02,220
+my type I error go to zero.
+
+980
+00:53:02,220 --> 00:53:05,790
+But if I let c go to
+negative infinity,
+
+981
+00:53:05,790 --> 00:53:12,270
+then I'm always
+going to conclude
+
+982
+00:53:12,270 --> 00:53:14,730
+that h1 is the right one.
+
+983
+00:53:14,730 --> 00:53:16,200
+So I have this
+straight off, and I
+
+984
+00:53:16,200 --> 00:53:19,350
+can turn this knob by
+changing the values of c
+
+985
+00:53:19,350 --> 00:53:22,190
+and get different results.
+
+986
+00:53:22,190 --> 00:53:25,890
+And I'm going to be interested
+in the one that maximizes
+
+987
+00:53:25,890 --> 00:53:29,010
+my chances of rejecting the
+null hypothesis while staying
+
+988
+00:53:29,010 --> 00:53:33,500
+under my alpha budget
+of type I error.
+
+989
+00:53:33,500 --> 00:53:37,280
+So this is nice when I have
+two very simple hypotheses,
+
+990
+00:53:37,280 --> 00:53:40,430
+but to be fair, we've
+actually not seen
+
+991
+00:53:40,430 --> 00:53:45,050
+any tests that correspond
+to real-life example.
+
+992
+00:53:45,050 --> 00:53:49,070
+Where theta 0 was of the
+form am I equal to, say, 0.5
+
+993
+00:53:49,070 --> 00:53:51,854
+or am I equal to
+0.41, we actually
+
+994
+00:53:51,854 --> 00:53:53,270
+sort of suspected
+that if somebody
+
+995
+00:53:53,270 --> 00:53:54,894
+asked you to perform
+this test, they've
+
+996
+00:53:54,894 --> 00:53:57,810
+sort of seen the data before
+and they're sort of cheating.
+
+997
+00:53:57,810 --> 00:54:00,290
+So it's typically
+something am I equal to 0.5
+
+998
+00:54:00,290 --> 00:54:02,420
+or not equal to 0.5
+or am I equal to 0.5
+
+999
+00:54:02,420 --> 00:54:03,960
+or larger than 0.5.
+
+1000
+00:54:03,960 --> 00:54:06,830
+But it's very rare that you
+actually get only two points
+
+1001
+00:54:06,830 --> 00:54:07,520
+to test--
+
+1002
+00:54:07,520 --> 00:54:09,500
+am I this guy or that guy?
+
+1003
+00:54:09,500 --> 00:54:11,180
+Now, I could go on.
+
+1004
+00:54:11,180 --> 00:54:13,432
+There's actually a nice
+mathematical theory,
+
+1005
+00:54:13,432 --> 00:54:15,140
+something called the
+Neyman-Pearson lemma
+
+1006
+00:54:15,140 --> 00:54:18,470
+that actually tells me that
+this test, the likelihood ratio
+
+1007
+00:54:18,470 --> 00:54:22,670
+test, is the test, given the
+constraint of type I error,
+
+1008
+00:54:22,670 --> 00:54:25,220
+that will have the
+smallest type II error.
+
+1009
+00:54:25,220 --> 00:54:27,680
+So this is the ultimate test.
+
+1010
+00:54:27,680 --> 00:54:29,900
+No one should ever use
+anything different.
+
+1011
+00:54:29,900 --> 00:54:32,420
+And we could go on and
+do this, but in a way,
+
+1012
+00:54:32,420 --> 00:54:35,150
+it's completely irrelevant to
+practice because you will never
+
+1013
+00:54:35,150 --> 00:54:37,220
+encounter such tests.
+
+1014
+00:54:37,220 --> 00:54:41,000
+And I actually find students
+that they took my class
+
+1015
+00:54:41,000 --> 00:54:44,180
+as sophomores and then they're
+still around a couple of years
+
+1016
+00:54:44,180 --> 00:54:46,930
+later and they're
+doing, and they're like,
+
+1017
+00:54:46,930 --> 00:54:50,250
+I have this testing problem and
+I want to use likelihood ratio
+
+1018
+00:54:50,250 --> 00:54:54,740
+test, the Neyman-Pearson one,
+but I just can't because it
+
+1019
+00:54:54,740 --> 00:54:56,110
+just never occurs.
+
+1020
+00:54:56,110 --> 00:54:57,480
+This just does not happen.
+
+1021
+00:54:57,480 --> 00:54:59,750
+So here, rather than
+going into details,
+
+1022
+00:54:59,750 --> 00:55:02,950
+let's just look at what
+building on this principle
+
+1023
+00:55:02,950 --> 00:55:05,570
+we can actually make
+a test that will work.
+
+1024
+00:55:05,570 --> 00:55:08,720
+So now, for
+simplicity, I'm going
+
+1025
+00:55:08,720 --> 00:55:11,810
+to assume that my
+alternatives-- so now, I still
+
+1026
+00:55:11,810 --> 00:55:16,580
+have a d dimensional
+vector theta.
+
+1027
+00:55:16,580 --> 00:55:20,840
+And what I'm going to assume
+is that the null hypothesis
+
+1028
+00:55:20,840 --> 00:55:26,750
+is actually only testing if
+the last coefficients from r
+
+1029
+00:55:26,750 --> 00:55:31,070
+plus 1 to d are fixed numbers.
+
+1030
+00:55:31,070 --> 00:55:35,460
+So in this example, where
+I have theta was equal--
+
+1031
+00:55:35,460 --> 00:55:38,915
+so if I have d equals
+3, here's an example.
+
+1032
+00:55:42,120 --> 00:55:53,510
+h0 is theta 2 equals 1,
+and theta 3 equals 2.
+
+1033
+00:55:53,510 --> 00:55:56,360
+That's my h0, but I
+say I don't actually
+
+1034
+00:55:56,360 --> 00:55:58,070
+care about what theta
+1 is going to be.
+
+1035
+00:56:02,450 --> 00:56:04,450
+So that's my null hypothesis.
+
+1036
+00:56:04,450 --> 00:56:07,500
+I'm not going to specify right
+now what the alternative is.
+
+1037
+00:56:07,500 --> 00:56:08,500
+That's what the null is.
+
+1038
+00:56:08,500 --> 00:56:13,240
+And in particular, this null
+is actually not of this form.
+
+1039
+00:56:13,240 --> 00:56:15,190
+It's not restricting
+it to one point.
+
+1040
+00:56:15,190 --> 00:56:18,070
+It's actually restricting it to
+an infinite amount of points.
+
+1041
+00:56:18,070 --> 00:56:22,020
+Those are all the vectors
+of the form theta 1 1,
+
+1042
+00:56:22,020 --> 00:56:29,440
+2 for all theta 1 in, say, r.
+
+1043
+00:56:29,440 --> 00:56:31,960
+That's a lot of vectors,
+and so it's certainly
+
+1044
+00:56:31,960 --> 00:56:34,060
+not like it's equal to
+one specific vector.
+
+1045
+00:56:36,670 --> 00:56:39,610
+So now, what I'm going
+to do is I'm actually
+
+1046
+00:56:39,610 --> 00:56:43,300
+going to look at the maximum
+likelihood estimator,
+
+1047
+00:56:43,300 --> 00:56:45,910
+and I'm going to say, well, the
+maximum likelihood estimator,
+
+1048
+00:56:45,910 --> 00:56:50,310
+regardless of anything, is
+going to be close to. reality.
+
+1049
+00:56:50,310 --> 00:56:53,480
+Now, if you actually
+tell me ahead of time
+
+1050
+00:56:53,480 --> 00:56:56,520
+that the true parameter
+is of this form,
+
+1051
+00:56:56,520 --> 00:56:59,699
+I'm not going to maximize over
+all three coordinates of theta.
+
+1052
+00:56:59,699 --> 00:57:01,740
+I'm just going to say,
+well, I might as well just
+
+1053
+00:57:01,740 --> 00:57:06,900
+set the second one to
+1, the third one to 2,
+
+1054
+00:57:06,900 --> 00:57:09,690
+and just optimize for this guy.
+
+1055
+00:57:09,690 --> 00:57:11,990
+So effectively, you can
+say if you're telling me
+
+1056
+00:57:11,990 --> 00:57:14,390
+that this is the
+reality, I can compute
+
+1057
+00:57:14,390 --> 00:57:17,000
+a constrained maximum
+likelihood estimator
+
+1058
+00:57:17,000 --> 00:57:21,690
+which is constrained to look
+like what you think reality is.
+
+1059
+00:57:21,690 --> 00:57:24,270
+So this is what the maximum
+likelihood estimator is.
+
+1060
+00:57:24,270 --> 00:57:26,130
+That's the one that's
+maximizing, say,
+
+1061
+00:57:26,130 --> 00:57:30,120
+here the log likelihood over
+the entire space of candidate
+
+1062
+00:57:30,120 --> 00:57:32,640
+vectors, of
+candidate parameters.
+
+1063
+00:57:32,640 --> 00:57:36,357
+But this partial one, this
+is the constraint mle.
+
+1064
+00:57:36,357 --> 00:57:38,940
+That's the one that's actually
+not maximizing our real thetas,
+
+1065
+00:57:38,940 --> 00:57:41,120
+but only over the thetas
+that are plausible
+
+1066
+00:57:41,120 --> 00:57:44,430
+under the null hypothesis.
+
+1067
+00:57:44,430 --> 00:57:52,880
+So in particular, if I look
+at ln of this constraint thing
+
+1068
+00:57:52,880 --> 00:57:59,840
+theta hat n c compared
+to ln, theta hat--
+
+1069
+00:57:59,840 --> 00:58:04,427
+let's say n mle, so
+we know which one--
+
+1070
+00:58:04,427 --> 00:58:05,260
+which one is bigger?
+
+1071
+00:58:13,400 --> 00:58:15,400
+The first one is bigger.
+
+1072
+00:58:15,400 --> 00:58:17,330
+So why?
+
+1073
+00:58:17,330 --> 00:58:18,755
+AUDIENCE: [INAUDIBLE].
+
+1074
+00:58:20,770 --> 00:58:22,270
+PHILIPPE RIGOLLET:
+So the second one
+
+1075
+00:58:22,270 --> 00:58:25,070
+is maximized over
+a larger space.
+
+1076
+00:58:25,070 --> 00:58:25,570
+Right.
+
+1077
+00:58:25,570 --> 00:58:28,834
+So I have this all
+of theta, which
+
+1078
+00:58:28,834 --> 00:58:30,250
+are all the
+parameters I can take,
+
+1079
+00:58:30,250 --> 00:58:32,626
+and let's say theta
+0 is this guy.
+
+1080
+00:58:32,626 --> 00:58:35,990
+I'm maximizing a function
+over all these things.
+
+1081
+00:58:35,990 --> 00:58:38,930
+So if the true
+maximum is this here,
+
+1082
+00:58:38,930 --> 00:58:41,210
+then the two things are
+equal, but if the maximum
+
+1083
+00:58:41,210 --> 00:58:43,490
+is on this side, then
+the one on the right
+
+1084
+00:58:43,490 --> 00:58:45,260
+is actually going to be larger.
+
+1085
+00:58:45,260 --> 00:58:48,050
+They're maximizing
+over a bigger space,
+
+1086
+00:58:48,050 --> 00:58:51,440
+so this guy has to be
+less than this guy.
+
+1087
+00:58:51,440 --> 00:58:53,450
+So maybe it's not easy to see.
+
+1088
+00:58:53,450 --> 00:59:01,610
+So let's say that this is
+theta and this is theta 0
+
+1089
+00:59:01,610 --> 00:59:04,570
+and now I have a function.
+
+1090
+00:59:04,570 --> 00:59:09,720
+The maximum over theta
+0 is this guy here,
+
+1091
+00:59:09,720 --> 00:59:12,040
+but the maximum over the
+entire space is here.
+
+1092
+00:59:15,530 --> 00:59:17,330
+So the maximum
+over a larger space
+
+1093
+00:59:17,330 --> 00:59:20,090
+has to be larger than the
+maximum over a smaller space.
+
+1094
+00:59:20,090 --> 00:59:26,090
+It can be equal, but the
+one in the bigger space
+
+1095
+00:59:26,090 --> 00:59:28,800
+can be even bigger.
+
+1096
+00:59:28,800 --> 00:59:33,730
+However, if my
+true theta actually
+
+1097
+00:59:33,730 --> 00:59:35,440
+did belong to theta 0--
+
+1098
+00:59:35,440 --> 00:59:38,880
+if h0 was true--
+
+1099
+00:59:38,880 --> 00:59:39,850
+what would happen?
+
+1100
+00:59:39,850 --> 00:59:45,930
+Well, if theta 0 is true,
+then theta isn't theta 0,
+
+1101
+00:59:45,930 --> 00:59:49,487
+and since the maximum likelihood
+should be close to theta,
+
+1102
+00:59:49,487 --> 00:59:51,570
+it should be the case that
+those two things should
+
+1103
+00:59:51,570 --> 00:59:52,890
+be pretty similar.
+
+1104
+00:59:52,890 --> 00:59:56,290
+I should be in a case not
+in this kind of thing,
+
+1105
+00:59:56,290 --> 00:59:58,110
+but more in this
+kind of position,
+
+1106
+00:59:58,110 --> 01:00:00,450
+where the true maximum is
+actually attained at theta 0.
+
+1107
+01:00:00,450 --> 01:00:02,300
+And in this case,
+they're actually
+
+1108
+01:00:02,300 --> 01:00:05,640
+of the same size,
+those two things.
+
+1109
+01:00:05,640 --> 01:00:08,400
+If it's not true, then I'm
+going to see a discrepancy
+
+1110
+01:00:08,400 --> 01:00:09,398
+between the two guys.
+
+1111
+01:00:12,030 --> 01:00:15,840
+So my test is going to be
+built on this intuition
+
+1112
+01:00:15,840 --> 01:00:20,700
+that if h0 is true, the values
+of the likelihood at theta hat
+
+1113
+01:00:20,700 --> 01:00:24,530
+mle and at the constraint mle
+should be pretty much the same.
+
+1114
+01:00:24,530 --> 01:00:25,680
+But if theta hat--
+
+1115
+01:00:25,680 --> 01:00:29,490
+if it's not true, then
+the likelihood of the mle
+
+1116
+01:00:29,490 --> 01:00:33,772
+should be much larger
+than the likelihood
+
+1117
+01:00:33,772 --> 01:00:34,730
+of the constrained mle.
+
+1118
+01:00:37,600 --> 01:00:40,580
+And this is exactly
+what this test is doing.
+
+1119
+01:00:40,580 --> 01:00:42,430
+So that's the
+likelihood ratio test.
+
+1120
+01:00:42,430 --> 01:00:46,661
+So rather than looking at
+the ratio of the likelihoods,
+
+1121
+01:00:46,661 --> 01:00:48,910
+we look at the difference
+of the log likelihood, which
+
+1122
+01:00:48,910 --> 01:00:51,170
+is really the same thing.
+
+1123
+01:00:51,170 --> 01:00:54,420
+And there is some weird
+normalization factor, too,
+
+1124
+01:00:54,420 --> 01:00:55,978
+that shows up here.
+
+1125
+01:01:04,910 --> 01:01:06,120
+And this is what we get.
+
+1126
+01:01:06,120 --> 01:01:18,900
+So if I look at the
+likelihood ratio test,
+
+1127
+01:01:18,900 --> 01:01:25,280
+so it's looking at two
+times ln of theta hat mle
+
+1128
+01:01:25,280 --> 01:01:32,070
+minus ln of theta
+hat mle constrained.
+
+1129
+01:01:32,070 --> 01:01:34,100
+And this is actually
+the test statistic.
+
+1130
+01:01:34,100 --> 01:01:39,810
+So we've actually decided
+that this statistic is what?
+
+1131
+01:01:42,850 --> 01:01:44,565
+It's non-negative, right?
+
+1132
+01:01:44,565 --> 01:01:45,940
+We've also decided
+that it should
+
+1133
+01:01:45,940 --> 01:01:49,120
+be close to zero if h0
+is true and of course
+
+1134
+01:01:49,120 --> 01:01:52,990
+then maybe far from
+zero if h0 is not true.
+
+1135
+01:01:52,990 --> 01:02:00,320
+So what should be the
+natural test based on Tn?
+
+1136
+01:02:00,320 --> 01:02:03,300
+Let me just check that it's--
+
+1137
+01:02:03,300 --> 01:02:05,370
+well, it's already there.
+
+1138
+01:02:05,370 --> 01:02:08,610
+So the natural test is something
+that looks like indicator
+
+1139
+01:02:08,610 --> 01:02:12,480
+that Tn is larger than c.
+
+1140
+01:02:12,480 --> 01:02:13,980
+And you should say, well, again?
+
+1141
+01:02:13,980 --> 01:02:15,800
+I mean, we just did that.
+
+1142
+01:02:15,800 --> 01:02:19,490
+I mean, it is basically the
+same thing that we just did.
+
+1143
+01:02:19,490 --> 01:02:20,940
+Agreed?
+
+1144
+01:02:20,940 --> 01:02:22,380
+But the Tn now is different.
+
+1145
+01:02:22,380 --> 01:02:24,270
+The Tn is the difference
+of log likelihoods,
+
+1146
+01:02:24,270 --> 01:02:29,970
+whereas before the Tn was
+this theta hat minus theta
+
+1147
+01:02:29,970 --> 01:02:35,630
+not transpose identity of
+Fisher information matrix theta
+
+1148
+01:02:35,630 --> 01:02:37,170
+hat minus theta not.
+
+1149
+01:02:37,170 --> 01:02:39,330
+And this, there's no
+reason why this guy
+
+1150
+01:02:39,330 --> 01:02:41,410
+should be of the same form.
+
+1151
+01:02:41,410 --> 01:02:43,117
+Now, if I have a
+Gaussian model, you
+
+1152
+01:02:43,117 --> 01:02:45,700
+can check that those two things
+are actually exactly the same.
+
+1153
+01:02:49,040 --> 01:02:52,190
+But otherwise, they don't
+have any reason to be.
+
+1154
+01:02:52,190 --> 01:02:54,220
+And now, what's
+happening is that
+
+1155
+01:02:54,220 --> 01:02:57,100
+under some technical
+conditions--
+
+1156
+01:02:57,100 --> 01:02:59,210
+if h0 is true, now
+what happens is
+
+1157
+01:02:59,210 --> 01:03:02,690
+that if I want to calibrate
+c, what I need to do
+
+1158
+01:03:02,690 --> 01:03:08,630
+is to look at what is the
+c such that this guy is
+
+1159
+01:03:08,630 --> 01:03:10,350
+equal to alpha?
+
+1160
+01:03:10,350 --> 01:03:15,775
+And that's for the distribution
+of T under the knob.
+
+1161
+01:03:20,330 --> 01:03:22,050
+But there's not only one.
+
+1162
+01:03:22,050 --> 01:03:26,790
+The null hypothesis
+here was actually
+
+1163
+01:03:26,790 --> 01:03:28,050
+just the family of things.
+
+1164
+01:03:28,050 --> 01:03:29,580
+It was not just one vector.
+
+1165
+01:03:29,580 --> 01:03:31,500
+It was an entire
+family of vectors,
+
+1166
+01:03:31,500 --> 01:03:33,520
+just like in this example.
+
+1167
+01:03:33,520 --> 01:03:35,670
+So if I want my type I
+error to be constrained
+
+1168
+01:03:35,670 --> 01:03:39,120
+over the entire space,
+what I need to make sure of
+
+1169
+01:03:39,120 --> 01:03:44,440
+is that the maximum
+overall theta n theta not
+
+1170
+01:03:44,440 --> 01:03:45,860
+is actually equal to alpha.
+
+1171
+01:03:53,152 --> 01:03:53,652
+Agreed?
+
+1172
+01:03:53,652 --> 01:03:54,152
+Yeah?
+
+1173
+01:03:54,152 --> 01:03:55,600
+AUDIENCE: [INAUDIBLE].
+
+1174
+01:03:59,520 --> 01:04:04,050
+PHILIPPE RIGOLLET: So not equal.
+
+1175
+01:04:04,050 --> 01:04:06,859
+In this case, it's
+going to be not equal.
+
+1176
+01:04:06,859 --> 01:04:08,650
+I mean, it can really
+be anything you want.
+
+1177
+01:04:08,650 --> 01:04:12,670
+It's just you're going to have
+a different type II error.
+
+1178
+01:04:12,670 --> 01:04:15,140
+I guess here we're sort
+of stuck in a corner.
+
+1179
+01:04:15,140 --> 01:04:18,740
+We built this T, and it has
+to be small under the null.
+
+1180
+01:04:18,740 --> 01:04:21,235
+And whatever not
+the null is, we just
+
+1181
+01:04:21,235 --> 01:04:22,610
+hope that it's
+going to be large.
+
+1182
+01:04:25,150 --> 01:04:27,200
+So even if I tell you
+what the alternative is,
+
+1183
+01:04:27,200 --> 01:04:31,660
+you're not going to change
+anything about the procedure.
+
+1184
+01:04:31,660 --> 01:04:33,970
+So here, q alpha-- so
+what I need to know
+
+1185
+01:04:33,970 --> 01:04:37,540
+is that if h0 is true,
+then Tn in this case
+
+1186
+01:04:37,540 --> 01:04:41,620
+actually converges to some
+chi-square distribution.
+
+1187
+01:04:41,620 --> 01:04:44,500
+And now here, the number
+of degrees of freedom
+
+1188
+01:04:44,500 --> 01:04:45,250
+is kind of weird.
+
+1189
+01:04:58,720 --> 01:05:02,100
+But actually, what it should
+tell you is, oh, finally, I
+
+1190
+01:05:02,100 --> 01:05:05,030
+know when you call this
+parameter degrees of freedom
+
+1191
+01:05:05,030 --> 01:05:08,790
+rather than dimension
+or just d parameter.
+
+1192
+01:05:08,790 --> 01:05:13,100
+It's because here what we did
+is we actually pinned down
+
+1193
+01:05:13,100 --> 01:05:19,330
+everything, but r--
+
+1194
+01:05:19,330 --> 01:05:23,050
+sorry, we pinned
+down everything but r
+
+1195
+01:05:23,050 --> 01:05:24,190
+coordinates of this thing.
+
+1196
+01:05:26,710 --> 01:05:30,190
+And so now I'm actually
+wondering why--
+
+1197
+01:05:34,102 --> 01:05:36,547
+did I make a mistake here?
+
+1198
+01:05:40,460 --> 01:05:41,930
+I think this should
+be chi square
+
+1199
+01:05:41,930 --> 01:05:43,190
+with r degrees of freedom.
+
+1200
+01:05:46,290 --> 01:05:48,630
+Let me check and send
+you an update about this,
+
+1201
+01:05:48,630 --> 01:05:53,140
+because the number of
+degrees of freedom,
+
+1202
+01:05:53,140 --> 01:05:55,860
+if you talk to normal
+people they will tell you
+
+1203
+01:05:55,860 --> 01:05:59,830
+that here the number of
+degrees of freedom is r.
+
+1204
+01:05:59,830 --> 01:06:01,690
+This is what's allowed
+to move, and that's
+
+1205
+01:06:01,690 --> 01:06:03,580
+what's called
+degrees of freedom.
+
+1206
+01:06:03,580 --> 01:06:06,520
+The rest is pinned down
+to being something.
+
+1207
+01:06:06,520 --> 01:06:10,480
+So here, this chi-square
+should be a chi-squared r.
+
+1208
+01:06:10,480 --> 01:06:12,994
+And that's something you
+just have to believe me.
+
+1209
+01:06:12,994 --> 01:06:15,160
+Anybody guess what theorem
+is going to tell me this?
+
+1210
+01:06:19,050 --> 01:06:21,285
+In some cases, it's going
+to be Cochran's theorem--
+
+1211
+01:06:21,285 --> 01:06:23,576
+just something that tells
+me that thing's [INAUDIBLE]..
+
+1212
+01:06:23,576 --> 01:06:27,020
+Now, here, I use the
+very specific form
+
+1213
+01:06:27,020 --> 01:06:29,600
+of the null alternative.
+
+1214
+01:06:29,600 --> 01:06:31,100
+And so for those
+of you who are sort
+
+1215
+01:06:31,100 --> 01:06:35,740
+of familiar with linear
+algebra, what I did here is h0
+
+1216
+01:06:35,740 --> 01:06:39,530
+consists in saying
+that theta belongs
+
+1217
+01:06:39,530 --> 01:06:43,040
+to an r dimensional
+linear space.
+
+1218
+01:06:43,040 --> 01:06:45,380
+It's actually here, the r
+dimensional linear space
+
+1219
+01:06:45,380 --> 01:06:49,160
+of vectors, that have the first
+r coordinates that can move
+
+1220
+01:06:49,160 --> 01:06:54,689
+and the last coordinates that
+are fixed to some number.
+
+1221
+01:06:54,689 --> 01:06:57,230
+Actually, it's undefined space
+because it doesn't necessarily
+
+1222
+01:06:57,230 --> 01:06:58,410
+go through zero.
+
+1223
+01:06:58,410 --> 01:07:00,410
+And so I have this
+defined space that
+
+1224
+01:07:00,410 --> 01:07:05,555
+has dimension r, and if I were
+to constrain it to any other r
+
+1225
+01:07:05,555 --> 01:07:08,070
+dimensional space, that would
+be exactly the same thing.
+
+1226
+01:07:08,070 --> 01:07:10,910
+And so to do that, essentially
+what you need to do is to say,
+
+1227
+01:07:10,910 --> 01:07:15,440
+if I take any matrix that's say,
+invertible-- let's call it u--
+
+1228
+01:07:15,440 --> 01:07:21,500
+and then so h0 is going to be
+something like of the form u
+
+1229
+01:07:21,500 --> 01:07:33,210
+times theta and now I look only
+at the coordinates r plus 1 2d,
+
+1230
+01:07:33,210 --> 01:07:35,620
+then I want to fix those
+guys to some numbers.
+
+1231
+01:07:35,620 --> 01:07:39,040
+So I want to call them theta,
+so let's call them tau.
+
+1232
+01:07:39,040 --> 01:07:44,850
+So it's going to be tau r
+plus 1, all the way to tau d.
+
+1233
+01:07:44,850 --> 01:07:47,580
+So this is not part
+of the requirements,
+
+1234
+01:07:47,580 --> 01:07:50,076
+but just so you know,
+it's really not a matter
+
+1235
+01:07:50,076 --> 01:07:51,450
+of keeping only
+some coordinates.
+
+1236
+01:07:51,450 --> 01:07:54,120
+Really, what matters
+is the dimension
+
+1237
+01:07:54,120 --> 01:07:56,980
+in the sense of linear
+subspaces of the problem,
+
+1238
+01:07:56,980 --> 01:07:59,500
+and that's what determines what
+your degrees of freedom are.
+
+1239
+01:08:03,000 --> 01:08:06,660
+So now that we know what the
+asymptotic distribution is
+
+1240
+01:08:06,660 --> 01:08:10,630
+under the null, then
+we know basically
+
+1241
+01:08:10,630 --> 01:08:17,920
+that we know how which table we
+need to pick our q alpha from.
+
+1242
+01:08:17,920 --> 01:08:20,341
+And here, again, the table
+is a chi-squared table,
+
+1243
+01:08:20,341 --> 01:08:22,090
+but here, the number
+of degrees of freedom
+
+1244
+01:08:22,090 --> 01:08:26,277
+is this weird d minus r
+degrees of freedom thing.
+
+1245
+01:08:29,689 --> 01:08:31,060
+I just said it was r.
+
+1246
+01:08:34,060 --> 01:08:36,952
+I'm just checking,
+actually, if I'm--
+
+1247
+01:08:41,542 --> 01:08:42,042
+it's r.
+
+1248
+01:08:42,042 --> 01:08:42,792
+It's definitely r.
+
+1249
+01:08:51,200 --> 01:08:54,260
+So here we've made tests.
+
+1250
+01:08:54,260 --> 01:08:57,170
+We're testing if r parameter
+theta was explicitly
+
+1251
+01:08:57,170 --> 01:09:00,140
+in some set or not.
+
+1252
+01:09:00,140 --> 01:09:03,140
+By explicitly, I mean we're
+saying, is theta like this
+
+1253
+01:09:03,140 --> 01:09:04,380
+or is theta not like this?
+
+1254
+01:09:04,380 --> 01:09:06,350
+Is theta equal to
+theta not or is theta
+
+1255
+01:09:06,350 --> 01:09:07,720
+not equal to theta not?
+
+1256
+01:09:07,720 --> 01:09:10,160
+Are the last
+coordinates of theta
+
+1257
+01:09:10,160 --> 01:09:12,490
+equal to those fixed
+numbers, or are they not?
+
+1258
+01:09:12,490 --> 01:09:15,556
+There was something I was
+stating directly about theta.
+
+1259
+01:09:15,556 --> 01:09:17,930
+But there's going to be some
+instances where you actually
+
+1260
+01:09:17,930 --> 01:09:21,630
+want to test something about
+a function of data, not data
+
+1261
+01:09:21,630 --> 01:09:22,700
+itself.
+
+1262
+01:09:22,700 --> 01:09:27,350
+For example, is the difference
+between the first coordinate
+
+1263
+01:09:27,350 --> 01:09:30,715
+of theta and the second
+coordinate of theta positive?
+
+1264
+01:09:30,715 --> 01:09:32,840
+That's definitely something
+you might want to test,
+
+1265
+01:09:32,840 --> 01:09:37,477
+because maybe theta 1 is--
+
+1266
+01:09:37,477 --> 01:09:39,185
+let me try to think
+of some good example.
+
+1267
+01:09:44,619 --> 01:09:45,160
+I don't know.
+
+1268
+01:09:45,160 --> 01:09:49,779
+Maybe theta 1 is your drawing
+accuracy with the right hand
+
+1269
+01:09:49,779 --> 01:09:52,720
+and theta 2 is the drawing
+accuracy with the left hand,
+
+1270
+01:09:52,720 --> 01:09:56,320
+and I'm actually collecting
+data on young children
+
+1271
+01:09:56,320 --> 01:09:58,840
+to be able to test
+early on whether they're
+
+1272
+01:09:58,840 --> 01:10:01,810
+going to be left-handed or
+right-handed, for example.
+
+1273
+01:10:01,810 --> 01:10:04,907
+And so I want to just compare
+those two with respect
+
+1274
+01:10:04,907 --> 01:10:06,490
+to each other, but
+I don't necessarily
+
+1275
+01:10:06,490 --> 01:10:10,300
+need to know what the absolute
+score for this handwriting
+
+1276
+01:10:10,300 --> 01:10:12,010
+skills are.
+
+1277
+01:10:12,010 --> 01:10:14,890
+So sometimes it's just
+interesting to look
+
+1278
+01:10:14,890 --> 01:10:17,520
+at the difference of
+things or maybe the sum,
+
+1279
+01:10:17,520 --> 01:10:18,940
+say the combined effect.
+
+1280
+01:10:18,940 --> 01:10:22,690
+Maybe this is my two
+measurements of blood pressure,
+
+1281
+01:10:22,690 --> 01:10:25,560
+and I just want to talk about
+the average blood pressure.
+
+1282
+01:10:25,560 --> 01:10:28,040
+And so I can make a linear
+combination of those two,
+
+1283
+01:10:28,040 --> 01:10:30,070
+and so those things
+implicitly depend on theta.
+
+1284
+01:10:30,070 --> 01:10:36,460
+And so I can generically
+encapsule them
+
+1285
+01:10:36,460 --> 01:10:39,610
+in some test of the form
+g of theta is equal to 0
+
+1286
+01:10:39,610 --> 01:10:42,400
+versus g of theta
+is not equal to 0.
+
+1287
+01:10:42,400 --> 01:10:46,060
+And sometimes, in the first
+test that we saw, g of theta
+
+1288
+01:10:46,060 --> 01:10:53,350
+was just the identity or
+maybe the identity minus 0.5.
+
+1289
+01:10:53,350 --> 01:10:55,170
+If g of theta is
+theta minus 0.5,
+
+1290
+01:10:55,170 --> 01:10:57,320
+that's exactly what
+we've been testing.
+
+1291
+01:10:57,320 --> 01:11:01,910
+If g of theta is theta
+minus 0.5 and theta
+
+1292
+01:11:01,910 --> 01:11:06,850
+is p, the parameter of a coin,
+this is exactly of this form.
+
+1293
+01:11:06,850 --> 01:11:08,930
+So this is a simple
+one, but then there's
+
+1294
+01:11:08,930 --> 01:11:11,250
+more complicated
+ones we can think of.
+
+1295
+01:11:14,830 --> 01:11:20,100
+So how can I do this?
+
+1296
+01:11:20,100 --> 01:11:22,100
+Well, let's just
+follow a recipe.
+
+1297
+01:11:24,830 --> 01:11:26,210
+So we traced back.
+
+1298
+01:11:26,210 --> 01:11:31,995
+We were trying to build a test
+statistic which was pivotal.
+
+1299
+01:11:31,995 --> 01:11:33,370
+We wanted to have
+this thing that
+
+1300
+01:11:33,370 --> 01:11:37,220
+had nothing that depended
+on the parameter,
+
+1301
+01:11:37,220 --> 01:11:39,140
+and the only thing
+we had for that
+
+1302
+01:11:39,140 --> 01:11:41,000
+that we built in
+our chi-square test
+
+1303
+01:11:41,000 --> 01:11:44,270
+one is basically some form
+of central limit theorem.
+
+1304
+01:11:44,270 --> 01:11:46,580
+Maybe it's for the maximum
+likelihood estimator.
+
+1305
+01:11:46,580 --> 01:11:48,500
+Maybe it's for the
+average, but it's basically
+
+1306
+01:11:48,500 --> 01:11:52,610
+some form of asymptotic
+normality of the estimator.
+
+1307
+01:11:52,610 --> 01:11:55,830
+And that's what we started
+from every single time.
+
+1308
+01:11:55,830 --> 01:11:58,400
+So let's assume
+that I have this,
+
+1309
+01:11:58,400 --> 01:12:00,590
+and I'm going to
+talk very abstractly.
+
+1310
+01:12:00,590 --> 01:12:03,110
+Let's assume that I
+start with an estimator.
+
+1311
+01:12:03,110 --> 01:12:04,880
+Doesn't have to be the mle.
+
+1312
+01:12:04,880 --> 01:12:06,770
+It doesn't have
+to be the average,
+
+1313
+01:12:06,770 --> 01:12:08,020
+but it's just something.
+
+1314
+01:12:08,020 --> 01:12:11,960
+And I know that I have the
+estimator such that this guy
+
+1315
+01:12:11,960 --> 01:12:15,310
+converges in
+distribution to some n0,
+
+1316
+01:12:15,310 --> 01:12:17,900
+and I have some
+covariance matrix theta.
+
+1317
+01:12:17,900 --> 01:12:20,330
+Maybe it's not the
+Fisher information.
+
+1318
+01:12:20,330 --> 01:12:23,060
+Maybe that's something that's
+not as good as the mle,
+
+1319
+01:12:23,060 --> 01:12:25,190
+meaning that this
+is going to give me
+
+1320
+01:12:25,190 --> 01:12:29,160
+less information than the Fisher
+information, less accuracy.
+
+1321
+01:12:29,160 --> 01:12:34,110
+And now I can actually just say,
+OK, if I know this about theta,
+
+1322
+01:12:34,110 --> 01:12:43,920
+I can apply the multivariate
+delta method, which tells me
+
+1323
+01:12:43,920 --> 01:12:50,050
+that square root of n, g of
+theta hat, minus g of theta
+
+1324
+01:12:50,050 --> 01:12:56,170
+goes in distribution to some n0.
+
+1325
+01:12:56,170 --> 01:12:58,060
+And then the price to
+pay in one dimension
+
+1326
+01:12:58,060 --> 01:13:01,060
+was multiplying the square
+root of the derivative,
+
+1327
+01:13:01,060 --> 01:13:03,730
+and we know that in multivariate
+dimensions pre-multiplying
+
+1328
+01:13:03,730 --> 01:13:05,170
+by the gradient,
+post-multiplying
+
+1329
+01:13:05,170 --> 01:13:06,490
+by the gradient.
+
+1330
+01:13:06,490 --> 01:13:14,060
+So I'm going to write delta
+g of theta transpose sigma--
+
+1331
+01:13:14,060 --> 01:13:15,630
+sorry, not delta; nabla--
+
+1332
+01:13:15,630 --> 01:13:19,090
+g of theta-- so gradient.
+
+1333
+01:13:19,090 --> 01:13:25,420
+And here, I assume that
+g takes values into rk.
+
+1334
+01:13:25,420 --> 01:13:28,770
+That's what's written here.
+g takes value from d to k,
+
+1335
+01:13:28,770 --> 01:13:30,970
+but think of k as
+being 1 for now.
+
+1336
+01:13:30,970 --> 01:13:33,910
+So the gradient is really just
+a vector and not a matrix.
+
+1337
+01:13:33,910 --> 01:13:40,680
+That's your usual gradient
+for real valid functions.
+
+1338
+01:13:40,680 --> 01:13:45,797
+So effectively, if g takes
+values in dimension 1,
+
+1339
+01:13:45,797 --> 01:13:47,130
+what is the size of this matrix?
+
+1340
+01:13:58,390 --> 01:13:59,920
+I only ask trivial questions.
+
+1341
+01:13:59,920 --> 01:14:02,990
+Remember, that's
+rule number one.
+
+1342
+01:14:02,990 --> 01:14:04,320
+It's one by one, right?
+
+1343
+01:14:04,320 --> 01:14:06,540
+And you can check it,
+because on this side
+
+1344
+01:14:06,540 --> 01:14:08,492
+those are just the
+difference between numbers.
+
+1345
+01:14:08,492 --> 01:14:10,200
+And it would be kind
+of weird if they had
+
+1346
+01:14:10,200 --> 01:14:11,550
+a covariance matrix at the end.
+
+1347
+01:14:11,550 --> 01:14:15,000
+I mean, this is a random
+variable, not a random vector.
+
+1348
+01:14:15,000 --> 01:14:17,400
+So I know that
+this thing happens.
+
+1349
+01:14:17,400 --> 01:14:21,390
+And now, if I basically
+divide by the square root
+
+1350
+01:14:21,390 --> 01:14:22,110
+of this thing--
+
+1351
+01:14:30,210 --> 01:14:35,400
+so for board I'm working with k
+is equal to 1 divided by square
+
+1352
+01:14:35,400 --> 01:14:41,735
+root of delta g of theta
+transpose sigma delta nabla--
+
+1353
+01:14:41,735 --> 01:14:43,030
+sorry, g of theta--
+
+1354
+01:14:45,620 --> 01:14:51,580
+then this thing should go to
+some standard normal random
+
+1355
+01:14:51,580 --> 01:14:56,890
+variable, standard
+normal distribution.
+
+1356
+01:14:56,890 --> 01:14:59,730
+I just divided by square
+root of the variance here,
+
+1357
+01:14:59,730 --> 01:15:01,410
+which is the usual thing.
+
+1358
+01:15:01,410 --> 01:15:05,580
+Now, if you do not have
+a univariate thing,
+
+1359
+01:15:05,580 --> 01:15:07,630
+you do the same
+thing we did before,
+
+1360
+01:15:07,630 --> 01:15:11,190
+which is 3 multiplied
+by the covariance matrix
+
+1361
+01:15:11,190 --> 01:15:12,820
+to the negative 1/2--
+
+1362
+01:15:12,820 --> 01:15:16,920
+so before this role was
+played by the inverse Fisher
+
+1363
+01:15:16,920 --> 01:15:18,730
+information matrix.
+
+1364
+01:15:18,730 --> 01:15:22,980
+That's why we ended up
+having i of theta to the 1/2,
+
+1365
+01:15:22,980 --> 01:15:25,830
+and now we just have this gamma,
+which is just this function
+
+1366
+01:15:25,830 --> 01:15:26,930
+that I wrote up there.
+
+1367
+01:15:26,930 --> 01:15:31,848
+That could be potentially k by
+k if g takes values into rk.
+
+1368
+01:15:31,848 --> 01:15:32,764
+Yes?
+
+1369
+01:15:32,764 --> 01:15:35,579
+AUDIENCE: [INAUDIBLE].
+
+1370
+01:15:35,579 --> 01:15:37,620
+PHILIPPE RIGOLLET: Yeah,
+the gradient of a vector
+
+1371
+01:15:37,620 --> 01:15:41,400
+is just the vector with all
+the derivatives with respect
+
+1372
+01:15:41,400 --> 01:15:42,520
+to each component, yes.
+
+1373
+01:15:45,460 --> 01:15:48,400
+So you know the word vector
+for derivatives, but not
+
+1374
+01:15:48,400 --> 01:15:49,930
+for vectors?
+
+1375
+01:15:49,930 --> 01:15:54,678
+I mean, the word gradient
+you use for one-dimensional?
+
+1376
+01:15:54,678 --> 01:15:57,163
+Yes, derivative
+in one dimension.
+
+1377
+01:16:01,150 --> 01:16:03,550
+Now, of course, here, you
+notice there's something--
+
+1378
+01:16:03,550 --> 01:16:06,700
+I actually have a
+little caveat here.
+
+1379
+01:16:06,700 --> 01:16:08,270
+I want this to have rank k.
+
+1380
+01:16:08,270 --> 01:16:10,120
+I want this to be invertible.
+
+1381
+01:16:10,120 --> 01:16:11,980
+I want this matrix
+to be invertible.
+
+1382
+01:16:11,980 --> 01:16:13,660
+Even for the Fisher
+information matrix,
+
+1383
+01:16:13,660 --> 01:16:15,280
+I sort of need it
+to be invertible.
+
+1384
+01:16:15,280 --> 01:16:16,792
+Even for the original
+theorem, that
+
+1385
+01:16:16,792 --> 01:16:18,250
+was part of my
+technical condition,
+
+1386
+01:16:18,250 --> 01:16:21,540
+just so that I could actually
+write Fisher information matrix
+
+1387
+01:16:21,540 --> 01:16:22,870
+inverse.
+
+1388
+01:16:22,870 --> 01:16:26,046
+And so here, you can make
+your life easy and just assume
+
+1389
+01:16:26,046 --> 01:16:28,420
+that it's true all the time,
+because I'm actually writing
+
+1390
+01:16:28,420 --> 01:16:29,880
+in a fairly abstract way.
+
+1391
+01:16:29,880 --> 01:16:31,380
+But in practice,
+we're going to have
+
+1392
+01:16:31,380 --> 01:16:33,390
+to check whether
+this is going to be
+
+1393
+01:16:33,390 --> 01:16:35,390
+true for specific distributions.
+
+1394
+01:16:35,390 --> 01:16:37,230
+And we will see an
+example towards the end
+
+1395
+01:16:37,230 --> 01:16:39,690
+of the chapter, the
+multinomial, where
+
+1396
+01:16:39,690 --> 01:16:42,750
+it's actually not the case
+that Fisher information
+
+1397
+01:16:42,750 --> 01:16:43,650
+matrix exists.
+
+1398
+01:16:46,170 --> 01:16:49,230
+The asymptotic covariance
+matrix, is not invertible,
+
+1399
+01:16:49,230 --> 01:16:52,849
+so it's not the inverse of
+a Fisher information matrix.
+
+1400
+01:16:52,849 --> 01:16:54,390
+Because to be the
+inverse of someone,
+
+1401
+01:16:54,390 --> 01:16:55,848
+you need to be
+invertible yourself.
+
+1402
+01:16:58,670 --> 01:17:01,910
+And so now what I can
+do is apply Slutsky.
+
+1403
+01:17:01,910 --> 01:17:06,790
+So here, what I needed to
+have is theta, the true theta.
+
+1404
+01:17:06,790 --> 01:17:10,670
+So what I can do is just
+put some theta hat in there,
+
+1405
+01:17:10,670 --> 01:17:16,490
+and so that's the gamma of
+theta hat that I see there.
+
+1406
+01:17:16,490 --> 01:17:19,684
+And if theta is true, then
+g of theta is equal to 0.
+
+1407
+01:17:19,684 --> 01:17:20,600
+That's what we assume.
+
+1408
+01:17:20,600 --> 01:17:25,970
+That was our h0, was that under
+h0 g of theta is equal to 0.
+
+1409
+01:17:25,970 --> 01:17:29,550
+So the number I need
+to plug in here,
+
+1410
+01:17:29,550 --> 01:17:31,620
+I don't need to
+replace theta here.
+
+1411
+01:17:31,620 --> 01:17:33,135
+What I need to
+replace here is 0.
+
+1412
+01:17:36,251 --> 01:17:38,000
+Now let's go back to
+what you were saying.
+
+1413
+01:17:38,000 --> 01:17:41,490
+Here you could say, let
+me try to replace 0 here,
+
+1414
+01:17:41,490 --> 01:17:42,690
+but there is no such thing.
+
+1415
+01:17:42,690 --> 01:17:43,910
+There is no g here.
+
+1416
+01:17:43,910 --> 01:17:45,530
+It's only the gradient of g.
+
+1417
+01:17:45,530 --> 01:17:50,300
+So this thing that says
+replace theta by theta 0
+
+1418
+01:17:50,300 --> 01:17:53,990
+wherever you see it
+could not work here.
+
+1419
+01:17:53,990 --> 01:17:57,050
+If g was invertible,
+I could just
+
+1420
+01:17:57,050 --> 01:18:02,780
+say that theta is equal to
+g inverse of 0 in the null
+
+1421
+01:18:02,780 --> 01:18:05,150
+and then I could
+plug in that value.
+
+1422
+01:18:05,150 --> 01:18:08,860
+But in general, it doesn't
+have to be invertible.
+
+1423
+01:18:08,860 --> 01:18:11,270
+And it might be a pain
+to invert g, even.
+
+1424
+01:18:11,270 --> 01:18:13,250
+I mean, it's not
+clear how you can
+
+1425
+01:18:13,250 --> 01:18:15,080
+invert all functions like that.
+
+1426
+01:18:15,080 --> 01:18:17,280
+And so here you just go
+with Slutsky, and you say,
+
+1427
+01:18:17,280 --> 01:18:20,690
+OK, I'm just going to
+put theta hat in there.
+
+1428
+01:18:20,690 --> 01:18:24,740
+But this guy, I know I need to
+check whether it's 0 or not.
+
+1429
+01:18:24,740 --> 01:18:27,740
+Same recipe we did for theta,
+except we do it for g of theta
+
+1430
+01:18:27,740 --> 01:18:28,240
+now.
+
+1431
+01:18:30,910 --> 01:18:34,030
+And now I have my
+asymptotic thing.
+
+1432
+01:18:34,030 --> 01:18:36,570
+I know this is a
+pivotal distribution.
+
+1433
+01:18:36,570 --> 01:18:38,100
+This might be a vector.
+
+1434
+01:18:38,100 --> 01:18:41,130
+So rather than looking
+at the matrix itself,
+
+1435
+01:18:41,130 --> 01:18:43,512
+I'm going to actually
+look at the norm--
+
+1436
+01:18:43,512 --> 01:18:44,970
+rather than looking
+at the vectors,
+
+1437
+01:18:44,970 --> 01:18:46,620
+I'm going to look at
+their square norm.
+
+1438
+01:18:46,620 --> 01:18:47,994
+That gives me a
+chi square, and I
+
+1439
+01:18:47,994 --> 01:18:51,270
+reject when my test statistic,
+which is the norm square,
+
+1440
+01:18:51,270 --> 01:18:53,700
+exceeds the quintile
+of a chi square--
+
+1441
+01:18:53,700 --> 01:18:56,490
+same as before, just
+doing on your own.
+
+1442
+01:18:56,490 --> 01:19:00,810
+Before we part ways, I wanted
+to just mention one thing, which
+
+1443
+01:19:00,810 --> 01:19:02,590
+is look at this thing.
+
+1444
+01:19:02,590 --> 01:19:08,740
+If g was of dimension 1, the
+Euclidean norm in dimension 1
+
+1445
+01:19:08,740 --> 01:19:10,760
+is just the absolute value
+of the number, right?
+
+1446
+01:19:13,730 --> 01:19:19,460
+Which means that when I am
+actually computing this,
+
+1447
+01:19:19,460 --> 01:19:22,590
+I'm looking at the square, so
+it's the square of something.
+
+1448
+01:19:22,590 --> 01:19:25,378
+So it means that this is
+the square of a Gaussian.
+
+1449
+01:19:25,378 --> 01:19:26,836
+And it's true that,
+indeed, the chi
+
+1450
+01:19:26,836 --> 01:19:28,780
+squared 1 is just the
+square of a Gaussian.
+
+1451
+01:19:31,420 --> 01:19:36,390
+Sure, this is the tautology,
+but let's look at this test now.
+
+1452
+01:19:36,390 --> 01:19:40,860
+This test was built using Wald's
+theory and some pretty heavy
+
+1453
+01:19:40,860 --> 01:19:42,150
+stuff.
+
+1454
+01:19:42,150 --> 01:19:44,460
+But now if I start looking
+at Tn and I think of it
+
+1455
+01:19:44,460 --> 01:19:47,600
+as being just the absolute value
+of this quantity over there,
+
+1456
+01:19:47,600 --> 01:19:50,970
+squared, what I'm
+really doing is
+
+1457
+01:19:50,970 --> 01:19:54,510
+I'm looking at whether the
+square of some Gaussian
+
+1458
+01:19:54,510 --> 01:20:00,250
+exceeds the quintile of a chi
+squared of 1 degree of freedom,
+
+1459
+01:20:00,250 --> 01:20:02,550
+which means that this thing
+is actually equivalent--
+
+1460
+01:20:02,550 --> 01:20:04,870
+completely equivalent--
+to the test.
+
+1461
+01:20:04,870 --> 01:20:10,740
+So if k is equal to
+1, this is completely
+
+1462
+01:20:10,740 --> 01:20:15,300
+equivalent to looking at the
+absolute value of something
+
+1463
+01:20:15,300 --> 01:20:19,260
+and check whether it's
+larger than, say, q over 2--
+
+1464
+01:20:19,260 --> 01:20:22,310
+well, than q alpha--
+
+1465
+01:20:22,310 --> 01:20:24,030
+well, that's q alpha over 2--
+
+1466
+01:20:24,030 --> 01:20:26,220
+so that the probability
+of this thing
+
+1467
+01:20:26,220 --> 01:20:27,390
+is actually equal to alpha.
+
+1468
+01:20:27,390 --> 01:20:29,937
+And that's exactly what
+we've been doing before.
+
+1469
+01:20:29,937 --> 01:20:31,770
+When we introduced tests
+in the first place,
+
+1470
+01:20:31,770 --> 01:20:33,840
+we just took absolute
+values, said, well,
+
+1471
+01:20:33,840 --> 01:20:36,180
+is the absolute value of
+a Gaussian in the limit.
+
+1472
+01:20:36,180 --> 01:20:37,420
+And so it's the same thing.
+
+1473
+01:20:37,420 --> 01:20:40,620
+So this is actually
+equivalent to the probability
+
+1474
+01:20:40,620 --> 01:20:44,170
+that the norm squared is
+larger so that the chi squared
+
+1475
+01:20:44,170 --> 01:20:45,420
+of some normal--
+
+1476
+01:20:45,420 --> 01:20:52,200
+and that's the q alpha
+of some chi squared
+
+1477
+01:20:52,200 --> 01:20:53,850
+with one degree of freedom.
+
+1478
+01:20:53,850 --> 01:20:58,350
+Those are exactly
+the two same tests.
+
+1479
+01:20:58,350 --> 01:21:00,810
+So in one dimension,
+those things just
+
+1480
+01:21:00,810 --> 01:21:03,437
+collapse into being
+one little thing,
+
+1481
+01:21:03,437 --> 01:21:05,770
+and that's because there's
+no geometry in one dimension.
+
+1482
+01:21:05,770 --> 01:21:08,820
+It's just one dimension, whereas
+if I'm in a higher dimension,
+
+1483
+01:21:08,820 --> 01:21:12,560
+then things get distorted
+and things can become weird.

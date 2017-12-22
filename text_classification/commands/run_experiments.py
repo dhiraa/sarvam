@@ -1,36 +1,62 @@
 import argparse
 import sys
 sys.path.append("../")
+import spacy
+nlp = spacy.load('en_core_web_sm')
 
 from commands.model_factory import ModelsFactory
 from commands.data_iterator_factory import DataIteratorFactory
 from commands.dataset_factory import DatasetFactory
 
+
+
 def run(opt):
 
     # Get the dataset
-    dataset = DatasetFactory(opt.dataset_name)
+    dataset = DatasetFactory.get(opt.dataset_name)
+    dataset = dataset()
+    dataset.prepare()
 
     # Get the DataIterator
-    data_iterator = DataIteratorFactory(opt.data_iterator_name)
-    data_iterator = data_iterator(opt.batch_size)
-    data_iterator.prepare(dataset.dataframe)
+    data_iterator = DataIteratorFactory.get(opt.data_iterator_name)
+    data_iterator = data_iterator(int(opt.batch_size), dataset.dataframe)
+    data_iterator.prepare()
 
-    # Get the model
     cfg, model = ModelsFactory.get(opt.model_name)
 
+    # Get the model
+    if opt.mode == "train":
+        cfg = cfg.user_config(dataframe=dataset.dataframe)
+    elif opt.mode == "retrain":
+        cfg = cfg.load(opt.model_dir)
+
+    model = model(cfg)
+
+
+    if (model.feature_type != data_iterator.feature_type):
+        raise Warning("Incompatible feature types between the model and data iterator")
+
     # Train and Evaluate
+    NUM_STEPS = dataset.dataframe.num_train_samples // int(opt.batch_size)
+
+    # Evaluate after each epoch
+    for i in range(int(opt.num_epochs)):
+        model.train(input_fn=data_iterator.train_input_fn,
+                    hooks=[data_iterator.train_input_hook],
+                    steps=i + 1 * NUM_STEPS)
+
+        model.evaluate(input_fn=data_iterator.val_input_fn, hooks=[data_iterator.val_input_hook])
 
     # Predict
+    dataset.predict_on_csv_files(data_iterator, model)
 
 
 if __name__ == "__main__":
     optparse = argparse.ArgumentParser("Run experiments on available models and datasets")
 
-    # CONLL specific preprocessing
 
     optparse.add_argument('-mode', '--mode',
-                          choices=['preprocess', 'train', "retrain", "predict"],
+                          choices=['train', "retrain", "predict"],
                           required=True,
                           help="'preprocess, 'train', 'retrain','predict'"
                           )
@@ -43,9 +69,25 @@ if __name__ == "__main__":
                           dest='predict_dir', required=False,
                           help='Model directory needed for prediction')
 
-    optparse.add_argument('-model', '--model-name', action='store',
+    optparse.add_argument('-dsn', '--dataset-name', action='store',
+                          dest='dataset_name', required=False,
+                          help='Name of the Dataset to be used')
+
+    optparse.add_argument('-din', '--data-iterator-name', action='store',
+                          dest='data_iterator_name', required=False,
+                          help='Name of the DataIterator to be used')
+
+    optparse.add_argument('-bs', '--batch-size',  type=int, action='store',
+                          dest='batch_size', required=False,
+                          help='Batch size for training, be consistent when retraining')
+
+    optparse.add_argument('-ne', '--num-epochs', type=int, action='store',
+                          dest='num_epochs', required=False,
+                          help='Number of epochs')
+
+    optparse.add_argument('-mn', '--model-name', action='store',
                           dest='model_name', required=False,
-                          help='Model directory needed for training')
+                          help='Name of the Model to be used')
 
     opt = optparse.parse_args()
     if (opt.mode == 'retrain' or opt.mode == 'predict') and not opt.model_dir:

@@ -5,14 +5,14 @@ import  os
 import spacy
 import nltk
 import pandas as pd
-from tqdm import tqdm_notebook as tqdm
+from tqdm import tqdm
 from sarvam.colorful_logger import *
 # Find how often each Category used each word
 # import en_core_web_lg
 # nlp = spacy.load('en_core_web_sm')
-global nlp
 
-def tokenize(df: pd.DataFrame, text_col):
+
+def tokenize(df: pd.DataFrame, text_col, nlp):
     '''
     In place tokenization on text column
     :param df: Pandas Dataframe
@@ -20,7 +20,7 @@ def tokenize(df: pd.DataFrame, text_col):
     :return: 
     '''
 
-    if nlp == None:
+    if not nlp:
         print_error("Do a global initilization nlp = spacy.load('en_core_web_sm')")
         raise Warning("Initialize nlp = spacy.load('en_core_web_sm')")
 
@@ -35,7 +35,8 @@ def tokenize(df: pd.DataFrame, text_col):
     df[text_col] = data
     return df
 
-def extract_lemmas(df: pd.DataFrame, text_col):
+def extract_lemmas(df: pd.DataFrame, text_col, nlp):
+
     stopwords = nltk.corpus.stopwords.words('english')
 
     def cleaning(sentence):

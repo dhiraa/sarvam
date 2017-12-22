@@ -1,0 +1,4311 @@
+1
+00:00:00,080 --> 00:00:01,800
+The following
+content is provided
+
+2
+00:00:01,800 --> 00:00:04,040
+under a Creative
+Commons license.
+
+3
+00:00:04,040 --> 00:00:06,890
+Your support will help MIT
+OpenCourseWare continue
+
+4
+00:00:06,890 --> 00:00:10,740
+to offer high quality
+educational resources for free.
+
+5
+00:00:10,740 --> 00:00:13,350
+To make a donation or
+view additional materials
+
+6
+00:00:13,350 --> 00:00:17,237
+from hundreds of MIT courses,
+visit MIT OpenCourseWare
+
+7
+00:00:17,237 --> 00:00:17,862
+at ocw.mit.edu.
+
+8
+00:00:22,272 --> 00:00:23,730
+PROFESSOR:
+Computational complexity
+
+9
+00:00:23,730 --> 00:00:27,167
+is basically about how
+hard is a problem, right?
+
+10
+00:00:27,167 --> 00:00:29,000
+There are some problems
+that are really easy
+
+11
+00:00:29,000 --> 00:00:31,310
+and some problems
+that are really hard.
+
+12
+00:00:31,310 --> 00:00:34,130
+And Eric drew this
+line on the board
+
+13
+00:00:34,130 --> 00:00:37,600
+where you have really
+easy on the left
+
+14
+00:00:37,600 --> 00:00:38,920
+and really hard on the right.
+
+15
+00:00:41,990 --> 00:00:44,630
+What's the hardest problem
+that we can possibly have?
+
+16
+00:00:47,822 --> 00:00:49,190
+AUDIENCE: It was chess, right?
+
+17
+00:00:49,190 --> 00:00:50,980
+Or something like that?
+
+18
+00:00:50,980 --> 00:00:53,784
+PROFESSOR: No, there's
+something beyond chess.
+
+19
+00:00:53,784 --> 00:00:54,950
+AUDIENCE: A halting problem?
+
+20
+00:00:54,950 --> 00:00:55,256
+PROFESSOR: Halting problem.
+
+21
+00:00:55,256 --> 00:00:55,881
+AUDIENCE: Yeah.
+
+22
+00:00:55,881 --> 00:00:56,600
+PROFESSOR: Yep.
+
+23
+00:00:56,600 --> 00:00:58,530
+Halting problem
+is somewhere here.
+
+24
+00:01:03,830 --> 00:01:08,710
+So what's the best solution
+for the halting problem?
+
+25
+00:01:08,710 --> 00:01:10,006
+Running time.
+
+26
+00:01:10,006 --> 00:01:11,755
+AUDIENCE: It is
+exponential, or something?
+
+27
+00:01:11,755 --> 00:01:13,332
+PROFESSOR: You'd wish.
+
+28
+00:01:13,332 --> 00:01:14,165
+AUDIENCE: Oh really?
+
+29
+00:01:14,165 --> 00:01:15,590
+It's not even exponential?
+
+30
+00:01:15,590 --> 00:01:17,970
+AUDIENCE: I think
+there's like no solution.
+
+31
+00:01:17,970 --> 00:01:20,470
+PROFESSOR: There is no solution
+for the halting problem.
+
+32
+00:01:20,470 --> 00:01:23,610
+No matter how much time,
+computers, and money you have,
+
+33
+00:01:23,610 --> 00:01:25,420
+you cannot solve
+the halting problem.
+
+34
+00:01:25,420 --> 00:01:27,080
+It's undesignable.
+
+35
+00:01:27,080 --> 00:01:30,617
+So this is the worst kind of
+problem you can come up with.
+
+36
+00:01:30,617 --> 00:01:32,802
+AUDIENCE: What exactly
+is the halting problem?
+
+37
+00:01:32,802 --> 00:01:35,210
+PROFESSOR: So halting
+problem is given
+
+38
+00:01:35,210 --> 00:01:38,100
+a program in any representation
+that makes sense to you,
+
+39
+00:01:38,100 --> 00:01:41,680
+machine language, CE, assembly,
+parsing tree, whatever
+
+40
+00:01:41,680 --> 00:01:46,250
+you want, decide if
+it terminates or not.
+
+41
+00:01:46,250 --> 00:01:48,080
+Sounds really simple, right?
+
+42
+00:01:48,080 --> 00:01:51,910
+Turns out there's a proof that
+says it's impossible to solve.
+
+43
+00:01:51,910 --> 00:01:54,900
+So you can't say will terminate
+or will not terminate.
+
+44
+00:01:54,900 --> 00:01:58,365
+AUDIENCE: Well, but for some
+programs, it's like while true,
+
+45
+00:01:58,365 --> 00:02:00,290
+but there's no break.
+
+46
+00:02:00,290 --> 00:02:02,251
+PROFESSOR: So Turing Machine.
+
+47
+00:02:02,251 --> 00:02:02,750
+Yeah.
+
+48
+00:02:02,750 --> 00:02:04,958
+If you have a machine where
+you're not allowed loops,
+
+49
+00:02:04,958 --> 00:02:07,331
+then it's easy to know
+what's going to happen.
+
+50
+00:02:07,331 --> 00:02:09,289
+So you need to have a
+Turing machine, something
+
+51
+00:02:09,289 --> 00:02:10,810
+that allows loops.
+
+52
+00:02:10,810 --> 00:02:12,960
+So some instances
+are easy, right?
+
+53
+00:02:12,960 --> 00:02:14,840
+But for the general
+case of you have
+
+54
+00:02:14,840 --> 00:02:18,470
+to write a program that gets
+another program and outputs
+
+55
+00:02:18,470 --> 00:02:21,550
+this bit, we don't
+know how to do that.
+
+56
+00:02:21,550 --> 00:02:24,590
+But we've proven that nobody
+will know how to do that,
+
+57
+00:02:24,590 --> 00:02:26,827
+so we're OK with it.
+
+58
+00:02:26,827 --> 00:02:27,910
+So this means undecidable.
+
+59
+00:02:30,950 --> 00:02:34,039
+We know that nobody will
+ever be able to solve this.
+
+60
+00:02:34,039 --> 00:02:36,330
+So if you're given the halting
+problem on an interview,
+
+61
+00:02:36,330 --> 00:02:38,642
+it's safe to laugh in the
+guy's face and tell them,
+
+62
+00:02:38,642 --> 00:02:40,100
+why don't you show
+me how to do it?
+
+63
+00:02:43,590 --> 00:02:46,200
+So what is better
+than undecidable?
+
+64
+00:02:46,200 --> 00:02:51,070
+There are these problems here
+that are outright impossible.
+
+65
+00:02:51,070 --> 00:02:54,056
+What's the next best thing?
+
+66
+00:02:54,056 --> 00:02:55,892
+AUDIENCE: Chess?
+
+67
+00:02:55,892 --> 00:02:57,730
+I know chess is in
+there somewhere.
+
+68
+00:02:57,730 --> 00:02:59,430
+PROFESSOR: Chess is still here.
+
+69
+00:02:59,430 --> 00:03:03,140
+There's something
+harder than that.
+
+70
+00:03:03,140 --> 00:03:05,675
+AUDIENCE: Is it R, or
+something like that?
+
+71
+00:03:05,675 --> 00:03:06,300
+PROFESSOR: Yup.
+
+72
+00:03:10,380 --> 00:03:13,020
+So this is the boundary
+for R and this whole thing
+
+73
+00:03:13,020 --> 00:03:16,350
+is R. What R?
+
+74
+00:03:16,350 --> 00:03:19,110
+R is-- so if these
+are undecidable,
+
+75
+00:03:19,110 --> 00:03:20,430
+R means decidable, right?
+
+76
+00:03:20,430 --> 00:03:25,850
+So you can write an algorithm
+that will compute the answer
+
+77
+00:03:25,850 --> 00:03:29,210
+and do that in a
+finite amount of time.
+
+78
+00:03:29,210 --> 00:03:31,490
+Will the world end before
+the algorithm ends?
+
+79
+00:03:31,490 --> 00:03:33,180
+Maybe, who knows.
+
+80
+00:03:33,180 --> 00:03:35,210
+But at least there's a
+finite amount of time,
+
+81
+00:03:35,210 --> 00:03:39,190
+so the problem can
+be solved somehow.
+
+82
+00:03:39,190 --> 00:03:40,050
+That means R.
+
+83
+00:03:40,050 --> 00:03:43,770
+AUDIENCE: R is like,
+real, like it's not.
+
+84
+00:03:43,770 --> 00:03:44,790
+PROFESSOR: Real, OK.
+
+85
+00:03:44,790 --> 00:03:47,360
+AUDIENCE: So like numbers,
+like, you know, real numbers--
+
+86
+00:03:47,360 --> 00:03:49,760
+PROFESSOR: So you know it
+actually comes from recursive,
+
+87
+00:03:49,760 --> 00:03:52,320
+because some old people
+decided that recursive
+
+88
+00:03:52,320 --> 00:03:55,820
+means it terminates
+at some point.
+
+89
+00:03:55,820 --> 00:03:59,570
+This is really old
+school stuff, 1940.
+
+90
+00:03:59,570 --> 00:04:03,350
+So R actually stands
+for recursive.
+
+91
+00:04:03,350 --> 00:04:06,710
+Just know that R
+means decidable.
+
+92
+00:04:06,710 --> 00:04:09,132
+Weird abbreviation, but oh well.
+
+93
+00:04:09,132 --> 00:04:10,780
+AUDIENCE: I'll go with real.
+
+94
+00:04:10,780 --> 00:04:12,200
+PROFESSOR: OK.
+
+95
+00:04:12,200 --> 00:04:12,830
+What's next?
+
+96
+00:04:12,830 --> 00:04:16,000
+So some problems are
+in R. All the ones
+
+97
+00:04:16,000 --> 00:04:19,230
+that we care about are in r.
+
+98
+00:04:19,230 --> 00:04:20,900
+So what's better than r?
+
+99
+00:04:20,900 --> 00:04:22,930
+R means it's going to
+terminate at some point,
+
+100
+00:04:22,930 --> 00:04:24,950
+there is a running
+time for the problem.
+
+101
+00:04:24,950 --> 00:04:26,360
+What's the better than that?
+
+102
+00:04:26,360 --> 00:04:28,180
+Exponential, OK.
+
+103
+00:04:28,180 --> 00:04:30,709
+What does exponential mean?
+
+104
+00:04:30,709 --> 00:04:31,625
+AUDIENCE: Exponential?
+
+105
+00:04:35,850 --> 00:04:36,990
+PROFESSOR: Yup.
+
+106
+00:04:36,990 --> 00:04:40,303
+So the running time
+looks like what?
+
+107
+00:04:40,303 --> 00:04:45,213
+AUDIENCE: 2 to the 10, or
+something constant to the n?
+
+108
+00:04:45,213 --> 00:04:48,480
+2 to the n of the C?
+
+109
+00:04:48,480 --> 00:04:51,030
+PROFESSOR: For some
+constant C, right?
+
+110
+00:04:51,030 --> 00:04:53,230
+So it's not just 2 to the n.
+
+111
+00:04:53,230 --> 00:04:54,930
+The moment you
+have a 2 to the n,
+
+112
+00:04:54,930 --> 00:04:56,310
+we're like, OK,
+if you're already
+
+113
+00:04:56,310 --> 00:04:58,480
+in this bad of a
+situation, I don't
+
+114
+00:04:58,480 --> 00:05:00,790
+care if this is a polynomial.
+
+115
+00:05:00,790 --> 00:05:02,982
+I don't care if it's
+an n or n to the 100,
+
+116
+00:05:02,982 --> 00:05:04,440
+you're already
+pretty much screwed,
+
+117
+00:05:04,440 --> 00:05:07,690
+you're not going to solve
+this before the world ends.
+
+118
+00:05:07,690 --> 00:05:09,979
+So that's what
+exponential means.
+
+119
+00:05:09,979 --> 00:05:11,770
+Going to solve it, but
+not before the world
+
+120
+00:05:11,770 --> 00:05:15,830
+ends for most
+practical problems.
+
+121
+00:05:15,830 --> 00:05:18,956
+What's better than exponential?
+
+122
+00:05:18,956 --> 00:05:19,914
+AUDIENCE: NP.
+
+123
+00:05:25,179 --> 00:05:26,970
+PROFESSOR: OK, and
+before we talk about NP,
+
+124
+00:05:26,970 --> 00:05:28,880
+let's talk about the
+easy case, the problems
+
+125
+00:05:28,880 --> 00:05:31,115
+that we've talked about all
+the time in the semester.
+
+126
+00:05:31,115 --> 00:05:33,238
+AUDIENCE: May I ask
+you a stupid question?
+
+127
+00:05:33,238 --> 00:05:35,867
+What does NP stand for?
+
+128
+00:05:35,867 --> 00:05:37,450
+PROFESSOR: It's not
+a stupid question.
+
+129
+00:05:37,450 --> 00:05:39,450
+It has a really hard to answer.
+
+130
+00:05:39,450 --> 00:05:43,830
+So the one-sentence
+answer is NP stands
+
+131
+00:05:43,830 --> 00:05:45,700
+for non deterministic binomial.
+
+132
+00:05:45,700 --> 00:05:48,251
+And we're going to go
+over that at some point
+
+133
+00:05:48,251 --> 00:05:49,250
+in the next few minutes.
+
+134
+00:06:04,480 --> 00:06:06,760
+OK, so what problems
+have we talked about?
+
+135
+00:06:06,760 --> 00:06:08,810
+All the terms, except
+for one problem,
+
+136
+00:06:08,810 --> 00:06:11,042
+for the knapsack
+problem, the entire term
+
+137
+00:06:11,042 --> 00:06:12,625
+we talked about some
+sort of problems.
+
+138
+00:06:15,770 --> 00:06:16,410
+Polynomial.
+
+139
+00:06:16,410 --> 00:06:20,270
+These are the
+reasonably easy ones.
+
+140
+00:06:20,270 --> 00:06:32,830
+So polynomial problems are those
+where t of n is n to the C,
+
+141
+00:06:32,830 --> 00:06:34,640
+so it's a binomial.
+
+142
+00:06:34,640 --> 00:06:38,420
+The running time is a binomial
+in terms of the input sites.
+
+143
+00:06:38,420 --> 00:06:40,050
+Why does this matter?
+
+144
+00:06:40,050 --> 00:06:42,930
+If you have a
+polynomial algorithm,
+
+145
+00:06:42,930 --> 00:06:48,260
+than if you double the
+input, then the running time
+
+146
+00:06:48,260 --> 00:06:52,870
+is going to be 2 to
+the C times n to the C.
+
+147
+00:06:52,870 --> 00:06:54,460
+So every time you
+double the input,
+
+148
+00:06:54,460 --> 00:06:57,510
+the running time will
+increase by a constant factor.
+
+149
+00:06:57,510 --> 00:07:00,510
+And you know what that is.
+
+150
+00:07:00,510 --> 00:07:04,320
+If your problem is exponential,
+then if you double the input,
+
+151
+00:07:04,320 --> 00:07:08,180
+then the running time
+increases quadratically.
+
+152
+00:07:08,180 --> 00:07:09,990
+It's not a linear increase.
+
+153
+00:07:09,990 --> 00:07:11,185
+Here it's a linear increase.
+
+154
+00:07:14,890 --> 00:07:17,710
+The factor isn't 2, but it's
+still a linear increase.
+
+155
+00:07:20,610 --> 00:07:22,230
+Make sense?
+
+156
+00:07:22,230 --> 00:07:24,210
+So that's why we like
+these problems, at least
+
+157
+00:07:24,210 --> 00:07:27,900
+we like them more
+than anything else.
+
+158
+00:07:27,900 --> 00:07:30,360
+So polynomial problems
+are the nice and easy ones
+
+159
+00:07:30,360 --> 00:07:33,740
+that we've talked about so far.
+
+160
+00:07:33,740 --> 00:07:35,770
+What does NP stand for?
+
+161
+00:07:35,770 --> 00:07:39,257
+Give me a practical definition.
+
+162
+00:07:39,257 --> 00:07:40,882
+AUDIENCE: You can
+check it [INAUDIBLE].
+
+163
+00:07:46,350 --> 00:07:49,015
+PROFESSOR: OK, so NP means
+that we can write the verifier.
+
+164
+00:07:52,660 --> 00:07:56,540
+I'm going to say exactly what
+you said with different words.
+
+165
+00:07:56,540 --> 00:07:58,440
+That takes a solution
+to the problem.
+
+166
+00:08:04,420 --> 00:08:09,150
+And of course, it has to
+think the input to the problem
+
+167
+00:08:09,150 --> 00:08:13,590
+and tells us is it correct
+or is it not correct.
+
+168
+00:08:16,430 --> 00:08:20,280
+And this very fire is NP.
+
+169
+00:08:20,280 --> 00:08:22,020
+So the very fire runs
+in polynomial time.
+
+170
+00:08:27,160 --> 00:08:27,660
+Yes.
+
+171
+00:08:30,800 --> 00:08:35,350
+So if the verifier runs
+in polynomial time,
+
+172
+00:08:35,350 --> 00:08:38,070
+what's the solution size
+and what's the input size?
+
+173
+00:08:42,282 --> 00:08:46,000
+AUDIENCE: I think the-- I mean,
+the solution said it's like 01,
+
+174
+00:08:46,000 --> 00:08:47,889
+right?
+
+175
+00:08:47,889 --> 00:08:49,555
+PROFESSOR: If we have
+decision problems.
+
+176
+00:08:52,520 --> 00:08:54,460
+An algorithm that
+solves an NP problem.
+
+177
+00:08:54,460 --> 00:08:56,700
+If you run it
+against the verifier,
+
+178
+00:08:56,700 --> 00:09:01,060
+also has to convince you
+that its answer is correct.
+
+179
+00:09:01,060 --> 00:09:04,420
+So the problems that we
+talked about in class
+
+180
+00:09:04,420 --> 00:09:06,750
+were decidability problems
+where you have to say,
+
+181
+00:09:06,750 --> 00:09:08,000
+is it possible to do this?
+
+182
+00:09:08,000 --> 00:09:09,414
+Yes or no.
+
+183
+00:09:09,414 --> 00:09:10,830
+When you have a
+verifier with you,
+
+184
+00:09:10,830 --> 00:09:13,750
+then you have to output a string
+that convinces the verifier
+
+185
+00:09:13,750 --> 00:09:16,710
+that your answer is correct.
+
+186
+00:09:16,710 --> 00:09:18,650
+So like if you
+have a problem that
+
+187
+00:09:18,650 --> 00:09:23,970
+says-- if you have three
+sets, for example-- that says,
+
+188
+00:09:23,970 --> 00:09:29,380
+given a logical expression, can
+you assign variable values such
+
+189
+00:09:29,380 --> 00:09:31,090
+that the expression is true?
+
+190
+00:09:31,090 --> 00:09:32,950
+If I say yes, what
+does that mean?
+
+191
+00:09:32,950 --> 00:09:34,060
+That means nothing.
+
+192
+00:09:34,060 --> 00:09:37,140
+How do I convince you
+that my answer is correct?
+
+193
+00:09:37,140 --> 00:09:39,970
+I will have to give you
+the assignment, right?
+
+194
+00:09:39,970 --> 00:09:42,960
+And then you can verify
+in polynomial time
+
+195
+00:09:42,960 --> 00:09:46,580
+if my answer is right or not.
+
+196
+00:09:46,580 --> 00:09:49,240
+So the input to the
+verifier, this solution,
+
+197
+00:09:49,240 --> 00:09:51,570
+is not necessarily the decision.
+
+198
+00:09:51,570 --> 00:09:52,990
+It's not just the
+bit, yes or no.
+
+199
+00:09:56,720 --> 00:09:59,400
+So if the verifier runs
+in polynomial time,
+
+200
+00:09:59,400 --> 00:10:01,600
+what's true about
+the problem input
+
+201
+00:10:01,600 --> 00:10:03,880
+and what's true about
+the problem output which
+
+202
+00:10:03,880 --> 00:10:05,340
+becomes an input
+to the verifier?
+
+203
+00:10:12,440 --> 00:10:14,270
+They have to be
+polynomial in size.
+
+204
+00:10:14,270 --> 00:10:15,990
+Otherwise, my
+algorithm wouldn't be
+
+205
+00:10:15,990 --> 00:10:17,510
+able to consume
+them fast enough.
+
+206
+00:10:21,840 --> 00:10:26,980
+So actually, polynomial
+means that the running time
+
+207
+00:10:26,980 --> 00:10:28,970
+is polynomial in the input size.
+
+208
+00:10:28,970 --> 00:10:31,440
+So the input size is
+automatically all set.
+
+209
+00:10:31,440 --> 00:10:34,650
+But the solution has to be
+polynomial in the input size
+
+210
+00:10:34,650 --> 00:10:35,150
+as well.
+
+211
+00:10:50,222 --> 00:10:51,930
+And if you're thinking
+decision problems,
+
+212
+00:10:51,930 --> 00:10:54,100
+you can be more rigorous
+and call this a proof.
+
+213
+00:11:04,740 --> 00:11:08,750
+So if this proof is
+binomial in the input size,
+
+214
+00:11:08,750 --> 00:11:12,450
+then if I'm really,
+really lucky,
+
+215
+00:11:12,450 --> 00:11:14,500
+I can take the
+input to a problem,
+
+216
+00:11:14,500 --> 00:11:18,950
+and I can flip coins and use
+the corn results as bits,
+
+217
+00:11:18,950 --> 00:11:22,420
+and put them together,
+and create the proof.
+
+218
+00:11:22,420 --> 00:11:27,150
+If I'm really, really lucky,
+I'll get the right proof.
+
+219
+00:11:27,150 --> 00:11:29,180
+Chances of that
+happening almost zero,
+
+220
+00:11:29,180 --> 00:11:33,080
+but if I'm really, really lucky,
+conceptually I can get a proof.
+
+221
+00:11:33,080 --> 00:11:37,750
+This is what a non-deterministic
+polynomial means.
+
+222
+00:11:37,750 --> 00:11:40,170
+It means that if you have
+a magical machine where
+
+223
+00:11:40,170 --> 00:11:44,590
+you can flip a coin, and
+it will always be lucky,
+
+224
+00:11:44,590 --> 00:11:47,550
+then you can output the
+proof in polynomial time.
+
+225
+00:11:53,170 --> 00:11:54,040
+So far so good?
+
+226
+00:11:57,830 --> 00:12:02,430
+So this definition of a machine
+that can flip random bits
+
+227
+00:12:02,430 --> 00:12:06,630
+is really useful, because we can
+use it to build a common sense
+
+228
+00:12:06,630 --> 00:12:08,850
+proof that P is not NP.
+
+229
+00:12:08,850 --> 00:12:11,870
+There is no real rigorous
+math proof that P's not NP.
+
+230
+00:12:11,870 --> 00:12:14,036
+That's worth a million dollars.
+
+231
+00:12:14,036 --> 00:12:16,220
+There is no proof
+that P equals NP.
+
+232
+00:12:16,220 --> 00:12:19,030
+If you have proof
+that P equals NP, then
+
+233
+00:12:19,030 --> 00:12:20,610
+that's worth a lot more.
+
+234
+00:12:20,610 --> 00:12:23,010
+And I will use that in
+the common sense proof
+
+235
+00:12:23,010 --> 00:12:26,660
+that I'm going to show you now.
+
+236
+00:12:26,660 --> 00:12:33,450
+So we don't know if P is NP--
+get it right-- if P is NP
+
+237
+00:12:33,450 --> 00:12:37,000
+or if P is not NP.
+
+238
+00:12:37,000 --> 00:12:41,380
+This is an open problem, and
+there's at least $1 million
+
+239
+00:12:41,380 --> 00:12:44,140
+worth of prize money for it.
+
+240
+00:12:47,090 --> 00:12:49,880
+Let's talk about
+an algorithm where
+
+241
+00:12:49,880 --> 00:12:51,630
+if you would know--
+so if you would
+
+242
+00:12:51,630 --> 00:12:55,620
+be able to solve NP
+problems in polynomial time,
+
+243
+00:12:55,620 --> 00:12:59,090
+you would be able to
+make a lot of money.
+
+244
+00:12:59,090 --> 00:13:00,960
+A million dollars
+is nothing compared
+
+245
+00:13:00,960 --> 00:13:02,904
+to what you could make
+if you could do that.
+
+246
+00:13:02,904 --> 00:13:04,570
+So I'm going to use
+that to convince you
+
+247
+00:13:04,570 --> 00:13:07,996
+that nobody knows how to
+solve NP problems in P time.
+
+248
+00:13:13,620 --> 00:13:15,460
+Suppose you want to do
+something really bad.
+
+249
+00:13:15,460 --> 00:13:18,370
+Suppose you want to
+impersonate a bank.
+
+250
+00:13:18,370 --> 00:13:21,280
+So you guys probably
+imagine that banks nowadays
+
+251
+00:13:21,280 --> 00:13:22,710
+don't transfer
+money to each other
+
+252
+00:13:22,710 --> 00:13:26,410
+by sending trucks
+with gold bars.
+
+253
+00:13:26,410 --> 00:13:29,200
+They do that every once in
+awhile, but most of the time
+
+254
+00:13:29,200 --> 00:13:31,620
+the transfers happen very
+quickly over the internet.
+
+255
+00:13:31,620 --> 00:13:33,180
+So banks have a
+secure connection,
+
+256
+00:13:33,180 --> 00:13:35,766
+and they say, yo, give
+me a billion dollars.
+
+257
+00:13:35,766 --> 00:13:37,390
+I'll give it back to
+you in a few days.
+
+258
+00:13:37,390 --> 00:13:37,889
+Sure.
+
+259
+00:13:37,889 --> 00:13:39,320
+Done deal.
+
+260
+00:13:39,320 --> 00:13:40,820
+Now imagine what
+you could do if you
+
+261
+00:13:40,820 --> 00:13:43,490
+could impersonate
+one of those banks.
+
+262
+00:13:43,490 --> 00:13:47,310
+Sweet happy life in some
+faraway place, right?
+
+263
+00:13:50,160 --> 00:13:52,790
+What would it take to
+impersonate another bank?
+
+264
+00:13:52,790 --> 00:13:58,680
+It turns out that the
+encryption algorithm that
+
+265
+00:13:58,680 --> 00:14:02,420
+use to secure this links
+is an algorithm called RSA.
+
+266
+00:14:02,420 --> 00:14:04,070
+Do you guys remember that?
+
+267
+00:14:04,070 --> 00:14:04,920
+Heard about it?
+
+268
+00:14:10,560 --> 00:14:14,530
+So in RSA, each
+party-- so each bank
+
+269
+00:14:14,530 --> 00:14:17,450
+has a secret key that
+consists of two numbers--
+
+270
+00:14:17,450 --> 00:14:20,540
+P and Q-- big prime numbers.
+
+271
+00:14:23,530 --> 00:14:28,584
+And say each of these
+are N-bit prime numbers.
+
+272
+00:14:28,584 --> 00:14:30,000
+And then they have
+a probably key.
+
+273
+00:14:30,000 --> 00:14:31,650
+So they have a
+number that announce
+
+274
+00:14:31,650 --> 00:14:37,110
+that is N equals
+P times Q. So this
+
+275
+00:14:37,110 --> 00:14:39,010
+is announced to
+the entire world.
+
+276
+00:14:39,010 --> 00:14:39,850
+This is public.
+
+277
+00:14:42,047 --> 00:14:43,880
+We went through this
+[INAUDIBLE] set, right?
+
+278
+00:14:43,880 --> 00:14:46,610
+So this rings a bell.
+
+279
+00:14:46,610 --> 00:14:50,070
+They have to announce this
+so that the other people can
+
+280
+00:14:50,070 --> 00:14:52,490
+encrypt messages for them.
+
+281
+00:14:52,490 --> 00:14:54,942
+If you want someone else to
+be able to send you a message,
+
+282
+00:14:54,942 --> 00:14:56,150
+you have to tell them your n.
+
+283
+00:15:00,510 --> 00:15:03,270
+Now if you know P and Q,
+you can decrypt messages.
+
+284
+00:15:03,270 --> 00:15:06,650
+So you can pretend
+you're the bank.
+
+285
+00:15:06,650 --> 00:15:09,050
+Now let's set up a
+problem in this way.
+
+286
+00:15:11,630 --> 00:15:16,460
+Given a verifier that
+does long division--
+
+287
+00:15:16,460 --> 00:15:22,740
+so we have a verifier that
+the verifiers input is N,
+
+288
+00:15:22,740 --> 00:15:28,530
+and some guess P,
+P guess, right?
+
+289
+00:15:28,530 --> 00:15:33,260
+So the verifier will
+compute N modulo P.
+
+290
+00:15:33,260 --> 00:15:38,050
+And if N modulo P is 0,
+then it will say happy.
+
+291
+00:15:38,050 --> 00:15:41,280
+Actually, it will say,
+you're rich as hell.
+
+292
+00:15:41,280 --> 00:15:45,040
+If it's not 0, then well,
+tough luck, try again.
+
+293
+00:15:49,040 --> 00:15:51,540
+So if you could make
+this verifier happy,
+
+294
+00:15:51,540 --> 00:15:58,820
+you could get P. So
+given public information,
+
+295
+00:15:58,820 --> 00:16:00,790
+you could get the
+private information that
+
+296
+00:16:00,790 --> 00:16:03,700
+would allow you to
+impersonate the bank.
+
+297
+00:16:03,700 --> 00:16:05,620
+This is called a factoring
+problem by the way.
+
+298
+00:16:14,520 --> 00:16:20,480
+So P and N are
+usually 1024 bits.
+
+299
+00:16:20,480 --> 00:16:23,220
+So the chances of doing
+that with a coin flip, no.
+
+300
+00:16:25,810 --> 00:16:34,800
+The chances of guessing it
+are one in two to the 1024--
+
+301
+00:16:34,800 --> 00:16:36,610
+it's basically worse
+than having to pick
+
+302
+00:16:36,610 --> 00:16:39,128
+a random atom in the universe
+and choosing the right one.
+
+303
+00:16:41,880 --> 00:16:44,770
+So not going to happen.
+
+304
+00:16:44,770 --> 00:16:47,640
+But if you had an algorithm
+that takes a verifier
+
+305
+00:16:47,640 --> 00:16:52,480
+and produces an input
+that makes it happy,
+
+306
+00:16:52,480 --> 00:16:56,570
+then you would
+solve this problem,
+
+307
+00:16:56,570 --> 00:16:58,326
+and you would
+impersonate the bank,
+
+308
+00:16:58,326 --> 00:16:59,700
+and you would
+become really rich,
+
+309
+00:16:59,700 --> 00:17:02,660
+and then the whole
+world's economic system
+
+310
+00:17:02,660 --> 00:17:05,059
+would be in a
+terrible situation.
+
+311
+00:17:09,079 --> 00:17:13,588
+AUDIENCE: P and Q
+are primes, right?
+
+312
+00:17:13,588 --> 00:17:18,079
+So couldn't you just
+find all the primes?
+
+313
+00:17:18,079 --> 00:17:22,930
+PROFESSOR: Well, so look at
+it from this perspective,
+
+314
+00:17:22,930 --> 00:17:25,589
+the economic system
+still functions.
+
+315
+00:17:25,589 --> 00:17:29,870
+It's not like everyone's
+money disappeared somewhere.
+
+316
+00:17:29,870 --> 00:17:34,310
+Therefore, nobody was
+able to pull this off.
+
+317
+00:17:34,310 --> 00:17:36,700
+AUDIENCE: Isn't there a
+quantum algorithm to do it
+
+318
+00:17:36,700 --> 00:17:40,009
+or that's something different?
+
+319
+00:17:40,009 --> 00:17:41,800
+PROFESSOR: So this
+assumes Turing machines.
+
+320
+00:17:41,800 --> 00:17:43,870
+We're assuming regular
+Turing machines.
+
+321
+00:17:43,870 --> 00:17:47,340
+A quantum computer
+breaks that abstraction.
+
+322
+00:17:47,340 --> 00:17:50,300
+For practical purposes, if
+you had a quantum computer
+
+323
+00:17:50,300 --> 00:17:52,210
+that can manipulate
+this many bits.
+
+324
+00:17:52,210 --> 00:17:55,020
+Then you would break RSA, and
+the world would go to hell.
+
+325
+00:17:55,020 --> 00:17:58,410
+So hopefully by the time quantum
+computers get this powerful,
+
+326
+00:17:58,410 --> 00:18:03,080
+we'll invent new security
+algorithms that replace them.
+
+327
+00:18:03,080 --> 00:18:07,140
+But the fact that eCommerce
+works now and that banks work
+
+328
+00:18:07,140 --> 00:18:10,500
+means that nobody
+is able to solve
+
+329
+00:18:10,500 --> 00:18:13,860
+NP problems in polynomial time.
+
+330
+00:18:13,860 --> 00:18:18,830
+So by the way, factoring is not
+the hardest type of NP problem.
+
+331
+00:18:18,830 --> 00:18:20,230
+Factoring is somewhere here.
+
+332
+00:18:34,381 --> 00:18:34,880
+OK.
+
+333
+00:18:34,880 --> 00:18:36,130
+Any questions about this part?
+
+334
+00:18:36,130 --> 00:18:39,540
+AUDIENCE: So factoring
+is not an NP problem?
+
+335
+00:18:39,540 --> 00:18:41,400
+PROFESSOR: Factoring
+is NP, but it's not
+
+336
+00:18:41,400 --> 00:18:43,470
+the most difficult
+type of NP problem.
+
+337
+00:18:43,470 --> 00:18:45,110
+We'll get to those right now.
+
+338
+00:18:48,210 --> 00:18:50,850
+So this is a common sense
+proof not the math proof
+
+339
+00:18:50,850 --> 00:18:56,340
+that NP is not P--
+that at least nobody
+
+340
+00:18:56,340 --> 00:19:01,250
+knows how to solve NP
+problems in polynomial time.
+
+341
+00:19:01,250 --> 00:19:05,940
+So there are these NP problems
+that if you think about it,
+
+342
+00:19:05,940 --> 00:19:08,180
+the solution is
+polynomial in size.
+
+343
+00:19:08,180 --> 00:19:10,800
+We can write a verifier
+in polynomial time.
+
+344
+00:19:10,800 --> 00:19:14,820
+So why can't we write the
+solver in polynomial time?
+
+345
+00:19:14,820 --> 00:19:17,930
+If you're a very high picture
+guy like managerial type,
+
+346
+00:19:17,930 --> 00:19:19,970
+then you might think,
+yeah why, can't you guys
+
+347
+00:19:19,970 --> 00:19:21,230
+just figure this out?
+
+348
+00:19:21,230 --> 00:19:23,170
+Like come up with an algorithm.
+
+349
+00:19:23,170 --> 00:19:25,132
+Isn't that what you guys do?
+
+350
+00:19:25,132 --> 00:19:26,840
+Well, so theory people
+have been thinking
+
+351
+00:19:26,840 --> 00:19:29,080
+about this for 40 years or more.
+
+352
+00:19:29,080 --> 00:19:31,080
+So what do you do when
+you think about something
+
+353
+00:19:31,080 --> 00:19:32,663
+and you can't come
+up with a solution?
+
+354
+00:19:35,210 --> 00:19:36,802
+AUDIENCE: Say it's impossible?
+
+355
+00:19:36,802 --> 00:19:38,760
+PROFESSOR: You try to
+say that it's impossible.
+
+356
+00:19:38,760 --> 00:19:41,840
+So you try to prove
+that P is not NP.
+
+357
+00:19:41,840 --> 00:19:46,250
+But if you fail to do that
+too, what do you do next?
+
+358
+00:19:46,250 --> 00:19:47,625
+AUDIENCE: Offer
+a million dollars
+
+359
+00:19:47,625 --> 00:19:48,987
+to someone who can do it.
+
+360
+00:19:48,987 --> 00:19:49,820
+PROFESSOR: That too.
+
+361
+00:19:49,820 --> 00:19:50,486
+That might help.
+
+362
+00:19:50,486 --> 00:19:52,010
+That might help.
+
+363
+00:19:52,010 --> 00:19:54,476
+Well, you complain that it's
+really, really hard, right?
+
+364
+00:19:54,476 --> 00:19:56,100
+You want to go back
+to your boss or you
+
+365
+00:19:56,100 --> 00:19:58,782
+want to go back to the world,
+and say, we thought about this.
+
+366
+00:19:58,782 --> 00:20:00,990
+It is true that with thought
+about it for four years,
+
+367
+00:20:00,990 --> 00:20:04,680
+but it's a really,
+really hard problem.
+
+368
+00:20:04,680 --> 00:20:06,649
+Well, so for
+undecidable problems--
+
+369
+00:20:06,649 --> 00:20:08,190
+so for the whole
+thing problems, they
+
+370
+00:20:08,190 --> 00:20:10,810
+are able to convince the world
+that nobody can solve this,
+
+371
+00:20:10,810 --> 00:20:12,950
+so we're all good.
+
+372
+00:20:12,950 --> 00:20:15,880
+So we couldn't come up with a
+solution, because nobody can.
+
+373
+00:20:15,880 --> 00:20:20,040
+Here, we can't prove
+that P is not NP yet.
+
+374
+00:20:20,040 --> 00:20:22,990
+So instead the next best
+thing that theory people
+
+375
+00:20:22,990 --> 00:20:25,770
+could come up with
+is-- they saw,
+
+376
+00:20:25,770 --> 00:20:28,972
+what are the hardest
+kind of NP problems?
+
+377
+00:20:28,972 --> 00:20:31,180
+Let's look at them and let's
+see if we can solve them
+
+378
+00:20:31,180 --> 00:20:32,590
+in some way.
+
+379
+00:20:32,590 --> 00:20:34,390
+And they found
+some problems here
+
+380
+00:20:34,390 --> 00:20:36,760
+that are the
+hardest NP problems.
+
+381
+00:20:36,760 --> 00:20:39,570
+And they called them
+NP-complete problems.
+
+382
+00:20:39,570 --> 00:20:41,236
+And we'll see why
+complete in a bit.
+
+383
+00:20:48,530 --> 00:20:50,960
+So these are the hardest NP
+problems that you can have.
+
+384
+00:20:50,960 --> 00:20:52,820
+Factoring is not one of them.
+
+385
+00:20:52,820 --> 00:20:54,890
+Factoring is not
+with the cool kids,
+
+386
+00:20:54,890 --> 00:20:56,530
+even though it
+would make you rich.
+
+387
+00:20:56,530 --> 00:20:59,030
+There are some problems
+that are harder than that.
+
+388
+00:20:59,030 --> 00:21:01,130
+OK so for these
+NP-complete problems,
+
+389
+00:21:01,130 --> 00:21:03,740
+turns out there are a
+few hundred of them that
+
+390
+00:21:03,740 --> 00:21:06,122
+would have practical
+implications.
+
+391
+00:21:06,122 --> 00:21:08,080
+So you wouldn't be able
+to get rich right away,
+
+392
+00:21:08,080 --> 00:21:10,350
+but still you'd be able to
+solved the important problems
+
+393
+00:21:10,350 --> 00:21:12,058
+that would save
+companies a lot of money.
+
+394
+00:21:12,058 --> 00:21:14,380
+So you think, if
+there's a solution
+
+395
+00:21:14,380 --> 00:21:16,580
+someone would come up with it.
+
+396
+00:21:16,580 --> 00:21:19,700
+It also turns out that
+they're all interrelated.
+
+397
+00:21:19,700 --> 00:21:22,842
+So if you can solve one problem,
+you can solve all of them.
+
+398
+00:21:22,842 --> 00:21:24,300
+And you do that
+through reductions,
+
+399
+00:21:24,300 --> 00:21:26,540
+which we'll go over in a bit.
+
+400
+00:21:26,540 --> 00:21:30,690
+But the bottom line
+is there are hundreds
+
+401
+00:21:30,690 --> 00:21:32,640
+of NP-complete problems.
+
+402
+00:21:38,990 --> 00:21:42,960
+And if you solve one, then
+you solved everything.
+
+403
+00:21:50,904 --> 00:21:52,570
+For now theory people
+are trying to say,
+
+404
+00:21:52,570 --> 00:21:55,330
+look there are all
+these problems.
+
+405
+00:21:55,330 --> 00:21:57,980
+If anyone would solve
+any of them, all of them
+
+406
+00:21:57,980 --> 00:21:58,700
+would go away.
+
+407
+00:21:58,700 --> 00:22:00,830
+Nobody was able to
+solve any of them,
+
+408
+00:22:00,830 --> 00:22:03,340
+so they must be
+really, really hard.
+
+409
+00:22:03,340 --> 00:22:05,700
+This is the best they
+could come up with.
+
+410
+00:22:05,700 --> 00:22:06,855
+This is NP complete.
+
+411
+00:22:10,221 --> 00:22:12,720
+AUDIENCE: This is same lecture
+that you-- any problem that's
+
+412
+00:22:12,720 --> 00:22:16,124
+already [INAUDIBLE] transform
+it into a different problem?
+
+413
+00:22:16,124 --> 00:22:16,790
+PROFESSOR: Yeah.
+
+414
+00:22:16,790 --> 00:22:19,010
+So if you have the
+solution for one of them,
+
+415
+00:22:19,010 --> 00:22:22,090
+you could transform all the
+other ones into that problem
+
+416
+00:22:22,090 --> 00:22:24,590
+just like we do with
+graph transformations,
+
+417
+00:22:24,590 --> 00:22:29,050
+solve it, use the solution for
+it to solve all the other ones.
+
+418
+00:22:29,050 --> 00:22:32,230
+So if anyone could solve any
+of those hundreds of problems,
+
+419
+00:22:32,230 --> 00:22:36,220
+we'd have the solution to
+all of them in an instant.
+
+420
+00:22:36,220 --> 00:22:38,310
+The fact that we don't
+have a solution to them
+
+421
+00:22:38,310 --> 00:22:41,752
+means that nobody was
+able to solve any of them.
+
+422
+00:22:41,752 --> 00:22:45,230
+AUDIENCE: Like there are some
+problems like the chess problem
+
+423
+00:22:45,230 --> 00:22:47,299
+that can be solved
+exponential time.
+
+424
+00:22:47,299 --> 00:22:48,590
+PROFESSOR: Those are different.
+
+425
+00:22:48,590 --> 00:22:49,958
+Chess is here.
+
+426
+00:22:49,958 --> 00:22:53,660
+AUDIENCE: So we can solve
+chess though, right?
+
+427
+00:22:53,660 --> 00:22:57,030
+It's just exponential time.
+
+428
+00:22:57,030 --> 00:22:58,932
+Right?
+
+429
+00:22:58,932 --> 00:23:01,390
+PROFESSOR: As far as I know,
+because it's exponential time,
+
+430
+00:23:01,390 --> 00:23:03,740
+there's no algorithm
+that can actually
+
+431
+00:23:03,740 --> 00:23:07,130
+look at the entire configuration
+space, and tell if you can win
+
+432
+00:23:07,130 --> 00:23:07,630
+or not.
+
+433
+00:23:10,290 --> 00:23:12,580
+So solving chess, what's chess?
+
+434
+00:23:12,580 --> 00:23:15,220
+Chess has given a board.
+
+435
+00:23:15,220 --> 00:23:18,270
+Can I win or not
+from this board?
+
+436
+00:23:18,270 --> 00:23:20,130
+This would be very
+useful in playing chess,
+
+437
+00:23:20,130 --> 00:23:21,838
+because you start with
+the initial board,
+
+438
+00:23:21,838 --> 00:23:23,470
+and then for every
+move you can make,
+
+439
+00:23:23,470 --> 00:23:25,136
+you look at the
+resulting board, and you
+
+440
+00:23:25,136 --> 00:23:27,780
+say can I win or
+not from that board.
+
+441
+00:23:27,780 --> 00:23:29,890
+If you're in a board
+configuration in which you
+
+442
+00:23:29,890 --> 00:23:31,960
+can win, you don't want
+to go to a configuration
+
+443
+00:23:31,960 --> 00:23:34,310
+where you won't be
+able to win anymore.
+
+444
+00:23:34,310 --> 00:23:36,940
+So if you keep doing
+this you eventually win.
+
+445
+00:23:36,940 --> 00:23:40,340
+So it would be really nice
+to have this algorithm.
+
+446
+00:23:40,340 --> 00:23:42,360
+Yeah, we don't have it.
+
+447
+00:23:42,360 --> 00:23:44,430
+We don't have it and
+chess is unsolved.
+
+448
+00:23:44,430 --> 00:23:44,930
+Wait.
+
+449
+00:23:44,930 --> 00:23:47,180
+AUDIENCE: So only things
+that are below P--
+
+450
+00:23:47,180 --> 00:23:49,785
+but there are some algorithms
+that run in exponential time.
+
+451
+00:23:49,785 --> 00:23:53,010
+They just take longer.
+
+452
+00:23:53,010 --> 00:23:55,540
+PROFESSOR: So the problem
+is what's the input size?
+
+453
+00:23:55,540 --> 00:23:57,090
+Exponential in what?
+
+454
+00:23:57,090 --> 00:23:59,630
+If it's going to be-- if the
+running time is 2 to the n,
+
+455
+00:23:59,630 --> 00:24:02,540
+and it's 10, then that's fine.
+
+456
+00:24:02,540 --> 00:24:05,130
+But for chess its exponential
+in the board configuration.
+
+457
+00:24:05,130 --> 00:24:07,610
+And it turns out that there's
+so many board configurations
+
+458
+00:24:07,610 --> 00:24:10,410
+that we don't have
+computers fast
+
+459
+00:24:10,410 --> 00:24:12,040
+enough to solve the whole thing.
+
+460
+00:24:12,040 --> 00:24:14,750
+So deep blue goes to
+a level-- to a depth
+
+461
+00:24:14,750 --> 00:24:18,640
+I think of somewhere around
+15 and can barely competes
+
+462
+00:24:18,640 --> 00:24:21,230
+with humans, but it's not
+guaranteed to win all the time.
+
+463
+00:24:21,230 --> 00:24:25,362
+So we don't have something that
+has completely solved chess.
+
+464
+00:24:25,362 --> 00:24:28,560
+AUDIENCE: So we can only
+solve things below P then.
+
+465
+00:24:28,560 --> 00:24:30,780
+PROFESSOR: We can only
+solve things below P
+
+466
+00:24:30,780 --> 00:24:33,082
+fast, reasonably fast.
+
+467
+00:24:33,082 --> 00:24:34,540
+So what we care
+about in this class
+
+468
+00:24:34,540 --> 00:24:36,140
+is how do our algorithm scale.
+
+469
+00:24:36,140 --> 00:24:38,400
+So do we have this or not?
+
+470
+00:24:38,400 --> 00:24:41,460
+Does your algorithm
+scale or not?
+
+471
+00:24:41,460 --> 00:24:44,600
+The reason we don't like
+algorithms that are after this
+
+472
+00:24:44,600 --> 00:24:49,750
+is that for problem sizes that
+are really small like 8, 10,
+
+473
+00:24:49,750 --> 00:24:52,700
+or something small,
+they're going to work.
+
+474
+00:24:52,700 --> 00:24:56,510
+But the moment the problem
+gets bigger and bigger,
+
+475
+00:24:56,510 --> 00:24:58,506
+you're going to run
+into a dead end.
+
+476
+00:24:58,506 --> 00:25:01,612
+AUDIENCE: Well, can
+you use DP on chess?
+
+477
+00:25:01,612 --> 00:25:03,070
+PROFESSOR: You can
+use DP until you
+
+478
+00:25:03,070 --> 00:25:06,240
+get to an exponential algorithm.
+
+479
+00:25:06,240 --> 00:25:08,030
+You might get to an
+exponential algorithm
+
+480
+00:25:08,030 --> 00:25:10,280
+where the exponent is better.
+
+481
+00:25:10,280 --> 00:25:12,480
+So far all the smart
+algorithms for chess
+
+482
+00:25:12,480 --> 00:25:15,380
+have reduced the
+c here, but they
+
+483
+00:25:15,380 --> 00:25:19,630
+haven't been able to get
+away from 2 to the n part.
+
+484
+00:25:19,630 --> 00:25:21,920
+If you make c smaller, sure
+it's going to run faster,
+
+485
+00:25:21,920 --> 00:25:23,878
+and you can explore a
+bigger part of the board.
+
+486
+00:25:23,878 --> 00:25:26,120
+But you're still not
+going to be able to run
+
+487
+00:25:26,120 --> 00:25:29,870
+through the whole thing
+before the world ends.
+
+488
+00:25:29,870 --> 00:25:31,690
+That's a good thing
+to think about.
+
+489
+00:25:31,690 --> 00:25:33,684
+Will we solve chess
+before the world
+
+490
+00:25:33,684 --> 00:25:35,600
+ends with the current
+algorithms and machines?
+
+491
+00:25:35,600 --> 00:25:38,420
+No.
+
+492
+00:25:38,420 --> 00:25:39,830
+AUDIENCE: I guess.
+
+493
+00:25:39,830 --> 00:25:41,920
+Remember the Rubik's cube?
+
+494
+00:25:41,920 --> 00:25:47,310
+Wasn't that bordering
+exponential or something?
+
+495
+00:25:47,310 --> 00:25:51,830
+I think Eric said that there
+is order one solution where
+
+496
+00:25:51,830 --> 00:25:53,450
+the constant factor
+is really high.
+
+497
+00:25:53,450 --> 00:25:55,250
+So that's different.
+
+498
+00:25:55,250 --> 00:26:00,830
+raises I think Tetris is
+here, but the Rubik's cube--
+
+499
+00:26:00,830 --> 00:26:02,290
+AUDIENCE: It's in
+the P, isn't it?
+
+500
+00:26:02,290 --> 00:26:02,790
+Yeah.
+
+501
+00:26:02,790 --> 00:26:04,290
+PROFESSOR: There's
+a solution that's
+
+502
+00:26:04,290 --> 00:26:06,670
+order one with a high
+constant [INAUDIBLE].
+
+503
+00:26:06,670 --> 00:26:09,322
+AUDIENCE: But our
+brains can play chess.
+
+504
+00:26:09,322 --> 00:26:10,030
+PROFESSOR: Sorry?
+
+505
+00:26:10,030 --> 00:26:10,529
+Our brains--
+
+506
+00:26:10,529 --> 00:26:12,030
+AUDIENCE: We can play chess.
+
+507
+00:26:12,030 --> 00:26:13,905
+PROFESSOR: Well, we can
+play reasonably well,
+
+508
+00:26:13,905 --> 00:26:15,580
+but if someone could
+play optimally,
+
+509
+00:26:15,580 --> 00:26:17,540
+they'd probably beat you.
+
+510
+00:26:17,540 --> 00:26:20,435
+Yeah.
+
+511
+00:26:20,435 --> 00:26:23,928
+AUDIENCE: Can someone
+play optimally?
+
+512
+00:26:23,928 --> 00:26:26,423
+[INAUDIBLE]
+
+513
+00:26:26,423 --> 00:26:30,230
+AUDIENCE: What about
+machine learning?
+
+514
+00:26:30,230 --> 00:26:34,180
+PROFESSOR: Machine learning
+problems are usually here.
+
+515
+00:26:34,180 --> 00:26:35,880
+That's why they don't
+scale, and that's
+
+516
+00:26:35,880 --> 00:26:38,230
+why we've seen a lot of
+interesting machine learning,
+
+517
+00:26:38,230 --> 00:26:43,104
+but so far I can't talk
+to my computer right.
+
+518
+00:26:43,104 --> 00:26:44,520
+They can't make a
+lot of progress,
+
+519
+00:26:44,520 --> 00:26:46,895
+because they have these really
+hard problems that they're
+
+520
+00:26:46,895 --> 00:26:49,470
+working on.
+
+521
+00:26:49,470 --> 00:26:50,940
+AUDIENCE: There's Siri, right.
+
+522
+00:26:50,940 --> 00:26:52,900
+You can talk to Siri.
+
+523
+00:26:52,900 --> 00:26:54,420
+PROFESSOR: Yeah OK.
+
+524
+00:26:54,420 --> 00:26:55,280
+Sure.
+
+525
+00:26:55,280 --> 00:26:57,230
+I think I've seen
+on the Internet
+
+526
+00:26:57,230 --> 00:26:59,400
+that it says some
+awful things sometimes.
+
+527
+00:26:59,400 --> 00:27:03,220
+So I wouldn't
+consider that solved.
+
+528
+00:27:03,220 --> 00:27:07,920
+So what does NP mean to
+us like practical terms?
+
+529
+00:27:07,920 --> 00:27:12,040
+Here's how I see it, you're
+on an exam or in an interview,
+
+530
+00:27:12,040 --> 00:27:14,100
+you start out with a problem.
+
+531
+00:27:14,100 --> 00:27:16,330
+Suppose all the
+possible problems
+
+532
+00:27:16,330 --> 00:27:19,030
+are a graph, because
+we work with graphs.
+
+533
+00:27:19,030 --> 00:27:20,324
+You have your starting problem.
+
+534
+00:27:20,324 --> 00:27:22,490
+This Is the problem that
+you're trying to solve now.
+
+535
+00:27:25,290 --> 00:27:28,200
+Then you have a few
+destination nodes.
+
+536
+00:27:28,200 --> 00:27:30,786
+Say you have merge sort.
+
+537
+00:27:30,786 --> 00:27:31,660
+We know how to solve.
+
+538
+00:27:31,660 --> 00:27:34,950
+If you can reduce your
+problem to merge sort,
+
+539
+00:27:34,950 --> 00:27:36,612
+then you're in a good position.
+
+540
+00:27:36,612 --> 00:27:37,820
+You're writing your solution.
+
+541
+00:27:37,820 --> 00:27:39,740
+You're out of the room.
+
+542
+00:27:39,740 --> 00:27:42,710
+If you can reduce your problem
+to a graph search algorithm,
+
+543
+00:27:42,710 --> 00:27:46,270
+so to BFS or DFS, you're done.
+
+544
+00:27:46,270 --> 00:27:50,350
+If you can reduce it to
+shortest path, you're happy.
+
+545
+00:27:50,350 --> 00:27:51,690
+You're done.
+
+546
+00:27:51,690 --> 00:27:54,080
+If you can reduce it to a
+dynamic programming problem
+
+547
+00:27:54,080 --> 00:27:56,650
+that we understand, you're done.
+
+548
+00:27:56,650 --> 00:28:00,090
+If you can somehow use hashing
+or use divide and conquer
+
+549
+00:28:00,090 --> 00:28:03,310
+with an algorithm that we
+studied, you're also happy.
+
+550
+00:28:03,310 --> 00:28:06,257
+So we have all these
+destination points.
+
+551
+00:28:06,257 --> 00:28:07,840
+And what you're
+trying to do is you're
+
+552
+00:28:07,840 --> 00:28:11,885
+trying to get from here all
+the way to here via reductions.
+
+553
+00:28:15,440 --> 00:28:18,430
+So suppose you see
+three reductions
+
+554
+00:28:18,430 --> 00:28:19,754
+that you could possibly do.
+
+555
+00:28:22,409 --> 00:28:24,450
+You don't have time to
+work on all three of them,
+
+556
+00:28:24,450 --> 00:28:26,310
+so let's say you
+choose the middle one,
+
+557
+00:28:26,310 --> 00:28:28,594
+because this one seems
+like it's the easiest one.
+
+558
+00:28:28,594 --> 00:28:30,010
+So I'm going to
+guess that this is
+
+559
+00:28:30,010 --> 00:28:31,456
+the easiest one I can tackle.
+
+560
+00:28:31,456 --> 00:28:32,830
+So now I'm going
+to work on this.
+
+561
+00:28:32,830 --> 00:28:34,663
+I'm going to put the
+original problem aside.
+
+562
+00:28:34,663 --> 00:28:38,490
+And I'm going to say if I can
+solve this, then I'm happy.
+
+563
+00:28:38,490 --> 00:28:42,470
+Now say this turns into
+three more reductions.
+
+564
+00:28:42,470 --> 00:28:46,027
+And this one looks promising.
+
+565
+00:28:46,027 --> 00:28:46,860
+it's a hard problem.
+
+566
+00:28:46,860 --> 00:28:48,193
+You have to do a few reductions.
+
+567
+00:28:48,193 --> 00:28:49,690
+It doesn't work right away.
+
+568
+00:28:49,690 --> 00:28:51,820
+But say I take this one
+which looks promising,
+
+569
+00:28:51,820 --> 00:28:55,610
+and I'm able to reduce
+it to a happy problem.
+
+570
+00:28:55,610 --> 00:28:57,380
+Reduction, reduction, reduction.
+
+571
+00:28:57,380 --> 00:28:58,550
+I write this up.
+
+572
+00:28:58,550 --> 00:29:00,840
+I'm done.
+
+573
+00:29:00,840 --> 00:29:04,304
+Exam solved or interview
+question solved.
+
+574
+00:29:04,304 --> 00:29:05,720
+Now the problem
+is what if instead
+
+575
+00:29:05,720 --> 00:29:08,540
+of going on this path which
+is reasonably happy, what if I
+
+576
+00:29:08,540 --> 00:29:12,080
+go on a path that
+looks like this?
+
+577
+00:29:12,080 --> 00:29:14,760
+All the reductions that
+I can see from there
+
+578
+00:29:14,760 --> 00:29:17,280
+go really, really far
+away from the problems
+
+579
+00:29:17,280 --> 00:29:21,190
+that I know how to solve.
+
+580
+00:29:21,190 --> 00:29:23,460
+Well you're going to
+try some reductions,
+
+581
+00:29:23,460 --> 00:29:25,790
+and eventually you're
+going to run out of time.
+
+582
+00:29:25,790 --> 00:29:27,940
+And this other interviewer
+is going to say, yeah,
+
+583
+00:29:27,940 --> 00:29:30,000
+do you have any
+questions about us?
+
+584
+00:29:30,000 --> 00:29:34,060
+Or the exam people will be like,
+hey, can we have the exam back?
+
+585
+00:29:34,060 --> 00:29:36,040
+We want to go home now.
+
+586
+00:29:36,040 --> 00:29:38,420
+So this is a bad outcome.
+
+587
+00:29:38,420 --> 00:29:42,990
+Up until now, all you had
+was good destination points.
+
+588
+00:29:42,990 --> 00:29:45,330
+So this is where
+you want to reach.
+
+589
+00:29:45,330 --> 00:29:49,230
+Now we have these NP-complete
+problems that we know are hard.
+
+590
+00:29:49,230 --> 00:29:52,230
+I've convinced you
+hopefully that their hard.
+
+591
+00:29:52,230 --> 00:29:54,250
+So if you know some
+NP-complete problems,
+
+592
+00:29:54,250 --> 00:29:56,420
+you also have some landmines.
+
+593
+00:29:56,420 --> 00:29:58,670
+You have some places
+where if you got there
+
+594
+00:29:58,670 --> 00:30:03,220
+via reductions, not a good path.
+
+595
+00:30:03,220 --> 00:30:06,190
+You want to backtrack and
+think of something else.
+
+596
+00:30:06,190 --> 00:30:13,300
+So for example if this
+was an NP-complete problem
+
+597
+00:30:13,300 --> 00:30:17,360
+like if this reduction
+then was, oh yeah,
+
+598
+00:30:17,360 --> 00:30:20,310
+solve [INAUDIBLE]
+in polynomial time.
+
+599
+00:30:20,310 --> 00:30:21,060
+Let's see.
+
+600
+00:30:21,060 --> 00:30:22,260
+I don't know how to do that.
+
+601
+00:30:22,260 --> 00:30:23,600
+The world tried really hard.
+
+602
+00:30:23,600 --> 00:30:26,430
+Maybe I shouldn't try
+this avenue on the exam.
+
+603
+00:30:26,430 --> 00:30:28,255
+So if you know that
+this is NP-complete.
+
+604
+00:30:28,255 --> 00:30:29,260
+You stop right there.
+
+605
+00:30:29,260 --> 00:30:30,480
+You don't waste anymore time.
+
+606
+00:30:33,690 --> 00:30:34,970
+So this isn't time wasted.
+
+607
+00:30:38,740 --> 00:30:42,520
+If you understand NP-complete,
+and you read the CLRS chapter
+
+608
+00:30:42,520 --> 00:30:43,760
+on NP-complete problems.
+
+609
+00:30:43,760 --> 00:30:47,230
+Then you also have
+some sad faces here.
+
+610
+00:30:47,230 --> 00:30:51,550
+You have some land mines and
+you know not to go there.
+
+611
+00:30:51,550 --> 00:30:54,250
+So now your space that
+you're looking through
+
+612
+00:30:54,250 --> 00:30:57,336
+is a lot more bonded.
+
+613
+00:30:57,336 --> 00:30:59,710
+Hopefully, you're going to
+have better chances of finding
+
+614
+00:30:59,710 --> 00:31:02,700
+a happy path, because not only
+you have some destinations,
+
+615
+00:31:02,700 --> 00:31:06,870
+but you have some places that
+you know you shouldn't go to.
+
+616
+00:31:06,870 --> 00:31:09,510
+So this is the point
+of NP-complete.
+
+617
+00:31:09,510 --> 00:31:11,840
+You're probably really
+busy at the end of the term
+
+618
+00:31:11,840 --> 00:31:13,940
+as we all are, so I'm
+guessing you're not
+
+619
+00:31:13,940 --> 00:31:18,190
+going to have time to read
+CLRS beyond what we really
+
+620
+00:31:18,190 --> 00:31:19,930
+ask you to read now.
+
+621
+00:31:19,930 --> 00:31:22,700
+But after you're done,
+do yourself a favor.
+
+622
+00:31:22,700 --> 00:31:24,910
+For the sake of your
+future interviews
+
+623
+00:31:24,910 --> 00:31:28,180
+and general happy
+programming life,
+
+624
+00:31:28,180 --> 00:31:31,370
+read the NP-complete
+chapter in CLRS.
+
+625
+00:31:31,370 --> 00:31:34,352
+Read the problem statements
+and understand them.
+
+626
+00:31:34,352 --> 00:31:35,560
+Don't worry about the proofs.
+
+627
+00:31:35,560 --> 00:31:38,500
+Don't worry about the reductions
+that say their NP-complete.
+
+628
+00:31:38,500 --> 00:31:39,490
+Read the statements.
+
+629
+00:31:39,490 --> 00:31:42,230
+Believe CLRS that
+it's NP-complete.
+
+630
+00:31:42,230 --> 00:31:44,630
+And remember that whenever
+you solve a problem,
+
+631
+00:31:44,630 --> 00:31:46,880
+you want to stay
+away from those.
+
+632
+00:31:46,880 --> 00:31:48,940
+So those will be your landmines.
+
+633
+00:31:48,940 --> 00:31:50,710
+Those will be your sad spots.
+
+634
+00:31:50,710 --> 00:31:52,660
+Guaranteed, after you
+do that, your interviews
+
+635
+00:31:52,660 --> 00:31:55,450
+will go a lot better,
+because you'll
+
+636
+00:31:55,450 --> 00:31:56,790
+be faster at solving problems.
+
+637
+00:31:56,790 --> 00:31:58,331
+And that's what we
+really care about.
+
+638
+00:32:01,620 --> 00:32:05,960
+So that's why NP-complete
+is relevant in real life.
+
+639
+00:32:05,960 --> 00:32:07,688
+It gives us these data points.
+
+640
+00:32:11,350 --> 00:32:11,850
+Makes sense?
+
+641
+00:32:18,430 --> 00:32:21,430
+All right, I want to talk about
+one NP complete problem that's
+
+642
+00:32:21,430 --> 00:32:22,560
+really important.
+
+643
+00:32:22,560 --> 00:32:23,550
+And that is SAT.
+
+644
+00:32:27,400 --> 00:32:29,466
+So SAT means satisfiability.
+
+645
+00:32:36,500 --> 00:32:38,970
+So given the logical
+expression, find some values
+
+646
+00:32:38,970 --> 00:32:42,050
+for the variables
+that make it true.
+
+647
+00:32:42,050 --> 00:32:45,430
+Let me grab an
+example from here.
+
+648
+00:32:45,430 --> 00:32:47,210
+So in SAT your
+expressions come out
+
+649
+00:32:47,210 --> 00:32:50,910
+in a really nice form, so
+parsing isn't a big deal.
+
+650
+00:32:50,910 --> 00:32:52,530
+The way they come
+out is there a bunch
+
+651
+00:32:52,530 --> 00:32:54,500
+of terms separated by AND.
+
+652
+00:32:54,500 --> 00:33:00,860
+So your expressions
+look like this-- and,
+
+653
+00:33:00,860 --> 00:33:07,610
+and, and-- say we
+have four terms.
+
+654
+00:33:07,610 --> 00:33:10,110
+These look good.
+
+655
+00:33:10,110 --> 00:33:15,580
+So you have some
+terms, say n terms,
+
+656
+00:33:15,580 --> 00:33:17,410
+and they're all
+separated by ANDs.
+
+657
+00:33:17,410 --> 00:33:20,100
+This is a term.
+
+658
+00:33:20,100 --> 00:33:23,830
+In a term you have
+variables separated by ORs.
+
+659
+00:33:23,830 --> 00:33:24,560
+Nothing else.
+
+660
+00:33:24,560 --> 00:33:27,590
+Just either the
+variable or a variable
+
+661
+00:33:27,590 --> 00:33:29,750
+with a NOT in front of it.
+
+662
+00:33:29,750 --> 00:33:55,600
+So say x1 OR NOT x2, NOT x1 OR
+x4, NOT x3 or x4, and X2 OR X4.
+
+663
+00:33:55,600 --> 00:33:59,050
+So this is called the
+Conjuntive Normal Form, CNF.
+
+664
+00:34:01,756 --> 00:34:05,610
+The reason this is really
+nice to work with is-- OK,
+
+665
+00:34:05,610 --> 00:34:08,460
+you just have some
+variables here.
+
+666
+00:34:08,460 --> 00:34:10,690
+You know that these
+are all joined by AND,
+
+667
+00:34:10,690 --> 00:34:12,900
+so you're going to have to
+make all these terms true.
+
+668
+00:34:16,420 --> 00:34:17,830
+And then you have ORs inside.
+
+669
+00:34:17,830 --> 00:34:19,940
+So you know that for
+every term, at least one
+
+670
+00:34:19,940 --> 00:34:22,699
+of the things inside
+the term has to be true.
+
+671
+00:34:22,699 --> 00:34:25,007
+And that's it.
+
+672
+00:34:25,007 --> 00:34:25,840
+This is the problem.
+
+673
+00:34:25,840 --> 00:34:27,810
+This is SAT.
+
+674
+00:34:27,810 --> 00:34:29,080
+You have n terms.
+
+675
+00:34:29,080 --> 00:34:33,790
+And then the number of variables
+that you have inside is k.
+
+676
+00:34:33,790 --> 00:34:37,529
+So you have at most k
+variables in a term.
+
+677
+00:34:42,120 --> 00:34:44,830
+This k looks like
+a constant factor.
+
+678
+00:34:44,830 --> 00:34:46,510
+But it's so important
+that in fact it
+
+679
+00:34:46,510 --> 00:34:48,020
+shows up in the
+name of the problem.
+
+680
+00:34:51,400 --> 00:34:53,449
+The problem is called k-SAT.
+
+681
+00:34:53,449 --> 00:34:57,630
+And there are two
+values of k for which
+
+682
+00:34:57,630 --> 00:34:58,910
+the problem is important.
+
+683
+00:34:58,910 --> 00:35:06,030
+There's 2-SAT,
+and there's 3-SAT.
+
+684
+00:35:06,030 --> 00:35:08,330
+2-SAT is polynomial.
+
+685
+00:35:08,330 --> 00:35:11,460
+We have a solution that runs
+in order and time in fact.
+
+686
+00:35:11,460 --> 00:35:12,060
+Really good.
+
+687
+00:35:17,868 --> 00:35:20,288
+AUDIENCE: But you're
+saying that to make--
+
+688
+00:35:20,288 --> 00:35:23,240
+you're actually rearranging
+things or you're just--
+
+689
+00:35:23,240 --> 00:35:27,090
+PROFESSOR: So I have to come
+up with values for x1, x2, x3,
+
+690
+00:35:27,090 --> 00:35:30,290
+and four, so that the
+whole thing is true.
+
+691
+00:35:30,290 --> 00:35:32,130
+And the expression
+is already arranged
+
+692
+00:35:32,130 --> 00:35:36,000
+in this nice form for you.
+
+693
+00:35:36,000 --> 00:35:38,049
+AUDIENCE: It's just--
+it seems like order
+
+694
+00:35:38,049 --> 00:35:40,215
+and, because you're just
+evaluating to block, right?
+
+695
+00:35:40,215 --> 00:35:42,608
+PROFESSOR: Well, no, you have
+to come up with the values.
+
+696
+00:35:42,608 --> 00:35:43,572
+AUDIENCE: Oh, I know.
+
+697
+00:35:43,572 --> 00:35:44,072
+I know.
+
+698
+00:35:44,072 --> 00:35:44,572
+But like--
+
+699
+00:35:44,572 --> 00:35:46,610
+PROFESSOR: OK and this
+seems really easy, right?
+
+700
+00:35:46,610 --> 00:35:47,640
+Well, wait for it.
+
+701
+00:35:47,640 --> 00:35:48,830
+Wait for it.
+
+702
+00:35:48,830 --> 00:35:51,270
+2-SAT is polynomial.
+
+703
+00:35:51,270 --> 00:35:53,230
+3-SAT is NP-complete.
+
+704
+00:35:58,210 --> 00:36:01,730
+So if you solve it, you're
+in turn for a Turing reward,
+
+705
+00:36:01,730 --> 00:36:05,730
+or you can become
+really, really rich.
+
+706
+00:36:05,730 --> 00:36:08,200
+So n-SAT can be
+reduced to 3-SAT.
+
+707
+00:36:12,530 --> 00:36:14,450
+So for anything
+bigger than three,
+
+708
+00:36:14,450 --> 00:36:18,950
+n-SAT can be reduced to 3-SAT
+using reasonable reduction.
+
+709
+00:36:18,950 --> 00:36:21,930
+So the input size
+won't explode too much.
+
+710
+00:36:25,280 --> 00:36:27,290
+So why is this important.
+
+711
+00:36:27,290 --> 00:36:30,700
+This basically shows us
+that 3-SAT is NP-complete.
+
+712
+00:36:30,700 --> 00:36:34,630
+And I can make a
+three-minute proof
+
+713
+00:36:34,630 --> 00:36:36,260
+that 3-SAT is NP-complete.
+
+714
+00:36:38,780 --> 00:36:42,040
+Let's take that verifier
+guy that we have there.
+
+715
+00:36:42,040 --> 00:36:44,480
+A verifier wants the
+input, which already have
+
+716
+00:36:44,480 --> 00:36:45,950
+and the proof.
+
+717
+00:36:45,950 --> 00:36:49,110
+Let's write the
+verifier as a circuit
+
+718
+00:36:49,110 --> 00:36:53,550
+that takes the input
+and the proof as bits.
+
+719
+00:36:53,550 --> 00:36:55,120
+Those are input to the circuit.
+
+720
+00:36:55,120 --> 00:36:58,370
+The circuit is going to
+evaluate to true or false.
+
+721
+00:36:58,370 --> 00:37:00,950
+Now that we have a circuit,
+it's easy to turn that
+
+722
+00:37:00,950 --> 00:37:02,980
+into a logical expression.
+
+723
+00:37:02,980 --> 00:37:09,420
+Turn AND gate and OR gate
+into-- and ANDs and ORs,
+
+724
+00:37:09,420 --> 00:37:12,365
+and then reduce N-SAT to
+3-SAT and get one of these.
+
+725
+00:37:15,240 --> 00:37:18,510
+If you can solve
+3-SAT, then you can
+
+726
+00:37:18,510 --> 00:37:21,551
+compute values for
+the proof bits.
+
+727
+00:37:21,551 --> 00:37:22,050
+Bam.
+
+728
+00:37:22,050 --> 00:37:22,925
+That's it.
+
+729
+00:37:26,440 --> 00:37:33,210
+So I take the verifier and
+I turn it into a circuit.
+
+730
+00:37:36,710 --> 00:37:38,750
+The circuit is all logic gates.
+
+731
+00:37:38,750 --> 00:37:47,770
+And then it has some inputs,
+the original problem input
+
+732
+00:37:47,770 --> 00:37:50,580
+and the proof.
+
+733
+00:37:50,580 --> 00:37:52,417
+These are represented
+as a series of bits,
+
+734
+00:37:52,417 --> 00:37:54,000
+and they're all
+inputs in the circuit.
+
+735
+00:38:00,300 --> 00:38:03,290
+If the algorithm
+is polynomial time,
+
+736
+00:38:03,290 --> 00:38:08,760
+then the circuit also has to be
+polynomial in the input size.
+
+737
+00:38:08,760 --> 00:38:11,010
+Proof already has to be
+polynomial in the input size,
+
+738
+00:38:11,010 --> 00:38:11,760
+so we're all good.
+
+739
+00:38:11,760 --> 00:38:14,600
+We're all in polynomial world.
+
+740
+00:38:14,600 --> 00:38:17,682
+Now we take this
+circuit, and we turn it
+
+741
+00:38:17,682 --> 00:38:18,765
+into a logical expression.
+
+742
+00:38:23,780 --> 00:38:32,360
+Sorry not logical, logic, also
+known as a Boolean expression.
+
+743
+00:38:32,360 --> 00:38:34,670
+So the input bits become
+Boolean variables,
+
+744
+00:38:34,670 --> 00:38:38,370
+and then we express gates as
+Boolean functions-- AND, OR,
+
+745
+00:38:38,370 --> 00:38:40,000
+NOT, whatever we want.
+
+746
+00:38:40,000 --> 00:38:41,875
+And this is going to
+give us some expression.
+
+747
+00:38:44,490 --> 00:38:50,210
+That expression is going to map
+to N-SAT for some value of n.
+
+748
+00:38:50,210 --> 00:38:52,280
+So then we're going to
+take this expression,
+
+749
+00:38:52,280 --> 00:38:54,160
+and we're going to
+reduce it to 3-SAT.
+
+750
+00:38:57,840 --> 00:39:00,610
+So actually we're going to
+reduce the expression to 3-CNF
+
+751
+00:39:00,610 --> 00:39:02,840
+and then run 3-SAT on it.
+
+752
+00:39:02,840 --> 00:39:05,900
+The expression will
+be reduced to 3-CNF.
+
+753
+00:39:05,900 --> 00:39:07,570
+So to something that
+looks like this,
+
+754
+00:39:07,570 --> 00:39:11,280
+except you have three
+variables inside everything.
+
+755
+00:39:11,280 --> 00:39:14,310
+Once it's in 3-CNF, you
+can run 3-SAT on it.
+
+756
+00:39:18,110 --> 00:39:20,340
+If it is satisfiable,
+then 3-SAT has
+
+757
+00:39:20,340 --> 00:39:25,640
+to give us some values
+here for the variables.
+
+758
+00:39:25,640 --> 00:39:29,370
+Some of the variables are
+the problem input-- Sorry
+
+759
+00:39:29,370 --> 00:39:31,470
+the problem input gets
+hard coded in the circuit.
+
+760
+00:39:31,470 --> 00:39:31,969
+Sorry.
+
+761
+00:39:31,969 --> 00:39:39,580
+Not thinking here--
+hard coded in circuit,
+
+762
+00:39:39,580 --> 00:39:42,560
+because we don't want it to
+tell us what the input is.
+
+763
+00:39:42,560 --> 00:39:44,740
+And then the proof is
+encoded as a series
+
+764
+00:39:44,740 --> 00:39:48,511
+of bits, which are
+inputs in the circuit.
+
+765
+00:39:48,511 --> 00:39:49,010
+OK.
+
+766
+00:39:49,010 --> 00:39:53,210
+So problem hard coded, proofs
+are inputs in the circuit.
+
+767
+00:39:53,210 --> 00:39:56,150
+We've taken the circuits, turned
+it into an input for 3-SAT.
+
+768
+00:39:56,150 --> 00:40:02,610
+If 3-SAT says there is a
+valid variable assignment,
+
+769
+00:40:02,610 --> 00:40:05,630
+then that assignment tells me
+what the bits are in the proof.
+
+770
+00:40:08,210 --> 00:40:11,830
+So that means I can take the
+proof, feed it to the verifier.
+
+771
+00:40:11,830 --> 00:40:13,430
+The verifier will
+say it's happy,
+
+772
+00:40:13,430 --> 00:40:15,650
+so we solved the problem.
+
+773
+00:40:15,650 --> 00:40:18,600
+And this is true for
+any NP-complete problem.
+
+774
+00:40:18,600 --> 00:40:20,810
+NP-complete means it has
+to have a verifier that
+
+775
+00:40:20,810 --> 00:40:22,180
+runs in polynomial time.
+
+776
+00:40:22,180 --> 00:40:25,070
+So I have to be able
+to follow this process.
+
+777
+00:40:25,070 --> 00:40:26,990
+So for the factoring
+problem, for example, I
+
+778
+00:40:26,990 --> 00:40:30,080
+would take this
+modulo algorithm,
+
+779
+00:40:30,080 --> 00:40:32,050
+I would express it as a circuit.
+
+780
+00:40:32,050 --> 00:40:34,800
+The bits of P
+would be the input.
+
+781
+00:40:34,800 --> 00:40:38,760
+I take that circuit and I turn
+into a 3-CNF formula, run it
+
+782
+00:40:38,760 --> 00:40:40,840
+on 3-SAT.
+
+783
+00:40:40,840 --> 00:40:45,050
+The variable values for
+which the circuit happy
+
+784
+00:40:45,050 --> 00:40:48,150
+are the bits of P that make up.
+
+785
+00:40:48,150 --> 00:40:51,790
+So they're the bits of P.
+They make up a factor of n.
+
+786
+00:40:51,790 --> 00:40:54,690
+So if I can run 3-SAT fast
+enough to get an answer,
+
+787
+00:40:54,690 --> 00:40:57,960
+then I have P and
+I have factor of n.
+
+788
+00:40:57,960 --> 00:41:01,120
+And I've become really, really
+rich, and bye guys, I'm gone.
+
+789
+00:41:05,854 --> 00:41:07,520
+AUDIENCE: For each
+of those expressions,
+
+790
+00:41:07,520 --> 00:41:09,620
+you said you make
+that circuit n.
+
+791
+00:41:09,620 --> 00:41:11,090
+You've got all
+these inputs, which
+
+792
+00:41:11,090 --> 00:41:13,730
+are x1, x2,
+everything like that.
+
+793
+00:41:13,730 --> 00:41:17,730
+Could you just go through
+every possible combination?
+
+794
+00:41:17,730 --> 00:41:19,790
+PROFESSOR: That's
+exponential, right?
+
+795
+00:41:19,790 --> 00:41:24,550
+That's two to the n, where
+n is number of variables.
+
+796
+00:41:24,550 --> 00:41:26,440
+And the number of
+variables can be
+
+797
+00:41:26,440 --> 00:41:29,016
+proportional to the
+number of terms.
+
+798
+00:41:29,016 --> 00:41:29,962
+AUDIENCE: Yeah.
+
+799
+00:41:29,962 --> 00:41:31,275
+That would be fine with it.
+
+800
+00:41:31,275 --> 00:41:32,650
+PROFESSOR: So that
+means you have
+
+801
+00:41:32,650 --> 00:41:33,900
+an exponential running time.
+
+802
+00:41:33,900 --> 00:41:36,090
+It's not polynomial,
+which is reassuring,
+
+803
+00:41:36,090 --> 00:41:39,880
+because otherwise it would mean
+that the whole world has been
+
+804
+00:41:39,880 --> 00:41:42,610
+spinning their wheels around
+nothing all this time, right?
+
+805
+00:41:42,610 --> 00:41:44,030
+So it's reassuring
+that you can't
+
+806
+00:41:44,030 --> 00:41:46,071
+find the solution in two
+minutes to this problem.
+
+807
+00:41:49,580 --> 00:41:51,580
+In fact, so far I've been
+trying to convince you
+
+808
+00:41:51,580 --> 00:41:53,080
+that you should not
+attempt to solve
+
+809
+00:41:53,080 --> 00:41:56,520
+this problem in real
+time, so not on exam time,
+
+810
+00:41:56,520 --> 00:41:59,347
+not on [INAUDIBLE] time,
+nor anywhere else where time
+
+811
+00:41:59,347 --> 00:42:00,055
+actually matters.
+
+812
+00:42:04,130 --> 00:42:05,602
+You guys bored?
+
+813
+00:42:05,602 --> 00:42:06,880
+Maybe.
+
+814
+00:42:06,880 --> 00:42:09,410
+Well, so there's
+this proof that's
+
+815
+00:42:09,410 --> 00:42:12,830
+not too hard to follow that
+says that if you solve 3-SAT
+
+816
+00:42:12,830 --> 00:42:15,180
+you have solved any
+NP-complete problem by turning
+
+817
+00:42:15,180 --> 00:42:18,380
+the verifier into a
+logical expression.
+
+818
+00:42:18,380 --> 00:42:20,280
+That's what it comes down to.
+
+819
+00:42:20,280 --> 00:42:22,062
+Now 2-SAT is polynomial.
+
+820
+00:42:22,062 --> 00:42:24,270
+And if you guys want, we
+can go through the solution.
+
+821
+00:42:24,270 --> 00:42:26,460
+If not, we can skip that.
+
+822
+00:42:26,460 --> 00:42:29,530
+But this tiny difference
+here, how many variables
+
+823
+00:42:29,530 --> 00:42:31,290
+you're allowed
+inside, which looks
+
+824
+00:42:31,290 --> 00:42:34,180
+like it might be a constant
+factor in an algorithm
+
+825
+00:42:34,180 --> 00:42:38,300
+actually makes the difference
+between a very easy problem,
+
+826
+00:42:38,300 --> 00:42:42,570
+a problem that's in P, and
+the hardest problem in NP.
+
+827
+00:42:42,570 --> 00:42:45,400
+So 2-SAT is order n,
+so it's somewhere here.
+
+828
+00:42:51,960 --> 00:42:53,530
+3-SAT is all the way here.
+
+829
+00:43:02,401 --> 00:43:04,150
+Small difference how
+many variables you're
+
+830
+00:43:04,150 --> 00:43:06,417
+allowed, two or three.
+
+831
+00:43:06,417 --> 00:43:08,000
+Makes all the
+difference in the world.
+
+832
+00:43:14,552 --> 00:43:19,719
+AUDIENCE: There are logic
+reductions you can make, right?
+
+833
+00:43:19,719 --> 00:43:21,510
+PROFESSOR: There are
+optimizations that you
+
+834
+00:43:21,510 --> 00:43:22,130
+can make.
+
+835
+00:43:22,130 --> 00:43:24,620
+And there are some
+people who do research
+
+836
+00:43:24,620 --> 00:43:28,820
+on how to solve 3-SAT in
+a reasonably fast time.
+
+837
+00:43:28,820 --> 00:43:30,580
+Because if you solve
+3-SAT, any problem
+
+838
+00:43:30,580 --> 00:43:34,990
+can be reduced to 3-SAT.
+
+839
+00:43:34,990 --> 00:43:37,770
+All right, we have a feeling
+that we're not going to be able
+
+840
+00:43:37,770 --> 00:43:39,360
+to solve this in
+polynomial time,
+
+841
+00:43:39,360 --> 00:43:42,560
+because a lot of people tried,
+but some researchers are hoping
+
+842
+00:43:42,560 --> 00:43:46,910
+that well maybe you can solve
+3-SAT in order of 2 to the n
+
+843
+00:43:46,910 --> 00:43:53,330
+to the power of 0.00001,
+which exponential, right?
+
+844
+00:43:53,330 --> 00:43:58,620
+But you can solve many
+problems with this.
+
+845
+00:43:58,620 --> 00:44:03,114
+Active research, so far I don't
+think they've come very far.
+
+846
+00:44:03,114 --> 00:44:05,030
+Actually, I shouldn't
+say that, because if you
+
+847
+00:44:05,030 --> 00:44:06,571
+apply the brute
+force algorithm, then
+
+848
+00:44:06,571 --> 00:44:10,400
+you die at about 20 variables.
+
+849
+00:44:10,400 --> 00:44:13,790
+State of the art 3-SAT
+solving algorithms,
+
+850
+00:44:13,790 --> 00:44:16,920
+I think it can handle
+1,000 to 10,000 variables
+
+851
+00:44:16,920 --> 00:44:20,360
+in a reasonable time,
+like a few hours.
+
+852
+00:44:20,360 --> 00:44:22,261
+There progress.
+
+853
+00:44:22,261 --> 00:44:24,510
+And that is all by doing the
+reductions that you said.
+
+854
+00:44:24,510 --> 00:44:27,780
+You see some optimizations that
+you can make in the expression.
+
+855
+00:44:27,780 --> 00:44:30,410
+You draw some
+inferences, and you
+
+856
+00:44:30,410 --> 00:44:32,350
+explore the possible
+configurations,
+
+857
+00:44:32,350 --> 00:44:34,480
+taking us part way.
+
+858
+00:44:34,480 --> 00:44:36,730
+So there's a lot of active
+research going in that area
+
+859
+00:44:36,730 --> 00:44:37,640
+too.
+
+860
+00:44:37,640 --> 00:44:42,536
+So far, they didn't get here.
+
+861
+00:44:42,536 --> 00:44:46,350
+AUDIENCE: That's almost solving
+NP-complete problem then,
+
+862
+00:44:46,350 --> 00:44:46,850
+right?
+
+863
+00:44:46,850 --> 00:44:48,690
+PROFESSOR: Well,
+yeah, the thing is
+
+864
+00:44:48,690 --> 00:44:52,000
+in the end we care about
+practical solutions, right?
+
+865
+00:44:52,000 --> 00:44:54,260
+So they're hoping to get
+to a practical solution.
+
+866
+00:44:54,260 --> 00:44:56,259
+AUDIENCE: Well, a few
+hours is pretty practical.
+
+867
+00:44:58,850 --> 00:45:01,490
+So that's for some problems.
+
+868
+00:45:01,490 --> 00:45:04,250
+Obviously they didn't
+solve factoring, right?
+
+869
+00:45:04,250 --> 00:45:07,070
+If they would have solved
+1,000-bit factoring in a few
+
+870
+00:45:07,070 --> 00:45:09,120
+hours, then we
+would have noticed.
+
+871
+00:45:12,000 --> 00:45:13,920
+AUDIENCE: Maybe.
+
+872
+00:45:13,920 --> 00:45:15,095
+Seriously, OK.
+
+873
+00:45:15,095 --> 00:45:16,470
+PROFESSOR: We
+would have noticed.
+
+874
+00:45:21,010 --> 00:45:21,660
+So far so good?
+
+875
+00:45:21,660 --> 00:45:22,826
+Any questions on this stuff?
+
+876
+00:45:25,330 --> 00:45:29,110
+So I want to reemphasize in
+two minutes, the reduction
+
+877
+00:45:29,110 --> 00:45:29,820
+part of this.
+
+878
+00:45:29,820 --> 00:45:32,810
+So the reason why we
+can solve, once we solve
+
+879
+00:45:32,810 --> 00:45:35,270
+one NP-complete problem,
+we solve all the other ones
+
+880
+00:45:35,270 --> 00:45:36,333
+is reductions.
+
+881
+00:45:39,640 --> 00:45:42,390
+So we've done a lot of graph
+transformations in this class.
+
+882
+00:45:42,390 --> 00:45:45,970
+We had three recitations and two
+or three exam problems on that,
+
+883
+00:45:45,970 --> 00:45:48,170
+and I think we had some
+homework problems on it
+
+884
+00:45:48,170 --> 00:45:50,450
+too-- a lot of graph
+transformations.
+
+885
+00:45:50,450 --> 00:45:52,260
+Graph transformations
+are just reductions.
+
+886
+00:45:52,260 --> 00:45:56,790
+You take some problem that looks
+hard, and you do some magic,
+
+887
+00:45:56,790 --> 00:45:59,290
+and you build a graph that
+represents that problem,
+
+888
+00:45:59,290 --> 00:46:01,520
+and you run shortest path on it.
+
+889
+00:46:01,520 --> 00:46:04,330
+Then you take the output for
+the shortest path algorithm,
+
+890
+00:46:04,330 --> 00:46:07,487
+and you turn it into a solution
+to the initial problem.
+
+891
+00:46:07,487 --> 00:46:09,320
+This means that we've
+reduced those problems
+
+892
+00:46:09,320 --> 00:46:12,440
+to shortest path.
+
+893
+00:46:12,440 --> 00:46:14,440
+Well, you don't have to
+reduce to shortest path.
+
+894
+00:46:14,440 --> 00:46:16,481
+If you have a problem that
+you know how to solve,
+
+895
+00:46:16,481 --> 00:46:18,990
+you can take any other
+problem and reduce to it,
+
+896
+00:46:18,990 --> 00:46:21,120
+and you've solved
+that other problem.
+
+897
+00:46:21,120 --> 00:46:24,960
+So basically, here, if you
+have your starting problem,
+
+898
+00:46:24,960 --> 00:46:26,890
+shortest path is
+just one smiley face.
+
+899
+00:46:26,890 --> 00:46:28,680
+As long as you arrive
+to any smiley face,
+
+900
+00:46:28,680 --> 00:46:32,018
+you're in good shape.
+
+901
+00:46:32,018 --> 00:46:33,720
+Of course, you
+have to be careful
+
+902
+00:46:33,720 --> 00:46:35,428
+that while you're
+doing you're reduction,
+
+903
+00:46:35,428 --> 00:46:38,110
+your problem size
+doesn't explode.
+
+904
+00:46:38,110 --> 00:46:45,420
+So for example, if you take this
+problem-- if you take 3-SAT--
+
+905
+00:46:45,420 --> 00:46:49,290
+if you take a 3-CNF
+expression, and you reduce it
+
+906
+00:46:49,290 --> 00:46:51,471
+to the graph that has
+3 to the n vertices,
+
+907
+00:46:51,471 --> 00:46:53,220
+and then you try to
+run [INAUDIBLE] on it,
+
+908
+00:46:53,220 --> 00:46:55,200
+it was the running
+time, 3 to the n.
+
+909
+00:46:55,200 --> 00:46:57,144
+Now I've got a new
+polynomial, right?
+
+910
+00:46:57,144 --> 00:46:58,560
+So when you do the
+reductions, you
+
+911
+00:46:58,560 --> 00:47:03,020
+have to be careful about what
+happens to your input size.
+
+912
+00:47:03,020 --> 00:47:04,930
+And that's about it.
+
+913
+00:47:04,930 --> 00:47:08,024
+This is complexity theory.
+
+914
+00:47:08,024 --> 00:47:10,300
+It's basically one
+big excuse for why
+
+915
+00:47:10,300 --> 00:47:13,340
+we can't solve some
+problems that are hard.

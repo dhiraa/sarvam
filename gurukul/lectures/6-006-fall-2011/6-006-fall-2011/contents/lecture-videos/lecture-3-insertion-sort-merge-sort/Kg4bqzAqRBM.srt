@@ -1,0 +1,4208 @@
+1
+00:00:00,080 --> 00:00:01,770
+The following
+content is provided
+
+2
+00:00:01,770 --> 00:00:04,010
+under a Creative
+Commons license.
+
+3
+00:00:04,010 --> 00:00:06,860
+Your support will help MIT
+OpenCourseWare continue
+
+4
+00:00:06,860 --> 00:00:10,720
+to offer high quality
+educational resources for free.
+
+5
+00:00:10,720 --> 00:00:13,330
+To make a donation or
+view additional materials
+
+6
+00:00:13,330 --> 00:00:17,228
+from hundreds of MIT courses,
+visit MIT OpenCourseWare
+
+7
+00:00:17,228 --> 00:00:17,853
+at ocw.mit.edu.
+
+8
+00:00:23,290 --> 00:00:27,010
+PROFESSOR: So today's
+lecture is on sorting.
+
+9
+00:00:27,010 --> 00:00:31,310
+We'll be talking about specific
+sorting algorithms today.
+
+10
+00:00:31,310 --> 00:00:34,570
+I want to start
+by motivating why
+
+11
+00:00:34,570 --> 00:00:37,105
+we're interested in sorting,
+which should be fairly easy.
+
+12
+00:00:39,690 --> 00:00:42,490
+Then I want to discuss
+a particular sorting
+
+13
+00:00:42,490 --> 00:00:45,470
+algorithm that's
+called insertion sort.
+
+14
+00:00:45,470 --> 00:00:47,860
+That's probably the
+simplest sorting algorithm
+
+15
+00:00:47,860 --> 00:00:51,942
+you can write, it's
+five lines of code.
+
+16
+00:00:51,942 --> 00:00:53,400
+It's not the best
+sorting algorithm
+
+17
+00:00:53,400 --> 00:00:57,430
+that's out there and so
+we'll try and improve it.
+
+18
+00:00:57,430 --> 00:01:00,470
+We'll also talk about merge
+sort, which is a divide
+
+19
+00:01:00,470 --> 00:01:03,250
+and conquer algorithm
+and that's going
+
+20
+00:01:03,250 --> 00:01:09,010
+to motivate the last thing
+that I want to spend time on,
+
+21
+00:01:09,010 --> 00:01:12,300
+which is recurrences and
+how you solve recurrences.
+
+22
+00:01:12,300 --> 00:01:14,230
+Typically the
+recurrences that we'll
+
+23
+00:01:14,230 --> 00:01:18,120
+be looking at in double o six
+are going to come from divide
+
+24
+00:01:18,120 --> 00:01:20,760
+and conquer problems
+like merge sort
+
+25
+00:01:20,760 --> 00:01:24,300
+but you'll see
+this over and over.
+
+26
+00:01:24,300 --> 00:01:26,965
+So let's talk about why
+we're interested in sorting.
+
+27
+00:01:30,110 --> 00:01:34,370
+There's some fairly
+obvious applications
+
+28
+00:01:34,370 --> 00:01:37,490
+like if you want to
+maintain a phone book,
+
+29
+00:01:37,490 --> 00:01:42,010
+you've got a bunch of names
+and numbers corresponding
+
+30
+00:01:42,010 --> 00:01:44,830
+to a telephone
+directory and you want
+
+31
+00:01:44,830 --> 00:01:46,330
+to keep them in
+sorted order so it's
+
+32
+00:01:46,330 --> 00:01:51,510
+easy to search, mp3 organizers,
+spreadsheets, et cetera.
+
+33
+00:01:51,510 --> 00:01:54,590
+So there's lots of
+obvious applications.
+
+34
+00:01:54,590 --> 00:01:59,630
+There's also some
+interesting problems
+
+35
+00:01:59,630 --> 00:02:05,900
+that become easy once
+items are sorted.
+
+36
+00:02:13,790 --> 00:02:18,170
+One example of that
+is finding a median.
+
+37
+00:02:23,860 --> 00:02:27,220
+So let's say that you
+have a bunch of items
+
+38
+00:02:27,220 --> 00:02:36,210
+in an array a zero through
+n and a zero through n
+
+39
+00:02:36,210 --> 00:02:38,650
+contains n numbers and
+they're not sorted.
+
+40
+00:02:44,850 --> 00:02:48,950
+When you sort, you
+turn this into b 0
+
+41
+00:02:48,950 --> 00:02:52,760
+through n, where if
+it's just numbers, then
+
+42
+00:02:52,760 --> 00:02:55,660
+you may sort them in increasing
+order or decreasing order.
+
+43
+00:02:55,660 --> 00:02:58,690
+Let's just call it
+increasing order for now.
+
+44
+00:02:58,690 --> 00:03:01,650
+Or if they're records,
+and they're not numbers,
+
+45
+00:03:01,650 --> 00:03:04,520
+then you have to provide
+a comparison function
+
+46
+00:03:04,520 --> 00:03:08,050
+to determine which record is
+smaller than another record.
+
+47
+00:03:08,050 --> 00:03:09,520
+And that's another
+input that you
+
+48
+00:03:09,520 --> 00:03:12,980
+have to have in order
+to do the sorting.
+
+49
+00:03:12,980 --> 00:03:15,310
+So it doesn't really
+matter what the items are
+
+50
+00:03:15,310 --> 00:03:17,580
+as long as you have the
+comparison function.
+
+51
+00:03:17,580 --> 00:03:19,930
+Think of it as less
+than or equal to.
+
+52
+00:03:19,930 --> 00:03:23,750
+And if you have that and
+it's straightforward,
+
+53
+00:03:23,750 --> 00:03:27,090
+obviously, to check that 3
+is less than 4, et cetera.
+
+54
+00:03:27,090 --> 00:03:29,640
+But it may be a little
+more complicated
+
+55
+00:03:29,640 --> 00:03:32,990
+for more sophisticated
+sorting applications.
+
+56
+00:03:32,990 --> 00:03:36,570
+But the bottom line is that if
+you have your algorithm that
+
+57
+00:03:36,570 --> 00:03:39,120
+takes a comparison
+function as an input,
+
+58
+00:03:39,120 --> 00:03:42,670
+you're going to be able to,
+after a certain amount of time,
+
+59
+00:03:42,670 --> 00:03:45,100
+get B 0 n.
+
+60
+00:03:45,100 --> 00:03:48,680
+Now if you wanted to find the
+median of the set of numbers
+
+61
+00:03:48,680 --> 00:03:51,720
+that were originally
+in the array A,
+
+62
+00:03:51,720 --> 00:03:56,090
+what would you do once you
+have the sorted array B?
+
+63
+00:03:56,090 --> 00:03:59,124
+AUDIENCE: Isn't there a more
+efficient algorithm for median?
+
+64
+00:03:59,124 --> 00:04:00,040
+PROFESSOR: Absolutely.
+
+65
+00:04:00,040 --> 00:04:08,120
+But this is sort of a side
+effect of having a sorted list.
+
+66
+00:04:08,120 --> 00:04:10,240
+If you happen to
+have a sorted list,
+
+67
+00:04:10,240 --> 00:04:15,090
+there's many ways
+that you could imagine
+
+68
+00:04:15,090 --> 00:04:16,310
+building up a sorted list.
+
+69
+00:04:16,310 --> 00:04:19,779
+One way is you have something
+that's completely unsorted
+
+70
+00:04:19,779 --> 00:04:22,620
+and you run insertion
+sort or merge sort.
+
+71
+00:04:22,620 --> 00:04:25,140
+Another way would be to
+maintain a sorted list as you're
+
+72
+00:04:25,140 --> 00:04:27,660
+getting items put into the list.
+
+73
+00:04:27,660 --> 00:04:29,640
+So if you happened
+to have a sorted list
+
+74
+00:04:29,640 --> 00:04:32,600
+and you need to have this
+sorted list for some reason,
+
+75
+00:04:32,600 --> 00:04:35,440
+the point I'm making here
+is that finding the median
+
+76
+00:04:35,440 --> 00:04:37,140
+is easy.
+
+77
+00:04:37,140 --> 00:04:39,430
+And it's easy because
+all you have to do
+
+78
+00:04:39,430 --> 00:04:43,805
+is look at-- depending
+on whether n is odd
+
+79
+00:04:43,805 --> 00:04:47,527
+or even-- look at B of n over 2.
+
+80
+00:04:47,527 --> 00:04:49,360
+That would give you the
+median because you'd
+
+81
+00:04:49,360 --> 00:04:54,210
+have a bunch of numbers
+that are less than that
+
+82
+00:04:54,210 --> 00:04:56,830
+and the equal set of numbers
+that are greater than that,
+
+83
+00:04:56,830 --> 00:04:59,770
+which is the
+definition of median.
+
+84
+00:04:59,770 --> 00:05:05,030
+So this is not necessarily the
+best way, as you pointed out,
+
+85
+00:05:05,030 --> 00:05:06,400
+of finding the median.
+
+86
+00:05:06,400 --> 00:05:11,320
+But it's constant time if
+you have a sorted list.
+
+87
+00:05:11,320 --> 00:05:14,650
+That's the point
+I wanted to make.
+
+88
+00:05:14,650 --> 00:05:16,720
+There are other things
+that you could do.
+
+89
+00:05:16,720 --> 00:05:20,780
+And this came up
+in Erik's lecture,
+
+90
+00:05:20,780 --> 00:05:25,570
+which is the notion of
+binary search-- finding
+
+91
+00:05:25,570 --> 00:05:28,650
+an element in an array--
+a specific element.
+
+92
+00:05:28,650 --> 00:05:34,090
+You have a list of items--
+again a 0 through n.
+
+93
+00:05:34,090 --> 00:05:39,600
+And you're looking for a
+specific number or item.
+
+94
+00:05:43,550 --> 00:05:46,640
+You could, obviously,
+scan the array,
+
+95
+00:05:46,640 --> 00:05:50,260
+and that would take you
+linear time to find this item.
+
+96
+00:05:50,260 --> 00:05:53,100
+If the array happened
+to be sorted,
+
+97
+00:05:53,100 --> 00:05:58,530
+then you can find this
+in logarithmic time
+
+98
+00:05:58,530 --> 00:06:00,295
+using what's called
+binary search.
+
+99
+00:06:03,600 --> 00:06:05,880
+Let's say you're looking
+for a specific item.
+
+100
+00:06:05,880 --> 00:06:08,280
+Let's call it k.
+
+101
+00:06:08,280 --> 00:06:11,140
+Binary search, roughly
+speaking, would
+
+102
+00:06:11,140 --> 00:06:20,200
+work like-- you go compare
+k to, again, B of n over 2,
+
+103
+00:06:20,200 --> 00:06:23,780
+and decide, given
+that B is sorted,
+
+104
+00:06:23,780 --> 00:06:28,400
+you get to look at
+1/2 of the array.
+
+105
+00:06:28,400 --> 00:06:33,080
+If B of n over 2 is not
+exactly k, then-- well,
+
+106
+00:06:33,080 --> 00:06:34,390
+if it's exactly k you're done.
+
+107
+00:06:34,390 --> 00:06:36,770
+Otherwise, you look
+at the left half.
+
+108
+00:06:36,770 --> 00:06:39,670
+You do your divide
+and conquer paradigm.
+
+109
+00:06:39,670 --> 00:06:42,820
+And you can do this
+in logarithmic time.
+
+110
+00:06:42,820 --> 00:06:45,700
+So keep this in mind,
+because binary search
+
+111
+00:06:45,700 --> 00:06:48,530
+is going to come up
+in today's lecture
+
+112
+00:06:48,530 --> 00:06:50,760
+and again in other lectures.
+
+113
+00:06:50,760 --> 00:06:53,750
+It's really a great
+paradigm of divide
+
+114
+00:06:53,750 --> 00:06:56,020
+and conquer--
+probably the simplest.
+
+115
+00:06:56,020 --> 00:06:57,690
+And it, essentially,
+takes something
+
+116
+00:06:57,690 --> 00:07:01,040
+that's linear--
+a linear search--
+
+117
+00:07:01,040 --> 00:07:03,770
+and turns it into
+logarithmic search.
+
+118
+00:07:03,770 --> 00:07:06,540
+So those are a
+couple of problems
+
+119
+00:07:06,540 --> 00:07:10,950
+that become easy if
+you have a sorted list.
+
+120
+00:07:10,950 --> 00:07:21,270
+And there's some not
+so obvious applications
+
+121
+00:07:21,270 --> 00:07:25,150
+of sorting-- for example,
+data compression.
+
+122
+00:07:25,150 --> 00:07:27,790
+If you wanted to
+compress a file,
+
+123
+00:07:27,790 --> 00:07:30,530
+one of the things that
+you could do is to--
+
+124
+00:07:30,530 --> 00:07:35,330
+and it's a set of items--
+you could sort the items.
+
+125
+00:07:35,330 --> 00:07:37,870
+And that automatically
+finds duplicates.
+
+126
+00:07:37,870 --> 00:07:42,940
+And you could say, if I have 100
+items that are all identical,
+
+127
+00:07:42,940 --> 00:07:47,779
+I'm going to compress the file
+by representing the item once
+
+128
+00:07:47,779 --> 00:07:49,320
+and, then, having
+a number associated
+
+129
+00:07:49,320 --> 00:07:52,770
+with the frequency of that
+item-- similar to what
+
+130
+00:07:52,770 --> 00:07:54,440
+document distance does.
+
+131
+00:07:54,440 --> 00:07:57,750
+Document distance can
+be viewed as a way
+
+132
+00:07:57,750 --> 00:07:59,770
+of compressing
+your initial input.
+
+133
+00:07:59,770 --> 00:08:03,240
+Obviously, you lose the works of
+Shakespeare or whatever it was.
+
+134
+00:08:03,240 --> 00:08:06,560
+And it becomes a bunch
+of words and frequencies.
+
+135
+00:08:06,560 --> 00:08:12,870
+But it is something that
+compresses the input
+
+136
+00:08:12,870 --> 00:08:15,590
+and gives you a
+different representation.
+
+137
+00:08:15,590 --> 00:08:20,395
+And so people use sorting as a
+subroutine in data compression.
+
+138
+00:08:23,190 --> 00:08:27,360
+Computer graphics uses sorting.
+
+139
+00:08:27,360 --> 00:08:30,560
+Most of the time,
+when you render
+
+140
+00:08:30,560 --> 00:08:32,870
+scenes in computer graphics,
+you have many layers
+
+141
+00:08:32,870 --> 00:08:34,559
+corresponding to the scenes.
+
+142
+00:08:34,559 --> 00:08:38,550
+It turns out that,
+in computer graphics,
+
+143
+00:08:38,550 --> 00:08:40,299
+most of the time you're
+actually rendering
+
+144
+00:08:40,299 --> 00:08:44,410
+front to back because,
+when you have a big opaque
+
+145
+00:08:44,410 --> 00:08:48,887
+object in front, you want
+to render that first,
+
+146
+00:08:48,887 --> 00:08:50,970
+so you don't have to worry
+about everything that's
+
+147
+00:08:50,970 --> 00:08:54,060
+occluded by this
+big opaque object.
+
+148
+00:08:54,060 --> 00:08:56,590
+And that makes things
+more efficient.
+
+149
+00:08:56,590 --> 00:08:58,700
+And so you keep things
+sorted front to back,
+
+150
+00:08:58,700 --> 00:09:01,160
+most of the time, in
+computer graphics rendering.
+
+151
+00:09:01,160 --> 00:09:03,860
+But some of the time, if you're
+worried about transparency,
+
+152
+00:09:03,860 --> 00:09:05,660
+you have to render
+things back to front.
+
+153
+00:09:05,660 --> 00:09:08,390
+So typically, you
+have sorted lists
+
+154
+00:09:08,390 --> 00:09:11,550
+corresponding to the different
+objects in both orders--
+
+155
+00:09:11,550 --> 00:09:13,730
+both increasing order
+and decreasing order.
+
+156
+00:09:13,730 --> 00:09:15,230
+And you're maintaining that.
+
+157
+00:09:15,230 --> 00:09:19,190
+So sorting is a real
+important subroutine
+
+158
+00:09:19,190 --> 00:09:23,090
+in pretty much any sophisticated
+application you look at.
+
+159
+00:09:23,090 --> 00:09:26,780
+So it's worthwhile to look
+at the variety of sorting
+
+160
+00:09:26,780 --> 00:09:28,350
+algorithms that are out there.
+
+161
+00:09:28,350 --> 00:09:30,432
+And we're going to do
+some simple ones, today.
+
+162
+00:09:30,432 --> 00:09:31,890
+But if you go and
+look at Wikipedia
+
+163
+00:09:31,890 --> 00:09:35,270
+and do a Google search,
+there's all sorts
+
+164
+00:09:35,270 --> 00:09:38,030
+of sorts like cocktail
+sort, and bitonic sort,
+
+165
+00:09:38,030 --> 00:09:41,900
+and what have you.
+
+166
+00:09:41,900 --> 00:09:45,900
+And there's reasons why each of
+these sorting algorithms exist.
+
+167
+00:09:45,900 --> 00:09:49,830
+Because in specific
+cases, they end up
+
+168
+00:09:49,830 --> 00:09:53,055
+winning on types of inputs
+or types of problems.
+
+169
+00:09:55,660 --> 00:09:59,470
+So let's take a look at our
+first sorting algorithm.
+
+170
+00:09:59,470 --> 00:10:03,640
+I'm not going to write code
+but it will be in the notes.
+
+171
+00:10:03,640 --> 00:10:08,860
+And it is in your document
+distance Python files.
+
+172
+00:10:08,860 --> 00:10:10,770
+But I'll just give
+you pseudocode here
+
+173
+00:10:10,770 --> 00:10:13,750
+and walk through what
+insertion sort looks like
+
+174
+00:10:13,750 --> 00:10:17,460
+because the purpose
+of describing
+
+175
+00:10:17,460 --> 00:10:20,756
+this algorithm to you is
+to analyze its complexity.
+
+176
+00:10:20,756 --> 00:10:22,130
+We need to do some
+counting here,
+
+177
+00:10:22,130 --> 00:10:25,230
+with respect to this
+algorithm, to figure out
+
+178
+00:10:25,230 --> 00:10:28,610
+how fast it's going to run
+in and what the worst case
+
+179
+00:10:28,610 --> 00:10:30,280
+complexity is.
+
+180
+00:10:30,280 --> 00:10:32,585
+So what is insertion sort?
+
+181
+00:10:32,585 --> 00:10:41,780
+For i equals 1, 2, through n,
+given an input to be sorted,
+
+182
+00:10:41,780 --> 00:10:46,600
+what we're going to do is
+we're going to insert A of i
+
+183
+00:10:46,600 --> 00:10:48,470
+in the right position.
+
+184
+00:10:48,470 --> 00:10:51,170
+And we're going
+to assume that we
+
+185
+00:10:51,170 --> 00:10:55,220
+are sort of midway through
+the sorting process, where
+
+186
+00:10:55,220 --> 00:11:00,920
+we have sorted A 0
+through i minus 1.
+
+187
+00:11:00,920 --> 00:11:04,340
+And we're going to
+expand this to this array
+
+188
+00:11:04,340 --> 00:11:07,590
+to have i plus 1 elements.
+
+189
+00:11:07,590 --> 00:11:09,650
+And A of i is going
+to get inserted
+
+190
+00:11:09,650 --> 00:11:12,830
+into the correct position.
+
+191
+00:11:12,830 --> 00:11:23,640
+And we're going to do
+this by pairwise swaps
+
+192
+00:11:23,640 --> 00:11:32,730
+down to the correct position
+for the number that is initially
+
+193
+00:11:32,730 --> 00:11:33,490
+in A of i.
+
+194
+00:11:36,050 --> 00:11:42,410
+So let's go through
+an example of this.
+
+195
+00:11:42,410 --> 00:11:44,840
+We're going to sort
+in increasing order.
+
+196
+00:11:44,840 --> 00:11:45,885
+Just have six numbers.
+
+197
+00:11:50,430 --> 00:11:54,805
+And initially, we
+have 5, 2, 4, 6, 1, 3.
+
+198
+00:11:54,805 --> 00:11:56,430
+And we're going to
+take a look at this.
+
+199
+00:11:56,430 --> 00:12:00,550
+And you start with the index
+1, or the second element,
+
+200
+00:12:00,550 --> 00:12:03,620
+because the very first
+element-- it's a single element
+
+201
+00:12:03,620 --> 00:12:06,050
+and it's already
+sorted by definition.
+
+202
+00:12:06,050 --> 00:12:07,930
+But you start from here.
+
+203
+00:12:07,930 --> 00:12:10,890
+And this is what
+we call our key.
+
+204
+00:12:10,890 --> 00:12:15,250
+And that's essentially a pointer
+to where we're at, right now.
+
+205
+00:12:15,250 --> 00:12:17,020
+And the key keeps
+moving to the right
+
+206
+00:12:17,020 --> 00:12:20,007
+as we go through the different
+steps of the algorithm.
+
+207
+00:12:20,007 --> 00:12:21,590
+And so what you do
+is you look at this
+
+208
+00:12:21,590 --> 00:12:24,830
+and you have-- this is A of i.
+
+209
+00:12:24,830 --> 00:12:26,030
+That's your key.
+
+210
+00:12:26,030 --> 00:12:30,070
+And you have A of
+0 to 0, which is 5.
+
+211
+00:12:30,070 --> 00:12:34,260
+And since we want to
+sort in increasing order,
+
+212
+00:12:34,260 --> 00:12:35,940
+this is not sorted.
+
+213
+00:12:35,940 --> 00:12:37,720
+And so we do a swap.
+
+214
+00:12:37,720 --> 00:12:42,400
+So what this would do in
+this step is to do a swap.
+
+215
+00:12:42,400 --> 00:12:51,830
+And we would go obtain
+2, 5, 4, 6, 1, 3.
+
+216
+00:12:51,830 --> 00:12:55,080
+So all that's happened here,
+in this step-- in the very
+
+217
+00:12:55,080 --> 00:12:57,360
+first step where the key
+is in the second position--
+
+218
+00:12:57,360 --> 00:13:00,020
+is one swap happened.
+
+219
+00:13:00,020 --> 00:13:03,340
+Now, your key is
+here, at item 4.
+
+220
+00:13:03,340 --> 00:13:05,980
+Again, you need to put
+4 into the right spot.
+
+221
+00:13:05,980 --> 00:13:08,670
+And so you do pairwise swaps.
+
+222
+00:13:08,670 --> 00:13:11,280
+And in this case, you
+have to do one swap.
+
+223
+00:13:11,280 --> 00:13:12,750
+And you get 2, 4, 5.
+
+224
+00:13:12,750 --> 00:13:15,650
+And you're done
+with this iteration.
+
+225
+00:13:15,650 --> 00:13:27,850
+So what happens here is
+you have 2, 4, 5, 6, 1, 3.
+
+226
+00:13:27,850 --> 00:13:33,010
+And now, the key
+is over here, at 6.
+
+227
+00:13:33,010 --> 00:13:37,860
+Now, at this point,
+things are kind of easy,
+
+228
+00:13:37,860 --> 00:13:41,180
+in the sense that you look
+at it and you say, well, I
+
+229
+00:13:41,180 --> 00:13:43,480
+know this part is
+already started.
+
+230
+00:13:43,480 --> 00:13:44,970
+6 is greater than 5.
+
+231
+00:13:44,970 --> 00:13:47,000
+So you have to do nothing.
+
+232
+00:13:47,000 --> 00:13:51,530
+So there's no swaps that
+happen in this step.
+
+233
+00:13:51,530 --> 00:13:56,440
+So all that happens
+here is you're
+
+234
+00:13:56,440 --> 00:14:02,280
+going to move the key to
+one step to the right.
+
+235
+00:14:02,280 --> 00:14:06,370
+So you have 2, 4, 5, 6, 1, 3.
+
+236
+00:14:06,370 --> 00:14:10,270
+And your key is now at 1.
+
+237
+00:14:10,270 --> 00:14:11,910
+Here, you have to do more work.
+
+238
+00:14:11,910 --> 00:14:16,770
+Now, you see one aspect of the
+complexity of this algorithm--
+
+239
+00:14:16,770 --> 00:14:19,470
+given that you're doing
+pairwise swaps-- the way
+
+240
+00:14:19,470 --> 00:14:23,420
+this algorithm was defined, in
+pseudocode, out there, was I'm
+
+241
+00:14:23,420 --> 00:14:27,760
+going to use pairwise swaps
+to find the correct position.
+
+242
+00:14:27,760 --> 00:14:29,640
+So what you're going
+to do is you're
+
+243
+00:14:29,640 --> 00:14:34,080
+going to have to
+swap first 1 and 6.
+
+244
+00:14:34,080 --> 00:14:36,310
+And then you'll
+swap-- 1 is over here.
+
+245
+00:14:36,310 --> 00:14:39,970
+So you'll swap this
+position and that position.
+
+246
+00:14:39,970 --> 00:14:44,580
+And then you'll
+swap-- essentially,
+
+247
+00:14:44,580 --> 00:14:49,910
+do 4 swaps to get to
+the point where you have
+
+248
+00:14:49,910 --> 00:14:52,970
+1, 2, 4, 5, 6, 3.
+
+249
+00:14:52,970 --> 00:14:56,650
+So this is the result.
+
+250
+00:14:59,190 --> 00:15:03,770
+1, 2, 4, 5, 6, 3.
+
+251
+00:15:03,770 --> 00:15:06,360
+And the important thing
+to understand, here,
+
+252
+00:15:06,360 --> 00:15:09,050
+is that you've done
+four swaps to get 1
+
+253
+00:15:09,050 --> 00:15:10,160
+to the correct position.
+
+254
+00:15:10,160 --> 00:15:12,480
+Now, you could imagine a
+different data structure
+
+255
+00:15:12,480 --> 00:15:15,470
+where you move this over
+there and you shift them
+
+256
+00:15:15,470 --> 00:15:16,930
+all to the right.
+
+257
+00:15:16,930 --> 00:15:20,230
+But in fact, that shifting
+of these four elements
+
+258
+00:15:20,230 --> 00:15:23,630
+is going to be computed
+in our model as four
+
+259
+00:15:23,630 --> 00:15:26,244
+operations, or
+four steps, anyway.
+
+260
+00:15:26,244 --> 00:15:27,910
+So there's no getting
+away from the fact
+
+261
+00:15:27,910 --> 00:15:30,660
+that you have to do
+four things here.
+
+262
+00:15:30,660 --> 00:15:36,830
+And the way the code that
+we have for insertion sort
+
+263
+00:15:36,830 --> 00:15:39,400
+does this is by
+using pairwise swaps.
+
+264
+00:15:39,400 --> 00:15:41,470
+So we're almost done.
+
+265
+00:15:41,470 --> 00:15:49,490
+Now, we have the key at 3.
+
+266
+00:15:49,490 --> 00:15:52,910
+And now, 3 needs to get put
+into the correct position.
+
+267
+00:15:52,910 --> 00:15:55,350
+And so you've got
+to do a few swaps.
+
+268
+00:15:55,350 --> 00:15:58,320
+This is the last step.
+
+269
+00:15:58,320 --> 00:16:03,580
+And what happens here is 3 is
+going to get swapped with 6.
+
+270
+00:16:03,580 --> 00:16:06,520
+And then 3 needs to
+get swapped with 5.
+
+271
+00:16:06,520 --> 00:16:09,770
+And then 3 needs to
+get swapped with 4.
+
+272
+00:16:09,770 --> 00:16:12,985
+And then, since 3 is
+greater than 2, you're done.
+
+273
+00:16:12,985 --> 00:16:16,325
+So you have 1, 2, 3, 4, 5, 6.
+
+274
+00:16:18,880 --> 00:16:21,180
+And that's it.
+
+275
+00:16:21,180 --> 00:16:22,820
+So, analysis.
+
+276
+00:16:25,380 --> 00:16:26,630
+How many steps do I have?
+
+277
+00:16:30,670 --> 00:16:32,150
+AUDIENCE: n squared?
+
+278
+00:16:32,150 --> 00:16:36,310
+PROFESSOR: No, how
+many steps do I have?
+
+279
+00:16:36,310 --> 00:16:40,120
+I guess that wasn't
+a good question.
+
+280
+00:16:40,120 --> 00:16:43,930
+If I think of a step as
+being a movement of the key,
+
+281
+00:16:43,930 --> 00:16:46,215
+how many steps do I have?
+
+282
+00:16:46,215 --> 00:16:49,930
+I have theta n steps.
+
+283
+00:16:49,930 --> 00:16:56,570
+And in this case, you can
+think of it as n minus 1 steps,
+
+284
+00:16:56,570 --> 00:16:58,030
+since you started with 2.
+
+285
+00:16:58,030 --> 00:17:03,900
+But let's just call
+it theta n steps,
+
+286
+00:17:03,900 --> 00:17:06,780
+in terms of key positions.
+
+287
+00:17:10,060 --> 00:17:11,150
+And you're right.
+
+288
+00:17:11,150 --> 00:17:15,349
+It is n square because,
+at any given step,
+
+289
+00:17:15,349 --> 00:17:19,730
+it's quite possible that
+I have to do theta n work.
+
+290
+00:17:19,730 --> 00:17:22,400
+And one example is
+this one, right here,
+
+291
+00:17:22,400 --> 00:17:25,160
+where I had to do four swaps.
+
+292
+00:17:25,160 --> 00:17:27,599
+And in general, you can
+construct a scenario
+
+293
+00:17:27,599 --> 00:17:31,470
+where, towards the
+end of the algorithm,
+
+294
+00:17:31,470 --> 00:17:34,120
+you'd have to do theta n work.
+
+295
+00:17:34,120 --> 00:17:37,560
+But if you had a list
+that was reverse sorted.
+
+296
+00:17:37,560 --> 00:17:40,960
+You would, essentially,
+have to do, on an average n
+
+297
+00:17:40,960 --> 00:17:43,850
+by two swaps as you go
+through each of the steps.
+
+298
+00:17:43,850 --> 00:17:45,300
+And that's theta n.
+
+299
+00:17:45,300 --> 00:17:52,150
+So each step is theta n swaps.
+
+300
+00:17:55,930 --> 00:17:58,740
+And when I say
+swaps, I could also
+
+301
+00:17:58,740 --> 00:18:06,645
+say each step is theta
+n compares and swaps.
+
+302
+00:18:06,645 --> 00:18:08,020
+And this is going
+to be important
+
+303
+00:18:08,020 --> 00:18:10,430
+because I'm going to ask
+you an interesting question
+
+304
+00:18:10,430 --> 00:18:11,700
+in a minute.
+
+305
+00:18:11,700 --> 00:18:13,840
+But let me summarize.
+
+306
+00:18:13,840 --> 00:18:16,470
+What I have here is a
+theta n squared algorithm.
+
+307
+00:18:16,470 --> 00:18:17,970
+The reason this is
+a theta n squared
+
+308
+00:18:17,970 --> 00:18:22,760
+algorithm is because
+I have theta n steps
+
+309
+00:18:22,760 --> 00:18:26,860
+and each step is theta n.
+
+310
+00:18:26,860 --> 00:18:29,140
+When I'm counting,
+what am I counting
+
+311
+00:18:29,140 --> 00:18:30,730
+it terms of operations?
+
+312
+00:18:30,730 --> 00:18:33,510
+The assumption here--
+unspoken assumption--
+
+313
+00:18:33,510 --> 00:18:36,810
+has been that an operation
+is a compare and a swap
+
+314
+00:18:36,810 --> 00:18:39,540
+and they're, essentially,
+equal in cost.
+
+315
+00:18:39,540 --> 00:18:41,850
+And in most computers,
+that's true.
+
+316
+00:18:41,850 --> 00:18:45,210
+You have a single
+instruction and, say, the x86
+
+317
+00:18:45,210 --> 00:18:47,700
+or the MIPS architecture
+that can do a compare,
+
+318
+00:18:47,700 --> 00:18:50,660
+and the same thing for
+swapping registers.
+
+319
+00:18:50,660 --> 00:18:52,640
+So perfectly
+reasonably assumption
+
+320
+00:18:52,640 --> 00:18:56,480
+that compares and
+swaps for numbers
+
+321
+00:18:56,480 --> 00:18:58,410
+have exactly the same cost.
+
+322
+00:18:58,410 --> 00:19:01,900
+But if you had a record and
+you were comparing records,
+
+323
+00:19:01,900 --> 00:19:05,700
+and the comparison function that
+you used for the records was
+
+324
+00:19:05,700 --> 00:19:08,820
+in itself a method
+call or a subroutine,
+
+325
+00:19:08,820 --> 00:19:11,290
+it's quite possible
+that all you're doing
+
+326
+00:19:11,290 --> 00:19:15,600
+is swapping pointers or
+references to do the swap,
+
+327
+00:19:15,600 --> 00:19:17,985
+but the comparison could be
+substantially more expensive.
+
+328
+00:19:22,870 --> 00:19:24,920
+Most of the time-- and
+we'll differentiate
+
+329
+00:19:24,920 --> 00:19:27,150
+if it becomes
+necessary-- we're going
+
+330
+00:19:27,150 --> 00:19:29,560
+to be counting comparisons
+in the sorting algorithms
+
+331
+00:19:29,560 --> 00:19:31,230
+that we'll be putting out.
+
+332
+00:19:31,230 --> 00:19:36,130
+And we'll be assuming that
+either comparison swaps are
+
+333
+00:19:36,130 --> 00:19:41,040
+roughly the same or
+that compares are--
+
+334
+00:19:41,040 --> 00:19:44,570
+and we'll say which one,
+of course-- that compares
+
+335
+00:19:44,570 --> 00:19:47,830
+are substantially more
+expensive than swaps.
+
+336
+00:19:47,830 --> 00:19:52,270
+So if you had either of those
+cases for insertion sort,
+
+337
+00:19:52,270 --> 00:19:54,226
+you have a theta n
+squared algorithm.
+
+338
+00:19:54,226 --> 00:19:55,600
+You have theta n
+squared compares
+
+339
+00:19:55,600 --> 00:19:58,200
+and theta n squared swaps.
+
+340
+00:19:58,200 --> 00:20:00,780
+Now, here's a question.
+
+341
+00:20:00,780 --> 00:20:11,179
+Let's say that compares are
+more expensive than swaps.
+
+342
+00:20:11,179 --> 00:20:12,720
+And so, I'm concerned
+about the theta
+
+343
+00:20:12,720 --> 00:20:14,750
+n squared comparison cost.
+
+344
+00:20:17,270 --> 00:20:20,880
+I'm not as concerned, because of
+the constant factors involved,
+
+345
+00:20:20,880 --> 00:20:22,710
+with the theta n
+squared swap cost.
+
+346
+00:20:25,410 --> 00:20:28,730
+This is a question question.
+
+347
+00:20:28,730 --> 00:20:33,590
+What's a simple fix-- change
+to this algorithm that
+
+348
+00:20:33,590 --> 00:20:37,260
+would give me a better
+complexity in the case
+
+349
+00:20:37,260 --> 00:20:39,900
+where compares are
+more expensive,
+
+350
+00:20:39,900 --> 00:20:43,300
+or I'm only looking at the
+complexity of compares.
+
+351
+00:20:43,300 --> 00:20:46,990
+So the theta
+whatever of compares.
+
+352
+00:20:46,990 --> 00:20:47,950
+Anyone?
+
+353
+00:20:47,950 --> 00:20:48,661
+Yeah, back there.
+
+354
+00:20:48,661 --> 00:20:49,536
+AUDIENCE: [INAUDIBLE]
+
+355
+00:20:56,356 --> 00:20:58,230
+PROFESSOR: You could
+compare with the middle.
+
+356
+00:20:58,230 --> 00:20:59,021
+What did I call it?
+
+357
+00:21:01,910 --> 00:21:03,120
+I called it something.
+
+358
+00:21:03,120 --> 00:21:06,161
+What you just said, I
+called it something.
+
+359
+00:21:06,161 --> 00:21:07,160
+AUDIENCE: Binary search.
+
+360
+00:21:07,160 --> 00:21:07,740
+PROFESSOR: Binary search.
+
+361
+00:21:07,740 --> 00:21:08,310
+That's right.
+
+362
+00:21:08,310 --> 00:21:10,280
+Two cushions for this one.
+
+363
+00:21:10,280 --> 00:21:12,221
+So you pick them
+up after lecture.
+
+364
+00:21:12,221 --> 00:21:13,220
+So you're exactly right.
+
+365
+00:21:13,220 --> 00:21:13,928
+You got it right.
+
+366
+00:21:13,928 --> 00:21:18,160
+I called it binary
+search, up here.
+
+367
+00:21:18,160 --> 00:21:21,620
+And so you can
+take insertion sort
+
+368
+00:21:21,620 --> 00:21:24,800
+and you can sort of trivially
+turn it into a theta n log n
+
+369
+00:21:24,800 --> 00:21:27,200
+algorithm if we
+are talking about n
+
+370
+00:21:27,200 --> 00:21:29,910
+being the number of compares.
+
+371
+00:21:29,910 --> 00:21:32,425
+And all you have to do
+to do that is to say,
+
+372
+00:21:32,425 --> 00:21:34,280
+you know what, I'm
+going to replace
+
+373
+00:21:34,280 --> 00:21:37,950
+this with binary search.
+
+374
+00:21:37,950 --> 00:21:42,720
+And you can do that-- and
+that was the key observation--
+
+375
+00:21:42,720 --> 00:21:47,990
+because A of 0 through i
+minus 1 is already sorted.
+
+376
+00:21:47,990 --> 00:21:51,909
+And so you can do binary search
+on that part of the array.
+
+377
+00:21:51,909 --> 00:21:53,200
+So let me just write that down.
+
+378
+00:21:56,750 --> 00:22:04,000
+Do a binary search on A
+of 0 through i minus 1,
+
+379
+00:22:04,000 --> 00:22:05,095
+which is already sorted.
+
+380
+00:22:10,540 --> 00:22:16,780
+And essentially, you can think
+of it as theta log i time,
+
+381
+00:22:16,780 --> 00:22:18,070
+and for each of those steps.
+
+382
+00:22:18,070 --> 00:22:27,251
+And so then you get your
+theta n log n theta n log
+
+383
+00:22:27,251 --> 00:22:30,410
+n in terms of compares.
+
+384
+00:22:30,410 --> 00:22:37,940
+Does this help the swaps
+for an array data structure?
+
+385
+00:22:37,940 --> 00:22:41,280
+No, because binary search
+will require insertion
+
+386
+00:22:41,280 --> 00:22:44,670
+into A of 0 though i minus 1.
+
+387
+00:22:44,670 --> 00:22:45,880
+So here's the problem.
+
+388
+00:22:45,880 --> 00:22:50,430
+Why don't we have a full-fledged
+theta n log n algorithm,
+
+389
+00:22:50,430 --> 00:22:53,940
+regardless of the cost
+of compares or swaps?
+
+390
+00:22:53,940 --> 00:22:55,470
+We don't quite have that.
+
+391
+00:22:55,470 --> 00:23:02,950
+We don't quite have that because
+we need to insert our A of i
+
+392
+00:23:02,950 --> 00:23:07,850
+into the right position into
+A of 0 through i minus 1.
+
+393
+00:23:07,850 --> 00:23:09,790
+You do that if you have
+an array structure,
+
+394
+00:23:09,790 --> 00:23:10,998
+it might get into the middle.
+
+395
+00:23:10,998 --> 00:23:13,337
+And you have to shift
+things over to the right.
+
+396
+00:23:13,337 --> 00:23:15,170
+And when you shift
+things over to the right,
+
+397
+00:23:15,170 --> 00:23:17,090
+in the worst case, you may
+be shifting a lot of things
+
+398
+00:23:17,090 --> 00:23:17,980
+over to the right.
+
+399
+00:23:17,980 --> 00:23:20,630
+And that gets back to worst
+case complexity of theta n.
+
+400
+00:23:23,200 --> 00:23:27,000
+So a binary search
+in insertion sort
+
+401
+00:23:27,000 --> 00:23:29,197
+gives you theta n
+log n for compares.
+
+402
+00:23:29,197 --> 00:23:30,905
+But it's still theta
+n squared for swaps.
+
+403
+00:23:35,000 --> 00:23:36,805
+So as you can see,
+there's many varieties
+
+404
+00:23:36,805 --> 00:23:37,770
+of sorting algorithms.
+
+405
+00:23:37,770 --> 00:23:39,850
+We just looked at
+a couple of them.
+
+406
+00:23:39,850 --> 00:23:43,010
+And they were both
+insertion sort.
+
+407
+00:23:43,010 --> 00:23:45,040
+The second one
+that I just put up
+
+408
+00:23:45,040 --> 00:23:48,900
+is, I guess, technically
+called binary insertion sort
+
+409
+00:23:48,900 --> 00:23:50,710
+because it does binary search.
+
+410
+00:23:50,710 --> 00:23:53,000
+And the vanilla
+insertion sort is
+
+411
+00:23:53,000 --> 00:23:56,676
+the one that you have the code
+for in the doc dis program,
+
+412
+00:23:56,676 --> 00:23:59,400
+or at least one of
+the doc dis files.
+
+413
+00:23:59,400 --> 00:24:04,620
+So let's move on and talk
+about a different algorithm.
+
+414
+00:24:04,620 --> 00:24:06,830
+So what we'd like to
+do, now-- this class
+
+415
+00:24:06,830 --> 00:24:09,120
+is about constant improvement.
+
+416
+00:24:09,120 --> 00:24:11,480
+We're never happy.
+
+417
+00:24:11,480 --> 00:24:14,370
+We always want to do
+a little bit better.
+
+418
+00:24:14,370 --> 00:24:16,864
+And eventually, once
+we run out of room
+
+419
+00:24:16,864 --> 00:24:18,280
+from an asymptotic
+standpoint, you
+
+420
+00:24:18,280 --> 00:24:20,363
+take these other classes
+where you try and improve
+
+421
+00:24:20,363 --> 00:24:24,380
+constant factors and
+get 10%, and 5%, and 1%,
+
+422
+00:24:24,380 --> 00:24:25,560
+and so on, and so forth.
+
+423
+00:24:25,560 --> 00:24:31,200
+But we'll stick to improving
+asymptotic complexity.
+
+424
+00:24:31,200 --> 00:24:34,190
+And we're not quite happy
+with binary insertion sort
+
+425
+00:24:34,190 --> 00:24:37,050
+because, in the case of numbers,
+our binary insertion sort
+
+426
+00:24:37,050 --> 00:24:40,709
+has theta n squared complexity,
+if you look at swaps.
+
+427
+00:24:40,709 --> 00:24:43,042
+So we'd like to go find an
+algorithm that is theta n log
+
+428
+00:24:43,042 --> 00:24:44,810
+n.
+
+429
+00:24:44,810 --> 00:24:49,600
+And I guess, eventually,
+we'll have to stop.
+
+430
+00:24:49,600 --> 00:24:51,260
+But Erik will take care of that.
+
+431
+00:24:53,900 --> 00:24:54,970
+There's a reason to stop.
+
+432
+00:24:54,970 --> 00:24:58,620
+It's when you can prove that
+you can't do any better.
+
+433
+00:24:58,620 --> 00:25:01,210
+And so we'll get to
+that, eventually.
+
+434
+00:25:01,210 --> 00:25:04,685
+So merge sort is also something
+that you've probably seen.
+
+435
+00:25:07,277 --> 00:25:08,735
+But there probably
+will be a couple
+
+436
+00:25:08,735 --> 00:25:12,440
+of subtleties that come out as
+I describe this algorithm that,
+
+437
+00:25:12,440 --> 00:25:15,340
+hopefully, will be interesting
+to those of you who already
+
+438
+00:25:15,340 --> 00:25:16,810
+know merge sort.
+
+439
+00:25:16,810 --> 00:25:21,030
+And for those of you who don't,
+it's a very pretty algorithm.
+
+440
+00:25:21,030 --> 00:25:26,930
+It's a standard recursion
+algorithm-- recursive
+
+441
+00:25:26,930 --> 00:25:30,620
+algorithm-- similar
+to a binary search.
+
+442
+00:25:30,620 --> 00:25:34,780
+What we do, here, is we have
+an array, A. We split it
+
+443
+00:25:34,780 --> 00:25:42,095
+into two parts, L and R.
+And essentially, we kind of
+
+444
+00:25:42,095 --> 00:25:43,950
+do no work, really.
+
+445
+00:25:43,950 --> 00:25:49,814
+In terms of the L and R in
+the sense that we just call,
+
+446
+00:25:49,814 --> 00:25:51,480
+we keep splitting,
+splitting, splitting.
+
+447
+00:25:51,480 --> 00:25:54,020
+And all the work is
+done down at the bottom
+
+448
+00:25:54,020 --> 00:25:57,570
+in this routine called
+merge, where we are merging
+
+449
+00:25:57,570 --> 00:26:00,110
+a pair of elements
+at the leaves.
+
+450
+00:26:00,110 --> 00:26:04,490
+And then, we merge two
+pairs and get four elements.
+
+451
+00:26:04,490 --> 00:26:08,630
+And then we merge four tuples
+of elements, et cetera,
+
+452
+00:26:08,630 --> 00:26:10,080
+and go all the way up.
+
+453
+00:26:10,080 --> 00:26:18,990
+So while I'm just saying L
+terms into L prime, out here,
+
+454
+00:26:18,990 --> 00:26:20,990
+there's no real
+explicit code that you
+
+455
+00:26:20,990 --> 00:26:23,870
+can see that turns
+L into L prime.
+
+456
+00:26:23,870 --> 00:26:25,630
+It happens really later.
+
+457
+00:26:25,630 --> 00:26:27,190
+There's no real
+sorting code, here.
+
+458
+00:26:27,190 --> 00:26:28,790
+It happens in the merge routine.
+
+459
+00:26:28,790 --> 00:26:30,649
+And you'll see
+that quite clearly
+
+460
+00:26:30,649 --> 00:26:31,940
+when we run through an example.
+
+461
+00:26:34,960 --> 00:26:41,500
+So you have L and R turn
+into L prime and R prime.
+
+462
+00:26:41,500 --> 00:26:52,310
+And what we end up getting
+is a sorted array, A.
+
+463
+00:26:52,310 --> 00:26:58,900
+And we have what's called
+a merge routine that
+
+464
+00:26:58,900 --> 00:27:01,110
+takes L prime and R
+prime and merges them
+
+465
+00:27:01,110 --> 00:27:02,400
+into the sorted array.
+
+466
+00:27:02,400 --> 00:27:09,270
+So at the top level, what
+you see is split into two,
+
+467
+00:27:09,270 --> 00:27:13,280
+and do a merge, and get
+to the sorted array.
+
+468
+00:27:13,280 --> 00:27:16,680
+The input is of size n.
+
+469
+00:27:16,680 --> 00:27:24,690
+You have two arrays
+of size n over 2.
+
+470
+00:27:24,690 --> 00:27:33,210
+These are two sorted
+arrays of size n over 2.
+
+471
+00:27:33,210 --> 00:27:39,480
+And then, finally, you have
+a sorted array of size n.
+
+472
+00:27:42,116 --> 00:27:44,240
+So if you want to follow
+the recursive of execution
+
+473
+00:27:44,240 --> 00:27:49,870
+of this in a small
+example, then you'll
+
+474
+00:27:49,870 --> 00:27:53,790
+be able to see how this works.
+
+475
+00:27:53,790 --> 00:27:56,120
+And we'll do a fairly
+straightforward example
+
+476
+00:27:56,120 --> 00:27:58,200
+with 8 elements.
+
+477
+00:27:58,200 --> 00:28:03,180
+So at the top level--
+before we get there, merge
+
+478
+00:28:03,180 --> 00:28:08,640
+is going to assume that
+you have two sorted arrays,
+
+479
+00:28:08,640 --> 00:28:11,700
+and merge them together.
+
+480
+00:28:11,700 --> 00:28:15,960
+That's the invariant in merge
+sort, or for the merge routine.
+
+481
+00:28:15,960 --> 00:28:19,570
+It assumes the inputs are
+sorted-- L and R. Actually
+
+482
+00:28:19,570 --> 00:28:22,800
+I should say, L
+prime and R prime.
+
+483
+00:28:22,800 --> 00:28:27,624
+So let's say you have
+20, 13, 7, and 2.
+
+484
+00:28:27,624 --> 00:28:31,320
+You have 12, 11, 9, and 1.
+
+485
+00:28:31,320 --> 00:28:33,400
+And this could be L prime.
+
+486
+00:28:33,400 --> 00:28:36,840
+And this could be R prime.
+
+487
+00:28:36,840 --> 00:28:39,650
+What you have is what we
+call a two finger algorithm.
+
+488
+00:28:39,650 --> 00:28:42,380
+And so you've got two
+fingers and each of them
+
+489
+00:28:42,380 --> 00:28:44,162
+point to something.
+
+490
+00:28:44,162 --> 00:28:45,870
+And in this case, one
+of them is pointing
+
+491
+00:28:45,870 --> 00:28:49,190
+to L. My left finger
+is pointing to L prime,
+
+492
+00:28:49,190 --> 00:28:50,800
+or some element L prime.
+
+493
+00:28:50,800 --> 00:28:53,850
+My right finger is pointing
+to some element in R prime.
+
+494
+00:28:53,850 --> 00:28:56,820
+And I'm going to
+compare the two elements
+
+495
+00:28:56,820 --> 00:28:58,740
+that my fingers are pointing to.
+
+496
+00:28:58,740 --> 00:29:02,170
+And I'm going to
+choose, in this case,
+
+497
+00:29:02,170 --> 00:29:03,840
+the smaller of those elements.
+
+498
+00:29:03,840 --> 00:29:07,790
+And I'm going to put them
+into the sorted array.
+
+499
+00:29:07,790 --> 00:29:10,970
+So start out here.
+
+500
+00:29:10,970 --> 00:29:12,480
+Look at that and that.
+
+501
+00:29:12,480 --> 00:29:14,266
+And I compared 2 and 1.
+
+502
+00:29:14,266 --> 00:29:15,140
+And which is smaller?
+
+503
+00:29:15,140 --> 00:29:16,310
+1 is smaller.
+
+504
+00:29:16,310 --> 00:29:19,130
+So I'm going to write 1 down.
+
+505
+00:29:19,130 --> 00:29:23,720
+This is a two finger
+algo for merge.
+
+506
+00:29:23,720 --> 00:29:24,880
+And I put 1 down.
+
+507
+00:29:24,880 --> 00:29:27,380
+When I put 1 down, I
+had to cross out 1.
+
+508
+00:29:27,380 --> 00:29:29,395
+So effectively, what
+happens is-- let
+
+509
+00:29:29,395 --> 00:29:31,460
+me just circle that
+instead of crossing it out.
+
+510
+00:29:31,460 --> 00:29:35,450
+And my finger moves up to 9.
+
+511
+00:29:35,450 --> 00:29:38,110
+So now I'm pointing at 2 and 9.
+
+512
+00:29:38,110 --> 00:29:40,080
+And I repeat this step.
+
+513
+00:29:40,080 --> 00:29:41,870
+So now, in this
+case, 2 is smaller.
+
+514
+00:29:41,870 --> 00:29:44,040
+So I'm going to go
+ahead and write 2 down.
+
+515
+00:29:44,040 --> 00:29:49,420
+And I can cross out 2 and
+move my finger up to 7.
+
+516
+00:29:49,420 --> 00:29:50,840
+And so that's it.
+
+517
+00:29:50,840 --> 00:29:54,010
+I won't bore you with
+the rest of the steps.
+
+518
+00:29:54,010 --> 00:29:56,114
+It's essentially walking up.
+
+519
+00:29:56,114 --> 00:29:57,780
+You have a couple of
+pointers and you're
+
+520
+00:29:57,780 --> 00:29:59,920
+walking up these two arrays.
+
+521
+00:29:59,920 --> 00:30:07,230
+And you're writing down 1,
+2, 7, 9, 11, 12, 13, 20.
+
+522
+00:30:07,230 --> 00:30:08,730
+And that's your merge routine.
+
+523
+00:30:08,730 --> 00:30:12,330
+And all of the work, really,
+is done in the merge routine
+
+524
+00:30:12,330 --> 00:30:15,460
+because, other than
+that, the body is simply
+
+525
+00:30:15,460 --> 00:30:16,620
+a recursive call.
+
+526
+00:30:16,620 --> 00:30:18,420
+You have to, obviously,
+split the array.
+
+527
+00:30:18,420 --> 00:30:20,110
+But that's fairly
+straightforward.
+
+528
+00:30:20,110 --> 00:30:24,600
+If you have an array, A 0
+through n-- and depending on
+
+529
+00:30:24,600 --> 00:30:28,300
+whether n is odd
+or even-- you could
+
+530
+00:30:28,300 --> 00:30:38,530
+imagine that you set L
+to be A 0 n by 2 minus 1,
+
+531
+00:30:38,530 --> 00:30:41,420
+and R similarly.
+
+532
+00:30:41,420 --> 00:30:44,086
+And so you just split it
+halfway in the middle.
+
+533
+00:30:44,086 --> 00:30:45,710
+I'll talk about that
+a little bit more.
+
+534
+00:30:45,710 --> 00:30:47,334
+There's a subtlety
+associated with that
+
+535
+00:30:47,334 --> 00:30:51,200
+that we'll get to
+in a few minutes.
+
+536
+00:30:51,200 --> 00:30:55,280
+But to finish up in terms of
+the computation of merge sort.
+
+537
+00:30:55,280 --> 00:30:56,110
+This is it.
+
+538
+00:30:56,110 --> 00:31:00,827
+The merge routine is doing
+most, if not all, of the work.
+
+539
+00:31:00,827 --> 00:31:02,410
+And this two finger
+algorithm is going
+
+540
+00:31:02,410 --> 00:31:04,630
+to be able to take
+two sorted arrays
+
+541
+00:31:04,630 --> 00:31:09,550
+and put them into a
+single sorted array
+
+542
+00:31:09,550 --> 00:31:13,150
+by interspersing, or
+interleaving, these elements.
+
+543
+00:31:13,150 --> 00:31:15,000
+And what's the
+complexity of merge
+
+544
+00:31:15,000 --> 00:31:18,710
+if I have two arrays
+of size n over 2, here?
+
+545
+00:31:18,710 --> 00:31:21,810
+What do I have?
+
+546
+00:31:21,810 --> 00:31:22,590
+AUDIENCE: n.
+
+547
+00:31:22,590 --> 00:31:23,731
+PROFESSOR: n.
+
+548
+00:31:23,731 --> 00:31:24,980
+We'll give you a cushion, too.
+
+549
+00:31:28,050 --> 00:31:29,165
+theta n complexity.
+
+550
+00:31:35,470 --> 00:31:36,290
+So far so good.
+
+551
+00:31:38,830 --> 00:31:41,640
+I know you know the
+answer as to what
+
+552
+00:31:41,640 --> 00:31:43,550
+the complexity of merge sort is.
+
+553
+00:31:43,550 --> 00:31:45,180
+But I'm guessing
+that most of you
+
+554
+00:31:45,180 --> 00:31:47,900
+won't be able to prove it to me
+because I'm kind of a hard guy
+
+555
+00:31:47,900 --> 00:31:50,920
+to prove something to.
+
+556
+00:31:50,920 --> 00:31:53,040
+And I could always say,
+no, I don't believe you
+
+557
+00:31:53,040 --> 00:31:53,956
+or I don't understand.
+
+558
+00:31:57,960 --> 00:32:00,880
+The complexity-- and you've
+said this before, in class,
+
+559
+00:32:00,880 --> 00:32:02,580
+and I think Erik's
+mentioned it--
+
+560
+00:32:02,580 --> 00:32:08,370
+the overall complexity of this
+algorithm is theta n log n
+
+561
+00:32:08,370 --> 00:32:09,810
+And where does that come from?
+
+562
+00:32:09,810 --> 00:32:11,790
+How do you prove that?
+
+563
+00:32:11,790 --> 00:32:16,840
+And so what we'll do, now,
+is take a look at merge sort.
+
+564
+00:32:16,840 --> 00:32:19,070
+And we'll look at
+the recursion tree.
+
+565
+00:32:19,070 --> 00:32:20,695
+And we'll try and--
+there are many ways
+
+566
+00:32:20,695 --> 00:32:23,370
+of proving that merge
+sort is theta n log n.
+
+567
+00:32:23,370 --> 00:32:25,860
+The way we're
+going to do this is
+
+568
+00:32:25,860 --> 00:32:28,640
+what's called proof by picture.
+
+569
+00:32:28,640 --> 00:32:32,290
+And it's not an established
+proof technique,
+
+570
+00:32:32,290 --> 00:32:35,020
+but it's something
+that is very helpful
+
+571
+00:32:35,020 --> 00:32:38,100
+to get an intuition
+behind the proof
+
+572
+00:32:38,100 --> 00:32:40,441
+and why the result is true.
+
+573
+00:32:40,441 --> 00:32:41,940
+And you can always
+take that and you
+
+574
+00:32:41,940 --> 00:32:47,030
+can formalize it and
+make this something
+
+575
+00:32:47,030 --> 00:32:49,680
+that everyone believes.
+
+576
+00:32:49,680 --> 00:32:52,960
+And we'll also look at
+substitution, possibly
+
+577
+00:32:52,960 --> 00:32:56,310
+in section tomorrow,
+for recurrence solving.
+
+578
+00:32:56,310 --> 00:33:00,540
+So where we're right now is that
+we have a divide and conquer
+
+579
+00:33:00,540 --> 00:33:07,710
+algorithm that has a merge
+step that is theta n.
+
+580
+00:33:07,710 --> 00:33:12,540
+And so, if I just look at this
+structure that I have here,
+
+581
+00:33:12,540 --> 00:33:16,150
+I can write a recurrence
+for merge sort
+
+582
+00:33:16,150 --> 00:33:17,966
+that looks like this.
+
+583
+00:33:17,966 --> 00:33:22,720
+So when I say
+complexity, I can say
+
+584
+00:33:22,720 --> 00:33:26,230
+T of n, which is the
+work done for n items,
+
+585
+00:33:26,230 --> 00:33:28,910
+is going to be some
+constant time in order
+
+586
+00:33:28,910 --> 00:33:31,940
+to divide the array.
+
+587
+00:33:31,940 --> 00:33:34,200
+So this could be the
+part corresponding
+
+588
+00:33:34,200 --> 00:33:36,360
+to dividing the array.
+
+589
+00:33:36,360 --> 00:33:40,360
+And there's going to be two
+problems of size n over 2.
+
+590
+00:33:40,360 --> 00:33:42,810
+And so I have 2 T of n over 2.
+
+591
+00:33:42,810 --> 00:33:44,710
+And this is the recursive part.
+
+592
+00:33:48,650 --> 00:33:53,960
+And I'm going to have c times
+n, which is the merge part.
+
+593
+00:33:53,960 --> 00:33:58,910
+And that's some constant times
+n, which is what we have,
+
+594
+00:33:58,910 --> 00:34:01,890
+here, with respect to
+the theta n complexity.
+
+595
+00:34:01,890 --> 00:34:04,980
+So you have a recurrence like
+this and I know some of you
+
+596
+00:34:04,980 --> 00:34:07,150
+have seen recurrences in 6.042.
+
+597
+00:34:07,150 --> 00:34:09,239
+And you know how to solve this.
+
+598
+00:34:09,239 --> 00:34:14,469
+What I'd like to do is show you
+this recursion tree expansion
+
+599
+00:34:14,469 --> 00:34:17,989
+that, not only tells you how
+to solve this occurrence,
+
+600
+00:34:17,989 --> 00:34:23,102
+but also gives you a means
+of solving recurrences where,
+
+601
+00:34:23,102 --> 00:34:25,560
+instead of having c of n, you
+have something else out here.
+
+602
+00:34:25,560 --> 00:34:27,790
+You have f of n, which
+is a different function
+
+603
+00:34:27,790 --> 00:34:29,280
+from the linear function.
+
+604
+00:34:29,280 --> 00:34:33,750
+And this recursion
+tree is, in my mind,
+
+605
+00:34:33,750 --> 00:34:38,650
+the simplest way of
+arguing the theta n log n
+
+606
+00:34:38,650 --> 00:34:41,100
+complexity of merge sort.
+
+607
+00:34:41,100 --> 00:34:44,339
+So what I want to do is
+expand this recurrence out.
+
+608
+00:34:44,339 --> 00:34:45,505
+And let's do that over here.
+
+609
+00:35:06,830 --> 00:35:10,950
+So I have c of n on top.
+
+610
+00:35:10,950 --> 00:35:15,850
+I'm going to ignore this
+constant factor because c of n
+
+611
+00:35:15,850 --> 00:35:16,550
+dominates.
+
+612
+00:35:16,550 --> 00:35:18,080
+So I'll just start with c of n.
+
+613
+00:35:18,080 --> 00:35:23,450
+I want to break things
+up, as I do the recursion.
+
+614
+00:35:23,450 --> 00:35:26,960
+So when I go c of n, at
+the top level-- that's
+
+615
+00:35:26,960 --> 00:35:29,750
+the work I have to do at
+the merge, at the top level.
+
+616
+00:35:29,750 --> 00:35:33,110
+And then when I go down to two
+smaller problems, each of them
+
+617
+00:35:33,110 --> 00:35:34,480
+is size n over 2.
+
+618
+00:35:34,480 --> 00:35:38,440
+So I do c times n
+divided by 2 [INAUDIBLE].
+
+619
+00:35:38,440 --> 00:35:41,617
+So this is just a constant c.
+
+620
+00:35:41,617 --> 00:35:43,200
+I didn't want to
+write thetas up here.
+
+621
+00:35:43,200 --> 00:35:44,440
+You could.
+
+622
+00:35:44,440 --> 00:35:46,760
+And I'll say a little bit
+more about that later.
+
+623
+00:35:46,760 --> 00:35:49,180
+But think of this cn as
+representing the theta n
+
+624
+00:35:49,180 --> 00:35:50,260
+complexity.
+
+625
+00:35:50,260 --> 00:35:52,790
+And c is this constant.
+
+626
+00:35:52,790 --> 00:35:57,960
+So c times n, here. c
+times n over 2, here.
+
+627
+00:35:57,960 --> 00:36:01,760
+And then when I keep going,
+I have c times n over 4,
+
+628
+00:36:01,760 --> 00:36:08,910
+c times n over 4, et cetera,
+and so on, and so forth.
+
+629
+00:36:08,910 --> 00:36:10,650
+And when I come down
+all the way here,
+
+630
+00:36:10,650 --> 00:36:16,670
+n is eventually going to become
+1-- or essentially a constant--
+
+631
+00:36:16,670 --> 00:36:20,790
+and I'm going to have
+a bunch of c's here.
+
+632
+00:36:20,790 --> 00:36:27,050
+So here's another question,
+that I'd like you to answer.
+
+633
+00:36:27,050 --> 00:36:31,210
+Someone tell me what the number
+of levels in this tree are,
+
+634
+00:36:31,210 --> 00:36:34,060
+precisely, and the number
+of leaves in this tree are,
+
+635
+00:36:34,060 --> 00:36:35,570
+precisely.
+
+636
+00:36:35,570 --> 00:36:38,061
+AUDIENCE: The number of
+levels is log n plus 1.
+
+637
+00:36:38,061 --> 00:36:39,060
+PROFESSOR: Log n plus 1.
+
+638
+00:36:39,060 --> 00:36:41,169
+Log to the base 2 plus 1.
+
+639
+00:36:41,169 --> 00:36:42,210
+And the number of leaves?
+
+640
+00:36:48,430 --> 00:36:50,580
+You raised your hand
+back there, first.
+
+641
+00:36:50,580 --> 00:36:51,430
+Number of leaves.
+
+642
+00:36:51,430 --> 00:36:52,880
+AUDIENCE: I think n.
+
+643
+00:36:52,880 --> 00:36:54,130
+PROFESSOR: Yeah, you're right.
+
+644
+00:36:54,130 --> 00:36:56,210
+You think right.
+
+645
+00:36:56,210 --> 00:37:02,520
+So 1 plus log n and n leaves.
+
+646
+00:37:02,520 --> 00:37:05,870
+When n becomes 1, how
+many of them do you have?
+
+647
+00:37:05,870 --> 00:37:09,470
+You're down to a single element,
+which is, by definition,
+
+648
+00:37:09,470 --> 00:37:10,580
+sorted.
+
+649
+00:37:10,580 --> 00:37:13,730
+And you have n leaves.
+
+650
+00:37:13,730 --> 00:37:17,020
+So now let's add up the work.
+
+651
+00:37:17,020 --> 00:37:20,230
+I really like this
+picture because it's just
+
+652
+00:37:20,230 --> 00:37:23,450
+so intuitive in terms
+of getting us the result
+
+653
+00:37:23,450 --> 00:37:25,090
+that we're looking for.
+
+654
+00:37:25,090 --> 00:37:30,080
+So you add up the work in each
+of the levels of this tree.
+
+655
+00:37:30,080 --> 00:37:32,190
+So the top level is cn.
+
+656
+00:37:32,190 --> 00:37:39,790
+The second level is cn because
+I added 1/2 and 1/2, cn, cn.
+
+657
+00:37:39,790 --> 00:37:40,750
+Wow.
+
+658
+00:37:40,750 --> 00:37:43,010
+What symmetry.
+
+659
+00:37:43,010 --> 00:37:50,500
+So you're doing the same
+amount of work modulo
+
+660
+00:37:50,500 --> 00:37:54,050
+the constant factors,
+here, with what's
+
+661
+00:37:54,050 --> 00:37:56,280
+going on with the c1,
+which we've ignored,
+
+662
+00:37:56,280 --> 00:37:59,870
+but roughly the same amount
+of work in each of the levels.
+
+663
+00:37:59,870 --> 00:38:02,570
+And now, you know how
+many levels there are.
+
+664
+00:38:02,570 --> 00:38:04,850
+It's 1 plus log n.
+
+665
+00:38:04,850 --> 00:38:11,930
+So if you want to write
+an equation for T of n,
+
+666
+00:38:11,930 --> 00:38:23,030
+it's 1 plus log n times c of
+n, which is theta of n log n.
+
+667
+00:38:26,520 --> 00:38:31,049
+So I've mixed in
+constants c and thetas.
+
+668
+00:38:31,049 --> 00:38:32,590
+For the purposes of
+this description,
+
+669
+00:38:32,590 --> 00:38:33,950
+they're interchangeable.
+
+670
+00:38:33,950 --> 00:38:38,095
+You will see recurrences that
+look like this, in class.
+
+671
+00:38:45,210 --> 00:38:46,860
+And things like that.
+
+672
+00:38:46,860 --> 00:38:48,370
+Don't get confused.
+
+673
+00:38:48,370 --> 00:38:51,150
+It's just a constant
+multiplicative factor
+
+674
+00:38:51,150 --> 00:38:54,510
+in front of the
+function that you have.
+
+675
+00:38:54,510 --> 00:38:56,230
+And it's just a little
+easier, I think,
+
+676
+00:38:56,230 --> 00:38:58,140
+to write down these
+constant factors
+
+677
+00:38:58,140 --> 00:39:00,510
+and realize that the
+amount of work done
+
+678
+00:39:00,510 --> 00:39:02,980
+is the same in
+each of the leaves.
+
+679
+00:39:02,980 --> 00:39:06,010
+And once you know the
+dimensions of this tree,
+
+680
+00:39:06,010 --> 00:39:08,930
+in terms of levels and in
+terms of the number of leaves,
+
+681
+00:39:08,930 --> 00:39:10,960
+you get your result.
+
+682
+00:39:14,560 --> 00:39:17,425
+So we've looked at
+two algorithm, so far.
+
+683
+00:39:26,160 --> 00:39:29,540
+And insertion sort, if
+you talk about numbers,
+
+684
+00:39:29,540 --> 00:39:31,964
+is theta n squared for swaps.
+
+685
+00:39:31,964 --> 00:39:33,130
+Merge sort is theta n log n.
+
+686
+00:39:36,270 --> 00:39:38,680
+Here's another
+interesting question.
+
+687
+00:39:38,680 --> 00:39:44,720
+What is one advantage of
+insertion sort over merge sort?
+
+688
+00:39:50,176 --> 00:39:51,180
+AUDIENCE: [INAUDIBLE]
+
+689
+00:39:51,180 --> 00:39:52,732
+PROFESSOR: What does that mean?
+
+690
+00:39:52,732 --> 00:39:54,773
+AUDIENCE: You don't have
+to move elements outside
+
+691
+00:39:54,773 --> 00:39:56,960
+of [INAUDIBLE].
+
+692
+00:39:56,960 --> 00:39:58,420
+PROFESSOR: That's exactly right.
+
+693
+00:39:58,420 --> 00:40:01,330
+That's exactly right.
+
+694
+00:40:01,330 --> 00:40:03,270
+So the two guys who
+answered the questions
+
+695
+00:40:03,270 --> 00:40:05,840
+before with the levels, and you.
+
+696
+00:40:05,840 --> 00:40:07,740
+Come to me after class.
+
+697
+00:40:07,740 --> 00:40:09,690
+So that's a great answer.
+
+698
+00:40:09,690 --> 00:40:12,180
+It's in-place
+sorting is something
+
+699
+00:40:12,180 --> 00:40:14,820
+that has to do with
+auxiliary space.
+
+700
+00:40:14,820 --> 00:40:19,280
+And so what you see, here--
+and it was a bit hidden, here.
+
+701
+00:40:19,280 --> 00:40:21,940
+But the fact of the
+matter is that you
+
+702
+00:40:21,940 --> 00:40:25,530
+had L prime and R prime.
+
+703
+00:40:25,530 --> 00:40:29,910
+And L prime and R prime are
+different from L and R, which
+
+704
+00:40:29,910 --> 00:40:33,440
+were the initial halves of
+the inputs to the sorting
+
+705
+00:40:33,440 --> 00:40:34,990
+algorithm.
+
+706
+00:40:34,990 --> 00:40:38,630
+And what I said here is, we're
+going to dump this into A.
+
+707
+00:40:38,630 --> 00:40:40,440
+That's what this picture shows.
+
+708
+00:40:40,440 --> 00:40:43,340
+This says sorted
+array, A. And so you
+
+709
+00:40:43,340 --> 00:40:48,720
+had to make a copy of the
+array-- the two halves L
+
+710
+00:40:48,720 --> 00:40:52,270
+and R-- in order to
+do the recursion,
+
+711
+00:40:52,270 --> 00:40:54,490
+and then to take the
+results and put them
+
+712
+00:40:54,490 --> 00:40:56,790
+into the sorted array, A.
+
+713
+00:40:56,790 --> 00:40:59,220
+So you needed-- in
+merge sort-- you
+
+714
+00:40:59,220 --> 00:41:04,060
+needed theta n auxiliary space.
+
+715
+00:41:04,060 --> 00:41:10,370
+So merge sort, you need
+theta n extra space.
+
+716
+00:41:10,370 --> 00:41:17,380
+And the definition
+of in-place sorting
+
+717
+00:41:17,380 --> 00:41:21,575
+implies that you have theta
+1-- constant-- auxiliary space.
+
+718
+00:41:24,580 --> 00:41:27,330
+The auxiliary space
+for insertion sort
+
+719
+00:41:27,330 --> 00:41:30,450
+is simply that
+temporary variable
+
+720
+00:41:30,450 --> 00:41:33,310
+that you need when
+you swap two elements.
+
+721
+00:41:33,310 --> 00:41:35,520
+So when you want to swap
+a couple of registers,
+
+722
+00:41:35,520 --> 00:41:38,070
+you gotta store one of the
+values in a temporary location,
+
+723
+00:41:38,070 --> 00:41:39,600
+override the other, et cetera.
+
+724
+00:41:39,600 --> 00:41:43,190
+And that's the theta 1 auxiliary
+space for insertion sort.
+
+725
+00:41:43,190 --> 00:41:47,330
+So there is an advantage of
+the version of insertion sort
+
+726
+00:41:47,330 --> 00:41:49,140
+we've talked about,
+today, over merge sort.
+
+727
+00:41:49,140 --> 00:41:52,827
+And if you have a billion
+elements, that's potentially
+
+728
+00:41:52,827 --> 00:41:54,660
+something you don't
+want to store in memory.
+
+729
+00:41:54,660 --> 00:41:57,550
+If you want to do something
+really fast and do everything
+
+730
+00:41:57,550 --> 00:42:00,400
+in cache or main
+memory, and you want
+
+731
+00:42:00,400 --> 00:42:03,610
+to sort billions are maybe
+even trillions of items,
+
+732
+00:42:03,610 --> 00:42:07,740
+this becomes an
+important consideration.
+
+733
+00:42:07,740 --> 00:42:12,930
+I will say that you can
+reduce the constant factor
+
+734
+00:42:12,930 --> 00:42:14,530
+of the theta n.
+
+735
+00:42:14,530 --> 00:42:16,590
+So in the vanilla
+scheme, you could
+
+736
+00:42:16,590 --> 00:42:18,690
+imagine that you have to
+have a copy of the array.
+
+737
+00:42:18,690 --> 00:42:20,900
+So if you had n
+elements, you essentially
+
+738
+00:42:20,900 --> 00:42:24,490
+have n extra items of storage.
+
+739
+00:42:24,490 --> 00:42:28,130
+You can make that n over 2
+with a simple coding trick
+
+740
+00:42:28,130 --> 00:42:32,710
+by keeping 1/2 of A.
+
+741
+00:42:32,710 --> 00:42:35,800
+You can throw away one of
+the L's or one of the R's.
+
+742
+00:42:35,800 --> 00:42:37,637
+And you can get it
+down to n over 2.
+
+743
+00:42:37,637 --> 00:42:39,470
+And that turns out--
+it's a reasonable thing
+
+744
+00:42:39,470 --> 00:42:41,410
+to do if you have
+a billion elements
+
+745
+00:42:41,410 --> 00:42:45,400
+and you want to reduce your
+storage by a constant factor.
+
+746
+00:42:45,400 --> 00:42:47,130
+So that's one coding trick.
+
+747
+00:42:47,130 --> 00:42:49,630
+Now it turns out that you
+can actually go further.
+
+748
+00:42:49,630 --> 00:42:52,130
+And there's a fairly
+sophisticated algorithm
+
+749
+00:42:52,130 --> 00:42:54,740
+that's sort of beyond
+the scope of 6.006
+
+750
+00:42:54,740 --> 00:42:56,420
+that's an in-place merge sort.
+
+751
+00:42:59,310 --> 00:43:03,070
+And this in-place
+merge sort is kind of
+
+752
+00:43:03,070 --> 00:43:08,590
+impractical in the sense
+that it doesn't do very well
+
+753
+00:43:08,590 --> 00:43:10,140
+in terms of the
+constant factors.
+
+754
+00:43:10,140 --> 00:43:15,120
+So while it's in-place and
+it's still theta n log n.
+
+755
+00:43:15,120 --> 00:43:19,720
+The problem is that the running
+time of an in-place merge sort
+
+756
+00:43:19,720 --> 00:43:23,210
+is much worse than the
+regular merge sort that
+
+757
+00:43:23,210 --> 00:43:25,510
+uses theta n auxiliary space.
+
+758
+00:43:25,510 --> 00:43:28,100
+So people don't really
+use in-place merge sort.
+
+759
+00:43:28,100 --> 00:43:29,360
+It's a great paper.
+
+760
+00:43:29,360 --> 00:43:31,800
+It's a great thing to read.
+
+761
+00:43:31,800 --> 00:43:37,080
+Its analysis is a bit
+sophisticated for double 0 6.
+
+762
+00:43:37,080 --> 00:43:39,030
+So we wont go there.
+
+763
+00:43:39,030 --> 00:43:40,330
+But it does exist.
+
+764
+00:43:40,330 --> 00:43:42,003
+So you can take merge
+sort, and I just
+
+765
+00:43:42,003 --> 00:43:45,230
+want to let you know that
+you can do things in-place.
+
+766
+00:43:45,230 --> 00:43:50,560
+In terms of numbers, some
+experiments we ran a few years
+
+767
+00:43:50,560 --> 00:43:54,650
+ago-- so these may not
+be completely valid
+
+768
+00:43:54,650 --> 00:43:56,650
+because I'm going to
+actually give you numbers--
+
+769
+00:43:56,650 --> 00:44:07,380
+but merge sort in Python, if
+you write a little curve fit
+
+770
+00:44:07,380 --> 00:44:17,790
+program to do this, is 2.2n log
+n microseconds for a given n.
+
+771
+00:44:17,790 --> 00:44:19,625
+So this is the
+merge sort routine.
+
+772
+00:44:22,450 --> 00:44:32,230
+And if you look at
+insertion sort, in Python,
+
+773
+00:44:32,230 --> 00:44:39,410
+that's something like 0.2
+n square microseconds.
+
+774
+00:44:39,410 --> 00:44:42,700
+So you see the
+constant factors here.
+
+775
+00:44:42,700 --> 00:44:48,230
+If you do insertion sort in C,
+which is a compiled language,
+
+776
+00:44:48,230 --> 00:44:50,420
+then, it's much faster.
+
+777
+00:44:50,420 --> 00:44:52,935
+It's about 20 times faster.
+
+778
+00:44:55,440 --> 00:44:59,230
+It's 0.01 n squared
+microseconds.
+
+779
+00:44:59,230 --> 00:45:00,960
+So a little bit of
+practice on the side.
+
+780
+00:45:00,960 --> 00:45:02,714
+We do ask you to write code.
+
+781
+00:45:02,714 --> 00:45:03,630
+And this is important.
+
+782
+00:45:03,630 --> 00:45:04,930
+The reason we're
+interested in algorithms
+
+783
+00:45:04,930 --> 00:45:06,770
+is because people
+want to run them.
+
+784
+00:45:06,770 --> 00:45:13,860
+And what you can see is that
+you can actually find an n-- so
+
+785
+00:45:13,860 --> 00:45:16,300
+regardless of whether
+you're Python or C,
+
+786
+00:45:16,300 --> 00:45:20,020
+this tells you that asymptotic
+complexity is pretty important
+
+787
+00:45:20,020 --> 00:45:24,140
+because, once n gets
+beyond about 4,000,
+
+788
+00:45:24,140 --> 00:45:27,260
+you're going to see that
+merge sort in Python
+
+789
+00:45:27,260 --> 00:45:30,350
+beats insertion sort in C.
+
+790
+00:45:30,350 --> 00:45:35,430
+So the constant
+factors get subsumed
+
+791
+00:45:35,430 --> 00:45:37,160
+beyond certain values of n.
+
+792
+00:45:37,160 --> 00:45:39,835
+So that's why asymptotic
+complexity is important.
+
+793
+00:45:39,835 --> 00:45:41,210
+You do have a
+factor of 20, here,
+
+794
+00:45:41,210 --> 00:45:43,270
+but that doesn't really
+help you in terms
+
+795
+00:45:43,270 --> 00:45:47,440
+of keeping an n square
+algorithm competitive.
+
+796
+00:45:47,440 --> 00:45:49,400
+It stays competitive
+for a little bit longer,
+
+797
+00:45:49,400 --> 00:45:50,510
+but then falls behind.
+
+798
+00:45:54,520 --> 00:45:57,387
+That's what I wanted
+to cover for sorting.
+
+799
+00:45:57,387 --> 00:45:58,970
+So hopefully, you
+have a sense of what
+
+800
+00:45:58,970 --> 00:46:02,040
+happens with these two
+sorting algorithms.
+
+801
+00:46:02,040 --> 00:46:05,200
+We'll look at a very different
+sorting algorithm next time,
+
+802
+00:46:05,200 --> 00:46:08,460
+using heaps, which is a
+different data structure.
+
+803
+00:46:08,460 --> 00:46:11,330
+The last thing I want to do in
+the couple minutes I have left
+
+804
+00:46:11,330 --> 00:46:14,810
+is give you a little more
+intuition as to recurrence
+
+805
+00:46:14,810 --> 00:46:18,680
+solving based on this diagram
+that I wrote up there.
+
+806
+00:46:18,680 --> 00:46:21,460
+And so we're going to use
+exactly this structure.
+
+807
+00:46:21,460 --> 00:46:24,250
+And we're going to look at a
+couple of different recurrences
+
+808
+00:46:24,250 --> 00:46:26,360
+that I won't really
+motivate in terms
+
+809
+00:46:26,360 --> 00:46:29,420
+of having a specific
+algorithm, but I'll just
+
+810
+00:46:29,420 --> 00:46:31,150
+write out the recurrence.
+
+811
+00:46:31,150 --> 00:46:36,340
+And we'll look at the
+recursion tree for that.
+
+812
+00:46:36,340 --> 00:46:41,900
+And I'll try and tease out of
+you the complexity associated
+
+813
+00:46:41,900 --> 00:46:45,635
+with these recurrences of
+the overall complexity.
+
+814
+00:46:49,480 --> 00:46:58,000
+So let's take a look at T
+of n equals 2 T of n over 2
+
+815
+00:46:58,000 --> 00:47:00,310
+plus c n squared.
+
+816
+00:47:02,820 --> 00:47:08,360
+Let me just call that c--
+no need for the brackets.
+
+817
+00:47:08,360 --> 00:47:10,970
+So constant c times n squared.
+
+818
+00:47:10,970 --> 00:47:13,200
+So if you had a
+crummy merge routine,
+
+819
+00:47:13,200 --> 00:47:18,020
+and it was taking n square,
+and you coded it up wrong.
+
+820
+00:47:18,020 --> 00:47:20,050
+It's not a great motivation
+for this recurrence,
+
+821
+00:47:20,050 --> 00:47:23,980
+but it's a way this
+recurrence could have come up.
+
+822
+00:47:23,980 --> 00:47:27,470
+So what does this
+recursive tree look like?
+
+823
+00:47:27,470 --> 00:47:29,580
+Well it looks kind of
+the same, obviously.
+
+824
+00:47:29,580 --> 00:47:33,210
+You have c n square; you
+have c n square divided by 4;
+
+825
+00:47:33,210 --> 00:47:36,620
+c n square divided by
+4; c n square divided
+
+826
+00:47:36,620 --> 00:47:40,620
+by 16, four times.
+
+827
+00:47:40,620 --> 00:47:44,460
+Looking a little bit
+different from the other one.
+
+828
+00:47:44,460 --> 00:47:47,560
+The levels and the leaves
+are exactly the same.
+
+829
+00:47:47,560 --> 00:47:49,720
+Eventually n is going
+to go down to 1.
+
+830
+00:47:49,720 --> 00:47:53,280
+So you will see c
+all the way here.
+
+831
+00:47:53,280 --> 00:47:54,735
+And you're going
+to have n leaves.
+
+832
+00:47:57,880 --> 00:48:03,380
+And you will have, as
+before, 1 plus log n levels.
+
+833
+00:48:03,380 --> 00:48:05,070
+Everything is the same.
+
+834
+00:48:05,070 --> 00:48:07,590
+And this is why I like this
+recursive tree formulation so
+
+835
+00:48:07,590 --> 00:48:09,370
+much because, now,
+all I have to do
+
+836
+00:48:09,370 --> 00:48:14,710
+is add up the work associated
+with each of the levels
+
+837
+00:48:14,710 --> 00:48:17,100
+to get the solution
+to the recurrence.
+
+838
+00:48:17,100 --> 00:48:18,770
+Now, take a look at
+what happens, here.
+
+839
+00:48:18,770 --> 00:48:25,350
+c n square; c n square divided
+by 2; c n square divided by 4.
+
+840
+00:48:25,350 --> 00:48:27,890
+And this is n times c.
+
+841
+00:48:30,890 --> 00:48:34,316
+So what does that add up to?
+
+842
+00:48:34,316 --> 00:48:35,839
+AUDIENCE: [INAUDIBLE]
+
+843
+00:48:35,839 --> 00:48:36,880
+PROFESSOR: Yeah, exactly.
+
+844
+00:48:36,880 --> 00:48:37,920
+Exactly right.
+
+845
+00:48:37,920 --> 00:48:40,430
+So if you look at what
+happens, here, this dominates.
+
+846
+00:48:44,340 --> 00:48:47,520
+All of the other things are
+actually less than that.
+
+847
+00:48:47,520 --> 00:48:49,250
+And you said bounded
+by two c n square
+
+848
+00:48:49,250 --> 00:48:51,420
+because this part is
+bounded by c n square
+
+849
+00:48:51,420 --> 00:48:54,490
+and I already have c n
+square up at the top.
+
+850
+00:48:54,490 --> 00:48:58,100
+So this particular algorithm
+that corresponds to this crummy
+
+851
+00:48:58,100 --> 00:49:02,300
+merge sort, or wherever
+this recurrence came from,
+
+852
+00:49:02,300 --> 00:49:06,700
+is a theta n squared algorithm.
+
+853
+00:49:06,700 --> 00:49:10,520
+And in this case,
+all of the work done
+
+854
+00:49:10,520 --> 00:49:15,360
+is at the root-- at the
+top level of the recursion.
+
+855
+00:49:15,360 --> 00:49:17,650
+Here, there was a
+roughly equal amount
+
+856
+00:49:17,650 --> 00:49:21,630
+of work done in each of
+the different levels.
+
+857
+00:49:21,630 --> 00:49:26,610
+Here, all of the work
+was done at the root.
+
+858
+00:49:26,610 --> 00:49:29,460
+And so to close
+up shop, here, let
+
+859
+00:49:29,460 --> 00:49:34,210
+me just give you real
+quick a recurrence where
+
+860
+00:49:34,210 --> 00:49:40,470
+all of the work is done at
+the leaves, just for closure.
+
+861
+00:49:40,470 --> 00:49:45,770
+So if I had, magically, a merge
+routine that actually happened
+
+862
+00:49:45,770 --> 00:49:48,710
+in constant time, either
+through buggy analysis,
+
+863
+00:49:48,710 --> 00:49:51,890
+or because of it
+was buggy, then what
+
+864
+00:49:51,890 --> 00:49:55,650
+does the tree look
+like for that?
+
+865
+00:49:55,650 --> 00:49:58,280
+And I can think of
+this as being theta 1.
+
+866
+00:49:58,280 --> 00:50:01,156
+Or I can think of this as
+being just a constant c.
+
+867
+00:50:01,156 --> 00:50:02,030
+I'll stick with that.
+
+868
+00:50:02,030 --> 00:50:05,246
+So I have c, c, c.
+
+869
+00:50:09,890 --> 00:50:11,350
+Woah, I tried to move that up.
+
+870
+00:50:11,350 --> 00:50:13,750
+That doesn't work.
+
+871
+00:50:13,750 --> 00:50:15,545
+So I have n leaves, as before.
+
+872
+00:50:18,314 --> 00:50:19,980
+And so if I look at
+what I have, here, I
+
+873
+00:50:19,980 --> 00:50:21,840
+have c at the top level.
+
+874
+00:50:21,840 --> 00:50:25,870
+I have 2c, and so
+on and so forth.
+
+875
+00:50:25,870 --> 00:50:26,930
+4c.
+
+876
+00:50:26,930 --> 00:50:30,940
+And then I go all
+the way down to nc.
+
+877
+00:50:30,940 --> 00:50:33,380
+And so what happens
+here is this dominates.
+
+878
+00:50:36,010 --> 00:50:41,600
+And so, in this recurrence, the
+whole thing runs in theta n.
+
+879
+00:50:41,600 --> 00:50:46,300
+So the solution to
+that is theta n.
+
+880
+00:50:46,300 --> 00:50:50,970
+And what you have here
+is all of the work
+
+881
+00:50:50,970 --> 00:50:54,450
+being done at the leaves.
+
+882
+00:50:54,450 --> 00:50:58,440
+We're not going to really cover
+this theorem that gives you
+
+883
+00:50:58,440 --> 00:51:02,340
+a mechanical way of figuring
+this out because we think
+
+884
+00:51:02,340 --> 00:51:05,780
+the recursive tree is a
+better way of looking at.
+
+885
+00:51:05,780 --> 00:51:08,920
+But you can see that, depending
+on what that function is,
+
+886
+00:51:08,920 --> 00:51:12,130
+in terms of the work being
+done in the merge routine,
+
+887
+00:51:12,130 --> 00:51:14,490
+you'd have different
+versions of recurrences.
+
+888
+00:51:14,490 --> 00:51:16,990
+I'll stick around, and people
+who answered questions, please
+
+889
+00:51:16,990 --> 00:51:18,270
+pick up you cushions.
+
+890
+00:51:18,270 --> 00:51:20,240
+See you next time.

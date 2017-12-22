@@ -24,22 +24,11 @@ class DataIteratorFactory():
         '''
         '''
         try:
-            model = getattr(import_module(DataIteratorFactory.iterator_path[name]), DataIteratorFactory.iterators[name])
+            data_iterator = getattr(import_module(DataIteratorFactory.iterator_path[name]), DataIteratorFactory.iterators[name])
         except KeyError:
-            raise NotImplemented("Given config file name not found: {}".format(name))
+            raise NotImplemented("Given data iterator file name not found: {}".format(name))
         # Return the model class
-        return model
-
-    # @staticmethod
-    # def _get_model_config(name):
-    #     '''
-    #     '''
-    #     try:
-    #         cfg = getattr(import_module("models." + name), DatasetFactory.model_configurations[name])
-    #     except KeyError:
-    #         raise NotImplemented("Given config file name not found: {}".format(name))
-    #     # Return the model class
-    #     return cfg
+        return data_iterator
 
     @staticmethod
     def get(iterator_name):

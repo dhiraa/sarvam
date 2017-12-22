@@ -11,9 +11,13 @@
 # https://github.com/tensorflow/tensorflow/issues/14018
 
 import argparse
+import os
 
 import tensorflow as tf
 from tensorflow.contrib.learn import ModeKeys
+from tc_utils.feature_types import TextAndCharIdsFeature
+from tc_utils.tc_config import *
+import pickle
 
 tf.logging.set_verbosity("INFO")
 
@@ -42,12 +46,12 @@ class BiLSTMConfigV0():
                  #hyper parameters
                  use_char_embedding,
                  learning_rate,
-                 word_level_lstm_hidden_size=300,
-                 char_level_lstm_hidden_size=300,
-                 word_emd_size=300,
-                 char_emd_size=300,
-                 num_lstm_layers=2,
-                 out_keep_propability=0.75):
+                 word_level_lstm_hidden_size,
+                 char_level_lstm_hidden_size,
+                 word_emd_size,
+                 char_emd_size,
+                 num_lstm_layers,
+                 out_keep_propability):
 
         # tf.app.flags.FLAGS = tf.app.flags._FlagValues()
         # tf.app.flags._global_parser = argparse.ArgumentParser()
@@ -55,27 +59,89 @@ class BiLSTMConfigV0():
         # self.FLAGS = flags.FLAGS
 
         # Constant params
-        flags.DEFINE_string("MODEL_DIR", model_dir, "")
-        flags.DEFINE_string("UNKNOWN_TAG", "O", "")
+        self.MODEL_DIR = model_dir
+        self.UNKNOWN_TAG = "O"
 
         # Preprocessing Paramaters
-        flags.DEFINE_integer("VOCAB_SIZE", vocab_size, "")
-        flags.DEFINE_integer("CHAR_VOCAB_SIZE", char_vocab_size, "")
-        flags.DEFINE_integer("NUM_CLASSES", num_classes, "")
+        self.VOCAB_SIZE = int(vocab_size)
+        self.CHAR_VOCAB_SIZE = int(char_vocab_size)
+        self.NUM_CLASSES = int(num_classes)
 
-        flags.DEFINE_integer("MAX_DOC_LENGTH", max_document_length, "")
+        self.MAX_DOC_LENGTH = int(max_document_length)
 
 
         # Model hyper parameters
-        flags.DEFINE_boolean("USE_CHAR_EMBEDDING", use_char_embedding, "")
-        flags.DEFINE_float("LEARNING_RATE", learning_rate, "")
-        flags.DEFINE_float("KEEP_PROP", out_keep_propability, "")
-        flags.DEFINE_integer("WORD_EMBEDDING_SIZE", word_emd_size, "")
-        flags.DEFINE_integer("CHAR_EMBEDDING_SIZE", char_emd_size, "")
-        flags.DEFINE_integer("WORD_LEVEL_LSTM_HIDDEN_SIZE", word_level_lstm_hidden_size, "")
-        flags.DEFINE_integer("CHAR_LEVEL_LSTM_HIDDEN_SIZE", char_level_lstm_hidden_size, "")
-        flags.DEFINE_integer("NUM_LSTM_LAYERS", num_lstm_layers, "")
+        self.USE_CHAR_EMBEDDING = use_char_embedding
+        self.LEARNING_RATE =  float(learning_rate)
+        self.KEEP_PROP = float(out_keep_propability)
+        self.WORD_EMBEDDING_SIZE = int(word_emd_size)
+        self.CHAR_EMBEDDING_SIZE = int(char_emd_size)
+        self.WORD_LEVEL_LSTM_HIDDEN_SIZE =  int(word_level_lstm_hidden_size)
+        self.CHAR_LEVEL_LSTM_HIDDEN_SIZE =  int(char_level_lstm_hidden_size)
+        self.NUM_LSTM_LAYERS =  num_lstm_layers
 
+    @staticmethod
+    def dump(model_dir, config):
+        with open(model_dir+"/model_config.pickle", "wb") as file:
+            pickle.dump(config, file)
+
+    @staticmethod
+    def load(model_dir):
+        with open(model_dir + "/model_config.pickle", "rb") as file:
+            cfg = pickle.load(file)
+        return cfg
+
+    @staticmethod
+    def user_config(dataframe):
+
+        vocab_size = dataframe.WORD_VOCAB_SIZE
+        char_vocab_size = dataframe.CHAR_VOCAB_SIZE
+        num_classes = dataframe.NUM_CLASSES
+        max_document_length =dataframe.MAX_DOC_LEGTH
+        # hyper parameters
+        use_char_embedding = input("use_char_embedding (y/n):") or "y"
+        learning_rate = input("learning_rate: (0.001): ") or 0.001
+        word_level_lstm_hidden_size  = input("word_level_lstm_hidden_size: (32): ") or 32
+        char_level_lstm_hidden_size = input("char_level_lstm_hidden_size (16): ") or 16
+        word_emd_size = input("word_emd_size (32): ") or 32
+        char_emd_size= input("char_emd_size (16): ") or 16
+        num_lstm_layers = input("num_lstm_layers (2): ") or 2
+        out_keep_propability = input("out_keep_propability (0.5): ") or 0.5
+
+        model_dir =  "/uce_{}_lr_{}_wlstm_{}_num_layers_{}_clstm_{}_wembd_{}_cembd_{}_keep_{}".format(
+            str(use_char_embedding),
+            str(learning_rate),
+            str(word_level_lstm_hidden_size),
+            str(num_lstm_layers),
+            str(char_level_lstm_hidden_size),
+            str(word_emd_size),
+            str(char_emd_size),
+            str(out_keep_propability)
+        )
+
+        model_dir = EXPERIMENT_MODEL_ROOT_DIR + dataframe.dataset_name + model_dir
+
+        if not os.path.exists(model_dir):
+            os.makedirs(model_dir)
+
+        cfg =  BiLSTMConfigV0(model_dir,
+                              vocab_size,
+                              char_vocab_size,
+                              num_classes,
+                              max_document_length,
+                              #hyper parameters
+                              use_char_embedding,
+                              learning_rate,
+                              word_level_lstm_hidden_size,
+                              char_level_lstm_hidden_size,
+                              word_emd_size,
+                              char_emd_size,
+                              num_lstm_layers,
+                              out_keep_propability)
+
+        BiLSTMConfigV0.dump(model_dir, cfg)
+
+        return cfg
 
 # =======================================================================================================================
 
@@ -91,12 +157,14 @@ class BiLSTMV0(tf.estimator.Estimator):
                  bilstm_config: BiLSTMConfigV0):
         super(BiLSTMV0, self).__init__(
             model_fn=self._model_fn,
-            model_dir=bilstm_config.FLAGS.MODEL_DIR,
+            model_dir=bilstm_config.MODEL_DIR,
             config=run_config)
 
         self.bilstm_config = bilstm_config
 
         self.hooks = []
+
+        self.feature_type = TextAndCharIdsFeature
 
     def _model_fn(self, features, labels, mode, params):
         '''
@@ -111,10 +179,10 @@ class BiLSTMV0(tf.estimator.Estimator):
         is_training = mode == ModeKeys.TRAIN
 
         # [BATCH_SIZE, 1]
-        token_ids = features['word_ids']
+        token_ids = features[self.feature_type.FEATURE_1]
 
         # [BATCH_SIZE, MAX_SEQ_LENGTH, MAX_WORD_LEGTH]
-        char_ids = features['char_ids']
+        char_ids = features[self.feature_type.FEATURE_2]
 
         print("\n\n\n\n\n")
         tf.logging.info('token_ids: =======> {}'.format(token_ids))
@@ -132,13 +200,13 @@ class BiLSTMV0(tf.estimator.Estimator):
             # maps word indexes of the sequence into
             # [BATCH_SIZE, MAX_SEQ_LENGTH] --->  [BATCH_SIZE, MAX_SEQ_LENGTH, WORD_EMBEDDING_SIZE].
             word_embeddings = tf.contrib.layers.embed_sequence(token_ids,
-                                                               vocab_size=self.bilstm_config.FLAGS.VOCAB_SIZE,
-                                                               embed_dim=self.bilstm_config.FLAGS.WORD_EMBEDDING_SIZE,
+                                                               vocab_size=self.bilstm_config.VOCAB_SIZE,
+                                                               embed_dim=self.bilstm_config.WORD_EMBEDDING_SIZE,
                                                                initializer=tf.contrib.layers.xavier_initializer(
                                                                    seed=42))
 
             word_embeddings = tf.layers.dropout(word_embeddings,
-                                                rate=self.bilstm_config.FLAGS.KEEP_PROP,
+                                                rate=self.bilstm_config.KEEP_PROP,
                                                 seed=42,
                                                 training=mode == tf.estimator.ModeKeys.TRAIN)
 
@@ -153,14 +221,14 @@ class BiLSTMV0(tf.estimator.Estimator):
 
         with tf.variable_scope("char_embed_layer"):
             char_embeddings = tf.contrib.layers.embed_sequence(char_ids,
-                                                               vocab_size=self.bilstm_config.FLAGS.CHAR_VOCAB_SIZE,
-                                                               embed_dim=self.bilstm_config.FLAGS.CHAR_EMBEDDING_SIZE,
+                                                               vocab_size=self.bilstm_config.CHAR_VOCAB_SIZE,
+                                                               embed_dim=self.bilstm_config.CHAR_EMBEDDING_SIZE,
                                                                initializer=tf.contrib.layers.xavier_initializer(
                                                                    seed=42))
 
             #[BATCH_SIZE, MAX_SEQ_LENGTH, MAX_WORD_LEGTH, CHAR_EMBEDDING_SIZE]
             char_embeddings = tf.layers.dropout(char_embeddings,
-                                                rate=self.bilstm_config.FLAGS.KEEP_PROP,
+                                                rate=self.bilstm_config.KEEP_PROP,
                                                 seed=42,
                                                 training=mode == tf.estimator.ModeKeys.TRAIN)  # TODO add test case
 
@@ -168,75 +236,75 @@ class BiLSTMV0(tf.estimator.Estimator):
             tf.logging.info('char_embeddings =====> {}'.format(char_embeddings))
 
         with tf.variable_scope("chars_level_bilstm_layer"):
-                # put the time dimension on axis=1
-                shape = tf.shape(char_embeddings)
+            # put the time dimension on axis=1
+            shape = tf.shape(char_embeddings)
 
-                BATCH_SIZE = shape[0]
-                MAX_DOC_LENGTH = shape[1]
-                CHAR_MAX_LENGTH = shape[2]
+            BATCH_SIZE = shape[0]
+            MAX_DOC_LENGTH = shape[1]
+            CHAR_MAX_LENGTH = shape[2]
 
-                TOTAL_DOCS_LENGTH = tf.reduce_sum(seq_length)
+            TOTAL_DOCS_LENGTH = tf.reduce_sum(seq_length)
 
-                # [BATCH_SIZE, MAX_SEQ_LENGTH, MAX_WORD_LEGTH, CHAR_EMBEDDING_SIZE]  ===>
-                #      [BATCH_SIZE * MAX_SEQ_LENGTH, MAX_WORD_LEGTH, CHAR_EMBEDDING_SIZE]
-                char_embeddings = tf.reshape(char_embeddings,
-                                             shape=[BATCH_SIZE * MAX_DOC_LENGTH, CHAR_MAX_LENGTH,
-                                                    self.bilstm_config.FLAGS.CHAR_EMBEDDING_SIZE],
-                                             name="reduce_dimension_1")
+            # [BATCH_SIZE, MAX_SEQ_LENGTH, MAX_WORD_LEGTH, CHAR_EMBEDDING_SIZE]  ===>
+            #      [BATCH_SIZE * MAX_SEQ_LENGTH, MAX_WORD_LEGTH, CHAR_EMBEDDING_SIZE]
+            char_embeddings = tf.reshape(char_embeddings,
+                                         shape=[BATCH_SIZE * MAX_DOC_LENGTH, CHAR_MAX_LENGTH,
+                                                self.bilstm_config.CHAR_EMBEDDING_SIZE],
+                                         name="reduce_dimension_1")
 
-                tf.logging.info('reshaped char_embeddings =====> {}'.format(char_embeddings))
+            tf.logging.info('reshaped char_embeddings =====> {}'.format(char_embeddings))
 
-                # word_lengths = get_sequence_length_old(char_embeddings) TODO working
-                word_lengths = get_sequence_length(char_ids_reshaped)
+            # word_lengths = get_sequence_length_old(char_embeddings) TODO working
+            word_lengths = get_sequence_length(char_ids_reshaped)
 
-                tf.logging.info('word_lengths =====> {}'.format(word_lengths))
+            tf.logging.info('word_lengths =====> {}'.format(word_lengths))
 
-                # bi lstm on chars
-                cell_fw = tf.contrib.rnn.LSTMCell(self.bilstm_config.FLAGS.CHAR_LEVEL_LSTM_HIDDEN_SIZE,
-                                                  state_is_tuple=True)
-                cell_bw = tf.contrib.rnn.LSTMCell(self.bilstm_config.FLAGS.CHAR_LEVEL_LSTM_HIDDEN_SIZE,
-                                                  state_is_tuple=True)
+            # bi lstm on chars
+            cell_fw = tf.contrib.rnn.LSTMCell(self.bilstm_config.CHAR_LEVEL_LSTM_HIDDEN_SIZE,
+                                              state_is_tuple=True)
+            cell_bw = tf.contrib.rnn.LSTMCell(self.bilstm_config.CHAR_LEVEL_LSTM_HIDDEN_SIZE,
+                                              state_is_tuple=True)
 
-                _output = tf.nn.bidirectional_dynamic_rnn(
-                    cell_fw=cell_fw,
-                    cell_bw=cell_bw,
-                    dtype=tf.float32,
-                    sequence_length=word_lengths,
-                    inputs=char_embeddings,
-                    scope="encode_words")
+            _output = tf.nn.bidirectional_dynamic_rnn(
+                cell_fw=cell_fw,
+                cell_bw=cell_bw,
+                dtype=tf.float32,
+                sequence_length=word_lengths,
+                inputs=char_embeddings,
+                scope="encode_words")
 
-                # read and concat output
-                _, ((_, output_fw), (_, output_bw)) = _output
-                encoded_words = tf.concat([output_fw, output_bw], axis=-1)
+            # read and concat output
+            _, ((_, output_fw), (_, output_bw)) = _output
+            encoded_words = tf.concat([output_fw, output_bw], axis=-1)
 
-                # [BATCH_SIZE, MAX_SEQ_LENGTH, WORD_EMBEDDING_SIZE]
-                encoded_words = tf.reshape(encoded_words,
-                                           shape=[BATCH_SIZE, MAX_DOC_LENGTH, 2 *
-                                                  self.bilstm_config.FLAGS.CHAR_LEVEL_LSTM_HIDDEN_SIZE])
+            # [BATCH_SIZE, MAX_SEQ_LENGTH, WORD_EMBEDDING_SIZE]
+            encoded_words = tf.reshape(encoded_words,
+                                       shape=[BATCH_SIZE, MAX_DOC_LENGTH, 2 *
+                                              self.bilstm_config.CHAR_LEVEL_LSTM_HIDDEN_SIZE])
 
-                tf.logging.info('encoded_words =====> {}'.format(encoded_words))
+            tf.logging.info('encoded_words =====> {}'.format(encoded_words))
 
         with  tf.name_scope("word_level_lstm_layer"):
             # Create a LSTM Unit cell with hidden size of EMBEDDING_SIZE.
-            d_rnn_cell_fw_one = tf.nn.rnn_cell.LSTMCell(self.bilstm_config.FLAGS.WORD_LEVEL_LSTM_HIDDEN_SIZE,
+            d_rnn_cell_fw_one = tf.nn.rnn_cell.LSTMCell(self.bilstm_config.WORD_LEVEL_LSTM_HIDDEN_SIZE,
                                                         state_is_tuple=True)
-            d_rnn_cell_bw_one = tf.nn.rnn_cell.LSTMCell(self.bilstm_config.FLAGS.WORD_LEVEL_LSTM_HIDDEN_SIZE,
+            d_rnn_cell_bw_one = tf.nn.rnn_cell.LSTMCell(self.bilstm_config.WORD_LEVEL_LSTM_HIDDEN_SIZE,
                                                         state_is_tuple=True)
 
             if is_training:
                 d_rnn_cell_fw_one = tf.contrib.rnn.DropoutWrapper(d_rnn_cell_fw_one,
-                                                                  output_keep_prob=self.bilstm_config.FLAGS.KEEP_PROP)
+                                                                  output_keep_prob=self.bilstm_config.KEEP_PROP)
                 d_rnn_cell_bw_one = tf.contrib.rnn.DropoutWrapper(d_rnn_cell_bw_one,
-                                                                  output_keep_prob=self.bilstm_config.FLAGS.KEEP_PROP)
+                                                                  output_keep_prob=self.bilstm_config.KEEP_PROP)
             else:
                 d_rnn_cell_fw_one = tf.contrib.rnn.DropoutWrapper(d_rnn_cell_fw_one, output_keep_prob=1.0)
                 d_rnn_cell_bw_one = tf.contrib.rnn.DropoutWrapper(d_rnn_cell_bw_one, output_keep_prob=1.0)
 
             d_rnn_cell_fw_one = tf.nn.rnn_cell.MultiRNNCell(cells=[d_rnn_cell_fw_one] *
-                                                                  self.bilstm_config.FLAGS.NUM_LSTM_LAYERS,
+                                                                  self.bilstm_config.NUM_LSTM_LAYERS,
                                                             state_is_tuple=True)
             d_rnn_cell_bw_one = tf.nn.rnn_cell.MultiRNNCell(cells=[d_rnn_cell_bw_one] *
-                                                                  self.bilstm_config.FLAGS.NUM_LSTM_LAYERS,
+                                                                  self.bilstm_config.NUM_LSTM_LAYERS,
                                                             state_is_tuple=True)
 
             (fw_output_one, bw_output_one), _ = tf.nn.bidirectional_dynamic_rnn(
@@ -257,7 +325,7 @@ class BiLSTMV0(tf.estimator.Estimator):
 
             encoded_doc = tf.concat([encoded_words, encoded_sentence], axis=-1)
 
-            encoded_doc = tf.layers.dropout(encoded_doc, rate=self.bilstm_config.FLAGS.KEEP_PROP, seed=42,
+            encoded_doc = tf.layers.dropout(encoded_doc, rate=self.bilstm_config.KEEP_PROP, seed=42,
                                             training=mode == tf.estimator.ModeKeys.TRAIN)
 
             tf.logging.info('encoded_doc: =====> {}'.format(encoded_doc))
@@ -266,58 +334,58 @@ class BiLSTMV0(tf.estimator.Estimator):
             encoded_doc_shape = tf.shape(encoded_doc)
             BATCH_SIZE = encoded_doc_shape[0]
 
-            size = ((self.bilstm_config.FLAGS.WORD_LEVEL_LSTM_HIDDEN_SIZE * 2) + \
-                   (self.bilstm_config.FLAGS.CHAR_LEVEL_LSTM_HIDDEN_SIZE * 2)) * \
-                    self.bilstm_config.FLAGS.MAX_DOC_LENGTH
+            size = ((self.bilstm_config.WORD_LEVEL_LSTM_HIDDEN_SIZE * 2) + \
+                    (self.bilstm_config.CHAR_LEVEL_LSTM_HIDDEN_SIZE * 2)) * \
+                   self.bilstm_config.MAX_DOC_LENGTH
 
             encoded_doc = tf.reshape(encoded_doc, shape=[BATCH_SIZE, size])
 
             tf.logging.info('encoded_doc: =====> {}'.format(encoded_doc))
 
             combined_logits = tf.layers.dense(inputs=encoded_doc,
-                                     units=self.bilstm_config.FLAGS.NUM_CLASSES*10,
-                                     kernel_initializer=tf.contrib.layers.xavier_initializer(seed=42),
-                                     activation=tf.nn.relu)
+                                              units=self.bilstm_config.NUM_CLASSES*10,
+                                              kernel_initializer=tf.contrib.layers.xavier_initializer(seed=42),
+                                              activation=tf.nn.relu)
 
             combined_logits = tf.layers.dense(inputs=combined_logits,
-                                     units=self.bilstm_config.FLAGS.NUM_CLASSES,
-                                     kernel_initializer=tf.contrib.layers.xavier_initializer(seed=42))
+                                              units=self.bilstm_config.NUM_CLASSES,
+                                              kernel_initializer=tf.contrib.layers.xavier_initializer(seed=42))
 
             tf.logging.info('combined_logits: =====> {}'.format(combined_logits))
 
-            size = (self.bilstm_config.FLAGS.CHAR_LEVEL_LSTM_HIDDEN_SIZE * 2) * \
-                    self.bilstm_config.FLAGS.MAX_DOC_LENGTH
+            size = (self.bilstm_config.CHAR_LEVEL_LSTM_HIDDEN_SIZE * 2) * \
+                   self.bilstm_config.MAX_DOC_LENGTH
 
             encoded_words_hidden_layer = tf.reshape(encoded_words, shape=[BATCH_SIZE, size])
 
             tf.logging.info('encoded_words_hidden_layer: =====> {}'.format(encoded_words_hidden_layer))
 
             encoded_words_hidden_layer = tf.layers.dense(inputs=encoded_words_hidden_layer,
-                                     units=self.bilstm_config.FLAGS.NUM_CLASSES*10,
-                                     kernel_initializer=tf.contrib.layers.xavier_initializer(seed=42),
-                                     activation=tf.nn.relu)
+                                                         units=self.bilstm_config.NUM_CLASSES*10,
+                                                         kernel_initializer=tf.contrib.layers.xavier_initializer(seed=42),
+                                                         activation=tf.nn.relu)
 
             encoded_words_hidden_layer = tf.layers.dense(inputs=encoded_words_hidden_layer,
-                                     units=self.bilstm_config.FLAGS.NUM_CLASSES,
-                                     kernel_initializer=tf.contrib.layers.xavier_initializer(seed=42))
+                                                         units=self.bilstm_config.NUM_CLASSES,
+                                                         kernel_initializer=tf.contrib.layers.xavier_initializer(seed=42))
 
             tf.logging.info('encoded_words_hidden_layer: =====> {}'.format(encoded_words_hidden_layer))
 
-            size = (self.bilstm_config.FLAGS.WORD_LEVEL_LSTM_HIDDEN_SIZE * 2) * \
-                    self.bilstm_config.FLAGS.MAX_DOC_LENGTH
+            size = (self.bilstm_config.WORD_LEVEL_LSTM_HIDDEN_SIZE * 2) * \
+                   self.bilstm_config.MAX_DOC_LENGTH
 
             encoded_sentence_hidden_layer = tf.reshape(encoded_sentence, shape=[BATCH_SIZE, size])
 
             tf.logging.info('encoded_sentence_hidden_layer: =====> {}'.format(encoded_sentence_hidden_layer))
 
             encoded_sentence_hidden_layer = tf.layers.dense(inputs=encoded_sentence_hidden_layer,
-                                     units=self.bilstm_config.FLAGS.NUM_CLASSES*10,
-                                     kernel_initializer=tf.contrib.layers.xavier_initializer(seed=42),
-                                     activation=tf.nn.relu)
+                                                            units=self.bilstm_config.NUM_CLASSES*10,
+                                                            kernel_initializer=tf.contrib.layers.xavier_initializer(seed=42),
+                                                            activation=tf.nn.relu)
 
             encoded_sentence_hidden_layer = tf.layers.dense(inputs=encoded_sentence_hidden_layer,
-                                     units=self.bilstm_config.FLAGS.NUM_CLASSES,
-                                     kernel_initializer=tf.contrib.layers.xavier_initializer(seed=42))
+                                                            units=self.bilstm_config.NUM_CLASSES,
+                                                            kernel_initializer=tf.contrib.layers.xavier_initializer(seed=42))
 
             tf.logging.info('encoded_sentence_hidden_layer: =====> {}'.format(encoded_sentence_hidden_layer))
 
@@ -336,7 +404,7 @@ class BiLSTMV0(tf.estimator.Estimator):
 
             if mode == ModeKeys.INFER:
                 labels = tf.placeholder(tf.int32, shape=[None, None],
-                                         name="labels")  # no labels during prediction
+                                        name="labels")  # no labels during prediction
             else:
                 labels = labels
 
@@ -357,9 +425,9 @@ class BiLSTMV0(tf.estimator.Estimator):
             tf.logging.info('probabilities: =====> {}'.format(probabilities))
 
             predictions = {
-                "classes": classes,
+                self.feature_type.OUT_CLASSES: classes,
                 # [BATCH_SIZE]
-                "probabilities": probabilities
+                self.feature_type.OUT_PROBABILITIES: probabilities
             }
 
         # Loss, training and eval operations are not needed during inference.
@@ -369,9 +437,9 @@ class BiLSTMV0(tf.estimator.Estimator):
 
         if mode != ModeKeys.INFER:
             global_step = tf.contrib.framework.get_global_step()
-            learning_rate = self.bilstm_config.FLAGS.LEARNING_RATE
-            #learning_rate = tf.train.exponential_decay(self.bilstm_config.FLAGS.LEARNING_RATE, global_step,
-             #                                          100, 0.99, staircase=True)
+            learning_rate = self.bilstm_config.LEARNING_RATE
+            #learning_rate = tf.train.exponential_decay(self.bilstm_config.LEARNING_RATE, global_step,
+            #                                          100, 0.99, staircase=True)
             tf.summary.scalar(tensor=learning_rate, name="decaying_lr")
             train_op = tf.contrib.layers.optimize_loss(
                 loss=losses,
@@ -384,15 +452,15 @@ class BiLSTMV0(tf.estimator.Estimator):
             eval_metric_ops = {
                 'Accuracy': tf.metrics.accuracy(
                     labels=tf.cast(tf.argmax(labels, axis=-1), tf.int32),
-                    predictions=predictions["classes"],
+                    predictions=predictions[self.feature_type.OUT_CLASSES],
                     name='accuracy'),
                 'Precision': tf.metrics.precision(
                     labels=tf.cast(tf.argmax(labels, axis=-1), tf.int32),
-                    predictions=predictions["classes"],
+                    predictions=predictions[self.feature_type.OUT_CLASSES],
                     name='Precision'),
                 'Recall': tf.metrics.recall(
                     labels=tf.cast(tf.argmax(labels, axis=-1), tf.int32),
-                    predictions=predictions["classes"],
+                    predictions=predictions[self.feature_type.OUT_CLASSES],
                     name='Recall')
             }
 
