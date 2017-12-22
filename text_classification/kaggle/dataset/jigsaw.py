@@ -49,9 +49,9 @@ class JigsawDataset(TextClassificationDataset):
                  train_file_path,
                  test_file_path):
         TextClassificationDataset.__init__(self,
-                                           train_file_path,
-                                           test_file_path,
-                                           "jigsaw_dataset")
+                                           train_file_path=TRAIN_FILE_PATH,
+                                           test_file_path=TEST_FILE_PATH,
+                                           dataset_name="jigsaw_dataset")
 
     def prepare(self):
         self.dataframe = TextDataFrame(train_file_path=self.train_file_path,
