@@ -46,12 +46,12 @@ TEST_FILE_PATH =  "../data/jigsaw_toxic_comment_classification_challenge/test.cs
 
 class JigsawDataset(TextClassificationDataset):
     def __init__(self,
-                 train_file_path,
-                 test_file_path):
+                 train_file_path=TRAIN_FILE_PATH,
+                 test_file_path=TEST_FILE_PATH):
         TextClassificationDataset.__init__(self,
-                                           train_file_path=TRAIN_FILE_PATH,
-                                           test_file_path=TEST_FILE_PATH,
-                                           dataset_name="jigsaw_dataset")
+                                           train_file_path,
+                                           test_file_path,
+                                           "jigsaw_dataset")
 
     def prepare(self):
         self.dataframe = TextDataFrame(train_file_path=self.train_file_path,
