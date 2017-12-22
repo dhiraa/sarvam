@@ -232,8 +232,8 @@ class TextDataFrame():
         :param max_word_length:  Maximum length of the word to consider
         '''
 
-        self.train_df_path: str = train_file_path
-        self.test_df_path: str = test_file_path
+        self.train_df_path = train_file_path
+        self.test_df_path = test_file_path
         self.text_col = text_col
 
         if category_col == None:
