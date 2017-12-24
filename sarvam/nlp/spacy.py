@@ -25,7 +25,7 @@ def tokenize(df: pd.DataFrame, text_col, nlp):
         raise Warning("Initialize nlp = spacy.load('en_core_web_sm')")
 
     def cleaning(sentence):
-        sentence = nlp(sentence)
+        sentence = nlp(str(sentence))
         tokens = [token.text for token in sentence]
         tokens = ' '.join(tokens)
         return tokens
