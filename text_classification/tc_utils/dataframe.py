@@ -277,11 +277,12 @@ class TextDataFrame():
                 if not os.path.exists(dataset_dir + "train_processed.csv"):
                     self.train_df = tokenize(self.train_df, text_col, nlp)
                     self.train_df.to_csv(dataset_dir + "train_processed.csv")
+
                 if not os.path.exists(dataset_dir + "val_processed.csv"):
                     self.val_df = tokenize(self.val_df, text_col, nlp)
                     self.val_df.to_csv(dataset_dir + "val_processed.csv")
 
-                if not os.path.exists(dataset_dir + "val_processed.csv"):
+                if not os.path.exists(dataset_dir + "test_processed.csv"):
                     try:
                         self.test_df.loc[self.test_df["id"] == 206058417140, 'comment_text'] = "Fuck you!"
                     except:
