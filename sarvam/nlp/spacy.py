@@ -16,7 +16,7 @@ def tokenize(df: pd.DataFrame, text_col, nlp):
     '''
     In place tokenization on text column
     :param df: Pandas Dataframe
-    :param text_col: Text Column
+    :par am text_col: Text Column
     :return: 
     '''
 
