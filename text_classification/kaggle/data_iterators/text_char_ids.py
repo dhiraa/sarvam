@@ -15,6 +15,8 @@ class TextAndCharIds(DataIterator):
         self.batch_size = batch_size
         self.dataframe = dataframe
 
+        self.feature_type = TextAndCharIdsFeature
+
     def _setup_input_graph2(self,
                             word_ids,
                             char_ids,
@@ -102,24 +104,15 @@ class TextAndCharIds(DataIterator):
 
         return inputs
 
-    @overrides
-    def prepare(self):
+    def prepare_train_set(self):
+        '''
+        Implement this function with reuqired TF function callbacks and hooks.
+        :return:
+        '''
 
-        self.feature_type = TextAndCharIdsFeature
-
-        #To get text word ids
         train_text_word_ids = self.dataframe.get_train_text_word_ids()
-        val_text_word_ids = self.dataframe.get_val_text_word_ids()
-        test_text_word_ids = self.dataframe.get_test_text_word_ids()
-
-        #To get text word char IDS
         train_text_word_char_ids = self.dataframe.get_train_text_word_char_ids()
-        val_text_word_char_ids = self.dataframe.get_val_text_word_char_ids()
-        test_text_word_char_ids = self.dataframe.get_test_text_word_char_ids()
-
         train_one_hot_encoded_label = self.dataframe.get_train_one_hot_label()
-        val_one_hot_encoded_label= self.dataframe.get_val_one_hot_label()
-
 
         self.train_input_fn, self.train_input_hook = self._setup_input_graph2(train_text_word_ids,
                                                                               train_text_word_char_ids,
@@ -129,14 +122,33 @@ class TextAndCharIds(DataIterator):
                                                                               shuffle=True,
                                                                               scope='train_data')
 
-        self.val_input_fn, self.val_input_hook= self._setup_input_graph2(val_text_word_ids,
-                                                                         val_text_word_char_ids,
-                                                                         val_one_hot_encoded_label,
-                                                                         self.batch_size,
-                                                                         is_eval=True,
-                                                                         shuffle=True,
-                                                                         scope='val_data')
 
+    def prepare_val_set(self):
+        '''
+        Implement this function with reuqired TF function callbacks and hooks.
+        :return:
+        '''
+
+        val_text_word_ids = self.dataframe.get_val_text_word_ids()
+        val_text_word_char_ids = self.dataframe.get_val_text_word_char_ids()
+        val_one_hot_encoded_label = self.dataframe.get_val_one_hot_label()
+
+        self.val_input_fn, self.val_input_hook = self._setup_input_graph2(val_text_word_ids,
+                                                                          val_text_word_char_ids,
+                                                                          val_one_hot_encoded_label,
+                                                                          self.batch_size,
+                                                                          is_eval=True,
+                                                                          shuffle=True,
+                                                                          scope='val_data')
+
+    def prepare_test_set(self):
+        '''
+        Implement this function with reuqired TF function callbacks and hooks.
+        :return:
+        '''
+
+        test_text_word_ids = self.dataframe.get_test_text_word_ids()
+        test_text_word_char_ids = self.dataframe.get_test_text_word_char_ids()
         self.test_input_fn = self._test_inputs2(test_text_word_ids,
                                            test_text_word_char_ids,
                                            batch_size=1,

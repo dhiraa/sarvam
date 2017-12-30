@@ -5,9 +5,21 @@ import nltk
 import string
 from nltk.corpus import stopwords
 
+
+
 def num_words(text):
     text_splited = str(text).split(' ')
     return len(text_splited)
+
+def mean_word_len(text):
+    return  np.mean([len(w) for w in str(text).split()])
+
+def num_unique_words(s):
+    return len(set(str(s).split()))
+
+def num_chars(s):
+    """function to return number of characters """
+    return len(str(s))
 
 def num_upper_words(text):
     num = len([w for w in str(text).split() if w.isupper()])
@@ -20,6 +32,9 @@ def num_title_words(text):
 def mean_word_len(text):
     return np.mean([len(w) for w in str(text).split()])
 
+def num_punctuations(text):
+    return len([c for c in str(text) if c in string.punctuation])
+
 def unique_word_fraction(text):
     """function to calculate the fraction of unique words on total words of the text"""
     text_splited = text.split(' ')
@@ -29,10 +44,10 @@ def unique_word_fraction(text):
     unique_count = list(set(text_splited)).__len__()
     return (unique_count/word_count)
 
-
-eng_stopwords = set(stopwords.words("english"))
 def stopwords_count(text):
-    """ Number of stopwords fraction in a text"""
+    #""" Number of stopwords fraction in a text"""
+    eng_stopwords = set(stopwords.words("english"))
+
     text_splited = text.split(' ')
     text_splited = [''.join(c for c in s if c not in string.punctuation) for s in text_splited]
     text_splited = [s for s in text_splited if s]
@@ -47,10 +62,6 @@ def punctuations_fraction(text):
     punctuation_count = len([c for c in text if c in string.punctuation])
     return (punctuation_count/num_chars)
 
-
-def num_chars(text):
-    """function to return number of characters """
-    return len(text)
 
 def fraction_noun(text):
     """function to give us fraction of noun over total words """
@@ -82,7 +93,34 @@ def fraction_verbs(text):
     verbs_count = len([w for w in pos_list if w[1] in ('VB','VBD','VBG','VBN','VBP','VBZ')])
     return (verbs_count/word_count)
 
+def punctuation_cleanup(s):
+    s = s.replace("' ", " ' ")
+    p = ['. ', '; ', '" ', '! ', '? ', ', ',': ']
+    for tmp_p in p:
+        s=s.replace(tmp_p,' {}'.format(tmp_p))
+    s = s.lower()
+    return s
 
+def get_bigram(sentence):
+    '''
+    Example: "He shall find that I can feel my injuries;"
+    Output: he-shall shall-find find-that that-i i-can can-feel feel-my my-injuries injuries-; ;-
+    :param sentence: 
+    :return: 
+    '''
+    sentence = sentence.replace("' ", " ' ")
+    punctuation = ['. ', '; ', '" ', '! ', '? ', ', ',': ']
+    for tmp_p in punctuation:
+        sentence = sentence.replace(tmp_p,' {}'.format(tmp_p))
+
+    sentence = sentence.lower()
+
+    words = sentence.split(' ')
+    word_cnt = len(words)
+    bigram_words = []
+    for i in range(word_cnt-1):
+        bigram_words.append('{}-{}'.format(words[i],words[i+1]))
+    return ' '.join(bigram_words)
 
 def append_meta_features(df, text_col):
     '''

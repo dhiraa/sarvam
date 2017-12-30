@@ -9,10 +9,12 @@ class DataIteratorFactory():
 
     iterator_path = {
         "text_char_ids": "kaggle.data_iterators.text_char_ids",
+        "text": "kaggle.data_iterators.text",
     }
 
     iterators = {
         "text_char_ids": "TextAndCharIds",
+        "text": "TextIds",
     }
 
 

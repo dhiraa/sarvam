@@ -45,10 +45,10 @@ Keep dataset, data iterators and models as independent as possible for easy plug
 ```
 python commands/run_experiments.py \
 --mode=train \
---dataset-name=spooky \
+--dataset-name=jigsaw \
 --data-iterator-name=text_char_ids \
 --batch-size=32 \
---num-epochs=5 \
+--num-epochs=10 \
 --model-name=bilstm_v0
 ```
 

@@ -8,16 +8,19 @@ from importlib import import_module
 class ModelsFactory():
 
     model_path = {
+        "bilstm_var_length_text" : "bilstm.bilstm_var_length_text",
         "bilstm_v0": "bilstm.bilstm_v0",
         "fast_text_v0": "fast_text.fast_text_v0"
     }
 
     models = {
+        "bilstm_var_length_text": "BiLSTMVarText",
         "bilstm_v0": "BiLSTMV0",
         "fast_text_v0" : "FastTextV0"
     }
 
     model_configurations = {
+        "bilstm_var_length_text": "BiLSTMVarTextConfig",
         "bilstm_v0": "BiLSTMConfigV0",
         "fast_text_v0": "FastTextV0Config"
     }

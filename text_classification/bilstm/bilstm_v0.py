@@ -78,7 +78,7 @@ class BiLSTMConfigV0():
         self.CHAR_EMBEDDING_SIZE = int(char_emd_size)
         self.WORD_LEVEL_LSTM_HIDDEN_SIZE =  int(word_level_lstm_hidden_size)
         self.CHAR_LEVEL_LSTM_HIDDEN_SIZE =  int(char_level_lstm_hidden_size)
-        self.NUM_LSTM_LAYERS =  num_lstm_layers
+        self.NUM_LSTM_LAYERS =  int(num_lstm_layers)
 
     @staticmethod
     def dump(model_dir, config):
@@ -147,7 +147,8 @@ class BiLSTMConfigV0():
 
 
 run_config = tf.ConfigProto()
-run_config.gpu_options.per_process_gpu_memory_fraction = 0.50
+run_config.gpu_options.allow_growth = True
+# run_config.gpu_options.per_process_gpu_memory_fraction = 0.50
 run_config.allow_soft_placement = True
 run_config.log_device_placement = False
 run_config=tf.contrib.learn.RunConfig(session_config=run_config)

@@ -12,6 +12,7 @@ import numpy as np
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import LabelBinarizer
 
+from sarvam.config.global_constants import *
 from sarvam.colorful_logger import *
 from sarvam.nlp.spacy import tokenize
 from tc_utils.tc_config import *
@@ -21,27 +22,40 @@ def size_mb(docs):
     return sum(len(str(s).encode('utf-8')) for s in docs) / 1e6
 
 
-def naive_vocab_creater(lines, out_file_name):
-    final_vocab = ["<PAD>", "<UNK>"]
-    vocab = [word for line in lines for word in line.split(" ")]
-    vocab = set(vocab)
+def naive_vocab_creater(lines, out_file_name, use_nlp):
+    if not os.path.exists(out_file_name):
+        nlp = spacy.load('en_core_web_md')
+        final_vocab = [PAD_WORD, UNKNOWN_WORD]
+        if use_nlp:
+            vocab = [word.text for line in tqdm(lines) for word in nlp(line) if word.text in nlp.vocab]
+        else:
+            print(lines)
+            vocab = [word for line in tqdm(lines) for word in line.split(" ")]
 
-    try:
-        vocab.remove("<UNK>")
-    except:
-        print("No <UNK> token found")
+        vocab = set(vocab)
 
-    vocab = list(vocab)
-    final_vocab.extend(vocab)
+        try:
+            vocab.remove(UNKNOWN_WORD)
+        except:
+            print("No {} token found".format(UNKNOWN_WORD))
 
-    print_warn(out_file_name)
+        vocab = list(vocab)
+        final_vocab.extend(vocab)
 
-    # Create a file and store the words
-    with gfile.Open(out_file_name, 'wb') as f:
-        for word in final_vocab:
-            f.write("{}\n".format(word))
+        print_warn(out_file_name)
 
+        # Create a file and store the words
+        with gfile.Open(out_file_name, 'wb') as f:
+            for word in final_vocab:
+                    f.write("{}\n".format(word))
+    else:
+        with open(out_file_name) as file:
+            lines = file.readlines()
+        lines = map(lambda line: line.strip(), lines )
+        final_vocab = set(lines)
+        print_info(final_vocab)
     return len(final_vocab), final_vocab
+
 
 def _pad_sequences(sequences, pad_tok, max_length):
     """
@@ -309,7 +323,7 @@ class TextDataFrame():
 
         print("Preparing vocab file...")
         self.vocab_count, self.vocab = naive_vocab_creater(self.train_df[text_col].tolist(),
-                                              self.words_vocab_file)
+                                              self.words_vocab_file, use_nlp=True)
 
         self.word2id = {word: id for id, word in enumerate(self.vocab)}
         self.id2word = {id:word for id, word in enumerate(self.vocab)}
@@ -431,7 +445,7 @@ class TextDataFrame():
                 if self.test_df_path.endswith('.csv'):
                     self.test_df = pd.read_csv(self.test_df_path)
                 elif self.test_df_path.endswith('.json'):
-                    self.test_df = pd.read_json(self.test_df_path)
+                    self.test_df = pd.read_json(self.test_df_path, lines=True)
                 else:
                     self.test_df = pd.read_pickle(self.test_df_path)
 
@@ -465,7 +479,7 @@ class TextDataFrame():
                 if self.test_df_path.endswith('.csv'):
                     self.test_df = pd.read_csv(self.test_df_path)
                 elif self.test_df_path.endswith('.json'):
-                    self.test_df = pd.read_json(self.test_df_path)
+                    self.test_df = pd.read_json(self.test_df_path, lines=True)
                 else:
                     self.test_df = pd.read_pickle(self.test_df_path)
 
@@ -554,7 +568,7 @@ class TextDataFrame():
         if self.train_df_path.endswith("csv"):
             full_df = pd.read_csv(self.train_df_path)
         elif self.train_df_path.endswith("json"):
-            full_df = pd.read_json(self.train_df_path)
+            full_df = pd.read_json(self.train_df_path, lines=True)
         else:
             full_df = pd.read_pickle(self.train_df_path)
 

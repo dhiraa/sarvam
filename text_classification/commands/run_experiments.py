@@ -2,6 +2,7 @@ import argparse
 import sys
 sys.path.append(".")
 sys.path.append("../")
+sys.path.append("../../")
 import spacy
 nlp = spacy.load('en_core_web_sm')
 
@@ -21,7 +22,7 @@ def run(opt):
     # Get the DataIterator
     data_iterator = DataIteratorFactory.get(opt.data_iterator_name)
     data_iterator = data_iterator(int(opt.batch_size), dataset.dataframe)
-    data_iterator.prepare()
+    # data_iterator.prepare()
 
     cfg, model = ModelsFactory.get(opt.model_name)
 
@@ -42,11 +43,11 @@ def run(opt):
 
     # Evaluate after each epoch
     for i in range(int(opt.num_epochs)):
-        model.train(input_fn=data_iterator.train_input_fn,
-                    hooks=[data_iterator.train_input_hook],
+        model.train(input_fn=data_iterator.get_train_function(),
+                    hooks=[data_iterator.get_train_hook()],
                     steps=i + 1 * NUM_STEPS)
 
-        model.evaluate(input_fn=data_iterator.val_input_fn, hooks=[data_iterator.val_input_hook])
+        model.evaluate(input_fn=data_iterator.get_val_function(), hooks=[data_iterator.get_val_hook()])
 
     # Predict
     dataset.predict_on_csv_files(data_iterator, model)
