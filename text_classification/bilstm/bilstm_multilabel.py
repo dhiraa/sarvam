@@ -386,7 +386,9 @@ class BiLSTMMultiLabelClassifier(tf.estimator.Estimator):
             # ]
             ensemble_layer = tf.stack([combined_logits, encoded_words_hidden_layer, encoded_sentence_hidden_layer],
                                       axis=1)
-            logits = tf.reduce_mean(ensemble_layer,axis=1)
+            logits = ensemble_layer
+
+            tf.logging.info('logits: =====> {}'.format(logits))
 
         with  tf.name_scope("loss-layer"):
             """Defines the loss"""

@@ -322,7 +322,7 @@ class TextDataFrame():
 
         print("Preparing vocab file...")
         self.vocab_count, self.vocab = naive_vocab_creater(self.train_df[text_col].tolist(),
-                                              self.words_vocab_file, use_nlp=True)
+                                              self.words_vocab_file, use_nlp=False)
 
         self.word2id = {word: id for id, word in enumerate(self.vocab)}
         self.id2word = {id:word for id, word in enumerate(self.vocab)}
