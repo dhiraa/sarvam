@@ -40,6 +40,7 @@ def naive_vocab_creater(lines, out_file_name, use_nlp):
             print("No {} token found".format(UNKNOWN_WORD))
 
         vocab = list(vocab)
+        vocab = sorted(vocab)
         final_vocab.extend(vocab)
 
         print_warn(out_file_name)
@@ -52,8 +53,8 @@ def naive_vocab_creater(lines, out_file_name, use_nlp):
         with open(out_file_name) as file:
             lines = file.readlines()
         lines = map(lambda line: line.strip(), lines )
-        final_vocab = set(lines)
-        print_info(final_vocab)
+        final_vocab = list(lines)
+        # print_info(final_vocab)
     return len(final_vocab), final_vocab
 
 
