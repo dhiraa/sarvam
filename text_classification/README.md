@@ -47,9 +47,9 @@ python commands/run_experiments.py \
 --mode=train \
 --dataset-name=jigsaw \
 --data-iterator-name=text_char_ids \
---batch-size=32 \
---num-epochs=10 \
---model-name=bilstm_v0
+--batch-size=16 \
+--num-epochs=5 \
+--model-name=bilstm_multilabel
 ```
 
 

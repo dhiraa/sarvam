@@ -27,7 +27,7 @@ def naive_vocab_creater(lines, out_file_name, use_nlp):
         nlp = spacy.load('en_core_web_md')
         final_vocab = [PAD_WORD, UNKNOWN_WORD]
         if use_nlp:
-            vocab = [word.text for line in tqdm(lines) for word in nlp(line) if word.text in nlp.vocab]
+            vocab = [word.text for line in tqdm(lines, desc="vocab_filter") for word in nlp(line) if word.text in nlp.vocab]
         else:
             print(lines)
             vocab = [word for line in tqdm(lines) for word in line.split(" ")]
@@ -278,9 +278,9 @@ class TextDataFrame():
         self.words_vocab_file = dataset_dir + "words_vocab.tsv"
 
         # Tokenize the sentences and store them
-        if not os.path.exists(dataset_dir+ "train_processed.csv") or \
-                not os.path.exists(dataset_dir+ "test_processed.csv") or \
-                not os.path.exists(dataset_dir+ "val_processed.csv"):
+        if not os.path.exists(dataset_dir+ "train_processed.json") or \
+                not os.path.exists(dataset_dir+ "test_processed.json") or \
+                not os.path.exists(dataset_dir+ "val_processed.json"):
 
             self._prepare_data()
 
@@ -288,32 +288,30 @@ class TextDataFrame():
                 print("Tokenizing...")
                 nlp = spacy.load('en_core_web_sm')
 
-                if not os.path.exists(dataset_dir + "train_processed.csv"):
+                if not os.path.exists(dataset_dir + "train_processed.json"):
                     self.train_df = tokenize(self.train_df, text_col, nlp)
-                    self.train_df.to_csv(dataset_dir + "train_processed.csv")
 
-                if not os.path.exists(dataset_dir + "val_processed.csv"):
+                if not os.path.exists(dataset_dir + "val_processed.json"):
                     self.val_df = tokenize(self.val_df, text_col, nlp)
-                    self.val_df.to_csv(dataset_dir + "val_processed.csv")
 
-                if not os.path.exists(dataset_dir + "test_processed.csv"):
+                if not os.path.exists(dataset_dir + "test_processed.json"):
                     try:
                         self.test_df.loc[self.test_df["id"] == 206058417140, 'comment_text'] = "Fuck you!"
                     except:
                         print_info("Looks like the dataset is not jigsaw! what a waste of hack!!!")
 
                     self.test_df = tokenize(self.test_df, text_col, nlp)
-                    self.test_df.to_csv(dataset_dir + "test_processed.csv")
+                    self.test_df.to_csv(dataset_dir + "test_processed.json")
 
-            self.train_df.to_csv(dataset_dir + "train_processed.csv")
-            self.val_df.to_csv(dataset_dir + "val_processed.csv")
-            self.test_df.to_csv(dataset_dir + "test_processed.csv")
+            self.train_df.to_json(dataset_dir + "train_processed.json")
+            self.val_df.to_json(dataset_dir + "val_processed.json")
+            self.test_df.to_json(dataset_dir + "test_processed.json")
 
         else:
             print("Loading processed files...")
-            self.train_df = pd.read_csv(dataset_dir + "train_processed.csv")
-            self.val_df = pd.read_csv(dataset_dir + "val_processed.csv")
-            self.test_df = pd.read_csv(dataset_dir + "test_processed.csv")
+            self.train_df = pd.read_json(dataset_dir + "train_processed.json")
+            self.val_df = pd.read_json(dataset_dir + "val_processed.json")
+            self.test_df = pd.read_json(dataset_dir + "test_processed.json")
 
             if not self.is_multi_label:
                 print('Fitting LabelEncoder and LabelBinarizer on processed audio_utils...')
@@ -439,7 +437,7 @@ class TextDataFrame():
         if self.is_multi_label:
             if not os.path.exists(self.test_df_path):
                 print_info(self.test_df_path)
-                raise NotImplementedError("Spend some time to implement this!")
+                raise NotImplementedError("Spend some time to implement split on train data for test data!")
             else:
                 self.train_data = self.get_train_data()
                 if self.test_df_path.endswith('.csv'):

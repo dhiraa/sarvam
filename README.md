@@ -107,3 +107,8 @@ git commit -m "move submodule to latest commit in master"
 # share your changes
 git push
 ``` 
+
+```
+ipython notebook --no-browser --port=8889
+ssh -N -f -L localhost:8888:localhost:8889 remote_user@remote_host
+```
