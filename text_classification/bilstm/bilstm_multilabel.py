@@ -333,11 +333,13 @@ class BiLSTMMultiLabelClassifier(tf.estimator.Estimator):
             combined_logits = tf.layers.dense(inputs=encoded_doc,
                                               units=self.bilstm_config.NUM_CLASSES*10,
                                               kernel_initializer=tf.contrib.layers.xavier_initializer(seed=42),
-                                              activation=tf.nn.relu)
+                                              activation=tf.nn.relu6)
 
             combined_logits = tf.layers.dense(inputs=combined_logits,
                                               units=self.bilstm_config.NUM_CLASSES,
-                                              kernel_initializer=tf.contrib.layers.xavier_initializer(seed=42))
+                                              kernel_initializer=tf.contrib.layers.xavier_initializer(seed=42),
+                                                         activation=tf.nn.relu6)
+
 
             tf.logging.info('combined_logits: =====> {}'.format(combined_logits))
 
@@ -351,11 +353,12 @@ class BiLSTMMultiLabelClassifier(tf.estimator.Estimator):
             encoded_words_hidden_layer = tf.layers.dense(inputs=encoded_words_hidden_layer,
                                                          units=self.bilstm_config.NUM_CLASSES*10,
                                                          kernel_initializer=tf.contrib.layers.xavier_initializer(seed=42),
-                                                         activation=tf.nn.relu)
+                                                         activation=tf.nn.relu6)
 
             encoded_words_hidden_layer = tf.layers.dense(inputs=encoded_words_hidden_layer,
                                                          units=self.bilstm_config.NUM_CLASSES,
-                                                         kernel_initializer=tf.contrib.layers.xavier_initializer(seed=42))
+                                                         kernel_initializer=tf.contrib.layers.xavier_initializer(seed=42),
+                                                         activation=tf.nn.relu6)
 
             tf.logging.info('encoded_words_hidden_layer: =====> {}'.format(encoded_words_hidden_layer))
 
@@ -369,11 +372,12 @@ class BiLSTMMultiLabelClassifier(tf.estimator.Estimator):
             encoded_sentence_hidden_layer = tf.layers.dense(inputs=encoded_sentence_hidden_layer,
                                                             units=self.bilstm_config.NUM_CLASSES*10,
                                                             kernel_initializer=tf.contrib.layers.xavier_initializer(seed=42),
-                                                            activation=tf.nn.relu)
+                                                            activation=tf.nn.relu6)
 
             encoded_sentence_hidden_layer = tf.layers.dense(inputs=encoded_sentence_hidden_layer,
                                                             units=self.bilstm_config.NUM_CLASSES,
-                                                            kernel_initializer=tf.contrib.layers.xavier_initializer(seed=42))
+                                                            kernel_initializer=tf.contrib.layers.xavier_initializer(seed=42),
+                                                            activation=tf.nn.relu6)
 
             tf.logging.info('encoded_sentence_hidden_layer: =====> {}'.format(encoded_sentence_hidden_layer))
 
@@ -384,9 +388,19 @@ class BiLSTMMultiLabelClassifier(tf.estimator.Estimator):
             # [class2_m1, class2_m2, class2_m3]
             # [class3_m1, class3_m2, class3_m3]
             # ]
-            ensemble_layer = tf.stack([combined_logits, encoded_words_hidden_layer, encoded_sentence_hidden_layer],
+            #[BATCH_SIZE, NUM_CLASSES, 3]
+            ensemble_layer = tf.stack([combined_logits,
+                                       encoded_words_hidden_layer,
+                                       encoded_sentence_hidden_layer],
                                       axis=1)
-            logits = ensemble_layer
+
+            ensemble_layer = tf.reshape(tensor=ensemble_layer, shape=[-1, self.bilstm_config.NUM_CLASSES * 3])
+
+            logits = tf.layers.dense(inputs=ensemble_layer,
+                                     units=self.bilstm_config.NUM_CLASSES,
+                                     kernel_initializer=tf.contrib.layers.xavier_initializer(
+                                         seed=42),
+                                     activation=tf.nn.relu6)
 
             tf.logging.info('logits: =====> {}'.format(logits))
 
@@ -399,7 +413,10 @@ class BiLSTMMultiLabelClassifier(tf.estimator.Estimator):
             else:
                 labels = labels
 
-            losses = tf.nn.sparse_softmax_cross_entropy_with_logits(
+            tf.logging.info('logits: =====> {}'.format(logits))
+            tf.logging.info('labels: =====> {}'.format(labels))
+
+            losses = tf.nn.softmax_cross_entropy_with_logits(
                 logits=logits, labels=labels)
 
             losses = tf.reduce_mean(losses, name="reduced_mean")
@@ -407,7 +424,8 @@ class BiLSTMMultiLabelClassifier(tf.estimator.Estimator):
         with tf.name_scope("out_put_layer"):
             # [BATCH_SIZE]
             probabilities = tf.nn.softmax(logits, dim=-1)
-            classes =  tf.equal(tf.round(probabilities), tf.round(labels))
+            classes =  tf.equal(labels, tf.cast(tf.round(probabilities), tf.int32))
+            # classes = tf.cast(classes, tf.int32)
 
             tf.logging.info('classes: =====> {}'.format(classes))
             tf.logging.info('probabilities: =====> {}'.format(probabilities))
@@ -437,27 +455,30 @@ class BiLSTMMultiLabelClassifier(tf.estimator.Estimator):
 
             loss = losses
 
-            eval_metric_ops = {
-                'MeanAccuracy' : tf.reduce_mean(tf.cast(predictions[self.feature_type.OUT_CLASSES],
-                                                        tf.float32)),
+            MeanAccuracy =  tf.reduce_mean(tf.cast(predictions[self.feature_type.OUT_CLASSES],
+                                                   tf.float32))
 
-                #     It will take the minimum of correct_prediction
-                # for each element of the batch.This minimum is 1 if all elements are 1
-                # (ie all predictions are correct) and 0 if at least one element is False ( and equal to 0)
-                'AllLabelAccuracy' :  tf.reduce_mean(
-                    tf.reduce_min(
-                        tf.cast(predictions[self.feature_type.OUT_CLASSES]),
-                        tf.float32), 1),
+            #     It will take the minimum of correct_prediction
+            # for each element of the batch.This minimum is 1 if all elements are 1
+            # (ie all predictions are correct) and 0 if at least one element is False ( and equal to 0)
+            AllLabelAccuracy = tf.reduce_mean(
+                tf.reduce_min(
+                    tf.cast(predictions[self.feature_type.OUT_CLASSES], dtype=tf.float32), 1))
+            tf.summary.scalar("MeanAccuracy", MeanAccuracy)
+            tf.summary.scalar("AllLabelAccuracy", AllLabelAccuracy)
+
+
+            eval_metric_ops = {
                 'Accuracy': tf.metrics.accuracy(
-                    labels=tf.cast(tf.argmax(labels, axis=-1), tf.int32),
+                    labels=labels,
                     predictions=predictions[self.feature_type.OUT_CLASSES],
                     name='accuracy'),
                 'Precision': tf.metrics.precision(
-                    labels=tf.cast(tf.argmax(labels, axis=-1), tf.int32),
+                    labels=labels,
                     predictions=predictions[self.feature_type.OUT_CLASSES],
                     name='Precision'),
                 'Recall': tf.metrics.recall(
-                    labels=tf.cast(tf.argmax(labels, axis=-1), tf.int32),
+                    labels=labels,
                     predictions=predictions[self.feature_type.OUT_CLASSES],
                     name='Recall')
             }
@@ -472,14 +493,14 @@ class BiLSTMMultiLabelClassifier(tf.estimator.Estimator):
         )
 
 
-#Decay Leanring Rate Visulaization
-# import math
-# import matplotlib.pylot as plt
-# steps_epoch = 15663//16
-# num_epocs = 5
-# learning_rate = 0.1
-# decay_rate = 0.99
-# decay_steps = 10
-# global_step= range(0,steps_epoch*num_epocs, decay_steps)
-# d_lr = [learning_rate *  math.pow(decay_rate, (step / decay_steps)) for step in global_step]
-# plt.plot(d_lr)
+        #Decay Leanring Rate Visulaization
+        # import math
+        # import matplotlib.pylot as plt
+        # steps_epoch = 15663//16
+        # num_epocs = 5
+        # learning_rate = 0.1
+        # decay_rate = 0.99
+        # decay_steps = 10
+        # global_step= range(0,steps_epoch*num_epocs, decay_steps)
+        # d_lr = [learning_rate *  math.pow(decay_rate, (step / decay_steps)) for step in global_step]
+        # plt.plot(d_lr)
