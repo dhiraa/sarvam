@@ -106,7 +106,7 @@ class BiLSTMMultiLabelConfig():
             str(out_keep_propability)
         )
 
-        model_dir = EXPERIMENT_MODEL_ROOT_DIR + dataframe.dataset_name + model_dir
+        model_dir = EXPERIMENT_MODEL_ROOT_DIR + dataframe.dataset_name + "/BiLSTMMultiLabelClassifier/" + model_dir
 
         if not os.path.exists(model_dir):
             os.makedirs(model_dir)
