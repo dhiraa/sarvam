@@ -424,7 +424,7 @@ class BiLSTMMultiLabelClassifier(tf.estimator.Estimator):
         with tf.name_scope("out_put_layer"):
             # [BATCH_SIZE]
             probabilities = tf.nn.softmax(logits, dim=-1)
-            classes =  tf.equal(labels, tf.cast(tf.round(probabilities), tf.int32))
+            classes =  tf.equal(labels, tf.cast(tf.round(probabilities), tf.int64))
             # classes = tf.cast(classes, tf.int32)
 
             tf.logging.info('classes: =====> {}'.format(classes))

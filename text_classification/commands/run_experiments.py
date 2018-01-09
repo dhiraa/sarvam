@@ -29,7 +29,7 @@ def run(opt):
     # Get the model
     if opt.mode == "train":
         cfg = cfg.user_config(dataframe=dataset.dataframe)
-    elif opt.mode == "retrain":
+    elif opt.mode == "retrain" or opt.mode == "predict":
         cfg = cfg.load(opt.model_dir)
 
     model = model(cfg)
@@ -41,16 +41,17 @@ def run(opt):
     # Train and Evaluate
     NUM_STEPS = dataset.dataframe.num_train_samples // int(opt.batch_size)
 
-    # Evaluate after each epoch
-    for i in range(int(opt.num_epochs)):
-        model.train(input_fn=data_iterator.get_train_function(),
-                    hooks=[data_iterator.get_train_hook()],
-                    steps=i + 1 * NUM_STEPS)
+    if (opt.mode == "train"):
+        # Evaluate after each epoch
+        for i in range(int(opt.num_epochs)):
+            model.train(input_fn=data_iterator.get_train_function(),
+                        hooks=[data_iterator.get_train_hook()],
+                        steps=i + 1 * NUM_STEPS)
 
-        model.evaluate(input_fn=data_iterator.get_val_function(), hooks=[data_iterator.get_val_hook()])
-
-    # Predict
-    dataset.predict_on_csv_files(data_iterator, model)
+            model.evaluate(input_fn=data_iterator.get_val_function(), hooks=[data_iterator.get_val_hook()])
+    elif (opt.mode == "predict"):
+        # Predict
+        dataset.predict_on_csv_files(data_iterator, model)
 
 
 if __name__ == "__main__":
