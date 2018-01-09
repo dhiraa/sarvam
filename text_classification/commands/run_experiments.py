@@ -67,10 +67,10 @@ if __name__ == "__main__":
     optparse.add_argument('-md', '--model-dir', action='store',
                           dest='model_dir', required=False,
                           help='Model directory needed for training')
-
-    optparse.add_argument('-pd', '--predict-dir', action='store',
-                          dest='predict_dir', required=False,
-                          help='Model directory needed for prediction')
+    #
+    # optparse.add_argument('-pd', '--predict-dir', action='store',
+    #                       dest='predict_dir', required=False,
+    #                       help='Model directory needed for prediction')
 
     optparse.add_argument('-dsn', '--dataset-name', action='store',
                           dest='dataset_name', required=False,
@@ -96,7 +96,7 @@ if __name__ == "__main__":
     if (opt.mode == 'retrain' or opt.mode == 'predict') and not opt.model_dir:
         optparse.error('--model-dir argument is required in "retrain" & "predict" mode.')
 
-    elif opt.mode == 'predict' and not opt.predict_dir:
-        optparse.error('--predict-dir argument is required in "predict" mode.')
+    # elif opt.mode == 'predict' and not opt.predict_dir:
+    #     optparse.error('--predict-dir argument is required in "predict" mode.')
     else:
         run(opt)
