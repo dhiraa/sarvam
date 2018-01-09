@@ -82,6 +82,7 @@ if __name__ == "__main__":
 
     optparse.add_argument('-bs', '--batch-size',  type=int, action='store',
                           dest='batch_size', required=False,
+                          default=1,
                           help='Batch size for training, be consistent when retraining')
 
     optparse.add_argument('-ne', '--num-epochs', type=int, action='store',
