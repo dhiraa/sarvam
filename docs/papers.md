@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Paper Reading
-permalink: /paper_readings/
+permalink: /papers/
 ---
 
 # 2018
