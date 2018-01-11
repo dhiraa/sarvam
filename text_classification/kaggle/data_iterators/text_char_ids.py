@@ -93,16 +93,36 @@ class TextAndCharIds(DataIterator):
             (features, ) Operations that iterate over the test set.
         """
 
+        iterator_initializer_hook = IteratorInitializerHook()
+
         def inputs():
             with tf.name_scope(scope):
-                word_ids_constant = tf.constant(word_ids, dtype=tf.int32)
-                char_ids_constant = tf.constant(char_ids, dtype=tf.int32)
+                word_features_placeholder = tf.placeholder(dtype=tf.int32)
+                char_features_placeholder = tf.placeholder(dtype=tf.int32)
                 dataset = tf.data.Dataset.from_tensor_slices(
-                    ({self.feature_type.FEATURE_1: word_ids_constant, self.feature_type.FEATURE_2: char_ids_constant},))
-                # Return as iteration in batches of 1
-                return dataset.batch(batch_size).make_one_shot_iterator().get_next()
+                    ({self.feature_type.FEATURE_1: word_features_placeholder,
+                      self.feature_type.FEATURE_2: char_features_placeholder},))
 
-        return inputs
+                dataset = dataset.batch(batch_size)
+                iterator = dataset.make_initializable_iterator()
+
+                # Set runhook to initialize iterator
+                iterator_initializer_hook.iterator_initializer_func = \
+                    lambda sess: sess.run(
+                        iterator.initializer,
+                        feed_dict={word_features_placeholder: word_ids,
+                                   char_features_placeholder: char_ids})
+
+                next_features, next_label = iterator.get_next()
+
+                # Return batched (features, labels)
+                return next_features,None
+
+
+                # Return as iteration in batches of 1
+                # return dataset.batch(batch_size).make_one_shot_iterator().get_next()
+
+        return inputs, iterator_initializer_hook
 
     def prepare_train_set(self):
         '''
@@ -149,7 +169,7 @@ class TextAndCharIds(DataIterator):
 
         test_text_word_ids = self.dataframe.get_test_text_word_ids()
         test_text_word_char_ids = self.dataframe.get_test_text_word_char_ids()
-        self.test_input_fn = self._test_inputs2(test_text_word_ids,
+        self.test_input_fn, self.test_input_hook = self._test_inputs2(test_text_word_ids,
                                            test_text_word_char_ids,
                                            batch_size=1,
                                            scope='test_data')
