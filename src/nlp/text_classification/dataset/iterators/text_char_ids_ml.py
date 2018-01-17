@@ -1,0 +1,20 @@
+import sys
+
+from nlp.text_classification.dataset.iterators.text_char_ids import TextAndCharIds
+
+sys.path.append("../")
+
+from nlp.text_classification.tc_utils.feature_types import TextAndCharIdsMultiLabelFeature
+from sarvam.helpers.print_helper import *
+
+class TextAndCharIdsMultiLabel(TextAndCharIds):
+    def __init__(self, batch_size, dataframe):
+        TextAndCharIds.__init__(self, batch_size=batch_size, dataframe=dataframe)
+        self.feature_type = TextAndCharIdsMultiLabelFeature
+
+        try:
+            if dataframe.category_cols == None:
+                print_error("Selected dataset doesn't support multi label classification!")
+                exit(0)
+        except:
+            pass
