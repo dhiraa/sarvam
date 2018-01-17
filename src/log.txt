@@ -1,15 +1,353 @@
 /home/mageswarand/anaconda3/envs/tensorflow1.0/lib/python3.6/importlib/_bootstrap.py:205: RuntimeWarning: compiletime version 3.5 of module 'tensorflow.python.framework.fast_tensor_util' does not match runtime version 3.6
   return f(*args, **kwds)
-  0%|          | 0/91085 [00:00<?, ?it/s] 18%|█▊        | 16184/91085 [00:00<00:00, 161811.99it/s] 34%|███▍      | 30916/91085 [00:00<00:00, 154554.17it/s] 51%|█████     | 46654/91085 [00:00<00:00, 155498.28it/s] 68%|██████▊   | 62293/91085 [00:00<00:00, 155717.89it/s] 86%|████████▌ | 77882/91085 [00:00<00:00, 155751.82it/s]100%|██████████| 91085/91085 [00:00<00:00, 155679.97it/s]
 [92mLoading processed files...[0m
-[93mLoading files from experiments/data//jigsaw_dataset/[0m
+[93mLoading files from experiments/data//spooky_dataset/[0m
+[92mFitting LabelEncoder and LabelBinarizer on processed...[0m
+[92mDone![0m
 [92mPreparing vocab file...[0m
-No <PAD> token found
-[93mexperiments/data//jigsaw_dataset/words_vocab.tsv[0m
 [92mDone preparing vocab file...[0m
-Traceback (most recent call last):
-  File "nlp/text_classification/commands/run_experiments.py", line 112, in <module>
-    run(opt)
-  File "nlp/text_classification/commands/run_experiments.py", line 35, in run
-    cfg = cfg.user_config(dataframe=dataset.dataframe, data_iterator_name=opt.data_iterator_name)
-TypeError: user_config() got an unexpected keyword argument 'data_iterator_name'
+learning_rate: (0.001): word_emd_size (32): out_keep_propability (0.5): INFO:tensorflow:Using default config.
+INFO:tensorflow:Using config: {'_model_dir': 'experiments/models/spooky_dataset/text_ids/FastTextV0/lr_0.001_wemd_32_keep_0.5', '_tf_random_seed': None, '_save_summary_steps': 100, '_save_checkpoints_steps': None, '_save_checkpoints_secs': 600, '_session_config': None, '_keep_checkpoint_max': 5, '_keep_checkpoint_every_n_hours': 10000, '_log_step_count_steps': 100, '_service': None, '_cluster_spec': <tensorflow.python.training.server_lib.ClusterSpec object at 0x7f223870b9b0>, '_task_type': 'worker', '_task_id': 0, '_master': '', '_is_chief': True, '_num_ps_replicas': 0, '_num_worker_replicas': 1}
+WARNING:tensorflow:Estimator's model_fn (<bound method FastTextV0._model_fn of <nlp.text_classification.models.fast_text.fast_text_v0.FastTextV0 object at 0x7f223d91ed68>>) includes params argument, but params are not passed to Estimator.
+  0%|          | 0/5 [00:00<?, ?it/s]INFO:tensorflow:[92mTraining epoch: 1[0m
+
+  0%|          | 0/18599 [00:00<?, ?it/s][A
+ 44%|████▎     | 8134/18599 [00:00<00:00, 81268.39it/s][A
+ 60%|██████    | 11208/18599 [00:00<00:00, 56016.15it/s][A
+100%|██████████| 18599/18599 [00:00<00:00, 62678.71it/s][AINFO:tensorflow:text_features.shape: (18599, 100)
+INFO:tensorflow:labels.shape: (18599, 3)
+DEBUG:tensorflow:text_features -----> Tensor("train_data/IteratorGetNext:0", shape=(?, 100), dtype=int32, device=/device:CPU:0)
+DEBUG:tensorflow:labels -----> Tensor("train_data/IteratorGetNext:1", shape=(?, 3), dtype=int64, device=/device:CPU:0)
+INFO:tensorflow:words_embed=Tensor("embed-layer/EmbedSequence/embedding_lookup:0", shape=(?, 100, 32), dtype=float32, device=/device:CPU:0)
+INFO:tensorflow:words_embed=Tensor("fast_text/Sum:0", shape=(?, 32), dtype=float32, device=/device:GPU:0)
+INFO:tensorflow:wide_layer: ------> Tensor("hidden-mlp-layer/dropout_2/dropout/mul:0", shape=(?, 16), dtype=float32)
+INFO:tensorflow:logits: ------> Tensor("logits-layer/dense/BiasAdd:0", shape=(?, 3), dtype=float32)
+INFO:tensorflow:predicted_class: ------> Tensor("output-layer/class_output:0", shape=(?,), dtype=int64)
+INFO:tensorflow:predicted_probabilities: ------> Tensor("output-layer/softmax_output:0", shape=(?, 3), dtype=float32)
+INFO:tensorflow:Summary name fast_text/Sum:0 is illegal; using fast_text/Sum_0 instead.
+INFO:tensorflow:Summary name output-layer/softmax_output:0 is illegal; using output-layer/softmax_output_0 instead.
+INFO:tensorflow:labels: ------> Tensor("train_data/IteratorGetNext:1", shape=(?, 3), dtype=int64, device=/device:CPU:0)
+INFO:tensorflow:predictions["classes"]: ------> Tensor("output-layer/class_output:0", shape=(?,), dtype=int64)
+INFO:tensorflow:Summary name reduced_mean:0 is illegal; using reduced_mean_0 instead.
+INFO:tensorflow:Create CheckpointSaverHook.
+2018-01-17 11:51:52.255181: I tensorflow/core/platform/cpu_feature_guard.cc:137] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2018-01-17 11:51:52.349122: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:892] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-01-17 11:51:52.349586: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1030] Found device 0 with properties: 
+name: GeForce 830M major: 5 minor: 0 memoryClockRate(GHz): 1.15
+pciBusID: 0000:04:00.0
+totalMemory: 1.96GiB freeMemory: 1.63GiB
+2018-01-17 11:51:52.349611: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1120] Creating TensorFlow device (/device:GPU:0) -> (device: 0, name: GeForce 830M, pci bus id: 0000:04:00.0, compute capability: 5.0)
+INFO:tensorflow:Saving checkpoints for 1 into experiments/models/spooky_dataset/text_ids/FastTextV0/lr_0.001_wemd_32_keep_0.5/model.ckpt.
+INFO:tensorflow:loss = 0.859529, step = 1
+INFO:tensorflow:global_step/sec: 96.7932
+INFO:tensorflow:loss = 0.904691, step = 101 (1.033 sec)
+INFO:tensorflow:global_step/sec: 102.811
+INFO:tensorflow:loss = 1.14061, step = 201 (0.973 sec)
+INFO:tensorflow:global_step/sec: 101.937
+INFO:tensorflow:loss = 0.779344, step = 301 (0.981 sec)
+INFO:tensorflow:global_step/sec: 102.16
+INFO:tensorflow:loss = 0.591145, step = 401 (0.979 sec)
+INFO:tensorflow:global_step/sec: 103.158
+INFO:tensorflow:loss = 0.494324, step = 501 (0.969 sec)
+INFO:tensorflow:global_step/sec: 100.342
+INFO:tensorflow:loss = 0.66679, step = 601 (0.998 sec)
+INFO:tensorflow:global_step/sec: 101.007
+INFO:tensorflow:loss = 0.31008, step = 701 (0.989 sec)
+INFO:tensorflow:global_step/sec: 100.486
+INFO:tensorflow:loss = 0.46954, step = 801 (0.995 sec)
+INFO:tensorflow:global_step/sec: 99.6859
+INFO:tensorflow:loss = 0.517218, step = 901 (1.003 sec)
+INFO:tensorflow:global_step/sec: 102.55
+INFO:tensorflow:loss = 0.345199, step = 1001 (0.978 sec)
+INFO:tensorflow:global_step/sec: 102.97
+INFO:tensorflow:loss = 0.51017, step = 1101 (0.969 sec)
+INFO:tensorflow:Saving checkpoints for 1162 into experiments/models/spooky_dataset/text_ids/FastTextV0/lr_0.001_wemd_32_keep_0.5/model.ckpt.
+INFO:tensorflow:Loss for final step: 0.407173.
+INFO:tensorflow:[92mEvalution on epoch: 1[0m
+
+  0%|          | 0/980 [00:00<?, ?it/s][A
+100%|██████████| 980/980 [00:00<00:00, 64068.11it/s][AINFO:tensorflow:text_features.shape: (980, 100)
+INFO:tensorflow:labels.shape: (980, 3)
+DEBUG:tensorflow:text_features -----> Tensor("val_data/IteratorGetNext:0", shape=(?, 100), dtype=int32, device=/device:CPU:0)
+DEBUG:tensorflow:labels -----> Tensor("val_data/IteratorGetNext:1", shape=(?, 3), dtype=int64, device=/device:CPU:0)
+INFO:tensorflow:words_embed=Tensor("embed-layer/EmbedSequence/embedding_lookup:0", shape=(?, 100, 32), dtype=float32, device=/device:CPU:0)
+INFO:tensorflow:words_embed=Tensor("fast_text/Sum:0", shape=(?, 32), dtype=float32, device=/device:GPU:0)
+INFO:tensorflow:wide_layer: ------> Tensor("hidden-mlp-layer/dropout_2/Identity:0", shape=(?, 16), dtype=float32)
+INFO:tensorflow:logits: ------> Tensor("logits-layer/dense/BiasAdd:0", shape=(?, 3), dtype=float32)
+INFO:tensorflow:predicted_class: ------> Tensor("output-layer/class_output:0", shape=(?,), dtype=int64)
+INFO:tensorflow:predicted_probabilities: ------> Tensor("output-layer/softmax_output:0", shape=(?, 3), dtype=float32)
+INFO:tensorflow:Summary name fast_text/Sum:0 is illegal; using fast_text/Sum_0 instead.
+INFO:tensorflow:Summary name output-layer/softmax_output:0 is illegal; using output-layer/softmax_output_0 instead.
+INFO:tensorflow:labels: ------> Tensor("val_data/IteratorGetNext:1", shape=(?, 3), dtype=int64, device=/device:CPU:0)
+INFO:tensorflow:predictions["classes"]: ------> Tensor("output-layer/class_output:0", shape=(?,), dtype=int64)
+INFO:tensorflow:Summary name reduced_mean:0 is illegal; using reduced_mean_0 instead.
+INFO:tensorflow:Starting evaluation at 2018-01-17-06:22:05
+2018-01-17 11:52:05.641137: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1120] Creating TensorFlow device (/device:GPU:0) -> (device: 0, name: GeForce 830M, pci bus id: 0000:04:00.0, compute capability: 5.0)
+INFO:tensorflow:Restoring parameters from experiments/models/spooky_dataset/text_ids/FastTextV0/lr_0.001_wemd_32_keep_0.5/model.ckpt-1162
+INFO:tensorflow:Finished evaluation at 2018-01-17-06:22:05
+INFO:tensorflow:Saving dict for global step 1162: Accuracy = 0.797959, Precision = 0.922772, Recall = 0.796581, global_step = 1162, loss = 0.410663
+INFO:tensorflow:[92m{'Accuracy': 0.79795921, 'Precision': 0.92277229, 'Recall': 0.79658121, 'loss': 0.41066283, 'global_step': 1162}[0m
+ 20%|██        | 1/5 [00:14<00:59, 14.77s/it]INFO:tensorflow:[92mTraining epoch: 2[0m
+DEBUG:tensorflow:text_features -----> Tensor("train_data/IteratorGetNext:0", shape=(?, 100), dtype=int32, device=/device:CPU:0)
+DEBUG:tensorflow:labels -----> Tensor("train_data/IteratorGetNext:1", shape=(?, 3), dtype=int64, device=/device:CPU:0)
+INFO:tensorflow:words_embed=Tensor("embed-layer/EmbedSequence/embedding_lookup:0", shape=(?, 100, 32), dtype=float32, device=/device:CPU:0)
+INFO:tensorflow:words_embed=Tensor("fast_text/Sum:0", shape=(?, 32), dtype=float32, device=/device:GPU:0)
+INFO:tensorflow:wide_layer: ------> Tensor("hidden-mlp-layer/dropout_2/dropout/mul:0", shape=(?, 16), dtype=float32)
+INFO:tensorflow:logits: ------> Tensor("logits-layer/dense/BiasAdd:0", shape=(?, 3), dtype=float32)
+INFO:tensorflow:predicted_class: ------> Tensor("output-layer/class_output:0", shape=(?,), dtype=int64)
+INFO:tensorflow:predicted_probabilities: ------> Tensor("output-layer/softmax_output:0", shape=(?, 3), dtype=float32)
+INFO:tensorflow:Summary name fast_text/Sum:0 is illegal; using fast_text/Sum_0 instead.
+INFO:tensorflow:Summary name output-layer/softmax_output:0 is illegal; using output-layer/softmax_output_0 instead.
+INFO:tensorflow:labels: ------> Tensor("train_data/IteratorGetNext:1", shape=(?, 3), dtype=int64, device=/device:CPU:0)
+INFO:tensorflow:predictions["classes"]: ------> Tensor("output-layer/class_output:0", shape=(?,), dtype=int64)
+INFO:tensorflow:Summary name reduced_mean:0 is illegal; using reduced_mean_0 instead.
+INFO:tensorflow:Create CheckpointSaverHook.
+2018-01-17 11:52:06.429734: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1120] Creating TensorFlow device (/device:GPU:0) -> (device: 0, name: GeForce 830M, pci bus id: 0000:04:00.0, compute capability: 5.0)
+INFO:tensorflow:Restoring parameters from experiments/models/spooky_dataset/text_ids/FastTextV0/lr_0.001_wemd_32_keep_0.5/model.ckpt-1162
+INFO:tensorflow:Saving checkpoints for 1163 into experiments/models/spooky_dataset/text_ids/FastTextV0/lr_0.001_wemd_32_keep_0.5/model.ckpt.
+INFO:tensorflow:loss = 0.127171, step = 1163
+INFO:tensorflow:global_step/sec: 97.4099
+INFO:tensorflow:loss = 0.203157, step = 1263 (1.027 sec)
+INFO:tensorflow:global_step/sec: 100.251
+INFO:tensorflow:loss = 0.300657, step = 1363 (0.998 sec)
+INFO:tensorflow:global_step/sec: 104.104
+INFO:tensorflow:loss = 0.0615251, step = 1463 (0.961 sec)
+INFO:tensorflow:global_step/sec: 102.324
+INFO:tensorflow:loss = 0.401407, step = 1563 (0.977 sec)
+INFO:tensorflow:global_step/sec: 78.4762
+INFO:tensorflow:loss = 0.177089, step = 1663 (1.275 sec)
+INFO:tensorflow:global_step/sec: 65.4085
+INFO:tensorflow:loss = 0.290252, step = 1763 (1.530 sec)
+INFO:tensorflow:global_step/sec: 74.4629
+INFO:tensorflow:loss = 0.148326, step = 1863 (1.342 sec)
+INFO:tensorflow:global_step/sec: 83.1187
+INFO:tensorflow:loss = 0.156017, step = 1963 (1.203 sec)
+INFO:tensorflow:global_step/sec: 87.1913
+INFO:tensorflow:loss = 0.107206, step = 2063 (1.147 sec)
+INFO:tensorflow:global_step/sec: 88.7426
+INFO:tensorflow:loss = 0.191478, step = 2163 (1.130 sec)
+INFO:tensorflow:global_step/sec: 80.9161
+INFO:tensorflow:loss = 0.340239, step = 2263 (1.233 sec)
+INFO:tensorflow:Saving checkpoints for 2324 into experiments/models/spooky_dataset/text_ids/FastTextV0/lr_0.001_wemd_32_keep_0.5/model.ckpt.
+INFO:tensorflow:Loss for final step: 0.110333.
+INFO:tensorflow:[92mEvalution on epoch: 2[0m
+DEBUG:tensorflow:text_features -----> Tensor("val_data/IteratorGetNext:0", shape=(?, 100), dtype=int32, device=/device:CPU:0)
+DEBUG:tensorflow:labels -----> Tensor("val_data/IteratorGetNext:1", shape=(?, 3), dtype=int64, device=/device:CPU:0)
+INFO:tensorflow:words_embed=Tensor("embed-layer/EmbedSequence/embedding_lookup:0", shape=(?, 100, 32), dtype=float32, device=/device:CPU:0)
+INFO:tensorflow:words_embed=Tensor("fast_text/Sum:0", shape=(?, 32), dtype=float32, device=/device:GPU:0)
+INFO:tensorflow:wide_layer: ------> Tensor("hidden-mlp-layer/dropout_2/Identity:0", shape=(?, 16), dtype=float32)
+INFO:tensorflow:logits: ------> Tensor("logits-layer/dense/BiasAdd:0", shape=(?, 3), dtype=float32)
+INFO:tensorflow:predicted_class: ------> Tensor("output-layer/class_output:0", shape=(?,), dtype=int64)
+INFO:tensorflow:predicted_probabilities: ------> Tensor("output-layer/softmax_output:0", shape=(?, 3), dtype=float32)
+INFO:tensorflow:Summary name fast_text/Sum:0 is illegal; using fast_text/Sum_0 instead.
+INFO:tensorflow:Summary name output-layer/softmax_output:0 is illegal; using output-layer/softmax_output_0 instead.
+INFO:tensorflow:labels: ------> Tensor("val_data/IteratorGetNext:1", shape=(?, 3), dtype=int64, device=/device:CPU:0)
+INFO:tensorflow:predictions["classes"]: ------> Tensor("output-layer/class_output:0", shape=(?,), dtype=int64)
+INFO:tensorflow:Summary name reduced_mean:0 is illegal; using reduced_mean_0 instead.
+INFO:tensorflow:Starting evaluation at 2018-01-17-06:22:21
+2018-01-17 11:52:21.195582: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1120] Creating TensorFlow device (/device:GPU:0) -> (device: 0, name: GeForce 830M, pci bus id: 0000:04:00.0, compute capability: 5.0)
+INFO:tensorflow:Restoring parameters from experiments/models/spooky_dataset/text_ids/FastTextV0/lr_0.001_wemd_32_keep_0.5/model.ckpt-2324
+INFO:tensorflow:Finished evaluation at 2018-01-17-06:22:21
+INFO:tensorflow:Saving dict for global step 2324: Accuracy = 0.82449, Precision = 0.934394, Recall = 0.803419, global_step = 2324, loss = 0.399745
+INFO:tensorflow:[92m{'Accuracy': 0.82448977, 'Precision': 0.93439364, 'Recall': 0.80341882, 'loss': 0.39974511, 'global_step': 2324}[0m
+ 40%|████      | 2/5 [00:30<00:45, 15.11s/it]INFO:tensorflow:[92mTraining epoch: 3[0m
+DEBUG:tensorflow:text_features -----> Tensor("train_data/IteratorGetNext:0", shape=(?, 100), dtype=int32, device=/device:CPU:0)
+DEBUG:tensorflow:labels -----> Tensor("train_data/IteratorGetNext:1", shape=(?, 3), dtype=int64, device=/device:CPU:0)
+INFO:tensorflow:words_embed=Tensor("embed-layer/EmbedSequence/embedding_lookup:0", shape=(?, 100, 32), dtype=float32, device=/device:CPU:0)
+INFO:tensorflow:words_embed=Tensor("fast_text/Sum:0", shape=(?, 32), dtype=float32, device=/device:GPU:0)
+INFO:tensorflow:wide_layer: ------> Tensor("hidden-mlp-layer/dropout_2/dropout/mul:0", shape=(?, 16), dtype=float32)
+INFO:tensorflow:logits: ------> Tensor("logits-layer/dense/BiasAdd:0", shape=(?, 3), dtype=float32)
+INFO:tensorflow:predicted_class: ------> Tensor("output-layer/class_output:0", shape=(?,), dtype=int64)
+INFO:tensorflow:predicted_probabilities: ------> Tensor("output-layer/softmax_output:0", shape=(?, 3), dtype=float32)
+INFO:tensorflow:Summary name fast_text/Sum:0 is illegal; using fast_text/Sum_0 instead.
+INFO:tensorflow:Summary name output-layer/softmax_output:0 is illegal; using output-layer/softmax_output_0 instead.
+INFO:tensorflow:labels: ------> Tensor("train_data/IteratorGetNext:1", shape=(?, 3), dtype=int64, device=/device:CPU:0)
+INFO:tensorflow:predictions["classes"]: ------> Tensor("output-layer/class_output:0", shape=(?,), dtype=int64)
+INFO:tensorflow:Summary name reduced_mean:0 is illegal; using reduced_mean_0 instead.
+INFO:tensorflow:Create CheckpointSaverHook.
+2018-01-17 11:52:21.918954: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1120] Creating TensorFlow device (/device:GPU:0) -> (device: 0, name: GeForce 830M, pci bus id: 0000:04:00.0, compute capability: 5.0)
+INFO:tensorflow:Restoring parameters from experiments/models/spooky_dataset/text_ids/FastTextV0/lr_0.001_wemd_32_keep_0.5/model.ckpt-2324
+INFO:tensorflow:Saving checkpoints for 2325 into experiments/models/spooky_dataset/text_ids/FastTextV0/lr_0.001_wemd_32_keep_0.5/model.ckpt.
+INFO:tensorflow:loss = 0.237816, step = 2325
+INFO:tensorflow:global_step/sec: 94.5267
+INFO:tensorflow:loss = 0.109383, step = 2425 (1.058 sec)
+INFO:tensorflow:global_step/sec: 89.2439
+INFO:tensorflow:loss = 0.156666, step = 2525 (1.121 sec)
+INFO:tensorflow:global_step/sec: 86.2838
+INFO:tensorflow:loss = 0.0397637, step = 2625 (1.161 sec)
+INFO:tensorflow:global_step/sec: 88.8881
+INFO:tensorflow:loss = 0.0971143, step = 2725 (1.124 sec)
+INFO:tensorflow:global_step/sec: 82.8262
+INFO:tensorflow:loss = 0.113127, step = 2825 (1.207 sec)
+INFO:tensorflow:global_step/sec: 87.5103
+INFO:tensorflow:loss = 0.207237, step = 2925 (1.142 sec)
+INFO:tensorflow:global_step/sec: 94.9816
+INFO:tensorflow:loss = 0.0615431, step = 3025 (1.053 sec)
+INFO:tensorflow:global_step/sec: 96.9143
+INFO:tensorflow:loss = 0.306928, step = 3125 (1.032 sec)
+INFO:tensorflow:global_step/sec: 99.962
+INFO:tensorflow:loss = 0.0522856, step = 3225 (1.000 sec)
+INFO:tensorflow:global_step/sec: 102.672
+INFO:tensorflow:loss = 0.0498651, step = 3325 (0.974 sec)
+INFO:tensorflow:global_step/sec: 98.0746
+INFO:tensorflow:loss = 0.152011, step = 3425 (1.020 sec)
+INFO:tensorflow:Saving checkpoints for 3486 into experiments/models/spooky_dataset/text_ids/FastTextV0/lr_0.001_wemd_32_keep_0.5/model.ckpt.
+INFO:tensorflow:Loss for final step: 0.210181.
+INFO:tensorflow:[92mEvalution on epoch: 3[0m
+DEBUG:tensorflow:text_features -----> Tensor("val_data/IteratorGetNext:0", shape=(?, 100), dtype=int32, device=/device:CPU:0)
+DEBUG:tensorflow:labels -----> Tensor("val_data/IteratorGetNext:1", shape=(?, 3), dtype=int64, device=/device:CPU:0)
+INFO:tensorflow:words_embed=Tensor("embed-layer/EmbedSequence/embedding_lookup:0", shape=(?, 100, 32), dtype=float32, device=/device:CPU:0)
+INFO:tensorflow:words_embed=Tensor("fast_text/Sum:0", shape=(?, 32), dtype=float32, device=/device:GPU:0)
+INFO:tensorflow:wide_layer: ------> Tensor("hidden-mlp-layer/dropout_2/Identity:0", shape=(?, 16), dtype=float32)
+INFO:tensorflow:logits: ------> Tensor("logits-layer/dense/BiasAdd:0", shape=(?, 3), dtype=float32)
+INFO:tensorflow:predicted_class: ------> Tensor("output-layer/class_output:0", shape=(?,), dtype=int64)
+INFO:tensorflow:predicted_probabilities: ------> Tensor("output-layer/softmax_output:0", shape=(?, 3), dtype=float32)
+INFO:tensorflow:Summary name fast_text/Sum:0 is illegal; using fast_text/Sum_0 instead.
+INFO:tensorflow:Summary name output-layer/softmax_output:0 is illegal; using output-layer/softmax_output_0 instead.
+INFO:tensorflow:labels: ------> Tensor("val_data/IteratorGetNext:1", shape=(?, 3), dtype=int64, device=/device:CPU:0)
+INFO:tensorflow:predictions["classes"]: ------> Tensor("output-layer/class_output:0", shape=(?,), dtype=int64)
+INFO:tensorflow:Summary name reduced_mean:0 is illegal; using reduced_mean_0 instead.
+INFO:tensorflow:Starting evaluation at 2018-01-17-06:22:35
+2018-01-17 11:52:35.674329: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1120] Creating TensorFlow device (/device:GPU:0) -> (device: 0, name: GeForce 830M, pci bus id: 0000:04:00.0, compute capability: 5.0)
+INFO:tensorflow:Restoring parameters from experiments/models/spooky_dataset/text_ids/FastTextV0/lr_0.001_wemd_32_keep_0.5/model.ckpt-3486
+INFO:tensorflow:Finished evaluation at 2018-01-17-06:22:35
+INFO:tensorflow:Saving dict for global step 3486: Accuracy = 0.821429, Precision = 0.960744, Recall = 0.794872, global_step = 3486, loss = 0.458428
+INFO:tensorflow:[92m{'Accuracy': 0.8214286, 'Precision': 0.96074378, 'Recall': 0.79487181, 'loss': 0.45842817, 'global_step': 3486}[0m
+ 60%|██████    | 3/5 [00:44<00:29, 14.90s/it]INFO:tensorflow:[92mTraining epoch: 4[0m
+DEBUG:tensorflow:text_features -----> Tensor("train_data/IteratorGetNext:0", shape=(?, 100), dtype=int32, device=/device:CPU:0)
+DEBUG:tensorflow:labels -----> Tensor("train_data/IteratorGetNext:1", shape=(?, 3), dtype=int64, device=/device:CPU:0)
+INFO:tensorflow:words_embed=Tensor("embed-layer/EmbedSequence/embedding_lookup:0", shape=(?, 100, 32), dtype=float32, device=/device:CPU:0)
+INFO:tensorflow:words_embed=Tensor("fast_text/Sum:0", shape=(?, 32), dtype=float32, device=/device:GPU:0)
+INFO:tensorflow:wide_layer: ------> Tensor("hidden-mlp-layer/dropout_2/dropout/mul:0", shape=(?, 16), dtype=float32)
+INFO:tensorflow:logits: ------> Tensor("logits-layer/dense/BiasAdd:0", shape=(?, 3), dtype=float32)
+INFO:tensorflow:predicted_class: ------> Tensor("output-layer/class_output:0", shape=(?,), dtype=int64)
+INFO:tensorflow:predicted_probabilities: ------> Tensor("output-layer/softmax_output:0", shape=(?, 3), dtype=float32)
+INFO:tensorflow:Summary name fast_text/Sum:0 is illegal; using fast_text/Sum_0 instead.
+INFO:tensorflow:Summary name output-layer/softmax_output:0 is illegal; using output-layer/softmax_output_0 instead.
+INFO:tensorflow:labels: ------> Tensor("train_data/IteratorGetNext:1", shape=(?, 3), dtype=int64, device=/device:CPU:0)
+INFO:tensorflow:predictions["classes"]: ------> Tensor("output-layer/class_output:0", shape=(?,), dtype=int64)
+INFO:tensorflow:Summary name reduced_mean:0 is illegal; using reduced_mean_0 instead.
+INFO:tensorflow:Create CheckpointSaverHook.
+2018-01-17 11:52:36.354539: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1120] Creating TensorFlow device (/device:GPU:0) -> (device: 0, name: GeForce 830M, pci bus id: 0000:04:00.0, compute capability: 5.0)
+INFO:tensorflow:Restoring parameters from experiments/models/spooky_dataset/text_ids/FastTextV0/lr_0.001_wemd_32_keep_0.5/model.ckpt-3486
+INFO:tensorflow:Saving checkpoints for 3487 into experiments/models/spooky_dataset/text_ids/FastTextV0/lr_0.001_wemd_32_keep_0.5/model.ckpt.
+INFO:tensorflow:loss = 0.00488464, step = 3487
+INFO:tensorflow:global_step/sec: 92.2089
+INFO:tensorflow:loss = 0.176753, step = 3587 (1.085 sec)
+INFO:tensorflow:global_step/sec: 95.3663
+INFO:tensorflow:loss = 0.0695876, step = 3687 (1.049 sec)
+INFO:tensorflow:global_step/sec: 100.609
+INFO:tensorflow:loss = 0.0234815, step = 3787 (0.994 sec)
+INFO:tensorflow:global_step/sec: 93.9924
+INFO:tensorflow:loss = 0.13229, step = 3887 (1.064 sec)
+INFO:tensorflow:global_step/sec: 101.183
+INFO:tensorflow:loss = 0.077432, step = 3987 (0.988 sec)
+INFO:tensorflow:global_step/sec: 102.409
+INFO:tensorflow:loss = 0.0296185, step = 4087 (0.977 sec)
+INFO:tensorflow:global_step/sec: 85.0113
+INFO:tensorflow:loss = 0.111966, step = 4187 (1.176 sec)
+INFO:tensorflow:global_step/sec: 89.3051
+INFO:tensorflow:loss = 0.0663303, step = 4287 (1.120 sec)
+INFO:tensorflow:global_step/sec: 92.6033
+INFO:tensorflow:loss = 0.0692765, step = 4387 (1.080 sec)
+INFO:tensorflow:global_step/sec: 98.9486
+INFO:tensorflow:loss = 0.0820222, step = 4487 (1.011 sec)
+INFO:tensorflow:global_step/sec: 100.843
+INFO:tensorflow:loss = 0.0654316, step = 4587 (0.992 sec)
+INFO:tensorflow:Saving checkpoints for 4648 into experiments/models/spooky_dataset/text_ids/FastTextV0/lr_0.001_wemd_32_keep_0.5/model.ckpt.
+INFO:tensorflow:Loss for final step: 0.0948029.
+INFO:tensorflow:[92mEvalution on epoch: 4[0m
+DEBUG:tensorflow:text_features -----> Tensor("val_data/IteratorGetNext:0", shape=(?, 100), dtype=int32, device=/device:CPU:0)
+DEBUG:tensorflow:labels -----> Tensor("val_data/IteratorGetNext:1", shape=(?, 3), dtype=int64, device=/device:CPU:0)
+INFO:tensorflow:words_embed=Tensor("embed-layer/EmbedSequence/embedding_lookup:0", shape=(?, 100, 32), dtype=float32, device=/device:CPU:0)
+INFO:tensorflow:words_embed=Tensor("fast_text/Sum:0", shape=(?, 32), dtype=float32, device=/device:GPU:0)
+INFO:tensorflow:wide_layer: ------> Tensor("hidden-mlp-layer/dropout_2/Identity:0", shape=(?, 16), dtype=float32)
+INFO:tensorflow:logits: ------> Tensor("logits-layer/dense/BiasAdd:0", shape=(?, 3), dtype=float32)
+INFO:tensorflow:predicted_class: ------> Tensor("output-layer/class_output:0", shape=(?,), dtype=int64)
+INFO:tensorflow:predicted_probabilities: ------> Tensor("output-layer/softmax_output:0", shape=(?, 3), dtype=float32)
+INFO:tensorflow:Summary name fast_text/Sum:0 is illegal; using fast_text/Sum_0 instead.
+INFO:tensorflow:Summary name output-layer/softmax_output:0 is illegal; using output-layer/softmax_output_0 instead.
+INFO:tensorflow:labels: ------> Tensor("val_data/IteratorGetNext:1", shape=(?, 3), dtype=int64, device=/device:CPU:0)
+INFO:tensorflow:predictions["classes"]: ------> Tensor("output-layer/class_output:0", shape=(?,), dtype=int64)
+INFO:tensorflow:Summary name reduced_mean:0 is illegal; using reduced_mean_0 instead.
+INFO:tensorflow:Starting evaluation at 2018-01-17-06:22:49
+2018-01-17 11:52:49.794663: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1120] Creating TensorFlow device (/device:GPU:0) -> (device: 0, name: GeForce 830M, pci bus id: 0000:04:00.0, compute capability: 5.0)
+INFO:tensorflow:Restoring parameters from experiments/models/spooky_dataset/text_ids/FastTextV0/lr_0.001_wemd_32_keep_0.5/model.ckpt-4648
+INFO:tensorflow:Finished evaluation at 2018-01-17-06:22:50
+INFO:tensorflow:Saving dict for global step 4648: Accuracy = 0.810204, Precision = 0.959746, Recall = 0.774359, global_step = 4648, loss = 0.5969
+INFO:tensorflow:[92m{'Accuracy': 0.81020409, 'Precision': 0.95974576, 'Recall': 0.77435899, 'loss': 0.5969004, 'global_step': 4648}[0m
+ 80%|████████  | 4/5 [00:58<00:14, 14.72s/it]INFO:tensorflow:[92mTraining epoch: 5[0m
+DEBUG:tensorflow:text_features -----> Tensor("train_data/IteratorGetNext:0", shape=(?, 100), dtype=int32, device=/device:CPU:0)
+DEBUG:tensorflow:labels -----> Tensor("train_data/IteratorGetNext:1", shape=(?, 3), dtype=int64, device=/device:CPU:0)
+INFO:tensorflow:words_embed=Tensor("embed-layer/EmbedSequence/embedding_lookup:0", shape=(?, 100, 32), dtype=float32, device=/device:CPU:0)
+INFO:tensorflow:words_embed=Tensor("fast_text/Sum:0", shape=(?, 32), dtype=float32, device=/device:GPU:0)
+INFO:tensorflow:wide_layer: ------> Tensor("hidden-mlp-layer/dropout_2/dropout/mul:0", shape=(?, 16), dtype=float32)
+INFO:tensorflow:logits: ------> Tensor("logits-layer/dense/BiasAdd:0", shape=(?, 3), dtype=float32)
+INFO:tensorflow:predicted_class: ------> Tensor("output-layer/class_output:0", shape=(?,), dtype=int64)
+INFO:tensorflow:predicted_probabilities: ------> Tensor("output-layer/softmax_output:0", shape=(?, 3), dtype=float32)
+INFO:tensorflow:Summary name fast_text/Sum:0 is illegal; using fast_text/Sum_0 instead.
+INFO:tensorflow:Summary name output-layer/softmax_output:0 is illegal; using output-layer/softmax_output_0 instead.
+INFO:tensorflow:labels: ------> Tensor("train_data/IteratorGetNext:1", shape=(?, 3), dtype=int64, device=/device:CPU:0)
+INFO:tensorflow:predictions["classes"]: ------> Tensor("output-layer/class_output:0", shape=(?,), dtype=int64)
+INFO:tensorflow:Summary name reduced_mean:0 is illegal; using reduced_mean_0 instead.
+INFO:tensorflow:Create CheckpointSaverHook.
+2018-01-17 11:52:50.608728: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1120] Creating TensorFlow device (/device:GPU:0) -> (device: 0, name: GeForce 830M, pci bus id: 0000:04:00.0, compute capability: 5.0)
+INFO:tensorflow:Restoring parameters from experiments/models/spooky_dataset/text_ids/FastTextV0/lr_0.001_wemd_32_keep_0.5/model.ckpt-4648
+INFO:tensorflow:Saving checkpoints for 4649 into experiments/models/spooky_dataset/text_ids/FastTextV0/lr_0.001_wemd_32_keep_0.5/model.ckpt.
+INFO:tensorflow:loss = 0.0921237, step = 4649
+INFO:tensorflow:global_step/sec: 88.13
+INFO:tensorflow:loss = 0.0495238, step = 4749 (1.134 sec)
+INFO:tensorflow:global_step/sec: 89.8133
+INFO:tensorflow:loss = 0.0573973, step = 4849 (1.113 sec)
+INFO:tensorflow:global_step/sec: 97.7234
+INFO:tensorflow:loss = 0.0132796, step = 4949 (1.023 sec)
+INFO:tensorflow:global_step/sec: 90.8785
+INFO:tensorflow:loss = 0.00108056, step = 5049 (1.100 sec)
+INFO:tensorflow:global_step/sec: 88.9232
+INFO:tensorflow:loss = 0.207649, step = 5149 (1.125 sec)
+INFO:tensorflow:global_step/sec: 87.033
+INFO:tensorflow:loss = 0.0440763, step = 5249 (1.149 sec)
+INFO:tensorflow:global_step/sec: 91.1901
+INFO:tensorflow:loss = 0.0911258, step = 5349 (1.097 sec)
+INFO:tensorflow:global_step/sec: 93.1329
+INFO:tensorflow:loss = 0.473944, step = 5449 (1.073 sec)
+INFO:tensorflow:global_step/sec: 98.8845
+INFO:tensorflow:loss = 0.328688, step = 5549 (1.011 sec)
+INFO:tensorflow:global_step/sec: 102.251
+INFO:tensorflow:loss = 0.0922315, step = 5649 (0.978 sec)
+INFO:tensorflow:global_step/sec: 103.106
+INFO:tensorflow:loss = 0.00480097, step = 5749 (0.970 sec)
+INFO:tensorflow:Saving checkpoints for 5810 into experiments/models/spooky_dataset/text_ids/FastTextV0/lr_0.001_wemd_32_keep_0.5/model.ckpt.
+INFO:tensorflow:Loss for final step: 0.050495.
+INFO:tensorflow:[92mEvalution on epoch: 5[0m
+DEBUG:tensorflow:text_features -----> Tensor("val_data/IteratorGetNext:0", shape=(?, 100), dtype=int32, device=/device:CPU:0)
+DEBUG:tensorflow:labels -----> Tensor("val_data/IteratorGetNext:1", shape=(?, 3), dtype=int64, device=/device:CPU:0)
+INFO:tensorflow:words_embed=Tensor("embed-layer/EmbedSequence/embedding_lookup:0", shape=(?, 100, 32), dtype=float32, device=/device:CPU:0)
+INFO:tensorflow:words_embed=Tensor("fast_text/Sum:0", shape=(?, 32), dtype=float32, device=/device:GPU:0)
+INFO:tensorflow:wide_layer: ------> Tensor("hidden-mlp-layer/dropout_2/Identity:0", shape=(?, 16), dtype=float32)
+INFO:tensorflow:logits: ------> Tensor("logits-layer/dense/BiasAdd:0", shape=(?, 3), dtype=float32)
+INFO:tensorflow:predicted_class: ------> Tensor("output-layer/class_output:0", shape=(?,), dtype=int64)
+INFO:tensorflow:predicted_probabilities: ------> Tensor("output-layer/softmax_output:0", shape=(?, 3), dtype=float32)
+INFO:tensorflow:Summary name fast_text/Sum:0 is illegal; using fast_text/Sum_0 instead.
+INFO:tensorflow:Summary name output-layer/softmax_output:0 is illegal; using output-layer/softmax_output_0 instead.
+INFO:tensorflow:labels: ------> Tensor("val_data/IteratorGetNext:1", shape=(?, 3), dtype=int64, device=/device:CPU:0)
+INFO:tensorflow:predictions["classes"]: ------> Tensor("output-layer/class_output:0", shape=(?,), dtype=int64)
+INFO:tensorflow:Summary name reduced_mean:0 is illegal; using reduced_mean_0 instead.
+INFO:tensorflow:Starting evaluation at 2018-01-17-06:23:05
+2018-01-17 11:53:05.294982: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1120] Creating TensorFlow device (/device:GPU:0) -> (device: 0, name: GeForce 830M, pci bus id: 0000:04:00.0, compute capability: 5.0)
+INFO:tensorflow:Restoring parameters from experiments/models/spooky_dataset/text_ids/FastTextV0/lr_0.001_wemd_32_keep_0.5/model.ckpt-5810
+INFO:tensorflow:Finished evaluation at 2018-01-17-06:23:05
+INFO:tensorflow:Saving dict for global step 5810: Accuracy = 0.815306, Precision = 0.857827, Recall = 0.917949, global_step = 5810, loss = 0.619371
+INFO:tensorflow:[92m{'Accuracy': 0.81530613, 'Precision': 0.85782748, 'Recall': 0.91794872, 'loss': 0.61937147, 'global_step': 5810}[0m
+100%|██████████| 5/5 [01:14<00:00, 14.86s/it]
+[92mUse this model directory for further retraining or prediction (--model-dir) :  experiments/models/spooky_dataset/text_ids/FastTextV0/lr_0.001_wemd_32_keep_0.5[0m
+Labels and their document counts based on author
+EAP    7505
+HPL    5353
+MWS    5741
+Name: author, dtype: int64
+Labels and their document counts based on author
+EAP    395
+HPL    282
+MWS    303
+Name: author, dtype: int64

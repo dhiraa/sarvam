@@ -40,6 +40,8 @@ CUDA_VISIBLE_DEVICES=0 python nlp/text_classification/commands/run_experiments.p
 cd path/sarvam/src/
 
 #when asked for parameters values go with default values for test run
+#also at the end of training, look for log as below
+# Use this model directory for further retraining or prediction (--model-dir) : ...
 
 CUDA_VISIBLE_DEVICES=0 python nlp/text_classification/commands/run_experiments.py \
 --mode=train \
@@ -49,7 +51,7 @@ CUDA_VISIBLE_DEVICES=0 python nlp/text_classification/commands/run_experiments.p
 --num-epochs=5 \
 --model-name=bilstm_multilabel |& tee log.txt
 
-tensorboard --logdir=experiments/models/spooky_dataset/text/FastTextV0/lr_0.001_wemd_32_keep_0.5/
+tensorboard --logdir=
 
 CUDA_VISIBLE_DEVICES=0 python nlp/text_classification/commands/run_experiments.py \
 --mode=retrain \
