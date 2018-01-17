@@ -104,7 +104,7 @@ class SpookyDataset(TextClassificationDataset):
         out_dir = estimator.model_dir + "/predictions/"
         if not os.path.exists(out_dir):
             os.makedirs(out_dir)
-        results.to_csv(out_dir + "/fast_text_v0_output.csv", index=False)
+        results.to_csv(out_dir + "/test_out.csv", index=False)
 
 
 

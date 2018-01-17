@@ -1,5 +1,5 @@
 # References:
-- Inspired after: https://github.com/jiegzhan/multi-class-text-classification-cnn-rnn
+- Inspired after: [https://github.com/jiegzhan/multi-class-text-classification-cnn-rnn](https://github.com/jiegzhan/multi-class-text-classification-cnn-rnn)
 
 ```
 cd path/sarvam/src/

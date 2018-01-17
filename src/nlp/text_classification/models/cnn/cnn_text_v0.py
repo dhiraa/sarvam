@@ -72,6 +72,16 @@ class CNNTextV0Config(ModelConfigBase):
 
         return cfg
 
+run_config = tf.ConfigProto()
+run_config.gpu_options.allow_growth = True
+# run_config.gpu_options.per_process_gpu_memory_fraction = 0.50
+run_config.allow_soft_placement = True
+run_config.log_device_placement = False
+run_config = tf.contrib.learn.RunConfig(session_config=run_config,
+                                        save_checkpoints_steps=50,
+                                        keep_checkpoint_max=3,
+                                        save_summary_steps=50)
+
 class CNNTextV0(tf.estimator.Estimator):
 
     feature_type = TextFeature
@@ -81,7 +91,7 @@ class CNNTextV0(tf.estimator.Estimator):
         super(CNNTextV0, self).__init__(
             model_fn=self._model_fn,
             model_dir=config.MODEL_DIR,
-            config=None)
+            config=run_config)
         self.cnn_config = config
 
     def _model_fn(self, features, labels, mode, params):

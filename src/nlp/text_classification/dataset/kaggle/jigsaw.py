@@ -62,5 +62,9 @@ class JigsawDataset(TextClassificationDataset):
         results.insert(0, "id", ids)
         # Store the results as expected form
 
-        out_file = estimator.model_dir + "/predictions/test_output.csv"
-        results.to_csv(out_file, index=False)
+
+        out_dir = estimator.model_dir + "/predictions/"
+        if not os.path.exists(out_dir):
+            os.makedirs(out_dir)
+
+        results.to_csv(out_dir + "/test_out.csv", index=False)
