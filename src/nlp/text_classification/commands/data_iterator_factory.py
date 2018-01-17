@@ -10,13 +10,13 @@ class DataIteratorFactory():
     iterator_path = {
         "text_char_ids": "nlp.text_classification.dataset.iterators.text_char_ids",
         "text_char_ids_ml": "nlp.text_classification.dataset.iterators.text_char_ids_ml",
-        "text": "nlp.text_classification.dataset.iterators.text",
+        "text_ids": "nlp.text_classification.dataset.iterators.text_ids",
     }
 
     iterators = {
         "text_char_ids": "TextAndCharIds",
         "text_char_ids_ml": "TextAndCharIdsMultiLabel",
-        "text": "TextIds",
+        "text_ids": "TextIds",
     }
 
 

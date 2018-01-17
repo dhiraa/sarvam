@@ -36,7 +36,7 @@ def get_sequence_length(sequence_ids, pad_word_id=0):
     length = tf.cast(length, tf.int32)
     return length
 
-class BiLSTMVarTextConfig():
+class BiLSTMVarTextConfig(ModelConfigBase):
     def __init__(self,
                  model_dir,
                  vocab_size,
@@ -75,18 +75,7 @@ class BiLSTMVarTextConfig():
         self.NUM_LSTM_LAYERS =  int(num_lstm_layers)
 
     @staticmethod
-    def dump(model_dir, config):
-        with open(model_dir+"/model_config.pickle", "wb") as file:
-            pickle.dump(config, file)
-
-    @staticmethod
-    def load(model_dir):
-        with open(model_dir + "/model_config.pickle", "rb") as file:
-            cfg = pickle.load(file)
-        return cfg
-
-    @staticmethod
-    def user_config(dataframe):
+    def user_config(dataframe, data_iterator_name):
 
         vocab_size = dataframe.WORD_VOCAB_SIZE
         char_vocab_size = dataframe.CHAR_VOCAB_SIZE
@@ -107,10 +96,7 @@ class BiLSTMVarTextConfig():
             str(out_keep_propability)
         )
 
-        model_dir = EXPERIMENT_MODEL_ROOT_DIR + dataframe.dataset_name + model_dir
-
-        if not os.path.exists(model_dir):
-            os.makedirs(model_dir)
+        model_dir = EXPERIMENT_MODEL_ROOT_DIR + dataframe.dataset_name +"/" + data_iterator_name+ "/BiLSTMVarText/" + model_dir
 
         cfg =  BiLSTMVarTextConfig(model_dir,
                                    vocab_size,

@@ -15,6 +15,18 @@ repo with ease!
 Keep data set, data iterators and models as independent as possible for
 easy plug and play.
 
+Any machine learning experiments has following steps:
+- Data set preparation
+- Data Preprocessing
+- Data Iterartors
+- Models
+- Model Serving
+
+Where **data preprocessing** is one time operation which inlcude and limited to 
+- Cleaning the text
+- Tokenning with NLP tools/libraries
+- Padding the text
+
 # Proposed Solution
 
 # Validation
@@ -31,8 +43,8 @@ easy plug and play.
 | example_3 | class_2      |
 
 Check the supported data set
- - [code](kaggle/spooky.py)
- - [Notebook](spooky_author_identification_dataset.ipynb)
+ - [code](dataset/kaggle/spooky.py)
+ - [Notebook](dataset/spooky_author_identification_dataset.ipynb)
 
 ### Multilabel Classification
 
@@ -43,8 +55,8 @@ Check the supported data set
 | example_3 | 0             | 1             | 1             |
 
 Check the supported data set
- - [code](kaggle/jigsaw.py)
- - [Notebook](jigsaw_toxic_comment_classification_challenge_dataset.ipynb)
+ - [code](dataset/kaggle/jigsaw.py)
+ - [Notebook](dataset/jigsaw_toxic_comment_classification_challenge_dataset.ipynb)
 
 # sarvam/nlp/text_classification
 
@@ -54,11 +66,15 @@ Check the supported data set
         - dataset_1
         - dataset_2
     - models
-        - dataset_1
-            - model_1
-            - model_2
-        - dataset_2
-            - model_1
+        - dataset_1_name
+            - dat_iterator_name
+                - model_1
+                    - config_1
+                    - config_2
+                - model_2
+                    - config_1
+                    - config_2
+
 ## Setup
 
 
@@ -75,5 +91,7 @@ python nlp/text_classification/commands/get_command_options.py
 
 
 ## How to run?
- - [Fast Text](models/fast_Text/)
+ - [Fast Text](models/fast_text/)
  - [Convolutional Network](models/cnn/)
+ - [Convolutional Network with RNN](models/cnn_rnn/)
+ - [BiLSTM](models/bilstm/)

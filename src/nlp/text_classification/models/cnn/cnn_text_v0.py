@@ -78,7 +78,7 @@ run_config.gpu_options.allow_growth = True
 run_config.allow_soft_placement = True
 run_config.log_device_placement = False
 run_config = tf.contrib.learn.RunConfig(session_config=run_config,
-                                        save_checkpoints_steps=50,
+                                        save_checkpoints_steps=500,
                                         keep_checkpoint_max=3,
                                         save_summary_steps=50)
 

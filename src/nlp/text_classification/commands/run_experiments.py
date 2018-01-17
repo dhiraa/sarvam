@@ -7,6 +7,7 @@ sys.path.append(".")
 import spacy
 import tensorflow as tf
 from tqdm import tqdm
+#Load the model at global level
 nlp = spacy.load('en_core_web_sm')
 
 from nlp.text_classification.commands.model_factory import ModelsFactory

@@ -13,7 +13,7 @@ class TextAndCharIdsMultiLabel(TextAndCharIds):
         self.feature_type = TextAndCharIdsMultiLabelFeature
 
         try:
-            if dataframe.category_cols == None:
+            if dataframe.is_multi_label == False:
                 print_error("Selected dataset doesn't support multi label classification!")
                 exit(0)
         except:

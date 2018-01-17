@@ -286,6 +286,11 @@ class TextDataFrame():
 
             self._prepare_data()
 
+            try:
+                self.test_df.loc[self.test_df["id"] == 206058417140, 'comment_text'] = "Fuck you!"
+            except:
+                print_info("Looks like the dataset is not jigsaw! what a waste of hack!!!")
+
             if self.is_tokenize:
                 print_info("Tokenizing...")
                 nlp = spacy.load('en_core_web_sm')
@@ -297,11 +302,6 @@ class TextDataFrame():
                     self.val_df = tokenize(self.val_df, text_col, nlp)
 
                 if not os.path.exists(dataset_dir + "test_processed.json"):
-                    try:
-                        self.test_df.loc[self.test_df["id"] == 206058417140, 'comment_text'] = "Fuck you!"
-                    except:
-                        print_info("Looks like the dataset is not jigsaw! what a waste of hack!!!")
-
                     self.test_df = tokenize(self.test_df, text_col, nlp)
                     self.test_df.to_csv(dataset_dir + "test_processed.json")
 

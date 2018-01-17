@@ -1,0 +1,15 @@
+/home/mageswarand/anaconda3/envs/tensorflow1.0/lib/python3.6/importlib/_bootstrap.py:205: RuntimeWarning: compiletime version 3.5 of module 'tensorflow.python.framework.fast_tensor_util' does not match runtime version 3.6
+  return f(*args, **kwds)
+  0%|          | 0/91085 [00:00<?, ?it/s] 18%|█▊        | 16184/91085 [00:00<00:00, 161811.99it/s] 34%|███▍      | 30916/91085 [00:00<00:00, 154554.17it/s] 51%|█████     | 46654/91085 [00:00<00:00, 155498.28it/s] 68%|██████▊   | 62293/91085 [00:00<00:00, 155717.89it/s] 86%|████████▌ | 77882/91085 [00:00<00:00, 155751.82it/s]100%|██████████| 91085/91085 [00:00<00:00, 155679.97it/s]
+[92mLoading processed files...[0m
+[93mLoading files from experiments/data//jigsaw_dataset/[0m
+[92mPreparing vocab file...[0m
+No <PAD> token found
+[93mexperiments/data//jigsaw_dataset/words_vocab.tsv[0m
+[92mDone preparing vocab file...[0m
+Traceback (most recent call last):
+  File "nlp/text_classification/commands/run_experiments.py", line 112, in <module>
+    run(opt)
+  File "nlp/text_classification/commands/run_experiments.py", line 35, in run
+    cfg = cfg.user_config(dataframe=dataset.dataframe, data_iterator_name=opt.data_iterator_name)
+TypeError: user_config() got an unexpected keyword argument 'data_iterator_name'

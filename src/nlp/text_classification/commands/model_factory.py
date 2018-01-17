@@ -1,8 +1,6 @@
 import sys
 sys.path.append("../")
 
-import tensorflow as tf
-import argparse
 from importlib import import_module
 
 class ModelsFactory():
@@ -12,7 +10,7 @@ class ModelsFactory():
         "bilstm_var_length_text" : "nlp.text_classification.models.bilstm.bilstm_var_length_text",
         "bilstm_multilabel": "nlp.text_classification.models.bilstm.bilstm_multilabel",
         "cnn_text_v0" : "nlp.text_classification.models.cnn.cnn_text_v0",
-        "cnn_rnn_v0" : "nlp.text_classification.models.cnn.cnn_rnn_v0"
+        "cnn_rnn_v0" : "nlp.text_classification.models.cnn_rnn.cnn_rnn_v0"
     }
 
     model_configurations = {
