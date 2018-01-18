@@ -1,4 +1,4 @@
 
 ## [Sequence Tagging](sequence_tagging)
 
-## [Text Classification](text_similarity)
+## [Text Classification](text_classification)
