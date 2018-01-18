@@ -4,21 +4,24 @@ title: Deep Learning
 permalink: /deep_learning/
 ---
 
-# Deep Learning
+Dhira Tensorflow Lab @ [https://github.com/dhiraa/sarvam/](https://github.com/dhiraa/sarvam/)
+
+- [Natural Language Processing]({{"/deep_learning/nlp/" | absolute_url }})
+- [Audio]({{"/deep_learning/audio/" | absolute_url }})
 
 
-## Sequence Modeling
+### Online Notes
+- Sequence Modeling
+    - [RNNs]({{"/deep_learning/rnns/" | absolute_url }})
 
-- [RNNs]({{"/deep_learning/rnns/" | absolute_url }})
-
-## Image Processing
-- [Misc]({{"/deep_learning/image_processing/misc/" | absolute_url }})
+- Image Processing
+    - [Misc]({{"/deep_learning/image_processing/misc/" | absolute_url }})
 
 
 
 ## Video Lectures
 #### Image Processing
-- http://cs231n.stanford.edu/
+- [http://cs231n.stanford.edu/](http://cs231n.stanford.edu/)
 
 #### NLP
-- http://web.stanford.edu/class/cs224n/
+- [http://web.stanford.edu/class/cs224n/](http://web.stanford.edu/class/cs224n/)

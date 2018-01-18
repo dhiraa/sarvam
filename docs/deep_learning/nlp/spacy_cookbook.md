@@ -6,7 +6,7 @@ excerpt: "spaCy NLP toolkit Cookbook"
 date:   2017-12-18
 mathjax: true
 comments: true
-permalink: /nlp/spacy_cookbook/
+permalink: /deep_learning/nlp/spacy_cookbook/
 ---
 
 # References

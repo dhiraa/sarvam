@@ -1,11 +1,11 @@
 ---
 layout: page
 title: NLP
-permalink: /nlp/
+permalink: /deep_learning/nlp/
 ---
 
 
-[Spacy Cookbook]({{"/nlp/spacy_cookbook/" | absolute_url }})
+[Spacy Cookbook]({{"/deep_learning/nlp/spacy_cookbook/" | absolute_url }})
 
 
 [Dependencies Manual]({{"https://nlp.stanford.edu/software/dependencies_manual.pdf"}})

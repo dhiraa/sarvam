@@ -1,14 +1,11 @@
 ---
 layout: page
 title: Audio Basics
-permalink: /audio/basics/
+permalink: /deep_learning/audio/basics/
 ---
 
 #### Reference:
-
 - http://practicalcryptography.com/miscellaneous/machine-learning/guide-mel-frequency-cepstral-coefficients-mfccs/
-
-
 
 ### What is the Mel scale?
 

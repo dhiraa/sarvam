@@ -46,8 +46,9 @@ comments: true
 - https://github.com/gram-ai/capsule-networks
 - https://github.com/nikhil-dce/Transforming-Autoencoder-TF
 - https://github.com/XifengGuo/CapsNet-Keras
-- https://github.com/llSourcell/capsule_networks
+- https://github.com/llSourcell/capsule_networks  
 - https://github.com/deepblacksky/capsnet-tensorflow
+
 ------------------------------------------------------------------------------
 
 # A touch on CNNs
