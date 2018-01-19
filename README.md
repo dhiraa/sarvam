@@ -95,7 +95,9 @@ characters, positional information of words etc.,
 ![](docs/images/general_architecture.png)
 
 
-- **[Tensorflow Estimators](https://www.tensorflow.org/extend/estimators)** is used for training/evaluating/saving/restoring/predicting
+- **Tensorflow Estimators** is used for training/evaluating/saving/restoring/predicting
+   - [Official Guide](https://www.tensorflow.org/extend/estimators) 
+   - [Tutorial](https://developers.googleblog.com/2017/09/introducing-tensorflow-datasets.html)
 
 ![](docs/images/tf_estimators.png)
  

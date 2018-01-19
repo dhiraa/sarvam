@@ -1,6 +1,6 @@
 from sarvam.config.config_helper import ConfigManager
 
-global_constants = ConfigManager("sarvam/config/global_constants.ini")
+global_constants = ConfigManager("sarvam/config/sr_user_config.ini")
 
 PAD_WORD = global_constants.get_item("VOCAB", "unknown_word")
 UNKNOWN_WORD = global_constants.get_item("VOCAB", "padding_word")

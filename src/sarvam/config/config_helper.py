@@ -24,6 +24,10 @@ class ConfigManager(object):
     def add_section(self, section):
         self.config.add_section(section)
 
+    def get_item_as_float(self,section, option):
+        return self.config.getfloat(section=section,
+                               option=option)
+
     def get_item_as_int(self,section, option):
         return self.config.getint(section=section,
                                option=option)
