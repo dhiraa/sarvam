@@ -5,6 +5,8 @@ import tarfile
 from six.moves import urllib
 from six.moves import xrange  # pylint: disable=redefined-builtin
 
+from sarvam.helpers.print_helper import *
+
 def maybe_download_and_extract_dataset(data_url, dest_directory):
     """Download and extract data set tar file.
   
@@ -20,8 +22,12 @@ def maybe_download_and_extract_dataset(data_url, dest_directory):
     """
     if not data_url:
         return
+    print_info("Checking destination directory : " + dest_directory)
     if not os.path.exists(dest_directory):
         os.makedirs(dest_directory)
+    else:
+        print_info("SR dataset already exists!")
+        return
     filename = data_url.split('/')[-1]
     filepath = os.path.join(dest_directory, filename)
     if not os.path.exists(filepath):
@@ -45,7 +51,3 @@ def maybe_download_and_extract_dataset(data_url, dest_directory):
         tf.logging.info('Successfully downloaded %s (%d bytes)', filename,
                         statinfo.st_size)
     tarfile.open(filepath, 'r:gz').extractall(dest_directory)
-
-
-maybe_download_and_extract_dataset(data_url="http://download.tensorflow.org/data/speech_commands_v0.01.tar.gz",
-                                   dest_directory="../../../data/speech_dataset/")
