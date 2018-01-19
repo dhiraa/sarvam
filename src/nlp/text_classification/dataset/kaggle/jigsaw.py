@@ -1,9 +1,8 @@
 import sys
 sys.path.append("../")
-from nlp.text_classification.tc_utils.dataframe import *
-import spacy
-from nlp.text_classification.tc_utils.dataset import TextClassificationDataset
-from nlp.text_classification.tc_utils.dataframe import TextDataFrame
+from nlp.text_classification.dataset.dataframe import *
+from nlp.text_classification.dataset.dataset import TextClassificationDataset
+from nlp.text_classification.dataset.dataframe import TextDataFrame
 # nlp = spacy.load('en_core_web_sm')
 
 DATA_STORE_PATH="jigsaw_toxic_comment_classification_challenge_data"

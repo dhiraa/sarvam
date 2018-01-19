@@ -20,8 +20,8 @@ Dhira Tensorflow Lab @ [https://github.com/dhiraa/sarvam/](https://github.com/dh
 
 
 ## Video Lectures
-#### Image Processing
-- [http://cs231n.stanford.edu/](http://cs231n.stanford.edu/)
+- Image Processing
+    - [http://cs231n.stanford.edu/](http://cs231n.stanford.edu/)
 
-#### NLP
-- [http://web.stanford.edu/class/cs224n/](http://web.stanford.edu/class/cs224n/)
+- NLP
+    - [http://web.stanford.edu/class/cs224n/](http://web.stanford.edu/class/cs224n/)

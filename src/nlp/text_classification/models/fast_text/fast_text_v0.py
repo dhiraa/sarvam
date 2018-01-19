@@ -4,7 +4,7 @@ import os
 
 from tensorflow.contrib import lookup
 from tensorflow.contrib.learn import ModeKeys
-from nlp.text_classification.tc_utils.feature_types import TextFeature
+from nlp.text_classification.tc_utils.feature_types import TextIdsFeature
 from  nlp.text_classification.tc_utils.tc_config import *
 
 tf.logging.set_verbosity(tf.logging.DEBUG)
@@ -70,7 +70,7 @@ class FastTextV0Config(ModelConfigBase):
 
 class FastTextV0(tf.estimator.Estimator):
 
-    feature_type = TextFeature
+    feature_type = TextIdsFeature
 
     def __init__(self,
                  config):

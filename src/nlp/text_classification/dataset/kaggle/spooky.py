@@ -1,9 +1,9 @@
 import os
 
-from overrides import overrides
-from nlp.text_classification.tc_utils.dataset import TextClassificationDataset
-from nlp.text_classification.tc_utils.dataframe import TextDataFrame
 import pandas as pd
+
+from nlp.text_classification.dataset.dataframe import TextDataFrame
+from nlp.text_classification.dataset.dataset import TextClassificationDataset
 
 TRAIN_FILE_PATH = "../data/spooky_author_identification/input/train.csv"
 TEST_FILE_PATH = "../data/spooky_author_identification/input/test.csv"

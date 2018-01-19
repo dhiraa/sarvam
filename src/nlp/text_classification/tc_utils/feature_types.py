@@ -22,7 +22,7 @@ class TwoFeature():
         return (self.FEATURE_NAME == other.FEATURE_NAME &
                 self.OUT_CLASSES == self.OUT_CLASSES)
 
-class TextFeature(SingleFeature):
+class TextIdsFeature(SingleFeature):
     FEATURE_NAME = "text ids"
     FEATURE_1 = "text_ids"
     OUT_PROBABILITIES = "probabilities"

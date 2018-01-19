@@ -2,7 +2,7 @@ import os
 import sys
 
 # add audio_utils path
-from nlp.text_classification.tc_utils.feature_types import TextFeature
+from nlp.text_classification.tc_utils.feature_types import TextIdsFeature
 from nlp.text_classification.tc_utils.tc_config import ModelConfigBase, EXPERIMENT_MODEL_ROOT_DIR
 
 sys.path.append("../")
@@ -84,7 +84,7 @@ run_config = tf.contrib.learn.RunConfig(session_config=run_config,
 
 class CNNTextV0(tf.estimator.Estimator):
 
-    feature_type = TextFeature
+    feature_type = TextIdsFeature
 
     def __init__(self,
                  config: CNNTextV0Config):

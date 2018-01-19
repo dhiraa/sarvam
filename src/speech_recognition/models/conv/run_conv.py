@@ -1,6 +1,6 @@
 import sys
 sys.path.append("../")
-from conv.conv_v0 import *
+from conv_v0 import *
 from audio_utils.dataset import *
 
 params=dict(

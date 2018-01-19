@@ -1,12 +1,9 @@
 import sys
 sys.path.append("../")
 
-import pandas as pd
-
-from overrides import overrides
 import tensorflow as tf
-from nlp.text_classification.tc_utils.data_iterator import DataIterator
-from nlp.text_classification.tc_utils.feature_types import TextFeature
+from nlp.text_classification.dataset.data_iterator import DataIterator
+from nlp.text_classification.tc_utils.feature_types import TextIdsFeature
 from nlp.text_classification.tc_utils.tf_hooks.data_initializers import IteratorInitializerHook
 
 class TextIds(DataIterator):
@@ -14,7 +11,7 @@ class TextIds(DataIterator):
         DataIterator.__init__(self)
         self.batch_size = batch_size
         self.dataframe = dataframe
-        self.feature_type = TextFeature
+        self.feature_type = TextIdsFeature
 
     def _setup_input_graph(self,
                             word_ids,

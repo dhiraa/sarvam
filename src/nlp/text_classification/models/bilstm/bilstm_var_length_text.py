@@ -15,7 +15,7 @@ import os
 
 import tensorflow as tf
 from tensorflow.contrib.learn import ModeKeys
-from nlp.text_classification.tc_utils.feature_types import TextFeature
+from nlp.text_classification.tc_utils.feature_types import TextIdsFeature
 from nlp.text_classification.tc_utils.tc_config import *
 import pickle
 
@@ -125,7 +125,7 @@ run_config=tf.contrib.learn.RunConfig(session_config=run_config)
 
 class BiLSTMVarText(tf.estimator.Estimator):
 
-    feature_type = TextFeature
+    feature_type = TextIdsFeature
 
     def __init__(self,
                  bilstm_config: BiLSTMVarTextConfig):

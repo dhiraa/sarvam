@@ -1,7 +1,7 @@
 from tensorflow.contrib import lookup
 from tensorflow.contrib.learn import ModeKeys
 
-from nlp.text_classification.tc_utils.feature_types import TextFeature
+from nlp.text_classification.tc_utils.feature_types import TextIdsFeature
 from nlp.text_classification.tc_utils.rnn import *
 import argparse
 import tensorflow as tf
@@ -73,10 +73,9 @@ class MultiClassCNNRNNConfig(ModelConfigBase):
 
 
 class MultiClassCNNRNNV0(tf.estimator.Estimator):
-    feature_type = TextFeature
+    feature_type = TextIdsFeature
 
-    def __init__(self,
-                 config: MultiClassCNNRNNConfig):
+    def __init__(self, config):
         super(MultiClassCNNRNNV0, self).__init__(
             model_fn=self._model_fn,
             model_dir=config.MODEL_DIR,
