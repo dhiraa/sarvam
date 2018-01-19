@@ -1,11 +1,9 @@
-import os
 import sys
 sys.path.append("../../")
 sys.path.append("../")
 
-import tensorflow as tf
 from tensorflow.contrib.learn import ModeKeys
-from nlp.text_classification.tc_utils.feature_types import TextAndCharIdsFeature, TextAndCharIdsMultiLabelFeature
+from nlp.text_classification.dataset.feature_types import TextAndCharIdsMultiLabelFeature
 from  nlp.text_classification.tc_utils.tc_config import *
 
 tf.logging.set_verbosity("INFO")

@@ -3,7 +3,7 @@ sys.path.append("../")
 
 import tensorflow as tf
 from nlp.text_classification.dataset.data_iterator import DataIterator
-from nlp.text_classification.tc_utils.feature_types import TextAndCharIdsFeature
+from nlp.text_classification.dataset.feature_types import TextAndCharIdsFeature
 from nlp.text_classification.tc_utils.tf_hooks.data_initializers import IteratorInitializerHook
 
 class TextAndCharIds(DataIterator):

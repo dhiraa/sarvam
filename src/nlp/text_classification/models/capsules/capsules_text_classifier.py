@@ -1,12 +1,9 @@
-import sys
-
-from nlp.text_classification.tc_utils.feature_types import TextIdsFeature, TextAndCharIdsFeature
-from nlp.text_classification.tc_utils.tc_config import ModelConfigBase, EXPERIMENT_MODEL_ROOT_DIR
-
 import tensorflow as tf
-from tensorflow.contrib import lookup
 from tensorflow.contrib.learn import ModeKeys
+
 import capslayer
+from nlp.text_classification.dataset.feature_types import TextAndCharIdsFeature
+from nlp.text_classification.tc_utils.tc_config import ModelConfigBase, EXPERIMENT_MODEL_ROOT_DIR
 
 epsilon = 1e-9
 

@@ -1,10 +1,6 @@
-import tensorflow as tf
-import argparse
-import os
-
-from tensorflow.contrib import lookup
 from tensorflow.contrib.learn import ModeKeys
-from nlp.text_classification.tc_utils.feature_types import TextIdsFeature
+
+from nlp.text_classification.dataset.feature_types import TextIdsFeature
 from  nlp.text_classification.tc_utils.tc_config import *
 
 tf.logging.set_verbosity(tf.logging.DEBUG)

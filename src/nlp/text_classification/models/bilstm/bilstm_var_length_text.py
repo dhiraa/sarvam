@@ -10,14 +10,10 @@
 # Reference: https://github.com/tensorflow/tensorflow/blob/r1.4/tensorflow/examples/tutorials/estimators/abalone.py
 # https://github.com/tensorflow/tensorflow/issues/14018
 
-import argparse
-import os
-
-import tensorflow as tf
 from tensorflow.contrib.learn import ModeKeys
-from nlp.text_classification.tc_utils.feature_types import TextIdsFeature
+
+from nlp.text_classification.dataset.feature_types import TextIdsFeature
 from nlp.text_classification.tc_utils.tc_config import *
-import pickle
 
 tf.logging.set_verbosity("INFO")
 

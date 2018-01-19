@@ -44,7 +44,7 @@ Where **data preprocessing** is one time operation which inlcude and limited to
 
 Check the supported data set
  - [code](dataset/kaggle/spooky.py)
- - [Notebook](dataset/spooky_author_identification_dataset.ipynb)
+ - [Notebook](../../../data/notebooks/spooky_author_identification_dataset.ipynb)
 
 ### Multilabel Classification
 
@@ -56,7 +56,7 @@ Check the supported data set
 
 Check the supported data set
  - [code](dataset/kaggle/jigsaw.py)
- - [Notebook](dataset/jigsaw_toxic_comment_classification_challenge_dataset.ipynb)
+ - [Notebook](../../../data/notebooks/jigsaw_toxic_comment_classification_challenge_dataset.ipynb)
 
 # sarvam/nlp/text_classification
 
