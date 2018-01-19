@@ -19,9 +19,9 @@ what humans hear.
 The formula for converting from frequency to Mel scale is:
 
 $$
-M(f) = 1125 ln(1 + f/700) \\
+M(f) = 1125 *  \ln(1 + \frac{f}{700}) \\
 
-M^-1(m) = 700 (\exp(m/1125) -1)
+M^{-1}(m) = 700 *  (\exp(\frac{m}{1125}) -1)
 $$
 
 ### Audio Features
@@ -36,10 +36,22 @@ number of frames, pad it with zeros so that it does.
 
 Audio Signal File : 0 to N seconds
 
-To frames : Interval of 20 - 40 ms ---> default 25 ms ---> 0.025 * 16000 = 400 samples
+Audio Frame : Interval of 20 - 40 ms ---> default 25 ms ---> 0.025 * 16000 = 400 samples
 
-Frame step : Default 10 ms ---> 160 samples
+Frame step : Default 10 ms ---> 0.010 * 16000 ---> 160 samples
 
 First sample: 0 to 400 samples
 
 Second sample: 160 to 560 samples etc.,
+
+​       25ms	   25ms		25ms	  25ms ...  	
+
+​	400		    400		400	           400  ...
+
+|---------------|---------------|---------------|---------------|---------------|---------------|---------------|-------------|    
+
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+ 10   10 10 10 ...
+
+Still dont get it? Consider the audio signal to be a time series sampled at an interval of 25ms
