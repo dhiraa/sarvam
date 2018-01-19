@@ -1,10 +1,8 @@
 ---
-
 layout: page
 title: Deep Learning for Beginners
 permalink: /deep_learning/basics/intro/
 mathjax: true
-
 ----
 
 

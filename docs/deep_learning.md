@@ -8,7 +8,7 @@ Dhira Tensorflow Lab @ [https://github.com/dhiraa/sarvam/](https://github.com/dh
 
 
 
-[Checkout here for beginners notes!]({{ "/deep_learning/basics/intro/" | absolute_url}})
+[Checkout here for beginners notes!]({{ "/deep_learning/basics/intro" | absolute_url}})
 
 
 
