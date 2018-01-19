@@ -7,7 +7,19 @@ permalink: /deep_learning/audio/basics/
 #### Reference:
 - [MEL Frequency](http://practicalcryptography.com/miscellaneous/machine-learning/guide-mel-frequency-cepstral-coefficients-mfccs/)
 
-### What is the Mel scale?
+
+
+**What Does the Unit kHz Mean in Digital Music?** 
+
+kHz is short for kilohertz, and is a measurement of frequency (cycles per second). In digital audio, this measurement describes the number of data chunks used per second to represent an analog sound in digital form. These data chunks are known as the sampling rate or sampling frequency.
+
+This definition is often confused with another popular term in digital audio, called [bitrate](https://www.lifewire.com/what-is-mp3-bitrate-2438538) (measured in kbps). However, the difference between these two terms is that bitrate measures how much is sampled every second (size of the chunks) rather than the number of chunks (frequency).
+
+**Note:** kHz is sometimes referred to as *sampling rate*, *sampling interval*, or *cycles per second*.
+
+
+
+**What is the Mel scale?**
 
 The Mel scale relates perceived frequency, or pitch,
 of a pure tone to its actual measured frequency.
@@ -24,7 +36,8 @@ M(f) = 1125 *  \ln(1 + \frac{f}{700}) \\
 M^{-1}(m) = 700 *  (\exp(\frac{m}{1125}) -1)
 $$
 
-### Audio Features
+**Audio Features**
+
 We start with a speech signal, we'll assume sampled at 16kHz.
 
 Frame the signal into 20-40 ms frames. 25ms is standard. 
@@ -54,4 +67,4 @@ Second sample: 160 to 560 samples etc.,
 
  10   10 10 10 ...
 
-Still dont get it? Consider the audio signal to be a time series sampled at an interval of 25ms
+Still dont get it? Consider the audio signal to be a time series sampled at an interval of 25ms with step size of 10ms

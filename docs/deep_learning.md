@@ -6,6 +6,12 @@ permalink: /deep_learning/
 
 Dhira Tensorflow Lab @ [https://github.com/dhiraa/sarvam/](https://github.com/dhiraa/sarvam/)
 
+
+
+[Checkout here for beginners notes!]({{ "/deep_learning/basics/intro/" | absolute_url}})
+
+
+
 - [Natural Language Processing]({{"/deep_learning/nlp/" | absolute_url }})
 - [Audio]({{"/deep_learning/audio/" | absolute_url }})
 
