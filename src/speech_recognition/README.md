@@ -66,3 +66,10 @@ Sample data set used here is from [http://download.tensorflow.org/data/speech_co
 cd /path/to/sarvam/src/
 python speech_recognition/sr_utils/downloader.py 
 ```
+
+# Libraries
+- https://github.com/librosa/librosa
+- https://github.com/CPJKU/madmom
+
+# [Models](models)
+- [Convolution Net Based Models](models/conv/)

@@ -17,7 +17,7 @@ from tensorflow.contrib.learn.python.learn.learn_io.generator_io import generato
 from scipy.io import wavfile
 
 class AudioMFCC(DataIterator):
-    def __init__(self, tf_sess, batch_size, audio_sampling_settings, audio_preprocessor):
+    def __init__(self, tf_sess, batch_size, num_epochs, audio_preprocessor):
         DataIterator.__init__(self)
 
         self._tf_sess = tf_sess
@@ -26,12 +26,13 @@ class AudioMFCC(DataIterator):
 
         self._audio_preprocessor = audio_preprocessor
         self._batch_size = batch_size
-        self._audio_sampling_settings = audio_sampling_settings
+        self._num_epochs = num_epochs
+        # self._audio_sampling_settings = audio_sampling_settings
 
     def data_generator(self, data, params, mode='train'):
         def generator():
-            # if mode == 'train':
-            #     np.random.shuffle(data)
+            if mode == 'train':
+                np.random.shuffle(data)
             # Feel free to add any augmentation
             for i, label_file_dict in tqdm(enumerate(data), desc=mode):
                 fname = label_file_dict["file"]
@@ -54,10 +55,10 @@ class AudioMFCC(DataIterator):
                             beg = 0
                     wav = wav[beg: beg + L]
 
-                    print_error(i)
-                    print(fname)
-                    print_info(wav)
-                    print_debug(wav.sum())
+                    # print_error(i)
+                    # print(fname)
+                    # print_info(wav)
+                    # print_debug(wav.sum())
 
                     yield {self._feature_type.FEATURE_1 : wav,
                      self._feature_type.TARGET: np.int32(label_id)}
@@ -73,7 +74,7 @@ class AudioMFCC(DataIterator):
             target_key=self._feature_type.TARGET,  # you could leave target_key in features, so labels in model_handler will be empty
             batch_size=self._batch_size,
             shuffle=True,
-            num_epochs=None,
+            num_epochs=self._num_epochs,
             queue_capacity=3 * self._batch_size + 10,
             num_threads=1,
         )
@@ -86,7 +87,7 @@ class AudioMFCC(DataIterator):
             target_key=self._feature_type.TARGET,
             batch_size=self._batch_size,
             shuffle=True,
-            num_epochs=None,
+            num_epochs=1,
             queue_capacity=3 * self._batch_size + 10,
             num_threads=1,
         )

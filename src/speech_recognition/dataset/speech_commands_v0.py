@@ -17,16 +17,14 @@ class SpeechCommandsV0(SpeechCommandsDirectoryProcessor):
                  data_dir=DATADIR,
                  silence_percentage=SILENCE_PERCENTAGE,
                  unknown_percentage=UNKNOWN_PERCENTAGE,
-                 wanted_words=WANTED_WORDS,
+                 possible_commands=POSSIBLE_COMMANDS,
                  validation_percentage=VALIDATION_PERCENTAGE,
-                 testing_percentage=TESTING_PERCENTAGE,
-                 audio_sampling_settings=audio_sampling_settings):
+                 testing_percentage=TESTING_PERCENTAGE):
 
         SpeechCommandsDirectoryProcessor.__init__(self, data_url=data_dir,
-                 data_dir=data_dir,
-                 silence_percentage=silence_percentage,
-                 unknown_percentage=unknown_percentage,
-                 wanted_words=wanted_words,
-                 validation_percentage=validation_percentage,
-                 testing_percentage=testing_percentage,
-                 audio_sampling_settings=audio_sampling_settings)
+                                                  data_dir=data_dir,
+                                                  silence_percentage=silence_percentage,
+                                                  unknown_percentage=unknown_percentage,
+                                                  possible_commands=possible_commands,
+                                                  validation_percentage=validation_percentage,
+                                                  testing_percentage=testing_percentage)

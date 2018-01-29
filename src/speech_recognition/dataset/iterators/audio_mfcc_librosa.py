@@ -6,7 +6,7 @@ sys.path.append("../")
 
 import tensorflow as tf
 import numpy as np
-from speech_recognition.dataset.data_iterators.data_iterator import DataIterator
+from speech_recognition.dataset.iterators.data_iterator import DataIterator
 from speech_recognition.dataset.feature_types import MFCCFeature
 from nlp.text_classification.tc_utils.tf_hooks.data_initializers import IteratorInitializerHook
 from tqdm import tqdm
@@ -30,7 +30,7 @@ from tensorflow.contrib.learn.python.learn.learn_io.generator_io import generato
 from scipy.io import wavfile
 
 class AudioMFCC(DataIterator):
-    def __init__(self, tf_sess, batch_size, audio_sampling_settings, audio_preprocessor):
+    def __init__(self, tf_sess, batch_size, num_epochs, audio_preprocessor):
         DataIterator.__init__(self)
 
         self._tf_sess = tf_sess
@@ -39,15 +39,7 @@ class AudioMFCC(DataIterator):
 
         self._audio_preprocessor = audio_preprocessor
         self._batch_size = batch_size
-        self._audio_sampling_settings = audio_sampling_settings
-
-        desired_samples = audio_sampling_settings['desired_samples']
-
-        self.wav_filename_placeholder_ = tf.placeholder(tf.string, [])
-        self.time_shift_padding_placeholder_ = tf.placeholder(tf.int32, [2, 2])
-        self.time_shift_offset_placeholder_ = tf.placeholder(tf.int32, [2])
-        self.background_data_placeholder_ = tf.placeholder(tf.float32, [desired_samples, 1])
-        self.background_volume_placeholder_ = tf.placeholder(tf.float32, [])
+        self._num_epochs = num_epochs
 
         self.background_data = self._audio_preprocessor.background_data
         self.word_to_index = self._audio_preprocessor.word_to_index
@@ -76,7 +68,7 @@ class AudioMFCC(DataIterator):
                 fname = label_file_dict["file"]
                 label = label_file_dict["label"]
                 print_error(str(i) + " ======> " + fname)
-                label_id = self._audio_preprocessor.word_to_index[label]
+                label_id = self.word_to_index[label]
                 try:
                     sample_rate, wav = wavfile.read(fname)
                     # wav = wav.astype(np.float32) / np.iinfo(np.int16).max
@@ -98,7 +90,7 @@ class AudioMFCC(DataIterator):
             target_key='target',  # you could leave target_key in features, so labels in model_handler will be empty
             batch_size=self._batch_size,
             shuffle=True,
-            num_epochs=None,
+            num_epochs=self._num_epochs,
             queue_capacity=3 * self._batch_size + 10,
             num_threads=1,
         )
@@ -111,7 +103,7 @@ class AudioMFCC(DataIterator):
             target_key='target',
             batch_size=self._batch_size,
             shuffle=True,
-            num_epochs=None,
+            num_epochs=1,
             queue_capacity=3 * self._batch_size + 10,
             num_threads=1,
         )

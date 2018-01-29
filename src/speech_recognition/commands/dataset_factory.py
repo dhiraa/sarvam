@@ -6,28 +6,26 @@ from importlib import import_module
 class DatasetFactory():
 
     dataset_path = {
-        "spooky": "nlp.text_classification.dataset.kaggle.spooky",
-        "jigsaw": "nlp.text_classification.dataset.kaggle.jigsaw"
+        "speech_commands_v0": "speech_recognition.dataset.speech_commands_v0",
+        "tensorflow_dataset_kaggle" : "speech_recognition.dataset.tensorflow_dataset_kaggle",
     }
 
     datasets = {
-        "spooky": "SpookyDataset",
-        "jigsaw" : "JigsawDataset"
+        "speech_commands_v0": "SpeechCommandsV0",
+        "tensorflow_dataset_kaggle" : "KaggleDS"
     }
 
     def __init__(self):
-        ""
+        pass
 
     @staticmethod
     def _get_dataset(name):
-        '''
-        '''
         try:
-            model = getattr(import_module(DatasetFactory.dataset_path[name]), DatasetFactory.datasets[name])
+            dataset = getattr(import_module(DatasetFactory.dataset_path[name]), DatasetFactory.datasets[name])
         except KeyError:
             raise NotImplemented("Given dataset file name not found: {}".format(name))
         # Return the model class
-        return model
+        return dataset
 
     @staticmethod
     def get(dataset_name):

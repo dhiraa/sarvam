@@ -6,7 +6,7 @@ sys.path.append("../")
 
 import tensorflow as tf
 import numpy as np
-from speech_recognition.dataset.data_iterators.data_iterator import DataIterator
+from speech_recognition.dataset.iterators.data_iterator import DataIterator
 from speech_recognition.dataset.feature_types import MFCCFeature
 from nlp.text_classification.tc_utils.tf_hooks.data_initializers import IteratorInitializerHook
 from tqdm import tqdm
@@ -29,8 +29,11 @@ from tensorflow.contrib.learn.python.learn.learn_io.generator_io import generato
 
 from scipy.io import wavfile
 
+
+
+
 class AudioMFCC(DataIterator):
-    def __init__(self, tf_sess, batch_size, audio_sampling_settings, audio_preprocessor):
+    def __init__(self, tf_sess, batch_size, num_epochs, audio_preprocessor):
         DataIterator.__init__(self)
 
         self._tf_sess = tf_sess
@@ -39,9 +42,11 @@ class AudioMFCC(DataIterator):
 
         self._audio_preprocessor = audio_preprocessor
         self._batch_size = batch_size
-        self._audio_sampling_settings = audio_sampling_settings
+        self._num_epochs = num_epochs
 
-        desired_samples = audio_sampling_settings['desired_samples']
+        self._audio_sampling_settings = self._feature_type.audio_sampling_settings
+
+        desired_samples = self._audio_sampling_settings['desired_samples']
 
         self.wav_filename_placeholder_ = tf.placeholder(tf.string, [])
         self.time_shift_padding_placeholder_ = tf.placeholder(tf.int32, [2, 2])
@@ -52,8 +57,7 @@ class AudioMFCC(DataIterator):
         self.background_data = self._audio_preprocessor.background_data
         self.word_to_index = self._audio_preprocessor.word_to_index
 
-        self.prepare_processing_graph(audio_sampling_settings)
-
+        self.prepare_processing_graph(self._audio_sampling_settings)
 
 
     def prepare_processing_graph(self, model_settings):
@@ -210,11 +214,6 @@ class AudioMFCC(DataIterator):
                 else:
                     input_dict[self.foreground_volume_placeholder_] = 1
 
-                # Run the graph to produce the output audio.
-            #     data[i - offset, :] = sess.run(self.mfcc_, feed_dict=input_dict).flatten() # 98 * 40
-            #     label_index = self.word_to_index[sample['label']]
-            #     labels[i - offset] = label_index
-            # yield dict(wav=data, target=labels)
                     mfcc_data = sess.run(self.mfcc_, feed_dict=input_dict).flatten()
                     label_index = self.word_to_index[sample['label']]
                     print_error(str(i) + " ======> " + sample['file'])
@@ -227,7 +226,7 @@ class AudioMFCC(DataIterator):
 
     def get_train_input_fn(self):
         train_input_fn = generator_input_fn(
-            x=self.get_data(candidates=self._audio_preprocessor.get_train_data(),
+            x=self.get_data(candidates=self._audio_preprocessor.get_train_files(),
                             how_many=-1,
                                   offset=0,
                                   audio_sampling_settings=self._audio_sampling_settings,
@@ -236,10 +235,10 @@ class AudioMFCC(DataIterator):
                                   time_shift=TIME_SHIFT_MS,
                                   mode="training",
                                   sess=self._tf_sess),
-            target_key='target',  # you could leave target_key in features, so labels in model_handler will be empty
+            target_key=self._feature_type.TARGET,  # you could leave target_key in features, so labels in model_handler will be empty
             batch_size=self._batch_size,
             shuffle=True,
-            num_epochs=None,
+            num_epochs=self._num_epochs,
             queue_capacity=3 * self._batch_size + 10,
             num_threads=1,
         )
@@ -248,7 +247,7 @@ class AudioMFCC(DataIterator):
 
     def get_val_input_fn(self):
         val_input_fn = generator_input_fn(
-            x=self.get_data(candidates=self._audio_preprocessor.get_val_data(),
+            x=self.get_data(candidates=self._audio_preprocessor.get_val_files(),
                             how_many=-1,
                                   offset=0,
                                   audio_sampling_settings=self._audio_sampling_settings,
@@ -257,10 +256,10 @@ class AudioMFCC(DataIterator):
                                   time_shift=TIME_SHIFT_MS,
                                   mode="training",
                                   sess=self._tf_sess),
-            target_key='target',
+            target_key=self._feature_type.TARGET,
             batch_size=self._batch_size,
             shuffle=True,
-            num_epochs=None,
+            num_epochs=1,
             queue_capacity=3 * self._batch_size + 10,
             num_threads=1,
         )

@@ -1,11 +1,10 @@
+from speech_recognition.dataset.data_iterators.audio_mfcc_google import *
+
 from speech_recognition.dataset.preprocessor.simple_speech_preprocessor import *
-from speech_recognition.models.conv.cnn_trad_fpool3 import CNNTradFPool, CNNTradFPoolConfig
+from speech_recognition.dataset.preprocessor.speech_commands_scanner import *
 from speech_recognition.models.conv.cnn_trad_fpool3_v1 import CNNTradFPoolConfigV1, CNNTradFPoolV1
 from speech_recognition.models.conv.simple_conv import *
-from speech_recognition.sr_config.sr_config import *
 
-from speech_recognition.dataset.preprocessor.speech_commands_scanner import *
-from speech_recognition.dataset.data_iterators.audio_mfcc_google import *
 tf.logging.set_verbosity("INFO")
 
 DATADIR = "../data/speech_commands_v0/"
@@ -27,13 +26,13 @@ audio_sampling_settings = prepare_audio_sampling_settings(label_count=10,
                                                  dct_coefficient_count=DCT_COEFFICIENT_COUNT)
 
 audio_preprocessor = SpeechCommandsDirectoryProcessor(data_url="http://download.tensorflow.org/data/speech_commands_v0.01.tar.gz",
-                                    data_dir=DATADIR,
-                                    silence_percentage=SILENCE_PERCENTAGE,
-                                    unknown_percentage=UNKNOWN_PERCENTAGE,
-                                    wanted_words=WANTED_WORDS,
-                                    validation_percentage=VALIDATION_PERCENTAGE,
-                                    testing_percentage=TESTING_PERCENTAGE,
-                                    audio_sampling_settings=audio_sampling_settings)
+                                                      data_dir=DATADIR,
+                                                      silence_percentage=SILENCE_PERCENTAGE,
+                                                      unknown_percentage=UNKNOWN_PERCENTAGE,
+                                                      possible_commands=POSSIBLE_COMMANDS,
+                                                      validation_percentage=VALIDATION_PERCENTAGE,
+                                                      testing_percentage=TESTING_PERCENTAGE,
+                                                      audio_sampling_settings=audio_sampling_settings)
 
 # print_error(audio_preprocessor.get_train_data())
 data_iterator = AudioMFCC(tf_sess=sess,

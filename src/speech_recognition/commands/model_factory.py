@@ -6,28 +6,22 @@ from importlib import import_module
 class ModelsFactory():
 
     model_path = {
-        "fast_text_v0": "nlp.text_classification.models.fast_text.fast_text_v0",
-        "bilstm_var_length_text" : "nlp.text_classification.models.bilstm.bilstm_var_length_text",
-        "bilstm_multilabel": "nlp.text_classification.models.bilstm.bilstm_multilabel",
-        "cnn_text_v0" : "nlp.text_classification.models.cnn.cnn_text_v0",
-        "cnn_rnn_v0" : "nlp.text_classification.models.cnn_rnn.cnn_rnn_v0"
+        "simple_conv": "speech_recognition.models.conv.simple_conv",
+        "cnn_trad_fpool3" : "speech_recognition.models.conv.cnn_trad_fpool3",
+        "cnn_trad_fpool3_v1": "speech_recognition.models.conv.cnn_trad_fpool3_v1",
     }
 
     model_configurations = {
-        "fast_text_v0": "FastTextV0Config",
-        "bilstm_var_length_text": "BiLSTMVarTextConfig",
-        "bilstm_multilabel": "BiLSTMMultiLabelConfig",
-        "cnn_text_v0": "CNNTextV0Config",
-        "cnn_rnn_v0": "MultiClassCNNRNNConfig"
+        "simple_conv": "SimpleSpeechRecognizerConfig",
+        "cnn_trad_fpool3": "CNNTradFPoolConfig",
+        "cnn_trad_fpool3_v1": "CNNTradFPoolConfigV1"
     }
 
 
     models = {
-        "fast_text_v0": "FastTextV0",
-        "bilstm_var_length_text": "BiLSTMVarText",
-        "bilstm_multilabel": "BiLSTMMultiLabelClassifier",
-        "cnn_text_v0": "CNNTextV0",
-        "cnn_rnn_v0": "MultiClassCNNRNNV0"
+        "simple_conv": "SimpleSpeechRecognizer",
+        "cnn_trad_fpool3": "CNNTradFPool",
+        "cnn_trad_fpool3_v1": "CNNTradFPoolV1"
     }
 
 

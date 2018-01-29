@@ -2,9 +2,9 @@ import os
 import sys
 
 from sarvam.helpers.print_helper import *
-from nlp.text_classification.commands.data_iterator_factory import DataIteratorFactory
-from nlp.text_classification.commands.dataset_factory import DatasetFactory
-from nlp.text_classification.commands.model_factory import ModelsFactory
+from speech_recognition.commands.data_iterator_factory import DataIteratorFactory
+from speech_recognition.commands.dataset_factory import DatasetFactory
+from speech_recognition.commands.model_factory import ModelsFactory
 
 sys.path.append("../../")
 sys.path.append("../")
@@ -21,7 +21,7 @@ for data_iterator_name in list_of_data_iterators_names:
     print_info( "\n" + data_iterator_name + "(--data-iterator-name)")
     for tf_model_name in list_of_models_names:
         data_iterator_instance = DataIteratorFactory.get(data_iterator_name)
-        data_iterator_instance = data_iterator_instance(None, None)
+        data_iterator_instance = data_iterator_instance(None, None, None,None)
         model_cfg, model_instance = ModelsFactory.get(tf_model_name)
         if (data_iterator_instance.feature_type == model_instance.feature_type):
             print_info("\t |--->  "+ tf_model_name + "(--model-name)")

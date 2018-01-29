@@ -1,8 +1,7 @@
-import tensorflow as tf
-from speech_recognition.dataset.preprocessor.google_speech_processor import AudioProcessor
-from speech_recognition.sr_config.sr_config import *
-from speech_recognition.dataset.preprocessor.speech_commands_scanner import *
 from speech_recognition.dataset.data_iterators.audio_mfcc import *
+
+from speech_recognition.dataset.preprocessor.speech_commands_scanner import *
+from speech_recognition.materials.old.google_speech_processor import AudioProcessor
 
 sess = tf.InteractiveSession()
 
@@ -17,7 +16,7 @@ audio_preprocessor = AudioProcessor(data_url="http://download.tensorflow.org/dat
                                     data_dir="../data/tensorflow_speech_recoginition_challenge/train/audio/",
                                     silence_percentage=SILENCE_PERCENTAGE,
                                     unknown_percentage=UNKNOWN_PERCENTAGE,
-                                    wanted_words=WANTED_WORDS,
+                                    wanted_words=POSSIBLE_COMMANDS,
                                     validation_percentage=VALIDATION_PERCENTAGE,
                                     testing_percentage=TESTING_PERCENTAGE,
                                     audio_sampling_settings=audio_sampling_settings)
@@ -41,7 +40,7 @@ print(res[1].shape)
 #                                     data_dir="../data/tensorflow_speech_recoginition_challenge/train/audio/",
 #                                     silence_percentage=SILENCE_PERCENTAGE,
 #                                     unknown_percentage=UNKNOWN_PERCENTAGE,
-#                                     wanted_words=WANTED_WORDS,
+#                                     wanted_words=POSSIBLE_COMMANDS,
 #                                     validation_percentage=VALIDATION_PERCENTAGE,
 #                                     testing_percentage=TESTING_PERCENTAGE,
 #                                     audio_sampling_settings=audio_sampling_settings)

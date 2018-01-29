@@ -8,15 +8,15 @@ from importlib import import_module
 class DataIteratorFactory():
 
     iterator_path = {
-        "text_char_ids": "nlp.text_classification.dataset.iterators.text_char_ids",
-        "text_char_ids_ml": "nlp.text_classification.dataset.iterators.text_char_ids_ml",
-        "text_ids": "nlp.text_classification.dataset.iterators.text_ids",
+        "raw_audio_data": "speech_recognition.dataset.iterators.raw_audio_data",
+        "audio_mfcc_google": "speech_recognition.dataset.iterators.audio_mfcc_google",
+        "audio_mfcc_librosa": "speech_recognition.dataset.iterators.audio_mfcc_librosa",
     }
 
     iterators = {
-        "text_char_ids": "TextAndCharIds",
-        "text_char_ids_ml": "TextAndCharIdsMultiLabel",
-        "text_ids": "TextIds",
+        "raw_audio_data": "AudioMFCC",
+        "audio_mfcc_google": "AudioMFCC",
+        "audio_mfcc_librosa": "AudioMFCC",
     }
 
 
