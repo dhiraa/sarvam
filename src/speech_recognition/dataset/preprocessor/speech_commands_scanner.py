@@ -91,7 +91,7 @@ class SpeechCommandsDirectoryProcessor(IPreprocessor):
         self.data_buckets = {'validation': [], 'testing': [], 'training': []}
         self.word_to_index = {}
 
-        self.POSSIBLE_SPEECH_COMMANDS = prepare_words_list(possible_commands)
+        self.POSSIBLE_SPEECH_COMMANDS = possible_commands
 
         self.prepare_data_index(silence_percentage,
                                 unknown_percentage,

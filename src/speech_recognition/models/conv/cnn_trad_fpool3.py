@@ -23,7 +23,7 @@ class CNNTradFPoolConfig:
         self._num_classes = len(POSSIBLE_COMMANDS) + 2
 
     @staticmethod
-    def user_config(audio_sampling_settings):
+    def user_config():
         return CNNTradFPoolConfig()
 
 
@@ -51,8 +51,8 @@ class CNNTradFPool(tf.estimator.Estimator):
         checks = tf.add_check_numerics_ops()
         control_dependencies = [checks]
 
-        input_frequency_size = self.sr_config._dct_coefficient_count
-        input_time_size = self.sr_config._spectrogram_length
+        input_frequency_size = self._dct_coefficient_count
+        input_time_size = self._spectrogram_length
 
         first_filter_width = 8
         first_filter_height = 20
@@ -121,9 +121,9 @@ class CNNTradFPool(tf.estimator.Estimator):
 
         final_fc_weights = tf.Variable(
             tf.truncated_normal(
-                [second_conv_element_count, self.sr_config._label_count], stddev=0.01))
+                [second_conv_element_count, self.sr_config._num_classes], stddev=0.01))
 
-        final_fc_bias = tf.Variable(tf.zeros([self.sr_config._label_count]))
+        final_fc_bias = tf.Variable(tf.zeros([self.sr_config._num_classes]))
         logits = tf.matmul(flattened_second_conv, final_fc_weights) + final_fc_bias
 
         tf.logging.info("=====> logits {}".format(logits))
@@ -157,7 +157,7 @@ class CNNTradFPool(tf.estimator.Estimator):
 
             correct_prediction = tf.equal(predictions["classes"], labels)
             confusion_matrix = tf.confusion_matrix(
-                labels, predictions["classes"], num_classes=self.sr_config._label_count)
+                labels, predictions["classes"], num_classes=self.sr_config._num_classes)
 
             eval_metric_ops = {
                 'Accuracy': tf.metrics.accuracy(
