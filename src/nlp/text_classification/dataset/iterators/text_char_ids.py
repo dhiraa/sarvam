@@ -14,14 +14,14 @@ class TextAndCharIds(DataIterator):
 
         self.feature_type = TextAndCharIdsFeature
 
-    def _setup_input_graph2(self,
-                            word_ids,
-                            char_ids,
-                            labels,
-                            batch_size,
-                            is_eval=False,
-                            shuffle=True,
-                            scope='train_data'):
+    def _setup_train_input_graph(self,
+                                 word_ids,
+                                 char_ids,
+                                 labels,
+                                 batch_size,
+                                 is_eval=False,
+                                 shuffle=True,
+                                 scope='train_data'):
         """Return the input function to get the training audio_utils.
 
         Args:
@@ -84,7 +84,7 @@ class TextAndCharIds(DataIterator):
         # Return function and hook
         return inputs, iterator_initializer_hook
 
-    def _test_inputs2(self, word_ids, char_ids, batch_size=1, scope='test_data'):
+    def _setup_test_input_graph(self, word_ids, char_ids, batch_size=1, scope='test_data'):
         """Returns test set as Operations.
         Returns:
             (features, ) Operations that iterate over the test set.
@@ -137,13 +137,13 @@ class TextAndCharIds(DataIterator):
         train_text_word_char_ids = self.dataframe.get_train_text_word_char_ids()
         train_one_hot_encoded_label = self.dataframe.get_train_one_hot_label()
 
-        self.train_input_fn, self.train_input_hook = self._setup_input_graph2(train_text_word_ids,
-                                                                              train_text_word_char_ids,
-                                                                              train_one_hot_encoded_label,
-                                                                              self.batch_size,
-                                                                              is_eval=False,
-                                                                              shuffle=True,
-                                                                              scope='train_data')
+        self.train_input_fn, self.train_input_hook = self._setup_train_input_graph(train_text_word_ids,
+                                                                                   train_text_word_char_ids,
+                                                                                   train_one_hot_encoded_label,
+                                                                                   self.batch_size,
+                                                                                   is_eval=False,
+                                                                                   shuffle=True,
+                                                                                   scope='train_data')
 
 
     def prepare_val_set(self):
@@ -156,13 +156,13 @@ class TextAndCharIds(DataIterator):
         val_text_word_char_ids = self.dataframe.get_val_text_word_char_ids()
         val_one_hot_encoded_label = self.dataframe.get_val_one_hot_label()
 
-        self.val_input_fn, self.val_input_hook = self._setup_input_graph2(val_text_word_ids,
-                                                                          val_text_word_char_ids,
-                                                                          val_one_hot_encoded_label,
-                                                                          self.batch_size,
-                                                                          is_eval=True,
-                                                                          shuffle=True,
-                                                                          scope='val_data')
+        self.val_input_fn, self.val_input_hook = self._setup_train_input_graph(val_text_word_ids,
+                                                                               val_text_word_char_ids,
+                                                                               val_one_hot_encoded_label,
+                                                                               self.batch_size,
+                                                                               is_eval=True,
+                                                                               shuffle=True,
+                                                                               scope='val_data')
 
     def prepare_test_set(self):
         '''
@@ -172,8 +172,8 @@ class TextAndCharIds(DataIterator):
 
         test_text_word_ids = self.dataframe.get_test_text_word_ids()
         test_text_word_char_ids = self.dataframe.get_test_text_word_char_ids()
-        self.test_input_fn, self.test_input_hook = self._test_inputs2(test_text_word_ids,
-                                           test_text_word_char_ids,
-                                           batch_size=1,
-                                           scope='test_data')
+        self.test_input_fn, self.test_input_hook = self._setup_test_input_graph(test_text_word_ids,
+                                                                                test_text_word_char_ids,
+                                                                                batch_size=1,
+                                                                                scope='test_data')
 

@@ -45,7 +45,7 @@ class DataIterator():
     def predict_on_csv_files(self, estimator):
         raise NotImplementedError
 
-    def get_train_function(self):
+    def get_train_input_function(self):
         if self.train_input_fn is None:
             self.prepare_train_set()
         return self.train_input_fn
@@ -55,7 +55,7 @@ class DataIterator():
             self.prepare_train_set()
         return self.train_input_hook
 
-    def get_val_function(self):
+    def get_val_input_function(self):
         if self.val_input_fn is None:
             self.prepare_val_set()
         return self.val_input_fn
@@ -65,7 +65,7 @@ class DataIterator():
             self.prepare_val_set()
         return self.val_input_hook
 
-    def get_test_function(self):
+    def get_test_input_function(self):
         if self.test_input_fn is None:
             self.prepare_test_set()
         return self.test_input_fn

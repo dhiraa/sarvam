@@ -54,13 +54,13 @@ def run(opt):
             tf.logging.info(CGREEN2 + str("Training epoch: " + str(current_epoch + 1)) + CEND)
             max_steps = (num_samples // batch_size) * (current_epoch + 1)
 
-            model.train(input_fn=data_iterator.get_train_function(),
+            model.train(input_fn=data_iterator.get_train_input_function(),
                         hooks=[data_iterator.get_train_hook()],
                         max_steps=max_steps)
 
             tf.logging.info(CGREEN2 + str("Evalution on epoch: " + str(current_epoch + 1)) + CEND)
 
-            eval_results = model.evaluate(input_fn=data_iterator.get_val_function(),
+            eval_results = model.evaluate(input_fn=data_iterator.get_val_input_function(),
                                           hooks=[data_iterator.get_val_hook()])
 
             tf.logging.info(CGREEN2 + str(str(eval_results)) + CEND)

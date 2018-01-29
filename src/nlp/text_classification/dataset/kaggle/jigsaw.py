@@ -38,7 +38,7 @@ class JigsawDataset(TextClassificationDataset):
 
     def predict_on_csv_files(self, data_iterator, estimator):
 
-        predictions_fn = estimator.predict(input_fn=data_iterator.get_test_function(), hooks=[data_iterator.get_test_hook()])
+        predictions_fn = estimator.predict(input_fn=data_iterator.get_test_input_function(), hooks=[data_iterator.get_test_hook()])
 
         predictions = []
         classes = []

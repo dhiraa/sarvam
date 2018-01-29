@@ -82,7 +82,7 @@ class SpookyDataset(TextClassificationDataset):
 
     def predict_on_csv_files(self, data_iterator, estimator):
 
-        predictions_fn = estimator.predict(input_fn=data_iterator.get_test_function())
+        predictions_fn = estimator.predict(input_fn=data_iterator.get_test_input_function())
 
         predictions = []
         classes = []
