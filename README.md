@@ -137,6 +137,7 @@ env or to any existing environment
     
 ## [Dataset](data)
 
+## [Cheat Sheets](docs/cheat_sheets/)
 
 ### Tools:
 - https://www.typora.io/
