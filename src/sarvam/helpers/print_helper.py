@@ -53,4 +53,4 @@ def print_warn(text):
     print(CYELLOW2 + str(text) + CEND)
 
 def print_debug(text):
-    print(CWHITEBG + str(text) + CEND)
+    print(CBLUEBG2 + str(text) + CEND)

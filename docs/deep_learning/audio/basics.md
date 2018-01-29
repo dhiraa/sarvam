@@ -68,3 +68,8 @@ Second sample: 160 to 560 samples etc.,
  10   10 10 10 ...
 
 Still dont get it? Consider the audio signal to be a time series sampled at an interval of 25ms with step size of 10ms
+
+
+Check out this jupyet notebook @ [https://timsainb.github.io/spectrograms-mfccs-and-inversion-in-python.html](https://timsainb.github.io/spectrograms-mfccs-and-inversion-in-python.html)
+
+Forked version @ [https://github.com/dhiraa/python_spectrograms_and_inversion](https://github.com/dhiraa/python_spectrograms_and_inversion)
