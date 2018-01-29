@@ -16,6 +16,7 @@ from scipy.fftpack import fft
 from scipy import signal
 from scipy.io import wavfile
 import librosa
+from sarvam.helpers.print_helper import *
 
 def get_spectrum(audio, sample_rate, window_size=20,
                  step_size=10, eps=1e-10):
@@ -70,13 +71,20 @@ def log_specgram(wave_file_path, window_size=20,
 def melspectrogram(wave_file_path, is_delta=False):
 
     sample_rate, audio = wavfile.read(wave_file_path)
-    S = librosa.feature.melspectrogram(audio, sr=sample_rate, n_mels=128)
+
+    print_info("audio.shape: " + str(audio.shape))
+
+    S = librosa.feature.melspectrogram(audio, sr=sample_rate, n_mels=64)
     log_S = librosa.power_to_db(S, ref=np.max)
+
+    print_info("log_S.shape: " + str(log_S.shape))
 
     if is_delta:
         mfcc = librosa.feature.mfcc(S=log_S, n_mfcc=13)
         # Let's pad on the first and second deltas while we're at it
         delta2_mfcc = librosa.feature.delta(mfcc, order=2)
+
+        print_info("delta2_mfcc.shape: " + str(delta2_mfcc.shape))
 
         plt.figure(figsize=(12, 4))
         librosa.display.specshow(delta2_mfcc)
