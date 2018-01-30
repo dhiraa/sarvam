@@ -1,6 +1,8 @@
 import argparse
 from tqdm import tqdm
 import tensorflow as tf
+import sys
+sys.path.extend(".")
 from speech_recognition.commands.model_factory import ModelsFactory
 from speech_recognition.commands.dataset_factory import DatasetFactory
 from speech_recognition.commands.data_iterator_factory import DataIteratorFactory

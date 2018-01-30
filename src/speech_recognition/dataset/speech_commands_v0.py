@@ -21,7 +21,7 @@ class SpeechCommandsV0(SpeechCommandsDirectoryProcessor):
                  validation_percentage=VALIDATION_PERCENTAGE,
                  testing_percentage=TESTING_PERCENTAGE):
 
-        SpeechCommandsDirectoryProcessor.__init__(self, data_url=data_dir,
+        SpeechCommandsDirectoryProcessor.__init__(self, data_url=data_url,
                                                   data_dir=data_dir,
                                                   silence_percentage=silence_percentage,
                                                   unknown_percentage=unknown_percentage,
