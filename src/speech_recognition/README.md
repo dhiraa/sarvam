@@ -79,4 +79,6 @@ python speech_recognition/commands/run_experiments.py \
 --batch-size=32 \
 --num-epochs=5
 
+tensorboard logdir=experiments/CNNTradFPool/
+
 ```
