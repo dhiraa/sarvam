@@ -162,7 +162,7 @@ class AudioMFCC(DataIterator):
 
             # Use the processing graph we created earlier to repeatedly to generate the
             # final output sample data we'll use in training.
-            for i in xrange(offset, offset + sample_count):
+            for i in tqdm(xrange(offset, offset + sample_count)):
                 # Pick which audio sample to use.
                 if how_many == -1 or pick_deterministically:
                     sample_index = i
@@ -216,7 +216,7 @@ class AudioMFCC(DataIterator):
 
                     mfcc_data = sess.run(self.mfcc_, feed_dict=input_dict).flatten()
                     label_index = self.word_to_index[sample['label']]
-                    print_error(str(i) + " ======> " + sample['file'])
+                    # print_error(str(i) + " ======> " + sample['file'])
                     # print_info(mfcc_data)
                     # print_info(label_index)
                     # yield dict(wav=mfcc_data, target=np.array(label_index))
@@ -228,13 +228,13 @@ class AudioMFCC(DataIterator):
         train_input_fn = generator_input_fn(
             x=self.get_data(candidates=self._audio_preprocessor.get_train_files(),
                             how_many=-1,
-                                  offset=0,
-                                  audio_sampling_settings=self._audio_sampling_settings,
-                                  background_frequency=BACKGROUND_FREQUENCY,
-                                  background_volume_range=BACKGROUND_VOLUME,
-                                  time_shift=TIME_SHIFT_MS,
-                                  mode="training",
-                                  sess=self._tf_sess),
+                            offset=0,
+                            audio_sampling_settings=self._audio_sampling_settings,
+                            background_frequency=BACKGROUND_FREQUENCY,
+                            background_volume_range=BACKGROUND_VOLUME,
+                            time_shift=TIME_SHIFT_MS,
+                            mode="training",
+                            sess=self._tf_sess),
             target_key=self._feature_type.TARGET,  # you could leave target_key in features, so labels in model_handler will be empty
             batch_size=self._batch_size,
             shuffle=True,
@@ -249,13 +249,13 @@ class AudioMFCC(DataIterator):
         val_input_fn = generator_input_fn(
             x=self.get_data(candidates=self._audio_preprocessor.get_val_files(),
                             how_many=-1,
-                                  offset=0,
-                                  audio_sampling_settings=self._audio_sampling_settings,
-                                  background_frequency=BACKGROUND_FREQUENCY,
-                                  background_volume_range=BACKGROUND_VOLUME,
-                                  time_shift=TIME_SHIFT_MS,
-                                  mode="training",
-                                  sess=self._tf_sess),
+                            offset=0,
+                            audio_sampling_settings=self._audio_sampling_settings,
+                            background_frequency=BACKGROUND_FREQUENCY,
+                            background_volume_range=BACKGROUND_VOLUME,
+                            time_shift=TIME_SHIFT_MS,
+                            mode="validation",
+                            sess=self._tf_sess),
             target_key=self._feature_type.TARGET,
             batch_size=self._batch_size,
             shuffle=True,

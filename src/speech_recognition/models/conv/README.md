@@ -8,8 +8,8 @@ cd /path/to/sarvam/src/
 python speech_recognition/commands/run_experiments.py \
 --mode=train \
 --dataset-name=tensorflow_dataset_kaggle \
---model-name=simple_conv \
 --data-iterator-name=raw_audio_data \
+--model-name=simple_conv \
 --batch-size=16 \
 --num-epochs=1
 
@@ -17,9 +17,9 @@ python speech_recognition/commands/run_experiments.py \
 python speech_recognition/commands/run_experiments.py \
 --mode=train \
 --dataset-name=speech_commands_v0 \
---model-name=cnn_trad_fpool3 \
 --data-iterator-name=audio_mfcc_google \
---batch-size=16 \
---num-epochs=1
+--model-name=cnn_trad_fpool3 \
+--batch-size=32 \
+--num-epochs=5
 
 ```

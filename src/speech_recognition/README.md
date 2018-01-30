@@ -22,8 +22,7 @@ To come up with an simple easy to use software environment to train on audio dat
  
 # Proposed Solution
 Come up with following modular components which can be then used as plug and play components:
- - Dataset Modules
- - Preprocessing Modules
+ - Dataset Modules with preprocessing Modules
  - Data Iterator Modules
  - Tensorflow Models
  - Tensorflow Model serving
@@ -38,8 +37,6 @@ Come up with following modular components which can be then used as plug and pla
 
 Do checkout [here](https://dhiraa.github.io/sarvam//deep_learning/audio/basics/) 
 for basic understanding of Audio Dataset to work with Deep Learning!
-
-
 
 # Dataset
 
@@ -62,14 +59,24 @@ my_wavs >
 
 Sample data set used here is from [http://download.tensorflow.org/data/speech_commands_v0.01.tar.gz](http://download.tensorflow.org/data/speech_commands_v0.01.tar.gz)
 
-```commandline
-cd /path/to/sarvam/src/
-python speech_recognition/sr_utils/downloader.py 
-```
-
 # Libraries
 - https://github.com/librosa/librosa
 - https://github.com/CPJKU/madmom
 
 # [Models](models)
 - [Convolution Net Based Models](models/conv/)
+
+```
+
+#sample how to run. For more check on models!
+cd /path/to/sarvam/src/
+
+python speech_recognition/commands/run_experiments.py \
+--mode=train \
+--dataset-name=speech_commands_v0 \
+--data-iterator-name=audio_mfcc_google \
+--model-name=cnn_trad_fpool3 \
+--batch-size=32 \
+--num-epochs=5
+
+```

@@ -122,7 +122,7 @@ pip install tensorflow_gpu
 pip install spacy
 python -m spacy download en_core_web_lg
 pip install tqdm
-
+pip install librosa
 ```
 
 ## How to setup with IntelliJ
@@ -137,7 +137,7 @@ env or to any existing environment
     
 ## [Dataset](data)
 
-## [Cheat Sheets](docs/cheat_sheets/)
+## [Cheat Sheets](docs/cheat_sheets/) TODO
 
 ### Tools:
 - https://www.typora.io/
