@@ -1,6 +1,7 @@
 import os
 import configparser
 from configparser import ExtendedInterpolation
+from sarvam.helpers.print_helper import *
 
 class ConfigManager(object):
     def __init__(self, config_path: str):
@@ -9,6 +10,7 @@ class ConfigManager(object):
         self.config_path = config_path
 
         if os.path.exists(config_path):
+            print_info("Reading global config from : " + config_path)
             self.config.read(self.config_path)
         else:
             self.save_config()

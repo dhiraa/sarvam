@@ -25,6 +25,7 @@ class TwoFeature():
 class TextIdsFeature(SingleFeature):
     FEATURE_NAME = "text ids"
     FEATURE_1 = "text_ids"
+    LABEL = "multiclass"
     OUT_PROBABILITIES = "probabilities"
     OUT_CLASSES = "classes"
 

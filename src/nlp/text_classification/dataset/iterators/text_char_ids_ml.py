@@ -8,7 +8,7 @@ from nlp.text_classification.dataset.feature_types import TextAndCharIdsMultiLab
 from sarvam.helpers.print_helper import *
 
 class TextAndCharIdsMultiLabel(TextAndCharIds):
-    def __init__(self, batch_size, dataframe):
+    def __init__(self, batch_size, dataframe, num_epochs=-1):
         TextAndCharIds.__init__(self, batch_size=batch_size, dataframe=dataframe)
         self.feature_type = TextAndCharIdsMultiLabelFeature
 

@@ -1,6 +1,9 @@
 from sarvam.config.config_helper import ConfigManager
 
-global_constants = ConfigManager("sarvam/config/sr_user_config.ini")
+try:
+    global_constants = ConfigManager("sarvam/config/global_constants.ini")
+except:
+    global_constants = ConfigManager("../../src/sarvam/config/global_constants.ini") #For data/notebooks/
 
 PAD_WORD = global_constants.get_item("VOCAB", "unknown_word")
 UNKNOWN_WORD = global_constants.get_item("VOCAB", "padding_word")

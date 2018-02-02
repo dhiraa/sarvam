@@ -17,7 +17,7 @@ from sarvam.helpers.print_helper import *
 
 
 def run(opt):
-
+    sess = tf.InteractiveSession()
     # Get the dataset
     dataset = DatasetFactory.get(opt.dataset_name)
     dataset = dataset()
@@ -25,7 +25,9 @@ def run(opt):
 
     # Get the DataIterator
     data_iterator = DataIteratorFactory.get(opt.data_iterator_name)
-    data_iterator = data_iterator(int(opt.batch_size), dataset.dataframe)
+    data_iterator = data_iterator(batch_size=int(opt.batch_size),
+                                  dataframe=dataset.dataframe,
+                                  num_epochs=opt.num_epochs)
     # data_iterator_name.prepare()
 
     cfg, model = ModelsFactory.get(opt.model_name)
@@ -55,7 +57,7 @@ def run(opt):
             max_steps = (num_samples // batch_size) * (current_epoch + 1)
 
             model.train(input_fn=data_iterator.get_train_input_function(),
-                        hooks=[data_iterator.get_train_hook()],
+                        hooks=data_iterator.get_train_hook(),
                         max_steps=max_steps)
 
             tf.logging.info(CGREEN2 + str("Evalution on epoch: " + str(current_epoch + 1)) + CEND)

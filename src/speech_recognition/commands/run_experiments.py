@@ -8,7 +8,7 @@ from speech_recognition.commands.dataset_factory import DatasetFactory
 from speech_recognition.commands.data_iterator_factory import DataIteratorFactory
 
 from sarvam.helpers.print_helper import *
-
+tf.logging.set_verbosity(tf.logging.INFO)
 def run(opt):
     sess = tf.InteractiveSession()
 

@@ -7,7 +7,7 @@ from nlp.text_classification.dataset.feature_types import TextIdsFeature
 from nlp.text_classification.tc_utils.tf_hooks.data_initializers import IteratorInitializerHook
 
 class TextIds(DataIterator):
-    def __init__(self, batch_size, dataframe):
+    def __init__(self, batch_size, dataframe, num_epochs=-1):
         DataIterator.__init__(self)
         self.batch_size = batch_size
         self.dataframe = dataframe
