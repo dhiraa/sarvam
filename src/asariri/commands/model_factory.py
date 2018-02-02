@@ -6,13 +6,16 @@ from importlib import import_module
 class ModelsFactory():
 
     model_path = {
+       "basic_model" : "asariri.models.basic_model"
     }
 
     model_configurations = {
+        "basic_model": "BasicModelConfig"
     }
 
 
     models = {
+        "basic_model" : "BasicModel"
     }
 
 

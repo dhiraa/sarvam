@@ -10,3 +10,26 @@ dataset_name
             - file_id.jpeg
 
 ```
+
+
+
+# Pipeline
+
+Audio File ---> Librosa ---> MFCC ---> 3920 freq samples
+
+# References:
+- https://github.com/adeshpande3/Generative-Adversarial-Networks/blob/master/Generative%20Adversarial%20Networks%20Tutorial.ipynb
+- https://www.tensorflow.org/api_docs/python/tf/contrib/gan/estimator/GANEstimator
+
+
+```
+
+python asariri/commands/run_experiments.py \
+--mode=train \
+--dataset-name=crawled_data \
+--data-iterator-name=raw_data_iterators \
+--model-name=basic_model \
+--batch-size=32 \
+--num-epochs=5
+
+```

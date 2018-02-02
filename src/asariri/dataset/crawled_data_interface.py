@@ -8,7 +8,8 @@ class ICrawlingData:
         self._train_files = None # List of dictoinaries {"audio": "", "image":"", "label" : ""}
         self._val_files = None  # List of dictoinaries {"audio": "", "image":"", "label" : ""}
         self._test_files = None  # List of dictoinaries {"audio": "", "image":"", "label" : ""}
-        pass
+
+        self.scan_directories()
 
     def scan_directories(self):
         raise NotImplementedError

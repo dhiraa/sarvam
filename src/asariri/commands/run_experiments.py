@@ -3,23 +3,23 @@ from tqdm import tqdm
 import tensorflow as tf
 import sys
 sys.path.extend(".")
-from speech_recognition.commands.model_factory import ModelsFactory
-from speech_recognition.commands.dataset_factory import DatasetFactory
-from speech_recognition.commands.data_iterator_factory import DataIteratorFactory
+from asariri.commands.model_factory import ModelsFactory
+from asariri.commands.dataset_factory import DatasetFactory
+from asariri.commands.data_iterator_factory import DataIteratorFactory
 
 from sarvam.helpers.print_helper import *
+tf.logging.set_verbosity(tf.logging.INFO)
 
 def run(opt):
-    sess = tf.InteractiveSession()
+    # sess = tf.InteractiveSession()
 
     dataset = DatasetFactory.get(opt.dataset_name)
-    dataset = dataset()
+    dataset = dataset("../data/asariri/")
 
     data_iterator = DataIteratorFactory.get(opt.data_iterator_name)
-    data_iterator = data_iterator(tf_sess=sess,
-                                  num_epochs=opt.num_epochs,
+    data_iterator = data_iterator(num_epochs=opt.num_epochs,
                               batch_size=opt.batch_size,
-                              audio_preprocessor=dataset)
+                              preprocessor=dataset)
 
     cfg, model = ModelsFactory.get(opt.model_name)
 
@@ -39,8 +39,8 @@ def run(opt):
 
     model = model(cfg, run_config)
 
-    if (model._feature_type != data_iterator._feature_type):
-        raise Warning("Incompatible feature types between the model and data iterator")
+    # if (model._feature_type != data_iterator._feature_type):
+    #     raise Warning("Incompatible feature types between the model and data iterator")
 
     num_samples = dataset.NUM_SAMPLES
     batch_size = opt.batch_size

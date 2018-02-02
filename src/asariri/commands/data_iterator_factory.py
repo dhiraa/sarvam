@@ -8,11 +8,11 @@ from importlib import import_module
 class DataIteratorFactory():
 
     iterator_path = {
-        "raw_audio_data": "speech_recognition.dataset.iterators.raw_audio_data",
+        "raw_data_iterators": "asariri.dataset.iterators.raw_data_iterators",
     }
 
     iterators = {
-        "raw_audio_data": "AudioMFCC",
+        "raw_data_iterators": "RawDataIterator",
     }
 
 

@@ -6,7 +6,7 @@ import asariri.dataset
 class DatasetFactory():
 
     dataset_path = {
-        "crawled_data": "asariri.dataset",
+        "crawled_data": "asariri.dataset.crawled_data",
     }
 
     datasets = {
