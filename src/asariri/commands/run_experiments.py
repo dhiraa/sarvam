@@ -25,7 +25,7 @@ def run(opt):
 
     # Get the model
     if opt.mode == "train":
-        cfg = cfg.user_config()
+        cfg = cfg.user_config(opt.batch_size)
     elif opt.mode == "retrain" or opt.mode == "predict":
         cfg = cfg.load(opt.model_dir)
 
@@ -42,25 +42,30 @@ def run(opt):
     # if (model._feature_type != data_iterator._feature_type):
     #     raise Warning("Incompatible feature types between the model and data iterator")
 
-    num_samples = dataset.NUM_SAMPLES
+    num_samples = dataset.NUM_TRAIN_SAMPLES
     batch_size = opt.batch_size
 
     if (opt.mode == "train" or opt.mode == "retrain"):
         # Evaluate after each epoch
         for current_epoch in tqdm(range(int(opt.num_epochs))):
-            print_info("Training epoch: " + str(current_epoch + 1))
-            tf.logging.info(CGREEN2 + str("Training epoch: " + str(current_epoch + 1)) + CEND)
+
+            print_error(str(num_samples) +" "+ str(batch_size) +" " + str(current_epoch))
+
             max_steps = (num_samples // batch_size) * (current_epoch + 1)
+
+            print_info("Training epoch: " + str(current_epoch + 1) + " with max steps: " + str(max_steps))
+            tf.logging.info(CGREEN2 + str("Training epoch: " + str(current_epoch + 1)) + CEND)
 
             model.train(input_fn=data_iterator.get_train_input_fn(),
                         hooks=[],
-                        max_steps=max_steps) #5000 * 16 = 80000
+                        max_steps=max_steps) # 50 * 32 = 750
 
             tf.logging.info(CGREEN2 + str("Evalution on epoch: " + str(current_epoch + 1)) + CEND)
             print_info("Evalution on epoch: " + str(current_epoch + 1))
 
             eval_results = model.evaluate(input_fn=data_iterator.get_val_input_fn(),
-                                          hooks=[])
+                                          hooks=[],
+                                          steps=dataset.NUM_VAL_SAMPLES//opt.batch_size)
 
             tf.logging.info(CGREEN2 + str(str(eval_results)) + CEND)
 

@@ -74,7 +74,7 @@ class CrawledData(ICrawlingData):
 
         self._train_files, self._val_files, _, _ = train_test_split(all_files, all_files, test_size=0.1, random_state=42)
 
-        self.NUM_SAMPLES = len(self._train_files)
+
 
     def get_train_files(self):
         return self._train_files

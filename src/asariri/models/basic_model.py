@@ -16,12 +16,12 @@ from tensorflow.python.training import training_util
 # from tensorflow.contrib.gan.estimator.GANEstimator
 
 class BasicModelConfig:
-    def __init__(self):
+    def __init__(self, batch_size):
         self._model_dir = "experiments/asariri/models/BasicModel/"
 
         self._z_dimensions = 16000
         self._seed = 2018
-        self._batch_size = 16
+        self._batch_size = batch_size
         self._keep_prob = 0.5
         self._learning_rate = 1e-3
         self._clip_gradients = 15.0
@@ -29,8 +29,8 @@ class BasicModelConfig:
         self._num_classes = len(POSSIBLE_COMMANDS) + 2
 
     @staticmethod
-    def user_config():
-        return BasicModelConfig()
+    def user_config(batch_size):
+        return BasicModelConfig(batch_size)
 
 
 class RunTrainOpsHook(session_run_hook.SessionRunHook):
@@ -49,8 +49,9 @@ class RunTrainOpsHook(session_run_hook.SessionRunHook):
     self._train_steps = train_steps
 
   def before_run(self, run_context):
-    for _ in range(self._train_steps):
-      run_context.session.run(self._train_ops)
+    # for i in range(self._train_steps):
+    #     print_info("$$$$$$$> {}".format(i))
+        run_context.session.run(self._train_ops)
 
 
 class GANTrainSteps(
@@ -82,7 +83,9 @@ class BasicModel(tf.estimator.Estimator):
 
         self._feature_type = AudioImageFeature
 
-    def get_sequential_train_hooks(self, generator_train_op, discriminator_train_op, train_steps=GANTrainSteps(1, 1)):
+    def get_sequential_train_hooks(self, generator_train_op,
+                                   discriminator_train_op,
+                                   train_steps=GANTrainSteps(1, 1)):
         """Returns a hooks function for sequential GAN training.
   
         Args:
@@ -285,7 +288,9 @@ class BasicModel(tf.estimator.Estimator):
         tf.logging.info("=========> {}".format(z_placeholder))
 
         Dx = self.discriminator(x_placeholder)  # Dx will hold discriminator outputs (unnormalized) for the real MNIST images
-        Gz = self.generator_audio(z_placeholder, self.asariri_config._batch_size, self.asariri_config._z_dimensions)  # Gz holds the generated images
+        Gz = self.generator_audio(z_placeholder,
+                                  self.asariri_config._batch_size,
+                                  self.asariri_config._z_dimensions)  # Gz holds the generated images
         Dg = self.discriminator(Gz, reuse=True)  # Dg will hold discriminator outputs (unnormalized) for generated images
 
         g_loss = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=Dg, labels=tf.ones_like(Dg)))
@@ -293,11 +298,6 @@ class BasicModel(tf.estimator.Estimator):
         d_loss_real = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=Dx, labels=tf.ones_like(Dx)))
         d_loss_fake = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=Dg, labels=tf.zeros_like(Dg)))
         d_loss = d_loss_real + d_loss_fake
-
-        # if mode != ModeKeys.INFER:
-        #     with tf.name_scope('cross_entropy'):
-        #         losses = tf.losses.sparse_softmax_cross_entropy(labels=labels, logits=logits)
-        #     tf.logging.info("=====> losses {}".format(losses))
 
         predictions = Gz
 
@@ -311,11 +311,10 @@ class BasicModel(tf.estimator.Estimator):
         eval_metric_ops = {}
 
         if mode != ModeKeys.INFER:
-            loss = g_loss
+            loss = g_loss + d_loss
             with tf.variable_scope(tf.get_variable_scope(), reuse=False):
                 trainerD = tf.train.AdamOptimizer().minimize(d_loss, var_list=d_vars)
                 trainerG = tf.train.AdamOptimizer().minimize(g_loss, var_list=g_vars)
-            # train_op = [trainerD,trainerG]
 
         return tf.estimator.EstimatorSpec(
             mode=mode,

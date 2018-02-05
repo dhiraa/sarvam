@@ -11,6 +11,9 @@ class ICrawlingData:
 
         self.scan_directories()
 
+        self.NUM_TRAIN_SAMPLES = len(self._train_files)
+        self.NUM_VAL_SAMPLES = len(self._val_files)
+
     def scan_directories(self):
         raise NotImplementedError
 
