@@ -71,7 +71,7 @@ def run(opt):
 
     elif (opt.mode == "predict"):
         # Predict
-        dataset.predict_on_csv_files(data_iterator, model)
+        dataset.predict_on_test_files(data_iterator, model)
 
 
 if __name__ == "__main__":

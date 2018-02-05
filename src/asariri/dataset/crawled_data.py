@@ -3,8 +3,10 @@ import os
 from pprint import pformat
 from collections import defaultdict
 from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
 
 from asariri.dataset.crawled_data_interface import ICrawlingData
+from sarvam.helpers.print_helper import *
 
 #https://stackoverflow.com/questions/3207219/how-do-i-list-all-files-of-a-directory
 def _get_dir_content(path, include_folders, recursive):
@@ -74,8 +76,6 @@ class CrawledData(ICrawlingData):
 
         self._train_files, self._val_files, _, _ = train_test_split(all_files, all_files, test_size=0.1, random_state=42)
 
-
-
     def get_train_files(self):
         return self._train_files
 
@@ -83,4 +83,23 @@ class CrawledData(ICrawlingData):
         return self._val_files
 
     def get_test_files(self):
-        return self._test_files
+        return self._val_files[:10]
+
+
+
+    def predict_on_test_files(self, data_iterator, estimator):
+
+        predictions_fn = estimator.predict(input_fn=data_iterator.get_test_input_function(),
+                                           hooks=[])
+
+        predictions = []
+
+        for r in predictions_fn:
+            images = r
+            predictions.append(images)
+            my_i = images.squeeze()
+            plt.imshow(my_i, cmap="gray_r")
+            plt.pause(1)
+        input("press enter to exit!")
+
+

@@ -7,6 +7,7 @@ from tensorflow.contrib import signal
 from tqdm import tqdm
 
 from asariri.dataset.features.asariri_features import AudioImageFeature
+from nlp.text_classification.tc_utils.tc_config import ModelConfigBase
 from sarvam.helpers.print_helper import *
 from speech_recognition.sr_config.sr_config import *
 from tensorflow.contrib.learn import ModeKeys
@@ -15,9 +16,9 @@ import collections
 from tensorflow.python.training import training_util
 # from tensorflow.contrib.gan.estimator.GANEstimator
 
-class BasicModelConfig:
-    def __init__(self, batch_size):
-        self._model_dir = "experiments/asariri/models/BasicModel/"
+class BasicModelConfig(ModelConfigBase):
+    def __init__(self, model_dir, batch_size):
+        self._model_dir = model_dir
 
         self._z_dimensions = 16000
         self._seed = 2018
@@ -30,7 +31,10 @@ class BasicModelConfig:
 
     @staticmethod
     def user_config(batch_size):
-        return BasicModelConfig(batch_size)
+        _model_dir = "experiments/asariri/models/BasicModel/"
+        config = BasicModelConfig(_model_dir, batch_size)
+        BasicModelConfig.dump(_model_dir, config)
+        return config
 
 
 class RunTrainOpsHook(session_run_hook.SessionRunHook):
@@ -115,6 +119,10 @@ class BasicModel(tf.estimator.Estimator):
         return tf.nn.avg_pool(x, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='SAME')
 
     def discriminator(self, x_image, reuse=False):
+
+        print_info("Discriminator in action ")
+
+
         with tf.variable_scope('discriminator') as scope:
             if (reuse):
                 tf.get_variable_scope().reuse_variables()
@@ -211,7 +219,12 @@ class BasicModel(tf.estimator.Estimator):
         return H_conv4
 
     def generator_audio(self, z, batch_size, z_dim, reuse=False):
-        with tf.variable_scope('generator') as scope:
+
+        print_info("Generator in action! Reuse : {} ".format(reuse))
+
+        print_error(tf.trainable_variables())
+
+        with tf.variable_scope('generator', reuse=reuse):
             if (reuse):
                 tf.get_variable_scope().reuse_variables()
             g_dim = 64  # Number of filters of first layer of generator
@@ -227,20 +240,35 @@ class BasicModel(tf.estimator.Estimator):
 
             # First DeConv Layer
             output1_shape = [batch_size, s8, s8, g_dim * 4]
-            W_conv1 = tf.get_variable('g_wconv1', [5, 5, output1_shape[-1], int(h0.get_shape()[-1])],
+            W_conv1 = tf.get_variable('g_wconv1',
+                                      [5, 5, output1_shape[-1], int(h0.get_shape()[-1])],
                                       initializer=tf.truncated_normal_initializer(stddev=0.1))
-            b_conv1 = tf.get_variable('g_bconv1', [output1_shape[-1]], initializer=tf.constant_initializer(.1))
-            H_conv1 = tf.nn.conv2d_transpose(h0, W_conv1, output_shape=output1_shape, strides=[1, 2, 2, 1],
+
+            b_conv1 = tf.get_variable('g_bconv1',
+                                      [output1_shape[-1]],
+                                      initializer=tf.constant_initializer(.1))
+
+            H_conv1 = tf.nn.conv2d_transpose(h0,
+                                             W_conv1,
+                                             output_shape=output1_shape,
+                                             strides=[1, 2, 2, 1],
                                              padding='SAME')
-            H_conv1 = tf.contrib.layers.batch_norm(inputs=H_conv1, center=True, scale=True, is_training=True,
+
+            H_conv1 = tf.contrib.layers.batch_norm(inputs=H_conv1,
+                                                   center=True,
+                                                   scale=True,
+                                                   is_training=True,
                                                    scope="g_bn1")
             H_conv1 = tf.nn.relu(H_conv1)
             # Dimensions of H_conv1 = batch_size x 3 x 3 x 256
 
             # Second DeConv Layer
             output2_shape = [batch_size, s4 - 1, s4 - 1, g_dim * 2]
-            W_conv2 = tf.get_variable('g_wconv2', [5, 5, output2_shape[-1], int(H_conv1.get_shape()[-1])],
+            W_conv2 = tf.get_variable('g_wconv2',
+                                      [5, 5, output2_shape[-1],
+                                       int(H_conv1.get_shape()[-1])],
                                       initializer=tf.truncated_normal_initializer(stddev=0.1))
+
             b_conv2 = tf.get_variable('g_bconv2', [output2_shape[-1]], initializer=tf.constant_initializer(.1))
             H_conv2 = tf.nn.conv2d_transpose(H_conv1, W_conv2, output_shape=output2_shape, strides=[1, 2, 2, 1],
                                              padding='SAME')
@@ -275,35 +303,49 @@ class BasicModel(tf.estimator.Estimator):
 
     def _model_fn(self, features, labels, mode, params):
 
+        sample_image = None
+        training_hooks = None
         # Create global step increment op.
         self.global_step = training_util.get_or_create_global_step()
         self.global_step_inc = self.global_step.assign_add(1)
 
         z_placeholder = features[self._feature_type.FEATURE_AUDIO]  # Audio Placeholder for input images to the discriminator
 
-        x_placeholder = labels  # Placeholder for input audio/noise vectors to the generator
-
-        x_placeholder = tf.cast(x_placeholder, tf.float32)
-        tf.logging.info("=========> {}".format(x_placeholder))
         tf.logging.info("=========> {}".format(z_placeholder))
 
-        Dx = self.discriminator(x_placeholder)  # Dx will hold discriminator outputs (unnormalized) for the real MNIST images
-        Gz = self.generator_audio(z_placeholder,
-                                  self.asariri_config._batch_size,
-                                  self.asariri_config._z_dimensions)  # Gz holds the generated images
-        Dg = self.discriminator(Gz, reuse=True)  # Dg will hold discriminator outputs (unnormalized) for generated images
 
-        g_loss = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=Dg, labels=tf.ones_like(Dg)))
+        if mode != ModeKeys.INFER:
 
-        d_loss_real = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=Dx, labels=tf.ones_like(Dx)))
-        d_loss_fake = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=Dg, labels=tf.zeros_like(Dg)))
-        d_loss = d_loss_real + d_loss_fake
+            x_placeholder = labels  # Placeholder for input image/noise vectors to the generator
 
-        predictions = Gz
+            x_placeholder = tf.cast(x_placeholder, tf.float32)
+            tf.logging.info("=========> {}".format(x_placeholder))
 
-        tvars = tf.trainable_variables()
-        d_vars = [var for var in tvars if 'd_' in var.name]
-        g_vars = [var for var in tvars if 'g_' in var.name]
+            Dx = self.discriminator(x_placeholder)  # Dx will hold discriminator outputs (unnormalized) for the real MNIST images
+
+            Gz = self.generator_audio(z_placeholder,
+                                      self.asariri_config._batch_size,
+                                      self.asariri_config._z_dimensions,
+                                      reuse=False)  # Gz holds the generated images
+
+            Dg = self.discriminator(Gz, reuse=True)  # Dg will hold discriminator outputs (unnormalized) for generated images
+
+            g_loss = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=Dg, labels=tf.ones_like(Dg)))
+
+            d_loss_real = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=Dx, labels=tf.ones_like(Dx)))
+            d_loss_fake = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=Dg, labels=tf.zeros_like(Dg)))
+            d_loss = d_loss_real + d_loss_fake
+
+            tvars = tf.trainable_variables()
+            d_vars = [var for var in tvars if 'd_' in var.name]
+            g_vars = [var for var in tvars if 'g_' in var.name]
+
+        else:
+            sample_image = self.generator_audio(z_placeholder,
+                                      1,
+                                      self.asariri_config._z_dimensions,
+                                      reuse=False)  # Gz holds the generated images
+
 
         # Loss, training and eval operations are not needed during inference.
         loss = None
@@ -315,12 +357,13 @@ class BasicModel(tf.estimator.Estimator):
             with tf.variable_scope(tf.get_variable_scope(), reuse=False):
                 trainerD = tf.train.AdamOptimizer().minimize(d_loss, var_list=d_vars)
                 trainerG = tf.train.AdamOptimizer().minimize(g_loss, var_list=g_vars)
+                training_hooks = self.get_sequential_train_hooks(trainerG, trainerD)
 
         return tf.estimator.EstimatorSpec(
             mode=mode,
-            predictions=predictions,
+            predictions=sample_image,
             loss=loss,
             train_op=self.global_step_inc,
             eval_metric_ops=eval_metric_ops,
-            training_hooks=self.get_sequential_train_hooks(trainerG, trainerD)
+            training_hooks=training_hooks
         )

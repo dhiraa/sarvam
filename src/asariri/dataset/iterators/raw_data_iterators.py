@@ -20,13 +20,14 @@ class RawDataIterator:
         mfcc = mfcc.astype(np.float32)
         return mfcc.flatten()
 
-    def data_generator(self, data, mode='train'):
+    def data_generator(self, data, batch_size, mode='train'):
 
+        print_info("Total number of files for {} is =====> {}".format(mode, len(data)))
         def generator():
             if mode == 'train':
                 np.random.shuffle(data)
 
-            batched_data_len = (len(data)//self._batch_size) * self._batch_size
+            batched_data_len = (len(data)//batch_size) * batch_size
 
             data_new = data[:batched_data_len]
 
@@ -36,10 +37,8 @@ class RawDataIterator:
                 image_file_name = data_dict["image"]
                 person_name = data_dict["label"]
 
-
                 if(i+1==batched_data_len):
                     raise StopIteration #Hack for the estimator from overshooting the iterator
-
 
                 try:
                     sample_rate, wav = wavfile.read(audio_file_name)
@@ -70,7 +69,7 @@ class RawDataIterator:
 
     def get_train_input_fn(self):
         train_input_fn = generator_input_fn(
-            x=self.data_generator(self._preprocessor.get_train_files(), 'train'),
+            x=self.data_generator(self._preprocessor.get_train_files(), self._batch_size, 'train'),
             target_key=self._feature_type.FEATURE_IMAGE,  # you could leave target_key in features, so labels in model_handler will be empty
             batch_size=self._batch_size,
             shuffle=True,
@@ -83,10 +82,23 @@ class RawDataIterator:
 
     def get_val_input_fn(self):
         val_input_fn = generator_input_fn(
-            x=self.data_generator(self._preprocessor.get_val_files(), 'val'),
+            x=self.data_generator(self._preprocessor.get_val_files(), self._batch_size, 'val'),
             target_key=self._feature_type.FEATURE_IMAGE,
             batch_size=self._batch_size,
             shuffle=True,
+            num_epochs=1,
+            queue_capacity=3 * self._batch_size + 10,
+            num_threads=1,
+        )
+
+        return val_input_fn
+
+    def get_test_input_function(self):
+        val_input_fn = generator_input_fn(
+            x=self.data_generator(self._preprocessor.get_test_files(), 1, 'test'),
+            target_key=self._feature_type.FEATURE_IMAGE,
+            batch_size=1,
+            shuffle=False,
             num_epochs=1,
             queue_capacity=3 * self._batch_size + 10,
             num_threads=1,

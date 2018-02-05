@@ -32,4 +32,12 @@ python asariri/commands/run_experiments.py \
 --batch-size=32 \
 --num-epochs=5
 
+python asariri/commands/run_experiments.py \
+--mode=predict \
+--dataset-name=crawled_data \
+--data-iterator-name=raw_data_iterators \
+--model-name=basic_model \
+--batch-size=32 \
+--num-epochs=5 \
+--model-dir=experiments/asariri/models/BasicModel/
 ```
