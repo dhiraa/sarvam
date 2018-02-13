@@ -8,11 +8,13 @@ from importlib import import_module
 class DataIteratorFactory():
 
     iterator_path = {
-        "raw_data_iterators": "asariri.dataset.iterators.raw_data_iterators",
+        "crawled_data_iterator": "asariri.dataset.iterators.crawled_data_iterator",
+        "mnist_iterator" : "asariri.dataset.iterators.mnist_iterator"
     }
 
     iterators = {
-        "raw_data_iterators": "RawDataIterator",
+        "crawled_data_iterator": "CrawledDataIterator",
+        "mnist_iterator": "MnistDataIterator"
     }
 
 

@@ -6,11 +6,13 @@ import asariri.dataset
 class DatasetFactory():
 
     dataset_path = {
-        "crawled_data": "asariri.dataset.crawled_data",
+        "crawled_dataset": "asariri.dataset.crawled_dataset",
+        "mnist_dataset": "asariri.dataset.mnist_dataset",
     }
 
     datasets = {
-        "crawled_data": "CrawledData",
+        "crawled_dataset": "CrawledData",
+        "mnist_dataset": "Mnist",
     }
 
     def __init__(self):

@@ -6,16 +6,20 @@ from importlib import import_module
 class ModelsFactory():
 
     model_path = {
-       "basic_model" : "asariri.models.basic_model"
+       "basic_model" : "asariri.models.basic_model",
+        "vanilla_gan" : "asariri.models.vanilla_gan",
+
     }
 
     model_configurations = {
-        "basic_model": "BasicModelConfig"
+        "basic_model": "BasicModelConfig",
+        "vanilla_gan" : "VanillaGANConfig"
     }
 
 
     models = {
-        "basic_model" : "BasicModel"
+        "basic_model" : "BasicModel",
+        "vanilla_gan" :  "VanillaGAN"
     }
 
 

@@ -34,7 +34,12 @@ def run(opt):
     # run_config.gpu_options.per_process_gpu_memory_fraction = 0.50
     run_config.allow_soft_placement = True
     run_config.log_device_placement = False
-    run_config = tf.contrib.learn.RunConfig(session_config=run_config, model_dir=cfg._model_dir)
+    run_config = tf.contrib.learn.RunConfig(session_config=run_config,
+                                            save_checkpoints_steps=50,
+                                            keep_checkpoint_max=100,
+                                            save_summary_steps=25,
+                                            model_dir=cfg._model_dir)
+    # run_config = tf.contrib.learn.RunConfig(session_config=run_config, model_dir=cfg._model_dir)
 
 
     model = model(cfg, run_config)

@@ -1,4 +1,11 @@
-# https://github.com/adeshpande3/Generative-Adversarial-Networks/blob/master/Generative%20Adversarial%20Networks%20Tutorial.ipynb
+"""
+
+References:
+    - https://github.com/adeshpande3/Generative-Adversarial-Networks/blob/master/Generative%20Adversarial%20Networks%20Tutorial.ipynb
+
+Paper:
+    - https://arxiv.org/abs/1406.2661
+"""
 
 import numpy as np
 import tensorflow as tf
@@ -55,6 +62,7 @@ class RunTrainOpsHook(session_run_hook.SessionRunHook):
   def before_run(self, run_context):
     # for i in range(self._train_steps):
     #     print_info("$$$$$$$> {}".format(i))
+    #     print_info("RunTrainOpsHook :  {}".format(self._train_ops))
         run_context.session.run(self._train_ops)
 
 
@@ -219,6 +227,14 @@ class BasicModel(tf.estimator.Estimator):
         return H_conv4
 
     def generator_audio(self, z, batch_size, z_dim, reuse=False):
+        """
+        Same as generator above, here audio data is used in place of noise
+        :param z: 
+        :param batch_size: 
+        :param z_dim: 
+        :param reuse: 
+        :return: 
+        """
 
         print_info("Generator in action! Reuse : {} ".format(reuse))
 
@@ -234,9 +250,9 @@ class BasicModel(tf.estimator.Estimator):
                 s / 16)  # We want to slowly upscale the image, so these values will help
             # make that change gradual.
 
-            h0 = tf.reshape(z, [batch_size, s16 + 1, s16 + 1, 980])
+            h0 = tf.reshape(z, [batch_size, s16 + 1, s16 + 1, 32*5])#980+25])
             h0 = tf.nn.relu(h0)
-            # Dimensions of h0 = batch_size x 2 x 2 x 25
+            # Dimensions of h0 = batch_size x 2 x 2 x 980
 
             # First DeConv Layer
             output1_shape = [batch_size, s8, s8, g_dim * 4]
@@ -302,21 +318,32 @@ class BasicModel(tf.estimator.Estimator):
         return H_conv4
 
     def _model_fn(self, features, labels, mode, params):
+        """
+        
+        :param features: of type `asariri.dataset.features.asariri_features.AudioImageFeature`.
+                        Expect Audio to be an flatten array of size 3920 and image size of 28 X 28,
+        :param labels: 
+        :param mode: 
+        :param params: 
+        :return: 
+        """
 
         sample_image = None
         training_hooks = None
+
         # Create global step increment op.
         self.global_step = training_util.get_or_create_global_step()
         self.global_step_inc = self.global_step.assign_add(1)
 
-        z_placeholder = features[self._feature_type.FEATURE_AUDIO]  # Audio Placeholder for input images to the discriminator
+        z_placeholder = features[self._feature_type.AUDIO]  # Audio/Noise Placeholder to the discriminator
+        z_placeholder = tf.cast(z_placeholder, tf.float32)
 
         tf.logging.info("=========> {}".format(z_placeholder))
 
 
         if mode != ModeKeys.INFER:
 
-            x_placeholder = labels  # Placeholder for input image/noise vectors to the generator
+            x_placeholder =  features[self._feature_type.IMAGE]   # Placeholder for input image vectors to the generator
 
             x_placeholder = tf.cast(x_placeholder, tf.float32)
             tf.logging.info("=========> {}".format(x_placeholder))
@@ -353,10 +380,13 @@ class BasicModel(tf.estimator.Estimator):
         eval_metric_ops = {}
 
         if mode != ModeKeys.INFER:
-            loss = g_loss + d_loss
+            loss = g_loss #Lets observe only one of the loss
+            tf.summary.scalar(name= "g_loss", tensor=g_loss)
+            tf.summary.scalar(name= "d_loss", tensor=d_loss)
+
             with tf.variable_scope(tf.get_variable_scope(), reuse=False):
-                trainerD = tf.train.AdamOptimizer().minimize(d_loss, var_list=d_vars)
-                trainerG = tf.train.AdamOptimizer().minimize(g_loss, var_list=g_vars)
+                trainerD = tf.train.AdamOptimizer(name="d_optimizer").minimize(d_loss, var_list=d_vars)
+                trainerG = tf.train.AdamOptimizer(name="g_optimizer").minimize(g_loss, var_list=g_vars)
                 training_hooks = self.get_sequential_train_hooks(trainerG, trainerD)
 
         return tf.estimator.EstimatorSpec(
@@ -367,3 +397,22 @@ class BasicModel(tf.estimator.Estimator):
             eval_metric_ops=eval_metric_ops,
             training_hooks=training_hooks
         )
+
+"""
+python asariri/commands/run_experiments.py \
+--mode=train \
+--dataset-name=crawled_dataset \
+--data-iterator-name=crawled_data_iterator \
+--model-name=basic_model \
+--batch-size=32 \
+--num-epochs=50
+
+python asariri/commands/run_experiments.py \
+--mode=predict \
+--dataset-name=crawled_dataset \
+--data-iterator-name=crawled_data_iterator \
+--model-name=basic_model \
+--batch-size=32 \
+--num-epochs=5 \
+--model-dir=experiments/asariri/models/BasicModel/
+"""

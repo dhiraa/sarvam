@@ -1,6 +1,6 @@
 import os
 
-from asariri.dataset.crawled_data_interface import ICrawlingData
+from asariri.dataset.dataset_interface import IDataset
 
 #Class
 #Downloader
