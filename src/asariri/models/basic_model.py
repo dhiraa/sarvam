@@ -54,8 +54,8 @@ class RunTrainOpsHook(session_run_hook.SessionRunHook):
       train_ops: A train op or iterable of train ops to run.
       train_steps: The number of times to run the op(s).
     """
-    if not isinstance(train_ops, (list, tuple)):
-      train_ops = [train_ops]
+    # if not isinstance(train_ops, (list, tuple)):
+    #   train_ops = [train_ops]
     self._train_ops = train_ops
     self._train_steps = train_steps
 

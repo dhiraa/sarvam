@@ -25,45 +25,17 @@ class VanillaGANConfig(ModelConfigBase):
     def __init__(self, model_dir, batch_size):
         self._model_dir = model_dir
 
-        # self._z_dimensions = 16000
-        # self._seed = 2018
-        # self._batch_size = batch_size
-        # self._keep_prob = 0.5
         self.learning_rate = 0.001
-        # self._clip_gradients = 15.0
-        # self._use_batch_norm = True
         self.alpha = 0.15
         self.beta1 = 0.4
         self.z_dim = 30
 
     @staticmethod
     def user_config(batch_size):
-        _model_dir = "experiments/asariri/models/VanillaGAN/"
+        _model_dir = "experiments/asariri/minist_iterator/models/VanillaGAN/"
         config = VanillaGANConfig(_model_dir, batch_size)
         VanillaGANConfig.dump(_model_dir, config)
         return config
-
-
-class RunTrainOpsHook(session_run_hook.SessionRunHook):
-    """A hook to run train ops a fixed number of times."""
-
-    def __init__(self, train_ops, train_steps):
-        """Run train ops a certain number of times.
-    
-        Args:
-          train_ops: A train op or iterable of train ops to run.
-          train_steps: The number of times to run the op(s).
-        """
-        if not isinstance(train_ops, (list, tuple)):
-            train_ops = [train_ops]
-        self._train_ops = train_ops
-        self._train_steps = train_steps
-
-    def before_run(self, run_context):
-        # for i in range(self._train_steps):
-        #     print_info("$$$$$$$> {}".format(i))
-        # print_info("RunTrainOpsHook :  {}".format(self._train_ops))
-        run_context.session.run(self._train_ops)
 
 def images_square_grid(images, mode):
     """
@@ -95,13 +67,37 @@ def images_square_grid(images, mode):
     return new_im
 
 
-class GeneratorOutHook(session_run_hook.SessionRunHook):
-    def __init__(self, z_image, global_Step):
-        self._z_image = z_image
-        self._global_Step = global_Step
+class RunTrainOpsHook(session_run_hook.SessionRunHook):
+    """A hook to run train ops a fixed number of times."""
+
+    def __init__(self, train_ops, train_steps):
+
+        self._train_ops = train_ops
+        self._train_steps = train_steps
 
     def before_run(self, run_context):
-        samples = run_context.session.run(self._z_image)
+        run_context.session.run(self._train_ops)
+
+class UserLogHook(session_run_hook.SessionRunHook):
+    def __init__(self, z_image, d_loss, g_loss, global_Step):
+        self._z_image = z_image
+        self._d_loss = d_loss
+        self._g_loss = g_loss
+        self._global_Step = global_Step
+
+
+    def before_run(self, run_context):
+        global_step = run_context.session.run(self._global_Step)
+        if global_step % 250:
+            samples = run_context.session.run(self._z_image)
+            images_grid= images_square_grid(samples, "L")
+            pyplot.imshow(images_grid, cmap="gray")
+            pyplot.show(block=False)
+            pyplot.pause(0.001)
+        if global_step % 25:
+            dloss, gloss = run_context.session.run([self._d_loss, self._g_loss])
+            print_info("Discriminator Loss: {:.4f}... Generator Loss: {:.4f}".format(dloss, gloss))
+
 
 class GANTrainSteps(
     collections.namedtuple('GANTrainSteps', (
@@ -115,7 +111,6 @@ class GANTrainSteps(
       discriminator_train_steps: Number of discriminator steps to take in each GAN
         step.
     """
-
 
 class VanillaGAN(tf.estimator.Estimator):
     def __init__(self,
@@ -141,15 +136,15 @@ class VanillaGAN(tf.estimator.Estimator):
         Returns:
           A function that takes a GANTrainOps tuple and returns a list of hooks.
         """
+        # print_info(generator_train_op)
+        # print_info(discriminator_train_op)
 
-        def get_hooks():
-            generator_hook = RunTrainOpsHook(generator_train_op,
-                                             train_steps.generator_train_steps)
-            discriminator_hook = RunTrainOpsHook(discriminator_train_op,
-                                                 train_steps.discriminator_train_steps)
-            return [generator_hook, discriminator_hook]
+        generator_hook = RunTrainOpsHook(generator_train_op,
+                                         train_steps.generator_train_steps)
+        discriminator_hook = RunTrainOpsHook(discriminator_train_op,
+                                             train_steps.discriminator_train_steps)
+        return [generator_hook, discriminator_hook]
 
-        return get_hooks()
 
     def discriminator(self, images, reuse=False):
         """
@@ -159,9 +154,6 @@ class VanillaGAN(tf.estimator.Estimator):
         :return: Tuple of (tensor output of the discriminator, tensor logits of the discriminator)
         """
 
-        #     print('discriminator')
-        #     print('images: ', images)
-        # TODO: Implement Function
         with tf.variable_scope('discriminator', reuse=reuse):
             # Input layer is ?x28x28x3
             x1 = tf.layers.conv2d(images, 64, 5, strides=2, padding='same',
@@ -192,7 +184,6 @@ class VanillaGAN(tf.estimator.Estimator):
             #         print('discriminator out: ', out)
             return out, logits
 
-
     def generator(self, z, out_channel_dim, is_train=True):
         """
         Create the generator network
@@ -201,9 +192,7 @@ class VanillaGAN(tf.estimator.Estimator):
         :param is_train: Boolean if generator is being used for training
         :return: The tensor output of the generator
         """
-        #     print('generator')
-        #     print('out_channel_dim: ', out_channel_dim)
-        # TODO: Implement Function
+
         with tf.variable_scope('generator', reuse=not is_train):
             # First fully connected layer
             x1 = tf.layers.dense(z, 7 * 7 * 512)
@@ -236,7 +225,7 @@ class VanillaGAN(tf.estimator.Estimator):
     
             return out
 
-    def model_loss(self, input_real, input_z, out_channel_dim):
+    def model_loss(self, input_real, input_z, out_channel_dim, global_step):
         """
         Get the loss for the discriminator and generator
         :param input_real: Images from the real dataset
@@ -262,9 +251,11 @@ class VanillaGAN(tf.estimator.Estimator):
 
         d_loss = d_loss_real + d_loss_fake
 
-        return d_loss, g_loss
+        print_hooks = UserLogHook(g_model, d_loss, g_loss, global_step)
 
-    def model_opt(self, d_loss, g_loss, learning_rate, beta1):
+        return d_loss, g_loss, print_hooks
+
+    def model_opt(self, d_loss, g_loss, learning_rate, beta1, global_step):
         """
         Get optimization operations
         :param d_loss: Discriminator loss Tensor
@@ -273,7 +264,6 @@ class VanillaGAN(tf.estimator.Estimator):
         :param beta1: The exponential decay rate for the 1st moment in the optimizer
         :return: A tuple of (discriminator training operation, generator training operation)
         """
-        # TODO: Implement Function
 
         # Get weights and bias to update
         t_vars = tf.trainable_variables()
@@ -281,12 +271,17 @@ class VanillaGAN(tf.estimator.Estimator):
         g_vars = [var for var in t_vars if var.name.startswith('generator')]
 
         # Optimize
-        d_train_opt = tf.train.AdamOptimizer(learning_rate, beta1=beta1).minimize(d_loss, var_list=d_vars)
+        d_train_opt = tf.train.AdamOptimizer(learning_rate, beta1=beta1, name="d_train_opt").\
+            minimize(d_loss, var_list=d_vars, global_step=global_step)
 
         update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
         g_updates = [opt for opt in update_ops if opt.name.startswith('generator')]
         with tf.control_dependencies(g_updates):
-            g_train_opt = tf.train.AdamOptimizer(learning_rate, beta1=beta1).minimize(g_loss, var_list=g_vars)
+            g_train_opt = tf.train.AdamOptimizer(learning_rate, beta1=beta1, name="g_train_opt").\
+                minimize(g_loss, var_list=g_vars, global_step=global_step)
+
+        # tf.logging.info("=========> {}".format(d_train_opt))
+        # tf.logging.info("=========> {}".format(g_train_opt))
 
         return d_train_opt, g_train_opt
 
@@ -320,10 +315,15 @@ class VanillaGAN(tf.estimator.Estimator):
             x_placeholder = tf.cast(x_placeholder, tf.float32)
             tf.logging.info("=========> {}".format(x_placeholder))
 
-            d_loss, g_loss = self.model_loss(x_placeholder, z_placeholder, 1)
+            d_loss, g_loss, print_hooks = self.model_loss(x_placeholder, z_placeholder, 1, self.global_step)
             d_train_opt, g_train_opt = self.model_opt(d_loss, g_loss,
                                                       self.gan_config.learning_rate,
-                                                      self.gan_config.beta1)
+                                                      self.gan_config.beta1,
+                                                      self.global_step)
+
+
+            tf.logging.info("=========> {}".format(d_train_opt))
+            tf.logging.info("=========> {}".format(g_train_opt))
 
 
         # Loss, training and eval operations are not needed during inference.
@@ -337,6 +337,7 @@ class VanillaGAN(tf.estimator.Estimator):
             tf.summary.scalar(name="d_loss", tensor=d_loss)
 
             training_hooks = self.get_sequential_train_hooks(d_train_opt, g_train_opt)
+            training_hooks.append(print_hooks)
 
         return tf.estimator.EstimatorSpec(
             mode=mode,
