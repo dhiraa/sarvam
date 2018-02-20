@@ -88,6 +88,9 @@ class UserLogHook(session_run_hook.SessionRunHook):
 
     def before_run(self, run_context):
         global_step = run_context.session.run(self._global_Step)
+
+        print_info("global_step {}".format(global_step))
+
         if global_step % 250:
             samples = run_context.session.run(self._z_image)
             images_grid= images_square_grid(samples, "L")
@@ -233,8 +236,6 @@ class VanillaGAN(tf.estimator.Estimator):
         :param out_channel_dim: The number of channels in the output image
         :return: A tuple of (discriminator loss, generator loss)
         """
-        # TODO: Implement Function
-
         #     print('Generator for fake images...')
         g_model = self.generator(input_z, out_channel_dim)
         #     print('Passing discriminator with real images...')
@@ -356,7 +357,7 @@ python asariri/commands/run_experiments.py \
 --data-iterator-name=mnist_iterator \
 --model-name=vanilla_gan \
 --batch-size=32 \
---num-epochs=50
+--num-epochs=2
 
 python asariri/commands/run_experiments.py \
 --mode=predict \

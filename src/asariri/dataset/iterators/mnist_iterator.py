@@ -49,6 +49,9 @@ class MnistDataIterator:
         print_info("Total number of files for {} is =====> {}".format(mode, len(data)))
 
         def generator():
+
+            steps = 0
+
             if mode == 'train':
                 np.random.shuffle(data)
 
@@ -57,6 +60,11 @@ class MnistDataIterator:
             data_new = data[:batched_data_len]
 
             for i in tqdm(range(len(data_new)), desc=mode):
+
+                if i % batch_size == 0:
+                    steps += 1
+                    print_info("Steps: {}".format(steps))
+
                 image_file_name = data_new[i]
 
                 if (i + 1 == batched_data_len):
