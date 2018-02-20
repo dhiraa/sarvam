@@ -1,13 +1,7 @@
 
-
-class ImageFeature:
-    NOISE = "noise"
+class GANFeature:
+    AUDIO_OR_NOISE = "audio_noise"
     IMAGE = "image"
-    OUT_IMAGE = "image"
-
-class AudioImageFeature:
-    AUDIO = "audio"
-    IMAGE = "image"
-
+    NUM_IMAGE_CHANNELS = "num_image_channels"
     OUT_IMAGE = "image"
     OUT_AUDIO = "audio"

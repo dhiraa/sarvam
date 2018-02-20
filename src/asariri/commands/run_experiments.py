@@ -58,6 +58,8 @@ def run(opt):
 
             max_steps = (num_samples // batch_size) * (current_epoch + 1)
 
+            max_steps = max_steps * 2 # Since two optimization updates the global step
+
             print_info("Training epoch: " + str(current_epoch + 1) + " with max steps: " + str(max_steps))
             tf.logging.info(CGREEN2 + str("Training epoch: " + str(current_epoch + 1)) + CEND)
 

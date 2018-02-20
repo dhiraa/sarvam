@@ -11,7 +11,7 @@ from tensorflow.contrib import layers
 from tensorflow.contrib import signal
 from tqdm import tqdm
 
-from asariri.dataset.features.asariri_features import ImageFeature
+from asariri.dataset.features.asariri_features import GANFeature
 from nlp.text_classification.tc_utils.tc_config import ModelConfigBase
 from sarvam.helpers.print_helper import *
 from speech_recognition.sr_config.sr_config import *
@@ -70,13 +70,14 @@ def images_square_grid(images, mode):
 class RunTrainOpsHook(session_run_hook.SessionRunHook):
     """A hook to run train ops a fixed number of times."""
 
-    def __init__(self, train_ops, train_steps):
+    def __init__(self, train_op, train_steps):
 
-        self._train_ops = train_ops
+        self._train_op = train_op
         self._train_steps = train_steps
 
     def before_run(self, run_context):
-        run_context.session.run(self._train_ops)
+        for _ in range(self._train_steps):
+            run_context.session.run(self._train_op)
 
 class UserLogHook(session_run_hook.SessionRunHook):
     def __init__(self, z_image, d_loss, g_loss, global_Step):
@@ -91,15 +92,18 @@ class UserLogHook(session_run_hook.SessionRunHook):
 
         print_info("global_step {}".format(global_step))
 
-        if global_step % 250:
+        if global_step % 2 == 0:
             samples = run_context.session.run(self._z_image)
-            images_grid= images_square_grid(samples, "L")
-            pyplot.imshow(images_grid, cmap="gray")
-            pyplot.show(block=False)
-            pyplot.pause(0.001)
-        if global_step % 25:
+            channel = self._z_image.get_shape()[-1]
+            if channel == 1:
+                images_grid= images_square_grid(samples, "L")
+            else:
+                images_grid= images_square_grid(samples, "RGB")
+
+            images_grid.save('/tmp/asariri_{}.png'.format(global_step))
+        if global_step % 2 == 0:
             dloss, gloss = run_context.session.run([self._d_loss, self._g_loss])
-            print_info("Discriminator Loss: {:.4f}... Generator Loss: {:.4f}".format(dloss, gloss))
+            print_info("\nDiscriminator Loss: {:.4f}... Generator Loss: {:.4f}".format(dloss, gloss))
 
 
 class GANTrainSteps(
@@ -125,7 +129,7 @@ class VanillaGAN(tf.estimator.Estimator):
 
         self.gan_config = gan_config
 
-        self._feature_type = ImageFeature
+        self._feature_type = GANFeature
 
     def get_sequential_train_hooks(self, generator_train_op,
                                    discriminator_train_op,
@@ -146,7 +150,7 @@ class VanillaGAN(tf.estimator.Estimator):
                                          train_steps.generator_train_steps)
         discriminator_hook = RunTrainOpsHook(discriminator_train_op,
                                              train_steps.discriminator_train_steps)
-        return [generator_hook, discriminator_hook]
+        return [discriminator_hook, generator_hook]
 
 
     def discriminator(self, images, reuse=False):
@@ -276,7 +280,9 @@ class VanillaGAN(tf.estimator.Estimator):
             minimize(d_loss, var_list=d_vars, global_step=global_step)
 
         update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
+
         g_updates = [opt for opt in update_ops if opt.name.startswith('generator')]
+
         with tf.control_dependencies(g_updates):
             g_train_opt = tf.train.AdamOptimizer(learning_rate, beta1=beta1, name="g_train_opt").\
                 minimize(g_loss, var_list=g_vars, global_step=global_step)
@@ -289,8 +295,7 @@ class VanillaGAN(tf.estimator.Estimator):
     def _model_fn(self, features, labels, mode, params):
         """
 
-        :param features: of type `asariri.dataset.features.asariri_features.AudioImageFeature`.
-                        Expect Audio to be an flatten array of size 3920 and image size of 28 X 28,
+        :param features: 
         :param labels: 
         :param mode: 
         :param params: 
@@ -302,9 +307,11 @@ class VanillaGAN(tf.estimator.Estimator):
 
         # Create global step increment op.
         self.global_step = training_util.get_or_create_global_step()
-        self.global_step_inc = self.global_step.assign_add(1)
+        self.global_step_inc = self.global_step.assign_add(0)
 
-        z_placeholder = features[self._feature_type.NOISE]  # Audio/Noise Placeholder to the discriminator
+        z_placeholder = features[self._feature_type.AUDIO_OR_NOISE]  # Audio/Noise Placeholder to the discriminator
+        tf.logging.info("=========> {}".format(z_placeholder))
+
         z_placeholder = tf.cast(z_placeholder, tf.float32)
 
         tf.logging.info("=========> {}".format(z_placeholder))
@@ -312,19 +319,18 @@ class VanillaGAN(tf.estimator.Estimator):
         if mode != ModeKeys.INFER:
 
             x_placeholder = features[self._feature_type.IMAGE]  # Placeholder for input image vectors to the generator
+            tf.logging.info("=========> {}".format(x_placeholder))
 
             x_placeholder = tf.cast(x_placeholder, tf.float32)
             tf.logging.info("=========> {}".format(x_placeholder))
 
-            d_loss, g_loss, print_hooks = self.model_loss(x_placeholder, z_placeholder, 1, self.global_step)
+            channel = x_placeholder.get_shape()[-1]
+            d_loss, g_loss, print_hooks = self.model_loss(x_placeholder, z_placeholder, channel, self.global_step)
+
             d_train_opt, g_train_opt = self.model_opt(d_loss, g_loss,
                                                       self.gan_config.learning_rate,
                                                       self.gan_config.beta1,
                                                       self.global_step)
-
-
-            tf.logging.info("=========> {}".format(d_train_opt))
-            tf.logging.info("=========> {}".format(g_train_opt))
 
 
         # Loss, training and eval operations are not needed during inference.
@@ -333,7 +339,7 @@ class VanillaGAN(tf.estimator.Estimator):
         eval_metric_ops = {}
 
         if mode != ModeKeys.INFER:
-            loss = g_loss  # Lets observe only one of the loss
+            loss = g_loss + d_loss
             tf.summary.scalar(name="g_loss", tensor=g_loss)
             tf.summary.scalar(name="d_loss", tensor=d_loss)
 
@@ -351,7 +357,7 @@ class VanillaGAN(tf.estimator.Estimator):
 
 
 """
-python asariri/commands/run_experiments.py \
+CUDA_VISIBLE_DEVICES=0 python asariri/commands/run_experiments.py \
 --mode=train \
 --dataset-name=mnist_dataset \
 --data-iterator-name=mnist_iterator \
@@ -365,8 +371,46 @@ python asariri/commands/run_experiments.py \
 --data-iterator-name=mnist_iterator \
 --model-name=vanilla_gan \
 --batch-size=32 \
---num-epochs=5 \
+--num-epochs=2 \
 --model-dir=experiments/asariri/models/VanillaGAN/
 """
 
 
+"""
+CUDA_VISIBLE_DEVICES=0 python asariri/commands/run_experiments.py \
+--mode=train \
+--dataset-name=crawled_dataset \
+--data-iterator-name=crawled_data_iterator \
+--model-name=vanilla_gan \
+--batch-size=32 \
+--num-epochs=2
+
+python asariri/commands/run_experiments.py \
+--mode=predict \
+--dataset-name=crawled_dataset \
+--data-iterator-name=crawled_data_iterator \
+--model-name=vanilla_gan \
+--batch-size=32 \
+--num-epochs=2 \
+--model-dir=experiments/asariri/models/VanillaGAN/
+"""
+
+
+"""
+CUDA_VISIBLE_DEVICES=0 python asariri/commands/run_experiments.py \
+--mode=train \
+--dataset-name=crawled_dataset_v1 \
+--data-iterator-name=crawled_data_iterator \
+--model-name=vanilla_gan \
+--batch-size=32 \
+--num-epochs=2
+
+python asariri/commands/run_experiments.py \
+--mode=predict \
+--dataset-name=crawled_dataset_v1 \
+--data-iterator-name=crawled_data_iterator \
+--model-name=vanilla_gan \
+--batch-size=32 \
+--num-epochs=2 \
+--model-dir=experiments/asariri/models/VanillaGAN/
+"""

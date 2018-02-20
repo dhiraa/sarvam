@@ -5,7 +5,7 @@ from scipy.io import wavfile
 from tensorflow.contrib.learn.python.learn.learn_io.generator_io import generator_input_fn
 import librosa
 from PIL import Image
-from asariri.dataset.features.asariri_features import AudioImageFeature
+from asariri.dataset.features.asariri_features import GANFeature
 from asariri.dataset.crawled_dataset import CrawledData
 
 class CrawledDataIterator:
@@ -17,7 +17,7 @@ class CrawledDataIterator:
         self._batch_size = batch_size
         self._num_epochs = num_epochs
         self._preprocessor = preprocessor
-        self._feature_type = AudioImageFeature
+        self._feature_type = GANFeature
 
     def melspectrogram(self, sample_rate, audio):
         # mfcc = librosa.feature.mfcc(y=audio, sr=sample_rate, n_mfcc=98, n_fft=1024, hop_length=2048) #3920 samples
@@ -60,7 +60,8 @@ class CrawledDataIterator:
 
                     image_data = Image.open(image_file_name)
                     image_data = np.array(image_data).astype(float)
-                    image_data = np.expand_dims(image_data, axis=2)
+                    if len(image_data.shape) == 2:
+                        image_data = np.expand_dims(image_data, axis=2)
 
                     # print_info("{} =====> {} {}".format(mode, audio_file_name, image_file_name))
                     # print_info("{} ===> {} {}".format(i, image_data.shape, wav.shape))
@@ -68,14 +69,15 @@ class CrawledDataIterator:
                         raise RuntimeWarning("{} has problematic shape {}".format(audio_file_name, wav.shape))
 
                     noise = np.random.normal(-1, 1, [100])
-                    wav = wav#np.concatenate([noise, wav], axis=0)
+                    wav = np.concatenate([noise, wav], axis=0)
                     # print_error("==========================>")
                     # print_info(wav.shape)
                     # exit(-1)
 
                 except Exception as err:
                     print_error(str(err))
-                yield {self._feature_type.AUDIO : wav,
+                    exit()
+                yield {self._feature_type.AUDIO_OR_NOISE : wav,
                        self._feature_type.IMAGE: image_data}
 
         return generator

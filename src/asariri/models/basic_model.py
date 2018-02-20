@@ -13,7 +13,7 @@ from tensorflow.contrib import layers
 from tensorflow.contrib import signal
 from tqdm import tqdm
 
-from asariri.dataset.features.asariri_features import AudioImageFeature
+from asariri.dataset.features.asariri_features import GANFeature
 from nlp.text_classification.tc_utils.tc_config import ModelConfigBase
 from sarvam.helpers.print_helper import *
 from speech_recognition.sr_config.sr_config import *
@@ -93,7 +93,7 @@ class BasicModel(tf.estimator.Estimator):
 
 
 
-        self._feature_type = AudioImageFeature
+        self._feature_type = GANFeature
 
     def get_sequential_train_hooks(self, generator_train_op,
                                    discriminator_train_op,
@@ -335,7 +335,7 @@ class BasicModel(tf.estimator.Estimator):
         self.global_step = training_util.get_or_create_global_step()
         self.global_step_inc = self.global_step.assign_add(1)
 
-        z_placeholder = features[self._feature_type.AUDIO]  # Audio/Noise Placeholder to the discriminator
+        z_placeholder = features[self._feature_type.AUDIO_OR_NOISE]  # Audio/Noise Placeholder to the discriminator
         z_placeholder = tf.cast(z_placeholder, tf.float32)
 
         tf.logging.info("=========> {}".format(z_placeholder))

@@ -5,7 +5,7 @@ from scipy.io import wavfile
 from tensorflow.contrib.learn.python.learn.learn_io.generator_io import generator_input_fn
 import librosa
 from PIL import Image
-from asariri.dataset.features.asariri_features import ImageFeature
+from asariri.dataset.features.asariri_features import GANFeature
 from asariri.dataset.crawled_dataset import CrawledData
 
 
@@ -18,10 +18,11 @@ class MnistDataIterator:
         self._batch_size = batch_size
         self._num_epochs = num_epochs
         self._preprocessor = preprocessor
-        self._feature_type = ImageFeature
+        self._feature_type = GANFeature
 
         self.image_mode = 'L'
         self.image_channels = 1
+        self.noise_dim = 30
 
     def get_image(self, image_path, width, height, mode="L"):
         """
@@ -51,6 +52,7 @@ class MnistDataIterator:
         def generator():
 
             steps = 0
+            IMAGE_MAX_VALUE = 255
 
             if mode == 'train':
                 np.random.shuffle(data)
@@ -63,7 +65,7 @@ class MnistDataIterator:
 
                 if i % batch_size == 0:
                     steps += 1
-                    print_info("Steps: {}".format(steps))
+                    # print_info("Steps: {}".format(steps))
 
                 image_file_name = data_new[i]
 
@@ -74,14 +76,17 @@ class MnistDataIterator:
                     image_data = self.get_image(image_file_name, 28,28)
                     image_data = np.array(image_data).astype(float)
                     image_data = np.expand_dims(image_data, axis=2)
-                    # image_data = np.expand_dims(image_data, axis=2)
-                    noise = np.random.uniform(-1, 1, size=(30))
+
+                    #Normalize the data
+                    image_data = image_data / IMAGE_MAX_VALUE - 0.5
                     image_data = image_data * 2
+
+                    noise = np.random.uniform(-1, 1, size=(self.noise_dim))
                 except Exception as err:
                     print_error(str(err))
 
                 yield {self._feature_type.IMAGE: image_data,
-                       self._feature_type.NOISE: noise}
+                       self._feature_type.AUDIO_OR_NOISE: noise}
 
         return generator
 
