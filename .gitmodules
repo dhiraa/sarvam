@@ -2,3 +2,6 @@
 	path = data/mimic3-benchmarks
 	url = https://github.com/YerevaNN/mimic3-benchmarks
 	branch = master
+[submodule "data/asariri"]
+	path = data/asariri
+	url = https://github.com/thak123/asariri
