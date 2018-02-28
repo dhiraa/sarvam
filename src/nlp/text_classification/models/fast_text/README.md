@@ -35,4 +35,13 @@ CUDA_VISIBLE_DEVICES=0 python nlp/text_classification/commands/run_experiments.p
 --data-iterator-name=text_ids \
 --model-name=fast_text_v0 \
 --model-dir=experiments/models/spooky_dataset/text/FastTextV0/lr_0.001_wemd_32_keep_0.5/ |& tee log.txt
+
+CUDA_VISIBLE_DEVICES=0 python nlp/text_classification/commands/run_experiments.py \
+--mode=train \
+--dataset-name=spooky \
+--data-iterator-name=text_ids_lazy_generator \
+--batch-size=16 \
+--num-epochs=5 \
+--model-name=fast_text_v0 |& tee log.txt
+
 ```

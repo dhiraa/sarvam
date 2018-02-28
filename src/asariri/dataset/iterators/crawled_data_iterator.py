@@ -65,6 +65,7 @@ class CrawledDataIterator:
 
                     # print_info("{} =====> {} {}".format(mode, audio_file_name, image_file_name))
                     # print_info("{} ===> {} {}".format(i, image_data.shape, wav.shape))
+
                     if(wav.shape[0] != 128*5):
                         raise RuntimeWarning("{} has problematic shape {}".format(audio_file_name, wav.shape))
 

@@ -124,7 +124,15 @@ python -m spacy download en_core_web_lg
 pip install tqdm
 pip install librosa
 ```
+## Git Clone
+```commandline
+git clone --recurse-submodules -j8 https://github.com/dhiraa/sarvam
 
+#or if you wanted to pull after cloning
+
+git submodule update --init --recursive
+
+```
 ## How to setup with IntelliJ
 - File -> New Project and point to sarvam
 - Select "sarvam" anaconda env as you project intrepretor, if not found 

@@ -202,24 +202,28 @@ class VanillaGAN(tf.estimator.Estimator):
 
         with tf.variable_scope('generator', reuse=not is_train):
             # First fully connected layer
-            x1 = tf.layers.dense(z, 7 * 7 * 512)
+            x1 = tf.layers.dense(z, 7 * 7 * 512*2)
             # Reshape it to start the convolutional stack
-            x1 = tf.reshape(x1, (-1, 7, 7, 512))
+            x1 = tf.reshape(x1, (-1, 7, 7, 512*2))
             #         x1 = tf.layers.batch_normalization(x1, training=training)
             x1 = tf.maximum(self.gan_config.alpha * x1, x1)
             # 7x7x512 now
             #         print(x1)
-            x2 = tf.layers.conv2d_transpose(x1, 256, 5, strides=1, padding='same')
+            x2 = tf.layers.conv2d_transpose(x1, 256*2, 5, strides=1, padding='same')
             x2 = tf.layers.batch_normalization(x2, training=is_train)
             x2 = tf.maximum(self.gan_config.alpha * x2, x2)
             # 7x7x256 now
             #         print(x2)
-            x3 = tf.layers.conv2d_transpose(x2, 128, 5, strides=2, padding='same')
+            x3 = tf.layers.conv2d_transpose(x2, 128*2, 5, strides=2, padding='same')
             x3 = tf.layers.batch_normalization(x3, training=is_train)
             x3 = tf.maximum(self.gan_config.alpha * x3, x3)
             # 14x14x128 now
             #         print(x3)
     
+            x4 = tf.layers.conv2d_transpose(x3, 64*2, 5, strides=2, padding='same')
+            x4 = tf.layers.batch_normalization(x4, training=is_train)
+            x4 = tf.maximum(self.gan_config.alpha * x4, x4)
+
             x4 = tf.layers.conv2d_transpose(x3, 64, 5, strides=2, padding='same')
             x4 = tf.layers.batch_normalization(x4, training=is_train)
             x4 = tf.maximum(self.gan_config.alpha * x4, x4)
@@ -403,7 +407,7 @@ CUDA_VISIBLE_DEVICES=0 python asariri/commands/run_experiments.py \
 --data-iterator-name=crawled_data_iterator \
 --model-name=vanilla_gan \
 --batch-size=32 \
---num-epochs=2
+--num-epochs=100
 
 python asariri/commands/run_experiments.py \
 --mode=predict \
