@@ -12,7 +12,7 @@ from tensorflow.contrib import signal
 from tqdm import tqdm
 
 from asariri.dataset.features.asariri_features import GANFeature
-from nlp.text_classification.tc_utils.tc_config import ModelConfigBase
+from asariri.asariri_utils.asariri_config import *
 from sarvam.helpers.print_helper import *
 from speech_recognition.sr_config.sr_config import *
 from tensorflow.contrib.learn import ModeKeys
@@ -22,8 +22,10 @@ from tensorflow.python.training import training_util
 from matplotlib import pyplot
 
 class VanillaGANConfig(ModelConfigBase):
-    def __init__(self, model_dir, batch_size):
+    def __init__(self, model_dir, batch_size, num_image_channels):
         self._model_dir = model_dir
+
+        self.num_image_channels = num_image_channels
 
         self.learning_rate = 0.001
         self.alpha = 0.15
@@ -31,9 +33,9 @@ class VanillaGANConfig(ModelConfigBase):
         self.z_dim = 30
 
     @staticmethod
-    def user_config(batch_size):
-        _model_dir = "experiments/asariri/minist_iterator/models/VanillaGAN/"
-        config = VanillaGANConfig(_model_dir, batch_size)
+    def user_config(batch_size, data_iterator):
+        _model_dir = EXPERIMENT_MODEL_ROOT_DIR + "/" + data_iterator.name + "/VanillaGAN/"
+        config = VanillaGANConfig(_model_dir, batch_size, data_iterator._dataset.num_channels)
         VanillaGANConfig.dump(_model_dir, config)
         return config
 
@@ -100,7 +102,10 @@ class UserLogHook(session_run_hook.SessionRunHook):
             else:
                 images_grid= images_square_grid(samples, "RGB")
 
-            images_grid.save('../tmp/asariri_{}.png'.format(global_step))
+            if not os.path.exists(EXPERIMENT_DATA_ROOT_DIR): os.makedirs(EXPERIMENT_DATA_ROOT_DIR)
+
+            images_grid.save(EXPERIMENT_DATA_ROOT_DIR + '/asariri_{}.png'.format(global_step))
+
         if global_step % 2 == 0:
             dloss, gloss = run_context.session.run([self._d_loss, self._g_loss])
             print_info("\nDiscriminator Loss: {:.4f}... Generator Loss: {:.4f}".format(dloss, gloss))
@@ -335,6 +340,9 @@ class VanillaGAN(tf.estimator.Estimator):
                                                       self.gan_config.learning_rate,
                                                       self.gan_config.beta1,
                                                       self.global_step)
+        else:
+            sample_image = self.generator(z_placeholder, self.gan_config.num_image_channels)
+            #changes are made to take image channels from data iterator just for prediction
 
 
         # Loss, training and eval operations are not needed during inference.
@@ -376,7 +384,7 @@ python asariri/commands/run_experiments.py \
 --model-name=vanilla_gan \
 --batch-size=32 \
 --num-epochs=2 \
---model-dir=experiments/asariri/models/VanillaGAN/
+--model-dir=experiments/asariri/models/mnistdataiterator/VanillaGAN/
 """
 
 
@@ -396,11 +404,14 @@ CUDA_VISIBLE_DEVICES=0 python asariri/commands/run_experiments.py \
 --model-name=vanilla_gan \
 --batch-size=32 \
 --num-epochs=2 \
---model-dir=experiments/asariri/models/VanillaGAN/
+--model-dir=experiments/asariri/models/crawleddataiterator/VanillaGAN/
 """
 
 
 """
+#color and black and white uses same data iterator
+rm -rf experiments/asariri/models/crawleddataiterator/VanillaGAN/
+
 CUDA_VISIBLE_DEVICES=0 python asariri/commands/run_experiments.py \
 --mode=train \
 --dataset-name=crawled_dataset_v1 \
@@ -416,5 +427,5 @@ python asariri/commands/run_experiments.py \
 --model-name=vanilla_gan \
 --batch-size=32 \
 --num-epochs=2 \
---model-dir=experiments/asariri/models/VanillaGAN/
+--model-dir=experiments/asariri/models/crawleddataiterator/VanillaGAN/
 """

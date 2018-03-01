@@ -12,6 +12,9 @@ class Mnist(IDataset):
 
     def __init__(self, data_dir):
         IDataset.__init__(self, data_dir=data_dir)
+        self.set_num_channels(1)
+        self.set_name("Mnist")
+
 
     @overrides
     def preprocess(self):
@@ -66,7 +69,7 @@ class Mnist(IDataset):
         return self._val_files
 
     def get_test_files(self):
-        return self._test_files
+        return self._test_files[:10]
 
     def predict_on_test_files(self, data_iterator, estimator):
 

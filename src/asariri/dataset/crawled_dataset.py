@@ -20,6 +20,9 @@ def is_image_file(path):
 class CrawledData(IDataset):
     def __init__(self, data_dir):
         IDataset.__init__(self, data_dir=data_dir)
+        self.set_num_channels(1)
+        self.set_name("CrawledData")
+
 
     def preprocess(self):
         audio_files = []

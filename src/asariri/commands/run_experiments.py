@@ -19,13 +19,13 @@ def run(opt):
     data_iterator = DataIteratorFactory.get(opt.data_iterator_name)
     data_iterator = data_iterator(num_epochs=opt.num_epochs,
                               batch_size=opt.batch_size,
-                              preprocessor=dataset)
+                              dataset=dataset)
 
     cfg, model = ModelsFactory.get(opt.model_name)
 
     # Get the model
     if opt.mode == "train":
-        cfg = cfg.user_config(opt.batch_size)
+        cfg = cfg.user_config(opt.batch_size, data_iterator)
     elif opt.mode == "retrain" or opt.mode == "predict":
         cfg = cfg.load(opt.model_dir)
 

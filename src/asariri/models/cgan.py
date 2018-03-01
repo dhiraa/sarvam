@@ -4,26 +4,18 @@ Git     : https://github.com/hwalsuklee/tensorflow-generative-model-collections/
         : https://github.com/carpedm20/DCGAN-tensorflow
 """
 
-import numpy as np
-import tensorflow as tf
-import math
-from PIL import Image
-from tensorflow.contrib import layers
-from tensorflow.contrib import signal
-from tqdm import tqdm
+import collections
 
-from asariri.dataset.features.asariri_features import GANFeature
-from nlp.text_classification.tc_utils.tc_config import ModelConfigBase
-from sarvam.helpers.print_helper import *
-from speech_recognition.sr_config.sr_config import *
+from PIL import Image
 from tensorflow.contrib.learn import ModeKeys
 from tensorflow.python.training import session_run_hook
-import collections
 from tensorflow.python.training import training_util
-from matplotlib import pyplot
 
-from asariri.models.ops import *
-from asariri.models.utils import *
+from asariri.dataset.features.asariri_features import GANFeature
+from asariri.models.utils.ops import *
+from nlp.text_classification.tc_utils.tc_config import ModelConfigBase
+from sarvam.helpers.print_helper import *
+
 
 class CGANConfig(ModelConfigBase):
     def __init__(self, model_dir, batch_size):

@@ -13,10 +13,12 @@ class CrawledDataIterator:
     
     """
 
-    def __init__(self, batch_size, num_epochs, preprocessor):
+    def __init__(self, batch_size, num_epochs, dataset):
+        self.name = "crawleddataiterator"
+
         self._batch_size = batch_size
         self._num_epochs = num_epochs
-        self._preprocessor = preprocessor
+        self._dataset = dataset
         self._feature_type = GANFeature
 
     def melspectrogram(self, sample_rate, audio):
@@ -90,7 +92,7 @@ class CrawledDataIterator:
 
     def get_train_input_fn(self):
         train_input_fn = generator_input_fn(
-            x=self.data_generator(self._preprocessor.get_train_files(), self._batch_size, 'train'),
+            x=self.data_generator(self._dataset.get_train_files(), self._batch_size, 'train'),
             target_key=None,  # you could leave target_key in features, so labels in model_handler will be empty
             batch_size=self._batch_size,
             shuffle=True,
@@ -103,7 +105,7 @@ class CrawledDataIterator:
 
     def get_val_input_fn(self):
         val_input_fn = generator_input_fn(
-            x=self.data_generator(self._preprocessor.get_val_files(), self._batch_size, 'val'),
+            x=self.data_generator(self._dataset.get_val_files(), self._batch_size, 'val'),
             target_key=None,
             batch_size=self._batch_size,
             shuffle=True,
@@ -116,7 +118,7 @@ class CrawledDataIterator:
 
     def get_test_input_function(self):
         val_input_fn = generator_input_fn(
-            x=self.data_generator(self._preprocessor.get_test_files(), 1, 'test'),
+            x=self.data_generator(self._dataset.get_test_files(), 1, 'test'),
             target_key=None,
             batch_size=1,
             shuffle=False,
