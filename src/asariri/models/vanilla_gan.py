@@ -100,7 +100,7 @@ class UserLogHook(session_run_hook.SessionRunHook):
             else:
                 images_grid= images_square_grid(samples, "RGB")
 
-            images_grid.save('/tmp/asariri_{}.png'.format(global_step))
+            images_grid.save('../tmp/asariri_{}.png'.format(global_step))
         if global_step % 2 == 0:
             dloss, gloss = run_context.session.run([self._d_loss, self._g_loss])
             print_info("\nDiscriminator Loss: {:.4f}... Generator Loss: {:.4f}".format(dloss, gloss))
@@ -389,7 +389,7 @@ CUDA_VISIBLE_DEVICES=0 python asariri/commands/run_experiments.py \
 --batch-size=32 \
 --num-epochs=2
 
-python asariri/commands/run_experiments.py \
+CUDA_VISIBLE_DEVICES=0 python asariri/commands/run_experiments.py \
 --mode=predict \
 --dataset-name=crawled_dataset \
 --data-iterator-name=crawled_data_iterator \

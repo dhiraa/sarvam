@@ -31,6 +31,8 @@ class CrawledDataIterator:
         print_info("Total number of files for {} is =====> {}".format(mode, len(data)))
 
         def generator():
+            IMAGE_MAX_VALUE = 255
+
             if mode == 'train':
                 np.random.shuffle(data)
 
@@ -60,6 +62,9 @@ class CrawledDataIterator:
 
                     image_data = Image.open(image_file_name)
                     image_data = np.array(image_data).astype(float)
+                    image_data =  image_data/ IMAGE_MAX_VALUE - 0.5
+                    image_data =  image_data *2
+
                     if len(image_data.shape) == 2:
                         image_data = np.expand_dims(image_data, axis=2)
 
