@@ -18,10 +18,11 @@ def is_image_file(path):
 
 
 class CrawledData(IDataset):
-    def __init__(self, data_dir):
+    def __init__(self, data_dir, is_live):
         IDataset.__init__(self, data_dir=data_dir)
         self.set_num_channels(3)
         self.set_name("CrawledDataV1")
+        self.is_live = is_live
 
 
     def preprocess(self):

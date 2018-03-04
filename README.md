@@ -123,6 +123,7 @@ pip install spacy
 python -m spacy download en_core_web_lg
 pip install tqdm
 pip install librosa
+sudo apt-get install portaudio19-dev
 ```
 ## Git Clone
 ```commandline

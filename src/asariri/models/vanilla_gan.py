@@ -20,6 +20,7 @@ from tensorflow.python.training import session_run_hook
 import collections
 from tensorflow.python.training import training_util
 from matplotlib import pyplot
+from asariri.asariri_utils.images.image import *
 
 class VanillaGANConfig(ModelConfigBase):
     def __init__(self, model_dir, batch_size, num_image_channels):
@@ -34,40 +35,10 @@ class VanillaGANConfig(ModelConfigBase):
 
     @staticmethod
     def user_config(batch_size, data_iterator):
-        _model_dir = EXPERIMENT_MODEL_ROOT_DIR + "/" + data_iterator.name + "/VanillaGAN/"
+        _model_dir = EXPERIMENT_MODEL_ROOT_DIR + "/" + data_iterator.name + "/vanilla_gan/"
         config = VanillaGANConfig(_model_dir, batch_size, data_iterator._dataset.num_channels)
         VanillaGANConfig.dump(_model_dir, config)
         return config
-
-def images_square_grid(images, mode):
-    """
-    Save images as a square grid
-    :param images: Images to be used for the grid
-    :param mode: The mode to use for images
-    :return: Image of images in a square grid
-    """
-    # Get maximum size for square grid of images
-    save_size = math.floor(np.sqrt(images.shape[0]))
-
-    # Scale to 0-255
-    images = (((images - images.min()) * 255) / (images.max() - images.min())).astype(np.uint8)
-
-    # Put images in a square arrangement
-    images_in_square = np.reshape(
-            images[:save_size*save_size],
-            (save_size, save_size, images.shape[1], images.shape[2], images.shape[3]))
-    if mode == 'L':
-        images_in_square = np.squeeze(images_in_square, 4)
-
-    # Combine images to grid image
-    new_im = Image.new(mode, (images.shape[1] * save_size, images.shape[2] * save_size))
-    for col_i, col_images in enumerate(images_in_square):
-        for image_i, image in enumerate(col_images):
-            im = Image.fromarray(image, mode)
-            new_im.paste(im, (col_i * images.shape[1], image_i * images.shape[2]))
-
-    return new_im
-
 
 class RunTrainOpsHook(session_run_hook.SessionRunHook):
     """A hook to run train ops a fixed number of times."""
@@ -94,7 +65,7 @@ class UserLogHook(session_run_hook.SessionRunHook):
 
         print_info("global_step {}".format(global_step))
 
-        if global_step % 2 == 0:
+        if global_step % 2 == 0 or global_step % 3 == 0 :
             samples = run_context.session.run(self._z_image)
             channel = self._z_image.get_shape()[-1]
             if channel == 1:
@@ -102,9 +73,9 @@ class UserLogHook(session_run_hook.SessionRunHook):
             else:
                 images_grid= images_square_grid(samples, "RGB")
 
-            if not os.path.exists(EXPERIMENT_DATA_ROOT_DIR): os.makedirs(EXPERIMENT_DATA_ROOT_DIR)
+            if not os.path.exists(EXPERIMENT_DATA_ROOT_DIR+'/vanilla_gan/' ): os.makedirs(EXPERIMENT_DATA_ROOT_DIR+'/vanilla_gan/' )
 
-            images_grid.save(EXPERIMENT_DATA_ROOT_DIR + '/asariri_{}.png'.format(global_step))
+            images_grid.save(EXPERIMENT_DATA_ROOT_DIR+'/vanilla_gan/' + '/asariri_{}.png'.format(global_step))
 
         if global_step % 2 == 0:
             dloss, gloss = run_context.session.run([self._d_loss, self._g_loss])
@@ -384,7 +355,8 @@ python asariri/commands/run_experiments.py \
 --model-name=vanilla_gan \
 --batch-size=32 \
 --num-epochs=2 \
---model-dir=experiments/asariri/models/mnistdataiterator/VanillaGAN/
+--model-dir=experiments/asariri/models/mnistdataiterator/vanilla_gan/  \
+--is-live=False
 """
 
 
@@ -395,7 +367,7 @@ CUDA_VISIBLE_DEVICES=0 python asariri/commands/run_experiments.py \
 --data-iterator-name=crawled_data_iterator \
 --model-name=vanilla_gan \
 --batch-size=32 \
---num-epochs=2
+--num-epochs=100
 
 CUDA_VISIBLE_DEVICES=0 python asariri/commands/run_experiments.py \
 --mode=predict \
@@ -404,7 +376,8 @@ CUDA_VISIBLE_DEVICES=0 python asariri/commands/run_experiments.py \
 --model-name=vanilla_gan \
 --batch-size=32 \
 --num-epochs=2 \
---model-dir=experiments/asariri/models/crawleddataiterator/VanillaGAN/
+--model-dir=experiments/asariri/models/crawleddataiterator/vanilla_gan/ \
+--is-live=False
 """
 
 
@@ -427,5 +400,6 @@ python asariri/commands/run_experiments.py \
 --model-name=vanilla_gan \
 --batch-size=32 \
 --num-epochs=2 \
---model-dir=experiments/asariri/models/crawleddataiterator/VanillaGAN/
+--model-dir=experiments/asariri/models/mnistdataiterator/vanilla_gan/  \
+--is-live=False
 """

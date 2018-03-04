@@ -10,11 +10,15 @@ from asariri.commands.data_iterator_factory import DataIteratorFactory
 from sarvam.helpers.print_helper import *
 tf.logging.set_verbosity(tf.logging.INFO)
 
+valid_bools = {'true': True,'True': True, 't': True, '1': True,
+         'false': False,'False': False, 'f': False, '0': False,
+         }
+
 def run(opt):
     # sess = tf.InteractiveSession()
 
     dataset = DatasetFactory.get(opt.dataset_name)
-    dataset = dataset("../data/asariri/")
+    dataset = dataset("../data/asariri/", is_live=valid_bools[opt.is_live])
 
     data_iterator = DataIteratorFactory.get(opt.data_iterator_name)
     data_iterator = data_iterator(num_epochs=opt.num_epochs,
@@ -36,7 +40,7 @@ def run(opt):
     run_config.log_device_placement = False
     run_config = tf.contrib.learn.RunConfig(session_config=run_config,
                                             save_checkpoints_steps=50,
-                                            keep_checkpoint_max=100,
+                                            keep_checkpoint_max=5,
                                             save_summary_steps=25,
                                             model_dir=cfg._model_dir)
     # run_config = tf.contrib.learn.RunConfig(session_config=run_config, model_dir=cfg._model_dir)
@@ -90,6 +94,11 @@ if __name__ == "__main__":
                           required=True,
                           help="'preprocess, 'train', 'retrain','predict'"
                           )
+
+    optparse.add_argument('-live', '--is-live', action='store',
+                          dest='is_live', required=False,
+                          default=False,
+                          help='Should use mic for audio or not')
 
     optparse.add_argument('-md', '--model-dir', action='store',
                           dest='model_dir', required=False,

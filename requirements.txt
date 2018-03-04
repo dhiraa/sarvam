@@ -1,3 +1,4 @@
+pyaudio
 pandas
 numpy
 tensorflow-gpu

@@ -8,18 +8,21 @@ class ModelsFactory():
     model_path = {
        "basic_model" : "asariri.models.basic_model",
         "vanilla_gan" : "asariri.models.vanilla_gan",
+        "began": "asariri.models.began",
 
     }
 
     model_configurations = {
         "basic_model": "BasicModelConfig",
-        "vanilla_gan" : "VanillaGANConfig"
+        "vanilla_gan" : "VanillaGANConfig",
+        "began": "BEGANConfig"
     }
 
 
     models = {
         "basic_model" : "BasicModel",
-        "vanilla_gan" :  "VanillaGAN"
+        "vanilla_gan" :  "VanillaGAN",
+        "began" : "BEGAN"
     }
 
 

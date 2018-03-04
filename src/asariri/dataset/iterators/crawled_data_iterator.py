@@ -42,33 +42,38 @@ class CrawledDataIterator:
 
             data_new = data[:batched_data_len]
 
+            # print_error(data_new)
+
             for i in tqdm(range(len(data_new)), desc=mode):
                 data_dict  =data_new[i]
                 audio_file_name = data_dict["audio"]
                 image_file_name = data_dict["image"]
                 person_name = data_dict["label"]
 
-                if(i+1==batched_data_len):
+                # if(i+1 == batched_data_len):
+                if(i > batched_data_len):
                     print_error("Iterator Exhausted!")
                     raise StopIteration #Hack for the estimator from overshooting the iterator
 
                 try:
                     sample_rate, wav = wavfile.read(audio_file_name)
-
                     wav = wav.astype(np.float32) / np.iinfo(np.int16).max
-
                     wav = self.melspectrogram(sample_rate=sample_rate, audio=wav)
 
                     if wav.shape[0] != 128*5:
                         wav = np.pad(wav, (0, 128*5 - wav.shape[0]), mode="constant", constant_values=(0,0))
 
-                    image_data = Image.open(image_file_name)
-                    image_data = np.array(image_data).astype(float)
-                    image_data =  image_data/ IMAGE_MAX_VALUE - 0.5
-                    image_data =  image_data *2
+                    if mode != 'test':
+                        image_data = Image.open(image_file_name)
+                        image_data = np.array(image_data).astype(float)
+                        image_data =  image_data/ IMAGE_MAX_VALUE - 0.5
+                        image_data =  image_data *2
 
-                    if len(image_data.shape) == 2:
-                        image_data = np.expand_dims(image_data, axis=2)
+                        if len(image_data.shape) == 2:
+                            image_data = np.expand_dims(image_data, axis=2)
+                    else:
+                        image_data = np.array("none")
+
 
                     # print_info("{} =====> {} {}".format(mode, audio_file_name, image_file_name))
                     # print_info("{} ===> {} {}".format(i, image_data.shape, wav.shape))
@@ -78,15 +83,16 @@ class CrawledDataIterator:
 
                     noise = np.random.normal(-1, 1, [100])
                     wav = np.concatenate([noise, wav], axis=0)
-                    # print_error("==========================>")
-                    # print_info(wav.shape)
                     # exit(-1)
 
                 except Exception as err:
                     print_error(str(err))
                     exit()
-                yield {self._feature_type.AUDIO_OR_NOISE : wav,
-                       self._feature_type.IMAGE: image_data}
+
+                res = {self._feature_type.AUDIO_OR_NOISE: wav,
+                 self._feature_type.IMAGE: image_data}
+
+                yield res
 
         return generator
 

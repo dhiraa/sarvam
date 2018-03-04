@@ -11,9 +11,11 @@ class Mnist(IDataset):
     """
 
     def __init__(self, data_dir):
-        IDataset.__init__(self, data_dir=data_dir)
+        IDataset.__init__(self, data_dir=data_dir, is_live)
         self.set_num_channels(1)
         self.set_name("Mnist")
+        self.is_live = is_live
+
 
 
     @overrides

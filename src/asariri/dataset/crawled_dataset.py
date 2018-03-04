@@ -4,11 +4,13 @@ from pprint import pformat
 from collections import defaultdict
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
+from random import shuffle
 
 from asariri.dataset.dataset_interface import IDataset
 from sarvam.helpers.print_helper import *
 from sarvam.helpers.downloaders import *
 
+from asariri.asariri_utils.audio.recording import record_audio
 
 def is_audio_file(path):
     return path.split("/")[-3] == "audio"
@@ -18,10 +20,11 @@ def is_image_file(path):
 
 
 class CrawledData(IDataset):
-    def __init__(self, data_dir):
+    def __init__(self, data_dir, is_live):
         IDataset.__init__(self, data_dir=data_dir)
         self.set_num_channels(1)
         self.set_name("CrawledData")
+        self.is_live = is_live
 
 
     def preprocess(self):
@@ -62,14 +65,27 @@ class CrawledData(IDataset):
         self._train_files, self._val_files, _, _ = train_test_split(all_files, all_files, test_size=0.1, random_state=42)
 
     def get_train_files(self):
+        shuffle(self._train_files)
         return self._train_files
 
     def get_val_files(self):
+        shuffle(self._val_files)
         return self._val_files
 
     def get_test_files(self):
-        return self._val_files[:10]
+        if self.is_live:
+            test_dir = "/tmp/test_asariri/"
+            record_audio(test_dir)
 
+            for each in os.listdir(test_dir):
+                res = {"label": "test", "audio":  test_dir + "/" + each, "image": "None"}
+                self._test_files.append(res)
+
+            print_error(self._test_files)
+            return self._test_files
+        else:
+            shuffle(self._val_files)
+            return self._val_files[:10]
 
 
     def predict_on_test_files(self, data_iterator, estimator):
@@ -79,12 +95,13 @@ class CrawledData(IDataset):
 
         predictions = []
 
-        for r in predictions_fn:
+        for r in tqdm(predictions_fn, desc = "predictions: "):
             images = r
             predictions.append(images)
             my_i = images.squeeze()
             plt.imshow(my_i, cmap="gray_r")
             plt.pause(1)
+
         input("press enter to exit!")
 
 

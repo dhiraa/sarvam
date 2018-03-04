@@ -7,7 +7,8 @@ import tensorflow as tf
 
 from tensorflow.python.framework import ops
 
-from utils import *
+from asariri.models.utils.utils import *
+
 
 if "concat_v2" in dir(tf):
     def concat(tensors, axis, *args, **kwargs):
@@ -34,7 +35,7 @@ def conv_cond_concat(x, y):
     y_shapes = y.get_shape()
     return concat([x, y*tf.ones([x_shapes[0], x_shapes[1], x_shapes[2], y_shapes[3]])], 3)
 
-def conv2d(input_, output_dim, k_h=5, k_w=5, d_h=2, d_w=2, stddev=0.02, name="conv2d"):
+def  conv2d(input_, output_dim, k_h=5, k_w=5, d_h=2, d_w=2, stddev=0.02, name="conv2d"):
     with tf.variable_scope(name):
         w = tf.get_variable('w', [k_h, k_w, input_.get_shape()[-1], output_dim],
               initializer=tf.truncated_normal_initializer(stddev=stddev))
