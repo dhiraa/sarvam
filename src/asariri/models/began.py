@@ -48,7 +48,7 @@ class BEGANConfig(ModelConfigBase):
     @staticmethod
     def user_config(batch_size, data_iterator):
         _model_dir = EXPERIMENT_MODEL_ROOT_DIR + "/" + data_iterator.name + "/began/"
-        config = BEGANConfig(_model_dir, batch_size, data_iterator._dataset.num_channels)
+        config = BEGANConfig(_model_dir, batch_size, data_iterator.get_image_channels())
         BEGANConfig.dump(_model_dir, config)
         return config
 

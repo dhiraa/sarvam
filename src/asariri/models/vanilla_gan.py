@@ -349,21 +349,12 @@ CUDA_VISIBLE_DEVICES=0 python asariri/commands/run_experiments.py \
 --batch-size=32 \
 --num-epochs=2
 
-CUDA_VISIBLE_DEVICES=0 python asariri/commands/run_experiments.py \
---mode=train \
---dataset-name=mnist_dataset \
---data-iterator-name=mnist_iterator \
---model-name=vanilla_gan \
---image-folde=minist_c_128x128 \
---batch-size=32 \
---num-epochs=2
-
 python asariri/commands/run_experiments.py \
 --mode=predict \
 --dataset-name=mnist_dataset \
 --data-iterator-name=mnist_iterator \
 --model-name=vanilla_gan \
---image-folde=Images_bw_28x28 \
+--image-folde=minist_bw_28x28 \
 --batch-size=32 \
 --num-epochs=2 \
 --model-dir=experiments/asariri/models/mnistdataiterator/vanilla_gan/  \
