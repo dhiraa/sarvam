@@ -10,20 +10,29 @@ from asariri.commands.data_iterator_factory import DataIteratorFactory
 from sarvam.helpers.print_helper import *
 tf.logging.set_verbosity(tf.logging.INFO)
 
-valid_bools = {'true': True,'True': True, 't': True, '1': True,
-         'false': False,'False': False, 'f': False, '0': False,
-         }
+valid_bools = {'true': True,
+               'True': True,
+               't': True,
+               '1': True,
+               True: True,
+               'false': False,
+               'False': False,
+               'f': False,
+               '0': False,
+               False: False
+               }
 
 def run(opt):
     # sess = tf.InteractiveSession()
-
     dataset = DatasetFactory.get(opt.dataset_name)
-    dataset = dataset("../data/asariri/", is_live=valid_bools[opt.is_live])
+    dataset = dataset("../data/asariri/audio",
+                      "../data/asariri/" + opt.image_folder,
+                      is_live=valid_bools[opt.is_live])
 
     data_iterator = DataIteratorFactory.get(opt.data_iterator_name)
     data_iterator = data_iterator(num_epochs=opt.num_epochs,
-                              batch_size=opt.batch_size,
-                              dataset=dataset)
+                                  batch_size=opt.batch_size,
+                                  dataset=dataset)
 
     cfg, model = ModelsFactory.get(opt.model_name)
 
@@ -93,6 +102,21 @@ if __name__ == "__main__":
                           choices=['train', "retrain", "predict"],
                           required=True,
                           help="'preprocess, 'train', 'retrain','predict'"
+                          )
+
+    optparse.add_argument('-image_folder', '--image-folder',
+                          dest='image_folder',
+                          choices=["minist_bw_28x28",
+                                   'Images_bw_128x128',
+                                   "Images_bw_64x64",
+                                   "Images_bw_32x32",
+                                   "Images_bw_28x28",
+                                   "Images_c_128x128",
+                                   "Images_c_64x64"
+                                   "Images_c_32x32",
+                                   "Images_c_28x28"],
+                          required=True,
+                          help="Select image folder for training."
                           )
 
     optparse.add_argument('-live', '--is-live', action='store',

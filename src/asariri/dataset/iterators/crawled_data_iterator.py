@@ -21,6 +21,12 @@ class CrawledDataIterator:
         self._dataset = dataset
         self._feature_type = GANFeature
 
+    def get_image_size(self):
+        return self._dataset.image_size
+
+    def get_image_channels(self):
+        return self._dataset.num_channels
+
     def melspectrogram(self, sample_rate, audio):
         # mfcc = librosa.feature.mfcc(y=audio, sr=sample_rate, n_mfcc=98, n_fft=1024, hop_length=2048) #3920 samples
         mfcc = librosa.feature.mfcc(y=audio, sr=sample_rate, n_mfcc=16, n_fft=1024, hop_length=2048) # 128samples
@@ -103,7 +109,7 @@ class CrawledDataIterator:
             batch_size=self._batch_size,
             shuffle=True,
             num_epochs=1,
-            queue_capacity=3 * self._batch_size + 10,
+            queue_capacity=3 * self._batch_size,
             num_threads=1,
         )
 
@@ -116,7 +122,7 @@ class CrawledDataIterator:
             batch_size=self._batch_size,
             shuffle=True,
             num_epochs=1,
-            queue_capacity=3 * self._batch_size + 10,
+            queue_capacity=3 * self._batch_size,
             num_threads=1,
         )
 
@@ -129,7 +135,7 @@ class CrawledDataIterator:
             batch_size=1,
             shuffle=False,
             num_epochs=1,
-            queue_capacity=3 * self._batch_size + 10,
+            queue_capacity=3 * self._batch_size,
             num_threads=1,
         )
 

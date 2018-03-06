@@ -36,7 +36,7 @@ class VanillaGANConfig(ModelConfigBase):
     @staticmethod
     def user_config(batch_size, data_iterator):
         _model_dir = EXPERIMENT_MODEL_ROOT_DIR + "/" + data_iterator.name + "/vanilla_gan/"
-        config = VanillaGANConfig(_model_dir, batch_size, data_iterator._dataset.num_channels)
+        config = VanillaGANConfig(_model_dir, batch_size, data_iterator.get_image_channels())
         VanillaGANConfig.dump(_model_dir, config)
         return config
 
@@ -345,6 +345,16 @@ CUDA_VISIBLE_DEVICES=0 python asariri/commands/run_experiments.py \
 --dataset-name=mnist_dataset \
 --data-iterator-name=mnist_iterator \
 --model-name=vanilla_gan \
+--image-folde=minist_bw_28x28 \
+--batch-size=32 \
+--num-epochs=2
+
+CUDA_VISIBLE_DEVICES=0 python asariri/commands/run_experiments.py \
+--mode=train \
+--dataset-name=mnist_dataset \
+--data-iterator-name=mnist_iterator \
+--model-name=vanilla_gan \
+--image-folde=minist_c_128x128 \
 --batch-size=32 \
 --num-epochs=2
 
@@ -353,6 +363,7 @@ python asariri/commands/run_experiments.py \
 --dataset-name=mnist_dataset \
 --data-iterator-name=mnist_iterator \
 --model-name=vanilla_gan \
+--image-folde=Images_bw_28x28 \
 --batch-size=32 \
 --num-epochs=2 \
 --model-dir=experiments/asariri/models/mnistdataiterator/vanilla_gan/  \
@@ -365,15 +376,19 @@ CUDA_VISIBLE_DEVICES=0 python asariri/commands/run_experiments.py \
 --mode=train \
 --dataset-name=crawled_dataset \
 --data-iterator-name=crawled_data_iterator \
+--image-folde=Images_bw_28x28 \
 --model-name=vanilla_gan \
 --batch-size=32 \
 --num-epochs=100
+
+
 
 CUDA_VISIBLE_DEVICES=0 python asariri/commands/run_experiments.py \
 --mode=predict \
 --dataset-name=crawled_dataset \
 --data-iterator-name=crawled_data_iterator \
 --model-name=vanilla_gan \
+--image-folde=Images_bw_28x28 \
 --batch-size=32 \
 --num-epochs=2 \
 --model-dir=experiments/asariri/models/crawleddataiterator/vanilla_gan/ \
@@ -381,25 +396,25 @@ CUDA_VISIBLE_DEVICES=0 python asariri/commands/run_experiments.py \
 """
 
 
-"""
-#color and black and white uses same data iterator
-rm -rf experiments/asariri/models/crawleddataiterator/VanillaGAN/
-
-CUDA_VISIBLE_DEVICES=0 python asariri/commands/run_experiments.py \
---mode=train \
---dataset-name=crawled_dataset_v1 \
---data-iterator-name=crawled_data_iterator \
---model-name=vanilla_gan \
---batch-size=32 \
---num-epochs=100
-
-python asariri/commands/run_experiments.py \
---mode=predict \
---dataset-name=crawled_dataset_v1 \
---data-iterator-name=crawled_data_iterator \
---model-name=vanilla_gan \
---batch-size=32 \
---num-epochs=2 \
---model-dir=experiments/asariri/models/mnistdataiterator/vanilla_gan/  \
---is-live=False
-"""
+# """
+# #color and black and white uses same data iterator
+# rm -rf experiments/asariri/models/crawleddataiterator/VanillaGAN/
+#
+# CUDA_VISIBLE_DEVICES=0 python asariri/commands/run_experiments.py \
+# --mode=train \
+# --dataset-name=crawled_dataset_v1 \
+# --data-iterator-name=crawled_data_iterator \
+# --model-name=vanilla_gan \
+# --batch-size=32 \
+# --num-epochs=100
+#
+# python asariri/commands/run_experiments.py \
+# --mode=predict \
+# --dataset-name=crawled_dataset_v1 \
+# --data-iterator-name=crawled_data_iterator \
+# --model-name=vanilla_gan \
+# --batch-size=32 \
+# --num-epochs=2 \
+# --model-dir=experiments/asariri/models/mnistdataiterator/vanilla_gan/  \
+# --is-live=False
+# """

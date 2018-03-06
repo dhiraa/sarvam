@@ -12,20 +12,25 @@ from sarvam.helpers.downloaders import *
 
 from asariri.asariri_utils.audio.recording import record_audio
 
-def is_audio_file(path):
-    return path.split("/")[-3] == "audio"
-
-def is_image_file(path):
-    return path.split("/")[-3] == "images_bw"
-
 
 class CrawledData(IDataset):
-    def __init__(self, data_dir, is_live):
-        IDataset.__init__(self, data_dir=data_dir)
-        self.set_num_channels(1)
-        self.set_name("CrawledData")
-        self.is_live = is_live
+    def __init__(self, audio_folder, image_folder, is_live):
+        IDataset.__init__(self, audio_folder, image_folder, is_live)
 
+        if "_bw_" in image_folder:
+            self.set_num_channels(1)
+        else:
+            self.set_num_channels(3)
+
+        self.set_image_size(int(image_folder.split("x")[-1]))
+
+        self.set_name("CrawledData")
+
+    def is_audio_file(self, path):
+        return path.split("/")[-3] == "audio"
+
+    def is_image_file(self, path):
+        return path.split("/")[-3] == self._images_dir.split("/")[-1]
 
     def preprocess(self):
         audio_files = []
@@ -34,11 +39,15 @@ class CrawledData(IDataset):
         audio_files_dict = defaultdict(list)
         image_files_dict = defaultdict(list)
 
-        for path in get_dir_content(self._data_dir):
-            if is_audio_file(path):
+        for path in get_dir_content(self._audio_dir):
+            if self.is_audio_file(path):
                 audio_files.append(path)
-            if is_image_file(path):
+
+        for path in get_dir_content(self._images_dir):
+            # print_debug(path)
+            if self.is_image_file(path):
                 image_files.append(path)
+
 
         for image_file_path in image_files:
             person = image_file_path.split("/")[-2]
@@ -48,6 +57,14 @@ class CrawledData(IDataset):
             person = audio_file_path.split("/")[-2]
             audio_files_dict[person].append(audio_file_path)
 
+        # print_error(audio_files_dict.keys())
+        # print_error(image_files_dict.keys())
+        # print_debug(image_files)
+
+        # print_error(self._images_dir.split("/"))
+
+        # exit(-1)
+
         all_files = []
         for person in image_files_dict.keys():
 
@@ -55,7 +72,7 @@ class CrawledData(IDataset):
             image_files_current_person = image_files_dict[person]
 
             if len(audio_files_current_person) != len(image_files_current_person):
-                print("Data for {} does not matching records!".format(person))
+                print("Data for {} does not have matching records!".format(person))
                 exit(-1)
 
             for i in range(len(audio_files_current_person)):

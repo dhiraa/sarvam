@@ -10,8 +10,8 @@ class Mnist(IDataset):
     Downloads, mnist data set and creates three buckets based of hash of filenames
     """
 
-    def __init__(self, data_dir):
-        IDataset.__init__(self, data_dir=data_dir, is_live)
+    def __init__(self, audio_folder, image_folder, is_live):
+        IDataset.__init__(self, audio_folder, image_folder, is_live)
         self.set_num_channels(1)
         self.set_name("Mnist")
         self.is_live = is_live
@@ -22,14 +22,14 @@ class Mnist(IDataset):
     def preprocess(self):
         url = 'http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz'
         hash_code = 'f68b3c2dcbeaaa9fbdd348bbdeb94873'
-        extract_path = os.path.join(self._data_dir, 'mnist_all_images')
-        save_path = os.path.join(self._data_dir, 'train-images-idx3-ubyte.gz')
+        extract_path = os.path.join(self._images_dir, 'mnist_all_images')
+        save_path = os.path.join(self._images_dir, 'train-images-idx3-ubyte.gz')
 
         if os.path.exists(extract_path):
             print_info('Found MNIST dataset')
         else:
-            if not os.path.exists(self._data_dir):
-                os.makedirs(self._data_dir)
+            if not os.path.exists(self._images_dir):
+                os.makedirs(self._images_dir)
 
             if not os.path.exists(save_path):
                 with DLProgress(unit='B', unit_scale=True, miniters=1, desc='Downloading minist}') as pbar:
@@ -43,7 +43,7 @@ class Mnist(IDataset):
 
             os.makedirs(extract_path)
             try:
-                ungzip(save_path, extract_path, "all_images", self._data_dir)
+                ungzip(save_path, extract_path, "all_images", self._images_dir)
             except Exception as err:
                 shutil.rmtree(extract_path)  # Remove extraction folder if there is an error
                 raise err

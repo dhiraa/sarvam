@@ -25,6 +25,13 @@ class MnistDataIterator:
         self.image_channels = 1
         self.noise_dim = 30
 
+
+    def get_image_size(self):
+        return 28
+
+    def get_image_channels(self):
+        return self.image_channels
+
     def get_image(self, image_path, width, height, mode="L"):
         """
         Read image from image_path
