@@ -28,13 +28,13 @@ class VanillaGANConfig(ModelConfigBase):
         self._model_dir = model_dir
 
         self.num_image_channels = num_image_channels
+        self.image_size = image_size
 
         self.learning_rate = 0.001
         self.alpha = 0.15
         self.beta1 = 0.4
         self.z_dim = 30
 
-        self.image_size = image_size
 
     @staticmethod
     def user_config(batch_size, data_iterator):

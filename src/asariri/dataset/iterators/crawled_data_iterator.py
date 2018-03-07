@@ -41,8 +41,8 @@ class CrawledDataIterator:
         def generator():
             IMAGE_MAX_VALUE = 255
 
-            if mode == 'train':
-                np.random.shuffle(data)
+            # if mode == 'train': #We dont hawant more randomness than what we have!
+            #     np.random.shuffle(data)
 
             batched_data_len = (len(data)//batch_size) * batch_size
 

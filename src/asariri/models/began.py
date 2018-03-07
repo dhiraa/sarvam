@@ -235,32 +235,68 @@ class BEGAN(tf.estimator.Estimator):
         :return: The tensor output of the generator
         """
 
-        with tf.variable_scope('generator', reuse=not is_training):
-            # First fully connected layer
-            x1 = tf.layers.dense(z, 7 * 7 * 512 * 2)
-            # Reshape it to start the convolutional stack
-            x1 = tf.reshape(x1, (-1, 7, 7, 512 * 2))
-            #         x1 = tf.layers.batch_normalization(x1, training=training)
-            x1 = tf.maximum(self.gan_config.alpha * x1, x1)
-            # 7x7x512 now
-            #         print(x1)
-            x2 = tf.layers.conv2d_transpose(x1, 256 * 2, 5, strides=1, padding='same')
-            x2 = tf.layers.batch_normalization(x2, training=is_training)
-            x2 = tf.maximum(self.gan_config.alpha * x2, x2)
-            # 7x7x256 now
-            #         print(x2)
-            x3 = tf.layers.conv2d_transpose(x2, 128 * 2, 5, strides=2, padding='same')
-            x3 = tf.layers.batch_normalization(x3, training=is_training)
-            x3 = tf.maximum(self.gan_config.alpha * x3, x3)
-            # 14x14x128 now
-            #         print(x3)
+        # with tf.variable_scope('generator', reuse=not is_training):
+        #     # First fully connected layer
+        #     x1 = tf.layers.dense(z, 7 * 7 * 512 * 2)
+        #     # Reshape it to start the convolutional stack
+        #     x1 = tf.reshape(x1, (-1, 7, 7, 512 * 2))
+        #     #         x1 = tf.layers.batch_normalization(x1, training=training)
+        #     x1 = tf.maximum(self.gan_config.alpha * x1, x1)
+        #     # 7x7x512 now
+        #     #         print(x1)
+        #     x2 = tf.layers.conv2d_transpose(x1, 256 * 2, 5, strides=1, padding='same')
+        #     x2 = tf.layers.batch_normalization(x2, training=is_training)
+        #     x2 = tf.maximum(self.gan_config.alpha * x2, x2)
+        #     # 7x7x256 now
+        #     #         print(x2)
+        #     x3 = tf.layers.conv2d_transpose(x2, 128 * 2, 5, strides=2, padding='same')
+        #     x3 = tf.layers.batch_normalization(x3, training=is_training)
+        #     x3 = tf.maximum(self.gan_config.alpha * x3, x3)
+        #     # 14x14x128 now
+        #     #         print(x3)
+        #
+        #     x4 = tf.layers.conv2d_transpose(x3, 64 * 2, 5, strides=2, padding='same')
+        #     x4 = tf.layers.batch_normalization(x4, training=is_training)
+        #     x4 = tf.maximum(self.gan_config.alpha * x4, x4)
+        #
+        #     # Output layer
+        #     logits = tf.layers.conv2d_transpose(x4, out_channel_dim, 5, strides=1, padding='same')
+        #     # 28x28x3 now
+        #     #         print(logits)3
+        #     out = tf.tanh(logits)
+        #
+        #     print_info("======>out: {}".format(out))
+        #
+        #     return out
 
-            x4 = tf.layers.conv2d_transpose(x3, 64 * 2, 5, strides=2, padding='same')
-            x4 = tf.layers.batch_normalization(x4, training=is_training)
-            x4 = tf.maximum(self.gan_config.alpha * x4, x4)
+        with tf.variable_scope('generator', reuse=not is_training):
+            filter_size = 512
+
+            # First fully connected layer
+            x = tf.layers.dense(z, 8 * 8 * filter_size)
+            # Reshape it to start the convolutional stack
+            x = tf.reshape(x, (-1, 8, 8, filter_size))
+            x = tf.maximum(self.gan_config.alpha * x, x)
+
+            x = tf.layers.conv2d_transpose(x, filter_size // 2, 5, strides=1, padding='same')
+            x = tf.layers.batch_normalization(x, training=is_training)
+            x = tf.maximum(self.gan_config.alpha * x, x)
+
+            filter_size = filter_size // 4
+            # 32 //  8 = srt(4)  => 2 => (8) -> 16 -> 32
+            # 64 //  8 = srt(8)  => 3 => (8) -> 16 -> 32 -> 64
+            # 128 // 8 = srt(16) => 4 => (8) -> 16 -> 32 -> 64 -> 128
+
+            for i in range(int(math.sqrt(self.gan_config.image_size // 8))):
+                filter_size = filter_size // 2
+                x = tf.layers.conv2d_transpose(x, filter_size, 5, strides=2, padding='same')
+                x = tf.layers.batch_normalization(x, training=is_training)
+                x = tf.maximum(self.gan_config.alpha * x, x)
+
+                print_info("======>out: {}".format(x))
 
             # Output layer
-            logits = tf.layers.conv2d_transpose(x4, out_channel_dim, 5, strides=1, padding='same')
+            logits = tf.layers.conv2d_transpose(x, out_channel_dim, 5, strides=1, padding='same')
             # 28x28x3 now
             #         print(logits)3
             out = tf.tanh(logits)
