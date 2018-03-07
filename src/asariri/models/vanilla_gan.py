@@ -21,9 +21,10 @@ import collections
 from tensorflow.python.training import training_util
 from matplotlib import pyplot
 from asariri.asariri_utils.images.image import *
+import math
 
 class VanillaGANConfig(ModelConfigBase):
-    def __init__(self, model_dir, batch_size, num_image_channels):
+    def __init__(self, model_dir, batch_size, num_image_channels, image_size):
         self._model_dir = model_dir
 
         self.num_image_channels = num_image_channels
@@ -33,10 +34,13 @@ class VanillaGANConfig(ModelConfigBase):
         self.beta1 = 0.4
         self.z_dim = 30
 
+        self.image_size = image_size
+
     @staticmethod
     def user_config(batch_size, data_iterator):
         _model_dir = EXPERIMENT_MODEL_ROOT_DIR + "/" + data_iterator.name + "/vanilla_gan/"
-        config = VanillaGANConfig(_model_dir, batch_size, data_iterator.get_image_channels())
+        config = VanillaGANConfig(_model_dir, batch_size, data_iterator.get_image_channels(),
+                                  data_iterator.get_image_size())
         VanillaGANConfig.dump(_model_dir, config)
         return config
 
@@ -165,6 +169,9 @@ class VanillaGAN(tf.estimator.Estimator):
             #         print(logits)
             out = tf.sigmoid(logits)
             #         print('discriminator out: ', out)
+
+            print_info("======>out: {}".format(out))
+
             return out, logits
 
     def generator(self, z, out_channel_dim, is_train=True):
@@ -177,38 +184,38 @@ class VanillaGAN(tf.estimator.Estimator):
         """
 
         with tf.variable_scope('generator', reuse=not is_train):
-            # First fully connected layer
-            x1 = tf.layers.dense(z, 7 * 7 * 512*2)
-            # Reshape it to start the convolutional stack
-            x1 = tf.reshape(x1, (-1, 7, 7, 512*2))
-            #         x1 = tf.layers.batch_normalization(x1, training=training)
-            x1 = tf.maximum(self.gan_config.alpha * x1, x1)
-            # 7x7x512 now
-            #         print(x1)
-            x2 = tf.layers.conv2d_transpose(x1, 256*2, 5, strides=1, padding='same')
-            x2 = tf.layers.batch_normalization(x2, training=is_train)
-            x2 = tf.maximum(self.gan_config.alpha * x2, x2)
-            # 7x7x256 now
-            #         print(x2)
-            x3 = tf.layers.conv2d_transpose(x2, 128*2, 5, strides=2, padding='same')
-            x3 = tf.layers.batch_normalization(x3, training=is_train)
-            x3 = tf.maximum(self.gan_config.alpha * x3, x3)
-            # 14x14x128 now
-            #         print(x3)
-    
-            x4 = tf.layers.conv2d_transpose(x3, 64*2, 5, strides=2, padding='same')
-            x4 = tf.layers.batch_normalization(x4, training=is_train)
-            x4 = tf.maximum(self.gan_config.alpha * x4, x4)
+            filter_size = 512
 
-            x4 = tf.layers.conv2d_transpose(x3, 64, 5, strides=2, padding='same')
-            x4 = tf.layers.batch_normalization(x4, training=is_train)
-            x4 = tf.maximum(self.gan_config.alpha * x4, x4)
-    
+            # First fully connected layer
+            x = tf.layers.dense(z, 8 * 8 * filter_size)
+            # Reshape it to start the convolutional stack
+            x = tf.reshape(x, (-1, 8, 8, filter_size))
+            x = tf.maximum(self.gan_config.alpha * x, x)
+
+            x = tf.layers.conv2d_transpose(x, filter_size//2, 5, strides=1, padding='same')
+            x = tf.layers.batch_normalization(x, training=is_train)
+            x = tf.maximum(self.gan_config.alpha * x, x)
+
+            filter_size = filter_size // 4
+            # 32 //  8 = srt(4)  => 2 => (8) -> 16 -> 32
+            # 64 //  8 = srt(8)  => 3 => (8) -> 16 -> 32 -> 64
+            # 128 // 8 = srt(16) => 4 => (8) -> 16 -> 32 -> 64 -> 128
+
+            for i in range(int(math.sqrt(self.gan_config.image_size // 8))):
+                filter_size = filter_size // 2
+                x = tf.layers.conv2d_transpose(x, filter_size, 5, strides=2, padding='same')
+                x = tf.layers.batch_normalization(x, training=is_train)
+                x = tf.maximum(self.gan_config.alpha * x, x)
+
+                print_info("======>out: {}".format(x))
+
             # Output layer
-            logits = tf.layers.conv2d_transpose(x4, out_channel_dim, 5, strides=1, padding='same')
+            logits = tf.layers.conv2d_transpose(x, out_channel_dim, 5, strides=1, padding='same')
             # 28x28x3 now
             #         print(logits)3
             out = tf.tanh(logits)
+
+            print_info("======>out: {}".format(out))
     
             return out
 
@@ -409,3 +416,6 @@ CUDA_VISIBLE_DEVICES=0 python asariri/commands/run_experiments.py \
 # --model-dir=experiments/asariri/models/mnistdataiterator/vanilla_gan/  \
 # --is-live=False
 # """
+
+
+

@@ -112,7 +112,7 @@ if __name__ == "__main__":
                                    "Images_bw_32x32",
                                    "Images_bw_28x28",
                                    "Images_c_128x128",
-                                   "Images_c_64x64"
+                                   "Images_c_64x64",
                                    "Images_c_32x32",
                                    "Images_c_28x28"],
                           required=True,
