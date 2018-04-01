@@ -63,18 +63,6 @@ In short we couldn't find any easy to experiment Tensorflow framework to play wi
     - Use the trained model to predict on new data
  - Keep the **model core logic independent** of the current architecture
 
-# Problem Statement
- - To come up with an software architecture to try different models on
- different data set
- - Which should take care of:
-    - Pre-processing the data
-    - Preparing the data iterators for training, validation and testing
-    for set of features and their types
-    - Use a model that aligns with the data iterator and a feature type
-    - Train the model in an iterative manner, with fail safe
-    - Use the trained model to predict on new data
- - Keep the **model core logic independent** of the current architecture
-
 # Solution or proposal
 
 A few object-oriented principles are used in the python scripts for
@@ -153,3 +141,7 @@ env or to any existing environment
 
 ### References:
 - https://devhints.io/jekyll
+
+
+### Never Ending References
+- [150 ML Online matetials](https://unsupervisedmethods.com/over-150-of-the-best-machine-learning-nlp-and-python-tutorials-ive-found-ffce2939bd78)
